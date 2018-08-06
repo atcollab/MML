@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>lcaGetTimeout, lcaSetTimeout</TITLE>
+<META NAME="description" CONTENT="lcaGetTimeout, lcaSetTimeout">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="manual.css">
+
+<LINK REL="next" HREF="node21.html">
+<LINK REL="previous" HREF="node19.html">
+<LINK REL="up" HREF="node2.html">
+<LINK REL="next" HREF="node21.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html292"
+  HREF="node21.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html290"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html284"
+  HREF="node19.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html293"
+  HREF="node21.html">lcaDebugOn, lcaDebugOff</A>
+<B> Up:</B> <A NAME="tex2html291"
+  HREF="node2.html">Supported EZCA Calls</A>
+<B> Previous:</B> <A NAME="tex2html285"
+  HREF="node19.html">lcaGetRetryCount, lcaSetRetryCount</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html294"
+  HREF="node20.html#SECTION000218100000000000000">Calling Syntax</A>
+<LI><A NAME="tex2html295"
+  HREF="node20.html#SECTION000218200000000000000">Description</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H2><A NAME="SECTION000218000000000000000"></A>
+<A NAME="timeout"></A>
+<BR>
+lcaGetTimeout, lcaSetTimeout
+</H2>
+
+<H3><A NAME="SECTION000218100000000000000">
+Calling Syntax</A>
+</H3>
+<PRE>
+currentTimeout = lcaGetTimeout()
+lcaSetTimeout(newTimeout)
+</PRE>
+<H3><A NAME="SECTION000218200000000000000">
+Description</A>
+</H3>
+Retrieve / set the <SPAN  CLASS="textbf">ezca</SPAN> library timeout parameter (consult the <SPAN  CLASS="textbf">ezca</SPAN>
+documentation for more information). Note that the semantics of the
+timeout parameter has changed with <SPAN  CLASS="textbf">labCA</SPAN> version 3. The library no longer
+pends for CA activity in multiples of this timeout value but returns
+control to <SPAN  CLASS="textbf">scilab</SPAN> as soon as the underlying CA request completes.
+
+<P>
+However, <SPAN  CLASS="textbf">labCA</SPAN> checks for ``Ctrl-C'' key events every time
+(and only when) the timeout expires. Hence, it is convenient to
+choose a value <SPAN CLASS="MATH"><IMG
+ WIDTH="29" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img3.png"
+ ALT="$&lt;1$"></SPAN>s.
+
+<P>
+The <EM>maximal</EM> time spent waiting for connections and/or data equals the
+timeout multiplied by the
+<A HREF="node19.html#retrycnt">retry count</A>.
+
+<P>
+<BR>
+<BR><HR>
+<ADDRESS>
+till
+2007-10-13
+</ADDRESS>
+</BODY>
+</HTML>

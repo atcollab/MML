@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Error Handling</TITLE>
+<META NAME="description" CONTENT="Error Handling">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="manual.css">
+
+<LINK REL="next" HREF="node5.html">
+<LINK REL="previous" HREF="node3.html">
+<LINK REL="up" HREF="node2.html">
+<LINK REL="next" HREF="node5.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html81"
+  HREF="node5.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html79"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html73"
+  HREF="node3.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html82"
+  HREF="node5.html">lcaGet</A>
+<B> Up:</B> <A NAME="tex2html80"
+  HREF="node2.html">Supported EZCA Calls</A>
+<B> Previous:</B> <A NAME="tex2html74"
+  HREF="node3.html">Common Arguments and Return</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00022000000000000000"></A>
+<A NAME="errorhandling"></A>
+<BR>
+Error Handling
+</H2>
+All errors<A NAME="tex2html7"
+  HREF="#foot798"><SUP><SPAN CLASS="arabic">7</SPAN></SUP></A>encountered during execution of <SPAN  CLASS="textit">labCA</SPAN> calls result in the
+call being aborted, a message being printed to the console
+and an error status being recorded which
+can be retrieved using <SPAN  CLASS="textit">scilab</SPAN>'s <TT>lasterror</TT> command.
+The recommended method for handling errors is <SPAN  CLASS="textit">scilab</SPAN>'s
+<TT>try - catch - end</TT> construct:
+<PRE>
+	try
+		val = lcaGet(pvvector)
+	catch
+		err   = lasterror()
+		// additional information is provided
+		// by the 'lcaLastError' routine
+		stats = lcaLastError()
+		// handle error here
+	end
+</PRE>
+Many <SPAN  CLASS="textit">labCA</SPAN> calls can handle multiple PVs at once
+and underlying CA operations may fail for a subset of PVs only.
+However, <TT>lasterror</TT> only supports reporting a single error
+status. Therefore the <A HREF="node13.html#lcalasterror"><TT>lcaLastError</TT></A> routine
+was implemented: if a <SPAN  CLASS="textit">labCA</SPAN> call fails for a subset of PVs then
+a subsequent call to <TT>lcaLastError</TT> returns a column vector
+of status values for the individual PVs.
+The error codes are shown in
+<A HREF="#tbl:errors">Table&nbsp;</A><A HREF="#tbl:errors">1</A>.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="801"></A>
+<TABLE>
+<CAPTION><STRONG>Table 1:</STRONG>
+&nbsp;<SPAN  CLASS="textit">labCA</SPAN> error codes. Numerical codes (<SPAN  CLASS="textit">scilab</SPAN> <TT>lasterror</TT> and
+<TT>lcaLastError()</TT>) and corresponding <SPAN  CLASS="textit">matlab</SPAN> error ``ID''s
+(as returned by <SPAN  CLASS="textit">matlab</SPAN> <TT>lasterror</TT>).</CAPTION>
+<TR><TD><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="RIGHT">#</TD>
+<TD ALIGN="LEFT">Matlab Error ID</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=156>Comment</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">0</TD>
+<TD ALIGN="LEFT"><TT>labca:unexpectedOK</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=156>No error</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">1</TD>
+<TD ALIGN="LEFT"><TT>labca:invalidArg</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=156>Invalid argument</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">2</TD>
+<TD ALIGN="LEFT"><TT>labca:noMemory</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=156>Not enough memory</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">3</TD>
+<TD ALIGN="LEFT"><TT>labca:channelAccessFail</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=156>Underlying CA operation failed</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">4</TD>
+<TD ALIGN="LEFT"><TT>labca:udfCaReq</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=156>Item(s) requested undefined for its/their native data type</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">5</TD>
+<TD ALIGN="LEFT"><TT>labca:notConnected</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=156>Channel currently disconnected</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">6</TD>
+<TD ALIGN="LEFT"><TT>labca:timedOut</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=156>No response in time</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">7</TD>
+<TD ALIGN="LEFT"><TT>labca:inGroup</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=156>Currently in a EZCA group</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">8</TD>
+<TD ALIGN="LEFT"><TT>labca:notInGroup</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=156>Currently not in a EZCA group</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">9</TD>
+<TD ALIGN="LEFT"><TT>labca:usrAbort</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=156>EZCA call aborted by user (Ctrl-C)</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">20</TD>
+<TD ALIGN="LEFT"><TT>labca:noMonitor</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=156>No monitor for PV/type found</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">21</TD>
+<TD ALIGN="LEFT"><TT>labca:noChannel</TT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=156>No channel for PV name found</TD>
+</TR>
+</TABLE>
+
+<A NAME="tbl:errors"></A></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+<BR>
+<BR><HR><H4>Footnotes</H4>
+<DL>
+<DT><A NAME="foot798">... errors</A><A
+ HREF="node4.html#tex2html7"><SUP><SPAN CLASS="arabic">7</SPAN></SUP></A></DT>
+<DD>As of version 3; earlier versions didn't consistently
+``throw'' all errors so that they could be caught by the
+<TT>try-catch-end</TT> mechanism but would merely print messages
+when encountering some minor errors. Also, versions earlier than 3
+would not report error IDs/messages to <TT>lasterror</TT> nor
+implement the <A HREF="node13.html#lcalasterror"><TT>lcaLastError</TT></A> routine.
+
+</DD>
+</DL>
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html81"
+  HREF="node5.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html79"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html73"
+  HREF="node3.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html82"
+  HREF="node5.html">lcaGet</A>
+<B> Up:</B> <A NAME="tex2html80"
+  HREF="node2.html">Supported EZCA Calls</A>
+<B> Previous:</B> <A NAME="tex2html74"
+  HREF="node3.html">Common Arguments and Return</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+till
+2007-10-13
+</ADDRESS>
+</BODY>
+</HTML>

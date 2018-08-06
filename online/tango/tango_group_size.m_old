@@ -1,0 +1,7 @@
+function argout = tango_group_size(id_group)
+%TANGO_GROUP_SIZE - Return size of a group
+%
+
+% TODO: wating a true command from Nicolas
+rep = tango_group_command_inout2(id_group,'Init',1,0);
+argout = size(rep.replies,2);

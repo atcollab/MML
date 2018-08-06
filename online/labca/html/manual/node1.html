@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Introduction</TITLE>
+<META NAME="description" CONTENT="Introduction">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="manual.css">
+
+<LINK REL="next" HREF="node2.html">
+<LINK REL="previous" HREF="manual.html">
+<LINK REL="up" HREF="manual.html">
+<LINK REL="next" HREF="node2.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html28"
+  HREF="node2.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html26"
+  HREF="manual.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html20"
+  HREF="manual.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html29"
+  HREF="node2.html">Supported EZCA Calls</A>
+<B> Up:</B> <A NAME="tex2html27"
+  HREF="manual.html">labCA   An</A>
+<B> Previous:</B> <A NAME="tex2html21"
+  HREF="manual.html">labCA   An</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00010000000000000000">
+Introduction</A>
+</H1>
+The <SPAN  CLASS="textit">labCA</SPAN> package provides an interface to the
+EPICS channel access client library which can be
+integrated with the <SPAN  CLASS="textit">scilab</SPAN> or <SPAN  CLASS="textit">matlab</SPAN> applications.
+Both, <SPAN  CLASS="textit">scilab</SPAN> and <SPAN  CLASS="textit">matlab</SPAN> feature an API for interfacing
+to user binaries written in a programming language such
+as C or Fortran. <SPAN  CLASS="textit">labCA</SPAN> properly wraps the essential
+channel access routines and makes them accessible
+from the <SPAN  CLASS="textit">scilab</SPAN><A NAME="tex2html1"
+  HREF="#foot793"><SUP><SPAN CLASS="arabic">1</SPAN></SUP></A>command line.
+
+<P>
+<SPAN  CLASS="textit">labCA</SPAN> actually uses an extra layer, the <SPAN  CLASS="textit">ezca</SPAN> library
+which transparently manages and caches channel access 
+connections. A modified version of <SPAN  CLASS="textit">ezca</SPAN> comes with
+<SPAN  CLASS="textit">labCA</SPAN>, adding thread-safety and hence EPICS 3.14 fitness.
+
+<P>
+As of <SPAN  CLASS="textit">labCA</SPAN> version 3 further improvements to <SPAN  CLASS="textit">ezca</SPAN>
+have been made that exploit features of the multi-threaded
+CA library (EPICS 3.14 only) in order to speed up response time.
+Earlier versions always handed control to <SPAN  CLASS="textit">ezca</SPAN> in multiples of the
+<SPAN  CLASS="textit">labCA</SPAN> <SPAN  CLASS="textit">timeout</SPAN>, i.e., even if data from a channel
+were available quicker the library would wait until the
+next timeout quantum expired. Since version 3 a <SPAN  CLASS="textit">labCA</SPAN>
+call returns immediately after the underlying request
+completes.
+
+<P>
+A very convenient feature of <SPAN  CLASS="textit">labCA</SPAN> is the ability
+to execute <SPAN  CLASS="textit">ezca</SPAN> calls on groups of PVs, simply by
+passing the respective <SPAN  CLASS="textit">labCA</SPAN> routine a column vector
+of PV names.
+
+<P>
+<SPAN  CLASS="textit">labCA</SPAN> has been tested with EPICS 3.13<A NAME="tex2html2"
+  HREF="#foot794"><SUP><SPAN CLASS="arabic">2</SPAN></SUP></A>,
+3.14, <SPAN  CLASS="textit">scilab</SPAN>-2.7 .. <SPAN  CLASS="textit">scilab</SPAN>-4.1,
+<SPAN  CLASS="textit">matlab</SPAN>-6.5, <SPAN  CLASS="textit">matlab</SPAN>-7 on <SPAN  CLASS="textit">linux</SPAN>, <SPAN  CLASS="textit">solaris</SPAN> and
+<SPAN  CLASS="textit">win32</SPAN>. Note that while some of these combinations have been
+tested and been known working in the past, only the latest
+versions of the respective components have been tested
+and verified to build and run successfully with the
+current version of <SPAN  CLASS="textit">labCA</SPAN>. Modifications to the <TT>Makefile</TT>s
+might be necessary to build older versions.
+
+<P>
+<BR>
+<BR><HR><H4>Footnotes</H4>
+<DL>
+<DT><A NAME="foot793">...scilab</A><A
+ HREF="node1.html#tex2html1"><SUP><SPAN CLASS="arabic">1</SPAN></SUP></A></DT>
+<DD>throughout this text, references to <SPAN  CLASS="textit">scilab</SPAN>
+usually mean <SPAN  CLASS="textit">scilab</SPAN> or <SPAN  CLASS="textit">matlab</SPAN>.
+
+</DD>
+<DT><A NAME="foot794">... 3.13</A><A
+ HREF="node1.html#tex2html2"><SUP><SPAN CLASS="arabic">2</SPAN></SUP></A></DT>
+<DD>Support for 3.13 has been dropped as of <SPAN  CLASS="textit">labCA</SPAN> version 3
+
+</DD>
+</DL>
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html28"
+  HREF="node2.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html26"
+  HREF="manual.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html20"
+  HREF="manual.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html29"
+  HREF="node2.html">Supported EZCA Calls</A>
+<B> Up:</B> <A NAME="tex2html27"
+  HREF="manual.html">labCA   An</A>
+<B> Previous:</B> <A NAME="tex2html21"
+  HREF="manual.html">labCA   An</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+till
+2007-10-13
+</ADDRESS>
+</BODY>
+</HTML>

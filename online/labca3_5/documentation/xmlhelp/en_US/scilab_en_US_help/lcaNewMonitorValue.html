@@ -1,0 +1,95 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>lcaNewMonitorValue</title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	<span class="previous"><a href="lcaLastError.html">&lt;&lt; lcaLastError</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="lcaNewMonitorWait.html">lcaNewMonitorWait &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path"><a href="index.html">labCA</a> &gt;&gt; <a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a> &gt; lcaNewMonitorValue</span>
+
+    <br /><br />
+    <div class="refnamediv"><h1 class="refname">lcaNewMonitorValue</h1>
+    <p class="refpurpose">Check if monitored PVs need to be read, i.</p></div>
+
+
+<div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3>
+   <div class="synopsis"><pre><span class="default">[</span><span class="default">flags</span><span class="default">] = </span><span class="functionid">lcaNewMonitorValue</span><span class="default">(</span><span class="default">pvs</span><span class="default">, </span><span class="default">type</span><span class="default">)</span></pre></div></div>
+
+<div class="refsection"><h3 class="title">Description</h3>
+   <p class="para"></p>
+   <p class="para">Check if monitored PVs need to be read, i.e, if fresh data are
+available (e.g., due to initial connection or changes in value and/or
+severity status). Reading the actual data must be done using [1]lcaGet.</p>
+   <p class="para"></p></div>
+
+<div class="refsection"><h3 class="title">Parameters</h3>
+   <dl><dt><span class="term">Column vector (in matlab:</span>
+      <dd><p class="para">m x 1 cell- matrix) of m strings.</p></dd></dt>
+   <dt><span class="term">NOTE:</span>
+      <dd><p class="para">As of labCA version 3 the flags no longer report error</p></dd></dt></dl></div>
+
+<div class="refsection"><h3 class="title">Examples</h3>
+   <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabskeyword">try</span> <a class="scilabcommand" href="scilab://and">and</a><span class="scilabopenclose">(</span><span class="scilabid">lcaNewMonitorValue</span><span class="scilabopenclose">(</span><span class="scilabid">pvvec</span><span class="scilabopenclose">)</span><span class="scilabopenclose">)</span>
+<span class="scilabid">vals</span> <span class="scilaboperator">=</span> <span class="scilabid">lcaGet</span><span class="scilabopenclose">(</span><span class="scilabid">pvvec</span><span class="scilabopenclose">)</span>
+<span class="scilabskeyword">catch</span>
+<span class="scilabid">errs</span> <span class="scilaboperator">=</span> <span class="scilabid">lcaLastError</span><span class="scilabopenclose">(</span><span class="scilabopenclose">)</span>
+<span class="scilabid">handleErrs</span><span class="scilabopenclose">(</span><span class="scilabid">errs</span><span class="scilabopenclose">)</span>
+<span class="scilabskeyword">end</span>
+<span class="scilabid">__________________________________________________________________</span>
+
+<span class="scilabid">till</span> <span class="scilabnumber">2017</span><span class="scilaboperator">-</span><span class="scilabnumber">08</span><span class="scilaboperator">-</span><span class="scilabnumber">08</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
+
+<div class="refsection"><h3 class="title">See also</h3>
+   <ul class="itemizedlist"><li class="member"><a href="lcaGet.html" class="link">1. lcaGet</a></li>
+   <li class="member"><a href="lcaGet.html" class="link">2. lcaGet</a></li>
+   <li class="member"><a href="lcaSetMonitor.html" class="link">3. lcaSetMonitor</a></li>
+   <li class="member"><a href="Error.html" class="link">4. Error</a></li>
+   <li class="member"><a href="lcaLastError.html" class="link">5. lcaLastError</a></li>
+   <li class="member"><a href="lcaNewMonitorWait.html" class="link">6. lcaNewMonitorWait</a></li></ul></div>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	<span class="previous"><a href="lcaLastError.html">&lt;&lt; lcaLastError</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="lcaNewMonitorWait.html">lcaNewMonitorWait &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

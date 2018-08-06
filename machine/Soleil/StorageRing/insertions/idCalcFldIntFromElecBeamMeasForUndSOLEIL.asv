@@ -1,0 +1,41 @@
+function [vI1x, vI2x, vI1z, vI2z] = idCalcFldIntFromElecBeamMeasForUndSOLEIL(idName, dirMeasData, fileNamesMeasMain, fileNamesMeasBkgr, dirModel, arIndsBPMsToSkip)
+
+%sectLenBwBPMs = 2.*3.14155; %[m] straight section length between BPMs
+%idCenPos = 1.333; %[m] center longitudinal position of the ID with respect to the straight section center
+%idLen = 1.8; %[m] ID length
+%idKickOfst = 0.2; %[m] offset from ID edge to effective position of a "kick"
+%indUpstrBPM = 54; %absolute index of BPM at the upstream edge of the straight section where the ID is located
+elecEn_GeV = 2.75; %[GeV] SOLEIL electron beam energy
+
+GeomParUnd = idGetGeomParamForUndSOLEIL(idName);
+
+ElecBeamModelData = idReadElecBeamModel(dirModel);
+mCODx = idCreateModelOrbDistMatr('x', ElecBeamModelData, GeomParUnd);
+mCODz = idCreateModelOrbDistMatr('z', ElecBeamModelData, GeomParUnd);
+
+numMeas = length(fileNamesMeasMain);
+numMeasBkgr = length(fileNamesMeasBkgr);
+if(numMeas ~= numMeasBkgr)
+    sprintf('Incoherent numbers of the main and background measurements\n');
+    return;
+end
+
+vI1x = zeros(numMeas, 1);
+vI2x = zeros(numMeas, 1);
+vI1z = zeros(numMeas, 1);
+vI2z = zeros(numMeas, 1);
+
+for i = 1:numMeas
+    dirStart = pwd;
+    if strcmp(dirMeasData, '') == 0
+        cd(dirMeasData);
+    end
+	ElecBeamMeasMain = load(char(fileNamesMeasMain(i)));
+	ElecBeamMeasBkgr = load(char(fileNamesMeasBkgr(i)));
+	cd(dirStart);
+    
+    [vI1x(i), vI2x(i), vI1z(i), vI2z(i)] = idCalcFldIntFromElecBeamMeas(ElecBeamMeasMain, ElecBeamMeasBkgr, mCODx, mCODz, arIndsBPMsToSkip, idLen, idKickOfst, elecEn_GeV);
+end
+
+
+

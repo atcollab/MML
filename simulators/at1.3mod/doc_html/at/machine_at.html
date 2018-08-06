@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of machine_at</title>
+  <meta name="keywords" content="machine_at">
+  <meta name="description" content="MACHINE_AT - Returns the optics function as a structure">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; machine_at.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>machine_at
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>MACHINE_AT - Returns the optics function as a structure</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function varargout = machine_at(varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">MACHINE_AT - Returns the optics function as a structure 
+  optics = machine_at([THERING, DP, ELEMENTS, SPECIFIC_OPTICS])
+  optics = machine_at(SPECIFIC_OPTICS)
+
+  Essentially takes what twissring returns and restructures it so that its easier to use.
+
+  Defaults to loading THERING from global, DP = 0, uses all elements and
+  calculates the dispersion.
+  SPECIFIC_OPTICS is a string that defines which particular element to
+  return. Eg. if SPECIFIC_OPTICS = 'betax', then MACHINE_AT will only
+  return those numbers.
+
+  Other options are 'file' which will allow one to export the optical
+  functions to an xls spreadsheet and 'line' to specify if the THERING used
+  is actually a transfer line. If using the transfer line then the user
+  must also provide the initial conditions as specified by TWISSLINE.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="fittunedisp2.html" class="code" title="function varargout =  fittunedisp2(newtunes_disp, quadfam1, quadfam2, quadfam3, dispind, varargin)">fittunedisp2</a>	FITTUNEDISP2 - Fits the linear tunes and the dispersion of model using 3 quadrupole families.</li></ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function varargout = machine_at(varargin)</a>
+0002 <span class="comment">%MACHINE_AT - Returns the optics function as a structure</span>
+0003 <span class="comment">%  optics = machine_at([THERING, DP, ELEMENTS, SPECIFIC_OPTICS])</span>
+0004 <span class="comment">%  optics = machine_at(SPECIFIC_OPTICS)</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">%  Essentially takes what twissring returns and restructures it so that its easier to use.</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">%  Defaults to loading THERING from global, DP = 0, uses all elements and</span>
+0009 <span class="comment">%  calculates the dispersion.</span>
+0010 <span class="comment">%  SPECIFIC_OPTICS is a string that defines which particular element to</span>
+0011 <span class="comment">%  return. Eg. if SPECIFIC_OPTICS = 'betax', then MACHINE_AT will only</span>
+0012 <span class="comment">%  return those numbers.</span>
+0013 <span class="comment">%</span>
+0014 <span class="comment">%  Other options are 'file' which will allow one to export the optical</span>
+0015 <span class="comment">%  functions to an xls spreadsheet and 'line' to specify if the THERING used</span>
+0016 <span class="comment">%  is actually a transfer line. If using the transfer line then the user</span>
+0017 <span class="comment">%  must also provide the initial conditions as specified by TWISSLINE.</span>
+0018 
+0019 <span class="comment">%  Written by Eugene Tan (28/05/04)</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%  Change History</span>
+0022 <span class="comment">%  1. Added export of element names as well 14/11/06</span>
+0023 <span class="comment">%  2. Added export to xls option. 12/05/05</span>
+0024 
+0025 
+0026 nspec_opt = 0;
+0027 exportfile = 0;
+0028 transferline = 0;
+0029 tdin = [];
+0030 <span class="keyword">for</span> i=1:nargin
+0031     <span class="keyword">if</span> ischar(varargin{i}) &amp;&amp; strcmpi(varargin{i},<span class="string">'file'</span>)
+0032         exportfile = 1;
+0033     <span class="keyword">elseif</span> ischar(varargin{i}) &amp;&amp; strcmpi(varargin{i},<span class="string">'line'</span>)
+0034         transferline = 1;
+0035     <span class="keyword">elseif</span> isstruct(varargin{i})
+0036         <span class="comment">% Of all inputs there is only one struct type and that is for</span>
+0037         <span class="comment">% twissline.</span>
+0038         tdin = varargin{i};
+0039     <span class="keyword">else</span>
+0040         <span class="keyword">if</span> ischar(varargin{i})
+0041             nspec_opt = nspec_opt + 1;
+0042             spec_opt{nspec_opt} = varargin{i};
+0043         <span class="keyword">end</span>
+0044     <span class="keyword">end</span>
+0045 <span class="keyword">end</span>
+0046         
+0047 args = 0;
+0048 args = args + 1;
+0049 <span class="keyword">if</span> nargin &gt;= args &amp;&amp; ~ischar(varargin{args}) &amp;&amp; ~isstruct(varargin{args})
+0050     line_ring = varargin{args};
+0051 <span class="keyword">else</span>
+0052     <span class="keyword">global</span> THERING
+0053     line_ring = THERING;
+0054 <span class="keyword">end</span>
+0055 
+0056 args = args + 1;
+0057 <span class="keyword">if</span> nargin &gt;= args &amp;&amp; ~ischar(varargin{args}) &amp;&amp; ~isstruct(varargin{args})
+0058     dp = varargin{args};
+0059 <span class="keyword">else</span>
+0060     dp = 0;
+0061 <span class="keyword">end</span>
+0062 
+0063 args = args + 1;
+0064 <span class="keyword">if</span> nargin &gt;= args &amp;&amp; ~ischar(varargin{args}) &amp;&amp; ~isstruct(varargin{args})
+0065     elements = varargin{args};
+0066 <span class="keyword">else</span>
+0067     elements = 1:length(line_ring)+1;
+0068 <span class="keyword">end</span>
+0069 
+0070 <span class="comment">% Check that input struct supplied of 'line' is used</span>
+0071 <span class="keyword">if</span> transferline
+0072     <span class="keyword">if</span> isempty(tdin)
+0073         error(<span class="string">'User must provide the twiss data input structure'</span>);
+0074     <span class="keyword">end</span>
+0075     TD = twissline(line_ring, dp, tdin, elements, <span class="string">'chrom'</span>, 1e-6);
+0076 <span class="keyword">else</span>
+0077     TD = twissring(line_ring, dp, elements, <span class="string">'chrom'</span>, 1e-6);
+0078 <span class="keyword">end</span>
+0079 
+0080 <span class="comment">% Group element names into a cell array</span>
+0081 <span class="keyword">for</span> i=1:length(elements)
+0082     <span class="comment">% Circular indexing</span>
+0083     iind = mod(elements(i)-1,length(line_ring))+1;
+0084     elemnames{i,1} = line_ring{iind}.FamName;
+0085     <span class="keyword">if</span> isfield(line_ring{iind},<span class="string">'Length'</span>)
+0086         elemLeff(i,1) = line_ring{iind}.Length;
+0087     <span class="keyword">else</span>
+0088         elemLeff(i,1) = 0;
+0089     <span class="keyword">end</span>
+0090 <span class="keyword">end</span>
+0091 optics.elemnames = elemnames;
+0092 optics.elemLeff = elemLeff;
+0093 
+0094 temp = cat(1, TD.beta);
+0095 optics.betax = temp(:,1);
+0096 optics.betay = temp(:,2);
+0097 
+0098 temp = cat(1, TD.alpha);
+0099 optics.alphax = temp(:,1);
+0100 optics.alphay = temp(:,2);
+0101 
+0102 temp = cat(2, TD.Dispersion);
+0103 optics.etax = temp(1,:)';
+0104 optics.etapx = temp(2,:)';
+0105 optics.etay = temp(3,:)';
+0106 optics.etapy = temp(4,:)';
+0107 
+0108 temp = cat(2, TD.ClosedOrbit);
+0109 optics.x = temp(1,:)';
+0110 optics.px = temp(2,:)';
+0111 optics.y = temp(3,:)';
+0112 optics.py = temp(4,:)';
+0113 
+0114 temp = cat(1,TD.mu);
+0115 optics.nux = temp(:,1)/(2*pi);
+0116 optics.nuy = temp(:,2)/(2*pi);
+0117 
+0118 optics.spos = cat(1,TD.SPos);
+0119 
+0120 <span class="keyword">if</span> nspec_opt &gt;= 1
+0121     varargout{1} = optics.(spec_opt{1});
+0122 <span class="keyword">else</span>
+0123     varargout{1} = optics;
+0124 <span class="keyword">end</span>
+0125 
+0126 <span class="keyword">if</span> exportfile
+0127     [filename pathname] = uiputfile(<span class="string">'*.xls'</span>,<span class="string">'Excel spreadsheet'</span>);
+0128     entrystr = fieldnames(optics);
+0129     temp = optics.(entrystr{1});
+0130     <span class="keyword">for</span> i=2:length(entrystr)
+0131         temp = cat(2,temp,optics.(entrystr{i}));
+0132     <span class="keyword">end</span>
+0133     xlswrite([pathname filename],entrystr',<span class="string">'opticalparam'</span>,<span class="string">'A1'</span>);
+0134     xlswrite([pathname filename],temp,<span class="string">'opticalparam'</span>,<span class="string">'A2'</span>);
+0135 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

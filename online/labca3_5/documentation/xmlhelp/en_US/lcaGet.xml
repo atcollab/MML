@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from lcaGet.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="lcaGet" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>lcaGet</refname>
+    <refpurpose>Read a number of m PVs, which may be scalars or arrays of different    dimensions.</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   
+   [value, timestamp] = lcaGet(pvs, nmax, type)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Description</title>
+   <para>
+   </para>
+   <para>
+Read a number of m PVs, which may be scalars or arrays of different
+dimensions. The result is converted into a m x n matrix. The number of
+columns, n, is automatically assigned to fit the largest array among
+the m PVs. PVs with less than n elements have their excess elements in
+the result matrix filled with NaN.
+   </para>
+   <para>
+If all PVs are of native type DBF_STRING or DBF_ENUM, the values are
+returned as character strings; otherwise, all values are converted into
+double precision numbers. Explicit type conversion into strings can be
+enforced by submitting the `type' argument described below.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>Column vector (in matlab:</term>
+      <listitem><para> m x 1 cell- matrix) of m strings.</para></listitem></varlistentry>
+   <varlistentry><term>Occasionally, conversion to char can be useful:</term>
+      <listitem><para> retrieve a</para></listitem></varlistentry>
+   <varlistentry><term>The result is either a `double' or a (matlab:</term>
+      <listitem><para> cell-) `string'</para></listitem></varlistentry>
+   <varlistentry><term>nanoseconds (imaginary part) elapsed since 00:</term>
+      <listitem><para>00:00 UTC, Jan. 1,</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+
+// read a PV
+lcaGet( 'thepv' )
+// read multiple PVs along with their EPICS timestamps
+[ vals, tstamps] = lcaGet( [ 'aPV' ; 'anotherPV' ] )
+// read an 'ENUM/STRING'
+lcaGet( 'thepv.SCAN' )
+// read an 'ENUM/STRING' as a number (server converts)
+lcaGet( 'thepv.SCAN', 0, 'float' )
+// enforce reading all PVs as strings (server converts)
+// NOTE: necessary if native num/nonnum types are mixed
+lcaGet( [ 'apv.SCAN'; 'numericalPV' ] , 0, 'char' )
+// limit reading a waveform to its NORD elements
+nord = lcaGet( 'waveform.NORD' )
+if nord > 0 then
+lcaGet( 'waveform', nord )
+end
+__________________________________________________________________
+
+Footnotes
+
+...NaN [3]^8
+Actually, all fields of an EPICS database record share a common
+severity, (which itself is a field/PV -- the .SEVR field).
+However, the INVALID status actually only applies to the .VAL
+field of a record -- other fields (e.g. .EGU) may still hold
+meaningful data. Consequently, INVALID PVs are returned as NaN
+only if they refer to a record's .VAL field.
+__________________________________________________________________
+
+
+till 2017-08-08
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>See also</title>
+   <simplelist type="inline">
+   <member><link linkend="lcaGet">1. lcaGet</link></member>
+   <member><link linkend="lcaSetSeverityWarnLevel">2. lcaSetSeverityWarnLevel</link></member>
+   <member><link linkend="lcaGet">3. lcaGet</link></member>
+   </simplelist>
+</refsection>
+</refentry>

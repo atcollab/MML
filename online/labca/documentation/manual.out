@@ -1,0 +1,93 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}
+\BOOKMARK [1][-]{section.2}{Supported EZCA Calls}{}
+\BOOKMARK [2][-]{subsection.2.1}{Common Arguments and Return Values}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.1.1}{PV Argument}{subsection.2.1}
+\BOOKMARK [3][-]{subsubsection.2.1.2}{Timestamp Format}{subsection.2.1}
+\BOOKMARK [2][-]{subsection.2.2}{Error Handling}{section.2}
+\BOOKMARK [2][-]{subsection.2.3}{lcaGet}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.3.1}{Calling Syntax}{subsection.2.3}
+\BOOKMARK [3][-]{subsubsection.2.3.2}{Description}{subsection.2.3}
+\BOOKMARK [3][-]{subsubsection.2.3.3}{Parameters}{subsection.2.3}
+\BOOKMARK [3][-]{subsubsection.2.3.4}{Examples}{subsection.2.3}
+\BOOKMARK [2][-]{subsection.2.4}{lcaPut}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.4.1}{Calling Syntax}{subsection.2.4}
+\BOOKMARK [3][-]{subsubsection.2.4.2}{Description}{subsection.2.4}
+\BOOKMARK [3][-]{subsubsection.2.4.3}{Parameters}{subsection.2.4}
+\BOOKMARK [3][-]{subsubsection.2.4.4}{Examples}{subsection.2.4}
+\BOOKMARK [2][-]{subsection.2.5}{lcaPutNoWait}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.5.1}{Calling Syntax}{subsection.2.5}
+\BOOKMARK [3][-]{subsubsection.2.5.2}{Description}{subsection.2.5}
+\BOOKMARK [3][-]{subsubsection.2.5.3}{Parameters}{subsection.2.5}
+\BOOKMARK [2][-]{subsection.2.6}{lcaGetNelem}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.6.1}{Calling Syntax}{subsection.2.6}
+\BOOKMARK [3][-]{subsubsection.2.6.2}{Description}{subsection.2.6}
+\BOOKMARK [3][-]{subsubsection.2.6.3}{Parameters}{subsection.2.6}
+\BOOKMARK [2][-]{subsection.2.7}{lcaSetMonitor}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.7.1}{Calling Syntax}{subsection.2.7}
+\BOOKMARK [3][-]{subsubsection.2.7.2}{Description}{subsection.2.7}
+\BOOKMARK [3][-]{subsubsection.2.7.3}{Parameters}{subsection.2.7}
+\BOOKMARK [3][-]{subsubsection.2.7.4}{Examples}{subsection.2.7}
+\BOOKMARK [2][-]{subsection.2.8}{lcaNewMonitorWait}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.8.1}{Calling Syntax}{subsection.2.8}
+\BOOKMARK [3][-]{subsubsection.2.8.2}{Description}{subsection.2.8}
+\BOOKMARK [3][-]{subsubsection.2.8.3}{Parameters}{subsection.2.8}
+\BOOKMARK [3][-]{subsubsection.2.8.4}{Examples}{subsection.2.8}
+\BOOKMARK [2][-]{subsection.2.9}{lcaNewMonitorValue}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.9.1}{Calling Syntax}{subsection.2.9}
+\BOOKMARK [3][-]{subsubsection.2.9.2}{Description}{subsection.2.9}
+\BOOKMARK [3][-]{subsubsection.2.9.3}{Parameters}{subsection.2.9}
+\BOOKMARK [3][-]{subsubsection.2.9.4}{Examples}{subsection.2.9}
+\BOOKMARK [2][-]{subsection.2.10}{lcaClear}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.10.1}{Calling Syntax}{subsection.2.10}
+\BOOKMARK [3][-]{subsubsection.2.10.2}{Description}{subsection.2.10}
+\BOOKMARK [3][-]{subsubsection.2.10.3}{Parameters}{subsection.2.10}
+\BOOKMARK [3][-]{subsubsection.2.10.4}{Examples}{subsection.2.10}
+\BOOKMARK [2][-]{subsection.2.11}{lcaLastError}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.11.1}{Calling Syntax}{subsection.2.11}
+\BOOKMARK [3][-]{subsubsection.2.11.2}{Description}{subsection.2.11}
+\BOOKMARK [3][-]{subsubsection.2.11.3}{Parameters}{subsection.2.11}
+\BOOKMARK [3][-]{subsubsection.2.11.4}{Examples}{subsection.2.11}
+\BOOKMARK [2][-]{subsection.2.12}{lcaGetControlLimits}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.12.1}{Calling Syntax}{subsection.2.12}
+\BOOKMARK [3][-]{subsubsection.2.12.2}{Description}{subsection.2.12}
+\BOOKMARK [3][-]{subsubsection.2.12.3}{Parameters}{subsection.2.12}
+\BOOKMARK [2][-]{subsection.2.13}{lcaGetGraphicLimits}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.13.1}{Calling Syntax}{subsection.2.13}
+\BOOKMARK [3][-]{subsubsection.2.13.2}{Description}{subsection.2.13}
+\BOOKMARK [3][-]{subsubsection.2.13.3}{Parameters}{subsection.2.13}
+\BOOKMARK [2][-]{subsection.2.14}{lcaGetStatus}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.14.1}{Calling Syntax}{subsection.2.14}
+\BOOKMARK [3][-]{subsubsection.2.14.2}{Description}{subsection.2.14}
+\BOOKMARK [3][-]{subsubsection.2.14.3}{Parameters}{subsection.2.14}
+\BOOKMARK [2][-]{subsection.2.15}{lcaGetPrecision}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.15.1}{Calling Syntax}{subsection.2.15}
+\BOOKMARK [3][-]{subsubsection.2.15.2}{Description}{subsection.2.15}
+\BOOKMARK [3][-]{subsubsection.2.15.3}{Parameters}{subsection.2.15}
+\BOOKMARK [2][-]{subsection.2.16}{lcaGetUnits}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.16.1}{Calling Syntax}{subsection.2.16}
+\BOOKMARK [3][-]{subsubsection.2.16.2}{Description}{subsection.2.16}
+\BOOKMARK [3][-]{subsubsection.2.16.3}{Parameters}{subsection.2.16}
+\BOOKMARK [2][-]{subsection.2.17}{lcaGetRetryCount, lcaSetRetryCount}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.17.1}{Calling Syntax}{subsection.2.17}
+\BOOKMARK [3][-]{subsubsection.2.17.2}{Description}{subsection.2.17}
+\BOOKMARK [2][-]{subsection.2.18}{lcaGetTimeout, lcaSetTimeout}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.18.1}{Calling Syntax}{subsection.2.18}
+\BOOKMARK [3][-]{subsubsection.2.18.2}{Description}{subsection.2.18}
+\BOOKMARK [2][-]{subsection.2.19}{lcaDebugOn, lcaDebugOff}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.19.1}{Calling Syntax}{subsection.2.19}
+\BOOKMARK [3][-]{subsubsection.2.19.2}{Description}{subsection.2.19}
+\BOOKMARK [2][-]{subsection.2.20}{lcaSetSeverityWarnLevel}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.20.1}{Calling Syntax}{subsection.2.20}
+\BOOKMARK [3][-]{subsubsection.2.20.2}{Description}{subsection.2.20}
+\BOOKMARK [2][-]{subsection.2.21}{lcaDelay}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.21.1}{Calling Syntax}{subsection.2.21}
+\BOOKMARK [3][-]{subsubsection.2.21.2}{Description}{subsection.2.21}
+\BOOKMARK [3][-]{subsubsection.2.21.3}{Parameters}{subsection.2.21}
+\BOOKMARK [1][-]{section.3}{Building and Using labCA}{}
+\BOOKMARK [2][-]{subsection.3.1}{Build}{section.3}
+\BOOKMARK [3][-]{subsubsection.3.1.1}{Prerequisites}{subsection.3.1}
+\BOOKMARK [3][-]{subsubsection.3.1.2}{Configuration}{subsection.3.1}
+\BOOKMARK [3][-]{subsubsection.3.1.3}{Building labCA}{subsection.3.1}
+\BOOKMARK [2][-]{subsection.3.2}{Using labCA}{section.3}
+\BOOKMARK [3][-]{subsubsection.3.2.1}{Using labCA with scilab}{subsection.3.2}
+\BOOKMARK [3][-]{subsubsection.3.2.2}{Using labCA with matlab}{subsection.3.2}

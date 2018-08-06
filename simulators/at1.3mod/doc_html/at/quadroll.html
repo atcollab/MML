@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of quadroll</title>
+  <meta name="keywords" content="quadroll">
+  <meta name="description" content="locate quadrupoles in AO and apply random roll about s-axis">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; quadroll.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>quadroll
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>locate quadrupoles in AO and apply random roll about s-axis</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function quadroll(sr) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">locate quadrupoles in AO and apply random roll about s-axis
+function quadroll(sr);  sr is the sigma value for randn;
+units are radians</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>	FAMILY2ATINDEX - Returns the AT index for a given family</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function quadroll(sr)</a>
+0002 <span class="comment">%locate quadrupoles in AO and apply random roll about s-axis</span>
+0003 <span class="comment">%function quadroll(sr);  sr is the sigma value for randn;</span>
+0004 <span class="comment">%units are radians</span>
+0005 
+0006 <span class="keyword">if</span> nargin&lt;1
+0007     disp(<span class="string">'Error in quadroll - must supply alignment spreads'</span>);
+0008     <span class="keyword">return</span>
+0009 <span class="keyword">end</span>
+0010 
+0011 <span class="keyword">global</span> THERING
+0012 AO = getao;
+0013 
+0014 ATindx=[];   <span class="comment">%indices of quadrupoles</span>
+0015 mr=[];
+0016 len=findspos(THERING,length(THERING)+1);
+0017 
+0018 QuadList = findmemberof(<span class="string">'QUAD'</span>);
+0019 
+0020 <span class="keyword">for</span> ii=1:length(QuadList)
+0021     Family = QuadList{ii};
+0022     indx = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(Family);
+0023 
+0024     <span class="comment">%assign random roll error to first magnet</span>
+0025     mr=[mr; sr*randn];
+0026 
+0027     <span class="comment">% assign random error to rest of family</span>
+0028     tol=1e-6; <span class="comment">%tolerance for spacing between magnets</span>
+0029     <span class="keyword">for</span> jj=2:length(indx)
+0030 
+0031         <span class="comment">%check for split magnets</span>
+0032         <span class="keyword">if</span> AO.(Family).Position(jj)-THERING{indx(jj)}.Length - AO.(Family).Position(jj-1)&lt;tol   <span class="comment">%magnet split</span>
+0033             disp([<span class="string">'   Split magnet '</span> AO.(Family).FamilyName <span class="string">' found in function quadroll with index  '</span>, num2str(indx(jj))]);
+0034             mr=[mr; -mr(end)];
+0035         <span class="keyword">else</span>   <span class="comment">%magnet not split</span>
+0036             mr=[mr; sr*randn];
+0037         <span class="keyword">end</span>
+0038 
+0039     <span class="keyword">end</span>
+0040 
+0041     <span class="comment">%check if first/last element split in THERING</span>
+0042     <span class="keyword">if</span> abs(AO.(Family).Position(1))  &lt; tol  &amp;&amp; <span class="keyword">...</span><span class="comment">    %first element near zero</span>
+0043             abs((len - AO.(Family).Position(end) - THERING{indx(end)}.Length &lt; tol))      <span class="comment">%last element near end</span>
+0044         disp([<span class="string">'   Split magnet '</span> AO.(Family).FamilyName <span class="string">' found in function quadroll with index  '</span>,<span class="keyword">...</span>
+0045             num2str(indx(1)), <span class="string">' '</span>,num2str(indx(end))]);
+0046         mr(end)=-mr(end-length(indx)+1);       <span class="comment">%error on last quad same as error on first quad in family</span>
+0047     <span class="keyword">end</span>
+0048 
+0049     ATindx=[ATindx; indx];
+0050 <span class="keyword">end</span>
+0051 
+0052 <span class="comment">% my=sy*randn(1,length(ATindx));</span>
+0053 <span class="comment">% mx=sx*randn(1,length(ATindx));</span>
+0054 settilt(ATindx,mr);
+0055</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

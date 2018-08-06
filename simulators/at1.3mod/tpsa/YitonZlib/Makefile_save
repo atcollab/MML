@@ -1,0 +1,88 @@
+CORE       = ./
+SRC        = $(CORE)
+LIB        = $(CORE)lib
+
+INCLUDES   =  -I../usr/include -I/usr/lib/g++-include \
+              -I$(CORE) \
+              -I../usr/local \
+
+CFLAGS     = $(INCLUDES)
+
+#COMPILE    = g++ -c -g
+COMPILE    = g++ -c -O3
+#COMPILE    = /afs/slac.stanford.edu/package/mpich/bin/mpiCC -c -O3
+
+OBJS =           \
+	ZlibInc.o   \
+	Zlib.o   \
+        Eigen.o  \
+	Tps.o    \
+	TpsData.o    \
+	doubleMatrix.o \
+	Vec.o    \
+	Vps.o    \
+	DepritLie.o  \
+	DepritLieLn.o  \
+	DepritLie45.o  \
+	DepritLieLn45.o  \
+	DepritTaylor.o  \
+	DepritTaylorLn.o  \
+	DragtLie.o  \
+	DragtLieLn.o  \
+	DragtLie45.o  \
+	DragtLieLn45.o \
+	ResMap.o \
+	mxVps.o \
+	mxVpsLn.o \
+	NonlinearNorm45.o
+
+
+$(LIB)/libZlib.a : $(OBJS)
+	ar cru  $(LIB)/libZlib.a $(OBJS)
+	ranlib  $(LIB)/libZlib.a
+
+ZlibInc.o : ZlibInc.cpp ZlibInc.hpp
+	$(COMPILE) $(CFLAGS)  ZlibInc.cpp
+Zlib.o : Zlib.cpp Zlib.hpp
+	$(COMPILE) $(CFLAGS)  Zlib.cpp
+Eigen.o : Eigen.cpp doubleMatrix.hpp
+	$(COMPILE) $(CFLAGS)  Eigen.cpp
+doubleMatrix.o : doubleMatrix.cpp doubleMatrix.hpp
+	$(COMPILE) $(CFLAGS)  doubleMatrix.cpp
+Tps.o : Tps.cpp Tps.hpp
+	$(COMPILE) $(CFLAGS)  Tps.cpp
+TpsData.o : TpsData.cpp TpsData.hpp
+	$(COMPILE) $(CFLAGS)  TpsData.cpp
+Vec.o : Vec.cpp Vec.hpp
+	$(COMPILE) $(CFLAGS)  Vec.cpp
+Vps.o : Vps.cpp Vps.hpp
+	$(COMPILE) $(CFLAGS)  Vps.cpp
+DepritLie.o : DepritLie.cpp DepritLie.hpp
+	$(COMPILE) $(CFLAGS)  DepritLie.cpp
+DepritLieLn.o : DepritLieLn.cpp DepritLieLn.hpp
+	$(COMPILE) $(CFLAGS)  DepritLieLn.cpp
+DepritLie45.o : DepritLie45.cpp DepritLie45.hpp
+	$(COMPILE) $(CFLAGS)  DepritLie45.cpp
+DepritLieLn45.o : DepritLieLn45.cpp DepritLieLn45.hpp
+	$(COMPILE) $(CFLAGS)  DepritLieLn45.cpp
+DepritTaylor.o : DepritTaylor.cpp DepritTaylor.hpp
+	$(COMPILE) $(CFLAGS)  DepritTaylor.cpp
+DepritTaylorLn.o : DepritTaylorLn.cpp DepritTaylorLn.hpp
+	$(COMPILE) $(CFLAGS)  DepritTaylorLn.cpp
+DragtLie.o : DragtLie.cpp DragtLie.hpp
+	$(COMPILE) $(CFLAGS)  DragtLie.cpp
+DragtLieLn.o : DragtLieLn.cpp DragtLieLn.hpp
+	$(COMPILE) $(CFLAGS)  DragtLieLn.cpp
+DragtLie45.o : DragtLie45.cpp DragtLie45.hpp
+	$(COMPILE) $(CFLAGS)  DragtLie45.cpp
+DragtLieLn45.o : DragtLieLn45.cpp DragtLieLn45.hpp
+	$(COMPILE) $(CFLAGS)  DragtLieLn45.cpp
+ResMap.o : ResMap.cpp ResMap.hpp
+	$(COMPILE) $(CFLAGS)  ResMap.cpp
+mxVps.o : mxVps.cpp mxVps.hpp
+	$(COMPILE) $(CFLAGS)  mxVps.cpp
+mxVpsLn.o : mxVpsLn.cpp mxVpsLn.hpp
+	$(COMPILE) $(CFLAGS)  mxVpsLn.cpp
+NonlinearNorm45.o : NonlinearNorm45.cpp NonlinearNorm45.hpp
+	$(COMPILE) $(CFLAGS)  NonlinearNorm45.cpp
+

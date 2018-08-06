@@ -1,0 +1,121 @@
+#Do not modify this file.
+#This file is created during the build.
+
+ifneq ($(strip $(mezcaglue_SRCS_$(OS_CLASS))),)
+mezcaglue_SRCS+=$(subst -nil-,,$(mezcaglue_SRCS_$(OS_CLASS)))
+else
+ifdef mezcaglue_SRCS_DEFAULT
+mezcaglue_SRCS+=$(mezcaglue_SRCS_DEFAULT)
+endif
+endif
+ifneq ($(strip $(mezcaglue_RCS_$(OS_CLASS))),)
+mezcaglue_RCS+=$(subst -nil-,,$(mezcaglue_RCS_$(OS_CLASS)))
+else
+ifdef mezcaglue_RCS_DEFAULT
+mezcaglue_RCS+=$(mezcaglue_RCS_DEFAULT)
+endif
+endif
+ifneq ($(strip $(mezcaglue_OBJS_$(OS_CLASS))),)
+mezcaglue_OBJS+=$(subst -nil-,,$(mezcaglue_OBJS_$(OS_CLASS)))
+else
+ifdef mezcaglue_OBJS_DEFAULT
+mezcaglue_OBJS+=$(mezcaglue_OBJS_DEFAULT)
+endif
+endif
+ifneq ($(strip $(mezcaglue_LDFLAGS_$(OS_CLASS))),)
+mezcaglue_LDFLAGS+=$(subst -nil-,,$(mezcaglue_LDFLAGS_$(OS_CLASS)))
+else
+ifdef mezcaglue_LDFLAGS_DEFAULT
+mezcaglue_LDFLAGS+=$(mezcaglue_LDFLAGS_DEFAULT)
+endif
+endif
+ifneq ($(strip $(mezcaglue_OBJLIBS_$(OS_CLASS))),)
+mezcaglue_OBJLIBS+=$(subst -nil-,,$(mezcaglue_OBJLIBS_$(OS_CLASS)))
+else
+ifdef mezcaglue_OBJLIBS_DEFAULT
+mezcaglue_OBJLIBS+=$(mezcaglue_OBJLIBS_DEFAULT)
+endif
+endif
+ifneq ($(strip $(mezcaglue_LDOBJS_$(OS_CLASS))),)
+mezcaglue_LDOBJS+=$(subst -nil-,,$(mezcaglue_LDOBJS_$(OS_CLASS)))
+else
+ifdef mezcaglue_LDOBJS_DEFAULT
+mezcaglue_LDOBJS+=$(mezcaglue_LDOBJS_DEFAULT)
+endif
+endif
+mezcaglue_LDLIBS+=$(mezcaglue_LIBS)
+ifneq ($(strip $(mezcaglue_LIBS_$(OS_CLASS))),)
+mezcaglue_LDLIBS+=$(subst -nil-,,$(mezcaglue_LIBS_$(OS_CLASS)))
+else
+ifdef mezcaglue_LIBS_DEFAULT
+mezcaglue_LDLIBS+=$(mezcaglue_LIBS_DEFAULT)
+endif
+endif
+ifneq ($(strip $(mezcaglue_SYS_LIBS_$(OS_CLASS))),)
+mezcaglue_SYS_LIBS+=$(subst -nil-,,$(mezcaglue_SYS_LIBS_$(OS_CLASS)))
+else
+ifdef mezcaglue_SYS_LIBS_DEFAULT
+mezcaglue_SYS_LIBS+=$(mezcaglue_SYS_LIBS_DEFAULT)
+endif
+endif
+mezcaglue_OBJS+=$(addsuffix $(OBJ),$(basename $(mezcaglue_SRCS)))
+
+ifeq ($(filter mezcaglue,$(TESTPROD) $(PROD)),mezcaglue)
+ifeq (,$(strip $(mezcaglue_OBJS) $(PRODUCT_OBJS)))
+mezcaglue_OBJS+=mezcaglue$(OBJ)
+endif
+mezcaglue_RESS+=$(addsuffix $(RES),$(basename $(mezcaglue_RCS)))
+mezcaglue_OBJSNAME+=$(addsuffix $(OBJ),$(basename $(mezcaglue_OBJS)))
+mezcaglue_DEPLIBS=$(foreach lib, $(mezcaglue_LDLIBS),\
+ $(firstword $(wildcard $(addsuffix /$(LIB_PREFIX)$(lib).*,\
+ $($(lib)_DIR) $(SHRLIB_SEARCH_DIRS)))\
+ $(addsuffix /$(LIB_PREFIX)$(lib)$(LIB_SUFFIX),\
+ $(firstword $($(lib)_DIR) $(SHRLIB_SEARCH_DIRS))/)))
+mezcaglue$(EXE): $(mezcaglue_OBJSNAME) $(mezcaglue_RESS) $(mezcaglue_DEPLIBS)
+endif
+
+ifeq ($(filter mezcaglue,$(LIBRARY)),mezcaglue)
+ifneq ($(filter mezcaglue,$(LOADABLE_LIBRARY)),mezcaglue)
+ifneq (,$(strip $(mezcaglue_OBJS) $(LIBRARY_OBJS)))
+BUILD_LIBRARY += mezcaglue
+endif
+mezcaglue_RESS+=$(addsuffix $(RES),$(basename $(mezcaglue_RCS)))
+mezcaglue_OBJSNAME+=$(addsuffix $(OBJ),$(basename $(mezcaglue_OBJS)))
+mezcaglue_DEPLIBS=$(foreach lib, $(mezcaglue_LDLIBS),\
+ $(firstword $(wildcard $(addsuffix /$(LIB_PREFIX)$(lib).*,\
+ $($(lib)_DIR) $(SHRLIB_SEARCH_DIRS)))\
+ $(addsuffix /$(LIB_PREFIX)$(lib)$(LIB_SUFFIX),\
+ $(firstword $($(lib)_DIR) $(SHRLIB_SEARCH_DIRS))/)))
+mezcaglue_DLL_DEPLIBS=$(foreach lib, $(mezcaglue_DLL_LIBS),\
+ $(firstword $(wildcard $(addsuffix /$(LIB_PREFIX)$(lib).*,\
+ $($(lib)_DIR) $(SHRLIB_SEARCH_DIRS)))\
+ $(addsuffix /$(LIB_PREFIX)$(lib)$(LIB_SUFFIX),\
+ $(firstword $($(lib)_DIR) $(SHRLIB_SEARCH_DIRS))/)))
+$(LIB_PREFIX)mezcaglue$(LIB_SUFFIX):$(mezcaglue_OBJSNAME) $(mezcaglue_RESS)
+$(LIB_PREFIX)mezcaglue$(LIB_SUFFIX):$(mezcaglue_DEPLIBS)
+$(LIB_PREFIX)mezcaglue$(SHRLIB_SUFFIX):$(mezcaglue_OBJSNAME) $(mezcaglue_RESS)
+$(LIB_PREFIX)mezcaglue$(SHRLIB_SUFFIX):$(mezcaglue_DEPLIBS)
+$(LIB_PREFIX)mezcaglue$(SHRLIB_SUFFIX):$(mezcaglue_DLL_DEPLIBS)
+endif
+endif
+ifeq ($(filter mezcaglue,$(LOADABLE_LIBRARY)),mezcaglue)
+ifneq (,$(strip $(mezcaglue_OBJS) $(LIBRARY_OBJS)))
+LOADABLE_BUILD_LIBRARY += mezcaglue
+endif
+mezcaglue_RESS+=$(addsuffix $(RES),$(basename $(mezcaglue_RCS)))
+mezcaglue_OBJSNAME+=$(addsuffix $(OBJ),$(basename $(mezcaglue_OBJS)))
+mezcaglue_DEPLIBS=$(foreach lib, $(mezcaglue_LDLIBS),\
+ $(firstword $(wildcard $(addsuffix /$(LIB_PREFIX)$(lib).*,\
+ $($(lib)_DIR) $(SHRLIB_SEARCH_DIRS)))\
+ $(addsuffix /$(LIB_PREFIX)$(lib)$(LIB_SUFFIX),\
+ $(firstword $($(lib)_DIR) $(SHRLIB_SEARCH_DIRS))/)))
+mezcaglue_DLL_DEPLIBS=$(foreach lib, $(mezcaglue_DLL_LIBS),\
+ $(firstword $(wildcard $(addsuffix /$(LIB_PREFIX)$(lib).*,\
+ $($(lib)_DIR) $(SHRLIB_SEARCH_DIRS)))\
+ $(addsuffix /$(LIB_PREFIX)$(lib)$(LIB_SUFFIX),\
+ $(firstword $($(lib)_DIR) $(SHRLIB_SEARCH_DIRS))/)))
+$(LOADABLE_SHRLIB_PREFIX)mezcaglue$(LOADABLE_SHRLIB_SUFFIX):$(mezcaglue_OBJSNAME) $(mezcaglue_RESS)
+$(LOADABLE_SHRLIB_PREFIX)mezcaglue$(LOADABLE_SHRLIB_SUFFIX):$(mezcaglue_DEPLIBS)
+$(LOADABLE_SHRLIB_PREFIX)mezcaglue$(LOADABLE_SHRLIB_SUFFIX):$(mezcaglue_DLL_DEPLIBS)
+endif
+

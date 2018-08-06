@@ -1,0 +1,44 @@
+make -C ./configure install 
+make[1]: Entering directory `C:/epics/labca_3_5_1/configure'
+perl C:\epics\base/bin/windows-x64/makeMakefile.pl O.windows-x64 ../..
+perl -MExtUtils::Command -e mkpath O.Common
+make -C O.windows-x64 -f ../Makefile TOP=../.. T_A=windows-x64 install
+make[2]: Entering directory `C:/epics/labca_3_5_1/configure/O.windows-x64'
+perl C:\epics\base/bin/windows-x64/convertRelease.pl checkRelease
+echo MEXEXT=.mexw64 >>MATLAB_CONFIG_INCLUDE
+make[2]: Leaving directory `C:/epics/labca_3_5_1/configure/O.windows-x64'
+make[1]: Leaving directory `C:/epics/labca_3_5_1/configure'
+make -C ./ezca install 
+make[1]: Entering directory `C:/epics/labca_3_5_1/ezca'
+perl C:\epics\base/bin/windows-x64/makeMakefile.pl O.windows-x64 ../..
+perl -MExtUtils::Command -e mkpath O.Common
+make -C O.windows-x64 -f ../Makefile TOP=../.. T_A=windows-x64 install
+make[2]: Entering directory `C:/epics/labca_3_5_1/ezca/O.windows-x64'
+cl -c             /favor:blend   /nologo /D__STDC__=0 /D_CRT_SECURE_NO_DEPRECATE /D_CRT_NONSTDC_NO_DEPRECATE   /Ox /GL   /W3 /w44355        /MD     -I. -I..\\O.Common -I. -I.. -I..\\..\\include\\os\\WIN32 -I..\\..\\include -IC:\epics\base\\include\\os\\WIN32 -IC:\epics\base\\include           ..\\ezca.c 
+ezca.c
+C:\epics\base\include\os\WIN32\osdTime.h(21): error C2011: 'timespec': 'struct' type redefinition
+C:\Program Files (x86)\Windows Kits\10\include\10.0.10586.0\ucrt\time.h(39): note: see declaration of 'timespec'
+..\ezca.c(570): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(575): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(612): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(618): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(713): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(715): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(4905): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(4934): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(5032): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(5034): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(5529): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(5546): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(5590): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(5595): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(5697): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(5716): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(5755): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(6963): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(6999): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(7191): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(7217): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+..\ezca.c(7263): warning C4311: 'type cast': pointer truncation from 'epicsThreadId' to 'unsigned long'
+make[2]: Leaving directory `C:/epics/labca_3_5_1/ezca/O.windows-x64'
+make[1]: Leaving directory `C:/epics/labca_3_5_1/ezca'

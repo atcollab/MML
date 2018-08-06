@@ -1,0 +1,159 @@
+Matlab Channel Access (MCA)
+
+The version number is available via the "mcaversion" command,
+it's defined in MCAVersion.h
+
+* V 4.2 - May 24 2012
+Matlab has deprecated and removed mxCreateDoubleScalar, replacing it with mxCreateDoubleScalar,
+as described by Guobao Chen on http://www.aps.anl.gov/epics/tech-talk/2011/msg01074.php.
+Eric Norum checked on Linux for Matlab and Octave.
+
+* V 4.2 - Nov 16 2010
+Timo Korhonen: a number of additions:
+-new metadata handling functions:
+ mcaegu (get engineering units)
+ mcaprec (get precision)
+ mcaenums (get enum strings)
+ mcagets (like mcaget, but returns a string if the channel is enum type)
+-modified to handle metadata
+ mcaput (when channel is enum type, string can be used to set the value)
+-put without waiting for callback, for records where the callback comes late (e.g. motor record)
+ mcaputnowait 
+
+* V 4.1.3 - Jun 30 2010
+Vladimir Poucki, Hinko Kocevar (Instrumentation Technologies Slovenia):
+Update for Windows XP, Matlab R2007a
+
+* V 4.1.2 - Oct 11 2009
+Eric Norum: Add #include <errlog.h> to mca.cpp for EPICS R3.14.11.
+
+* V 4.1.1 - Apr 30 2008
+Eric Norum: Removed some extra qualifications like Channel:: from headers
+to work with new compilers; updated README_OCTAVE.
+
+* V 4.1 - Dec 16 2006
+Tweaks to avoid errors when building for Octave,
+thanks to Eric Norum and Miroslaw Dach.
+
+Some 'ne' calls replaced with '~=',
+and Makefile cleanup.
+See buildForOctave.sh
+
+* V 4.0 - Kay Kasemir, Oct 1 2006
+Overall code review and cleanup.
+
+- Found one reason for the occasional crash-on-exit:
+  In mca_cleanup, the 'iterator' used the node that
+  was just deleted to get the 'next' node.
+- MCAPUT changes:
+  It mostly uses a CA put-callback, which is good, because in Matlab
+  scripts you often want to be assured that the 'put' finished before
+  you move on.
+  Issue 1:
+  When used with arrays of PVs and scalar values to put like this:
+     mcaput([pv1 pv2 pv3 ...], [scalar1 scalar2 scalar3 ...])
+  ... it would silently _not_ use put callback.
+  Now the online help tells you so.
+  
+  Issue 2:
+  MCAPUT always simply waited for the 'put' timeout.
+  With the default 'put' timeout of 0.01 secs, it would often
+  return 0 = "put didn't succeed" because it didn't wait long enough.
+  Worse: It would actually return the status of the last callback,
+  which might be the 'OK' from a previous caput, not the yet-to-arrive
+  'not OK' from the ongoing caput.
+  
+  With a 'put' timeout of 10 secs, it would always wait 10 seconds,
+  even if the put callback already arrived 'OK' after e.g. 0.02 secs.
+  
+  Now the 'put' timeout is the max. wait time, but mcaput() will
+  otherwise return as soon as the 'put' callback arrives.
+  Also changed the default 'put' timeout to 10 seconds, in fact
+  all timeouts now default to 10 seconds.  
+- MCAPUT didn't give any error when writing strings to non-string PVs
+  and vice versa. 
+- Made the "No channel exists for this handle." error messages more
+  specific. The main reason for getting this error is timing.
+  Due to irreproducible circumstances, MCAOPEN will sometimes
+  fail to connect within the default timeout.
+  When MCAOPEN is called interactively, it will print a warning
+  message and return a 0 handle.
+  When invoked from inside a script, however, Matlab does not show
+  this warning message, and subsequent use of the 0 handle will then
+  result in this type of error.
+- The default search timeout was increased from 1 to 10 seconds to
+  make this error less likely.
+  (You can still change it via MCATIMEOUT).
+- Scripts that re-use the same PV, but don't want to bother
+  with elaborate bookkeeping of open connections, might
+  consider omitting the MCACLOSE calls, and use MCACHECKOPEN
+  in place of every MCAOPEN call.
+  This keeps all connections open and thus avoids re-connect timeouts.
+  Final cleanup can be done via MCAEXIT.  
+- Changed PV hash to template.
+- Most messages are now more specific, displaying the invoked method
+  and the affected PV name.
+- Use PVNAME_SZ from base instead of yet another #define.
+- No more compiler warnings with g++ 4.0 and '-Wall'.
+- monitor for 'STRING' PVs didn't update the alarm status/severity.
+- added a mutex for the monitor cache, since both the monitor callback
+  and matlab access it concurrently.
+- Arranged files in subdirectories.
+- Added unit tests.
+- Replaced ChannelAccess.cpp by inlines, no more IsInitialized() checks needed
+  because that's automatic.
+- Reviewed all the online help, fixed some inconsistencies.
+  Example: MCAINFO and MCASTATE were wrong.
+  Since closed channels are simply gone, they don't show up
+  in the mcastate or mcainfo lists at all,
+  so they also don't show up as 'closed'.
+- MCACHECK is now the same as MCASTATE.
+- MCATIME used to return a Matlab datenum for the UTC time zone,
+  and since Matlab lacks timezone support, it was very hard to convert
+  that to 'local' time. Now MCATIME returns 'local' time.
+
+* V 3.2 - Kay Kasemir, June 30 2006
+steven.banks@synchrotron.vic.gov.au emailed a snapshot
+of MCA as used at the Australian Synchroton Project.
+Compared that to the sources currently used at the SNS,
+and tried to merge the differences.
+
+The A.S.P. sources included
+- Fix for mcamonevents:
+  While
+     mcamonevents([pv1 pv2])
+  might have worked,
+     mcamonevents([pv2 pv1])
+  didn't. Now it always seems to work.
+
+- New
+     mcastate
+  command.
+
+- mcaput now uses put_callback
+
+There's also a new 'mcaversion' command.
+
+
+* SNS Release 3.0
+
+Carl Lionberger 18 June 2004
+
+This release incorporates changes done by Steven Banks of the Australian 
+Synchrotron Project.  (Steven_Banks@doi.vic.gov.au).  These include 
+reliability improvements due to queuing ca callbacks of matlab commands to
+prevent reentrancy problems and removal of the earlier fixed limitation on the
+number of channel access pv's in use.  Several examples are provided.
+
+A simpler EPICS Makefile style build using the EPICS build environment has
+been added.  This was done at SNS by Ernest Williams based on earlier work by 
+Kay Kasemir.  See README file.
+
+The mcaconn command present in some earlier SNS versions has been dropped.
+
+There is a timestamp facility but it is somewhat different than a previous
+version that was used only at SNS.
+
+This version is known to work under linux and windows.
+
+Our continuing thanks to Andrei Terebilo at SLAC for originally developing MCA. 

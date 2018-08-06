@@ -1,0 +1,517 @@
+function  [ChannelName, ErrorFlag] = getname_tls(Family, Field, DeviceList)
+% ChannelName = getname_bessy2(Family, Field, DeviceList)
+%
+%   INPUTS
+%   1. Family name
+%   2. Field
+%   3. DeviceList ([Sector Device #] or [element #]) (default: whole family)
+%
+%   OUTPUTS
+%   1. ChannelName = IOC channel name corresponding to the family and DeviceList
+
+
+if nargin == 0
+    error('Must have at least one input (''Family'')!');
+end
+if nargin < 2
+    Field = 'Monitor';
+end
+if nargin < 3
+    DeviceList = [];
+end
+
+if isempty(DeviceList)
+    DeviceList = getlist(Family);
+elseif (size(DeviceList,2) == 1)
+    DeviceList = elem2dev(Family, DeviceList);
+end
+
+ChannelName = [];
+
+BPM_X = [
+    'R1BPM0X '
+    'R1BPM1X ' 
+    'R1BPM2X ' 
+    'R1BPM3X ' 
+    'R1BPM4X ' 
+    'R1BPM5X ' 
+    'R1BPM6X ' 
+    'R1BPM7X '
+    'R1BPM8X ' 
+    'R1BPM9X '
+    'R2BPM0X '
+    'R2BPM1X ' 
+    'R2BPM2X ' 
+    'R2BPM3X ' 
+    'R2BPM4X ' 
+    'R2BPM5X ' 
+    'R2BPM6X ' 
+    'R2BPM7X '
+    'R2BPM8X ' 
+    'R2BPM9X '
+    'R3BPM0X '
+    'R3BPM1X ' 
+    'R3BPM2X ' 
+    'R3BPM3X ' 
+    'R3BPM4X ' 
+    'R3BPM5X ' 
+    'R3BPM6X ' 
+    'R3BPM7X '
+    'R3BPM8X ' 
+    'R3BPM9X '
+    'R4BPM0X '
+    'R4BPM1X ' 
+    'R4BPM2X ' 
+    'R4BPM3X ' 
+    'R4BPM4X ' 
+    'R4BPM5X ' 
+    'R4BPM6X ' 
+    'R4BPM7X '
+    'R4BPM8X ' 
+    'R4BPM9X '
+    'R5BPM0X '
+    'R5BPM1X ' 
+    'R5BPM2X ' 
+    'R5BPM3X ' 
+    'R5BPM4X ' 
+    'R5BPM5X ' 
+    'R5BPM6X ' 
+    'R5BPM7X '
+    'R5BPM8X ' 
+    'R5BPM9X '
+    'R6BPM0X '
+    'R6BPM1X ' 
+    'R6BPM2X ' 
+    'R6BPM3X ' 
+    'R6BPM4X ' 
+    'R6BPM5X ' 
+    'R6BPM6X ' 
+    'R6BPM7X '
+    'R6BPM8X ' 
+    'R6BPM9X '
+    ];
+
+BPM_Y = [
+    'R1BPM0Y '
+    'R1BPM1Y ' 
+    'R1BPM2Y ' 
+    'R1BPM3Y ' 
+    'R1BPM4Y ' 
+    'R1BPM5Y ' 
+    'R1BPM6Y ' 
+    'R1BPM7Y '
+    'R1BPM8Y ' 
+    'R1BPM9Y '
+    'R2BPM0Y '
+    'R2BPM1Y ' 
+    'R2BPM2Y ' 
+    'R2BPM3Y ' 
+    'R2BPM4Y ' 
+    'R2BPM5Y ' 
+    'R2BPM6Y ' 
+    'R2BPM7Y '
+    'R2BPM8Y ' 
+    'R2BPM9Y '
+    'R3BPM0Y '
+    'R3BPM1Y ' 
+    'R3BPM2Y ' 
+    'R3BPM3Y ' 
+    'R3BPM4Y ' 
+    'R3BPM5Y ' 
+    'R3BPM6Y ' 
+    'R3BPM7Y '
+    'R3BPM8Y ' 
+    'R3BPM9Y '
+    'R4BPM0Y '
+    'R4BPM1Y ' 
+    'R4BPM2Y ' 
+    'R4BPM3Y ' 
+    'R4BPM4Y ' 
+    'R4BPM5Y ' 
+    'R4BPM6Y ' 
+    'R4BPM7Y '
+    'R4BPM8Y ' 
+    'R4BPM9Y '
+    'R5BPM0Y '
+    'R5BPM1Y ' 
+    'R5BPM2Y ' 
+    'R5BPM3Y ' 
+    'R5BPM4Y ' 
+    'R5BPM5Y ' 
+    'R5BPM6Y ' 
+    'R5BPM7Y '
+    'R5BPM8Y ' 
+    'R5BPM9Y '
+    'R6BPM0Y '
+    'R6BPM1Y ' 
+    'R6BPM2Y ' 
+    'R6BPM3Y ' 
+    'R6BPM4Y ' 
+    'R6BPM5Y ' 
+    'R6BPM6Y ' 
+    'R6BPM7Y '
+    'R6BPM8Y ' 
+    'R6BPM9Y '
+    ];
+
+HCM_PS = [
+    'R1HCM0 '
+    'R1HCM1 ' 
+    'R1HCM2 ' 
+    'R1HCM3 ' 
+    'R1HCM4 ' 
+    'R1HCM5 ' 
+    'R1HCM6 ' 
+    'R1HCM7 '
+    'R1HCM8 ' 
+    'R1HCM9 '
+    'R2HCM0 '
+    'R2HCM1 ' 
+    'R2HCM2 ' 
+    'R2HCM3 ' 
+    'R2HCM4 ' 
+    'R2HCM5 ' 
+    'R2HCM6 ' 
+    'R2HCM7 '
+    'R2HCM8 ' 
+    'R2HCM9 '
+    'R3HCM0 '
+    'R3HCM1 ' 
+    'R3HCM2 ' 
+    'R3HCM3 ' 
+    'R3HCM4 ' 
+    'R3HCM5 ' 
+    'R3HCM6 ' 
+    'R3HCM7 '
+    'R3HCM8 ' 
+    'R3HCM9 '
+    'R4HCM0 '
+    'R4HCM1 ' 
+    'R4HCM2 ' 
+    'R4HCM3 ' 
+    'R4HCM4 ' 
+    'R4HCM5 ' 
+    'R4HCM6 ' 
+    'R4HCM7 '
+    'R4HCM8 ' 
+    'R4HCM9 '
+    'R5HCM0 '
+    'R5HCM1 ' 
+    'R5HCM2 ' 
+    'R5HCM3 ' 
+    'R5HCM4 ' 
+    'R5HCM5 ' 
+    'R5HCM6 ' 
+    'R5HCM7 '
+    'R5HCM8 ' 
+    'R5HCM9 '
+    'R6HCM0 '
+    'R6HCM1 ' 
+    'R6HCM2 ' 
+    'R6HCM3 ' 
+    'R6HCM4 ' 
+    'R6HCM5 ' 
+    'R6HCM6 ' 
+    'R6HCM7 '
+    'R6HCM8 ' 
+    'R6HCM9 '
+    ];
+    
+VCM_PS = [
+    'R1VCM0 '
+    'R1VCM1 ' 
+    'R1VCM2 ' 
+    'R1VCM3 ' 
+    'R1VCM4 ' 
+    'R1VCM5 ' 
+    'R2VCM0 '
+    'R2VCM1 ' 
+    'R2VCM2 ' 
+    'R2VCM3 ' 
+    'R2VCM4 ' 
+    'R2VCM5 ' 
+    'R3VCM0 '
+    'R3VCM1 ' 
+    'R3VCM2 ' 
+    'R3VCM3 ' 
+    'R3VCM4 ' 
+    'R3VCM5 ' 
+    'R4VCM0 '
+    'R4VCM1 ' 
+    'R4VCM2 ' 
+    'R4VCM3 ' 
+    'R4VCM4 ' 
+    'R4VCM5 ' 
+    'R5VCM0 '
+    'R5VCM1 ' 
+    'R5VCM2 ' 
+    'R5VCM3 ' 
+    'R5VCM4 ' 
+    'R5VCM5 ' 
+    'R6VCM0 '
+    'R6VCM1 ' 
+    'R6VCM2 ' 
+    'R6VCM3 ' 
+    'R6VCM4 ' 
+    'R6VCM5 ' 
+    ];
+   
+Q1_PS = [
+    'R1Q10'
+    'R1Q11'
+    'R1Q12'
+    'R1Q13'
+    'R1Q14'
+    'R1Q15'
+    'R1Q16'
+    'R1Q17'
+    'R1Q18'
+    'R2Q10'
+    'R2Q11'
+    'R2Q12'
+    'R2Q13'
+    'R2Q14'
+    'R2Q15'
+    'R2Q16'
+    'R2Q17'
+    'R2Q18'
+    'R3Q10'
+    'R3Q11'
+    'R3Q12'
+    'R3Q13'
+    'R3Q14'
+    'R3Q15'
+    'R3Q16'
+    'R3Q17'
+    'R3Q18'
+    'R4Q10'
+    'R4Q11'
+    'R4Q12'
+    'R4Q13'
+    'R4Q14'
+    'R4Q15'
+    'R4Q16'
+    'R4Q17'
+    'R4Q18'
+    'R5Q10'
+    'R5Q11'
+    'R5Q12'
+    'R5Q13'
+    'R5Q14'
+    'R5Q15'
+    'R5Q16'
+    'R5Q17'
+    'R5Q18'
+    'R6Q10'
+    'R6Q11'
+    'R6Q12'
+    'R6Q13'
+    'R6Q14'
+    'R6Q15'
+    'R6Q16'
+    'R6Q17'
+    'R6Q18'
+    ];
+
+Q2_PS = [
+    'R1Q20'
+    'R1Q21'
+    'R2Q20'
+    'R2Q21'
+    'R3Q20'
+    'R3Q21'
+    'R4Q20'
+    'R4Q21'
+    'R5Q20'
+    'R5Q21'
+    'R6Q20'
+    'R6Q21'
+    ];
+
+QF_PS = [
+    'R1QF0'
+    'R1QF1'
+    'R1QF2'
+    'R1QF3'
+    'R1QF4'
+    'R1QF5'
+    'R1QF6'
+    'R1QF7'
+    'R2QF0'
+    'R2QF1'
+    'R2QF2'
+    'R2QF3'
+    'R2QF4'
+    'R2QF5'
+    'R2QF6'
+    'R2QF7'
+    'R3QF0'
+    'R3QF1'
+    'R3QF2'
+    'R3QF3'
+    'R3QF4'
+    'R3QF5'
+    'R3QF6'
+    'R3QF7'
+    'R4QF0'
+    'R4QF1'
+    'R4QF2'
+    'R4QF3'
+    'R4QF4'
+    'R4QF5'
+    'R4QF6'
+    'R4QF7'
+    'R5QF0'
+    'R5QF1'
+    'R5QF2'
+    'R5QF3'
+    'R5QF4'
+    'R5QF5'
+    'R5QF6'
+    'R5QF7'
+    'R6QF0'
+    'R6QF1'
+    'R6QF2'
+    'R6QF3'
+    'R6QF4'
+    'R6QF5'
+    'R6QF6'
+    'R6QF7'
+    ];
+
+QM_PS = [
+    'R1QM0'
+    'R1QM1'
+    'R2QM0'
+    'R2QM1'
+    'R3QM0'
+    'R3QM1'
+    'R4QM0'
+    'R4QM1'
+    'R5QM0'
+    'R5QM1'
+    'R6QM0'
+    'R6QM1'
+    ];
+
+
+TUNE = [
+    'FX'
+    'FY'
+    'FS'
+    ];
+    
+switch Family
+    case 'BPMx'
+        for i = 1:size(DeviceList,1)
+            %ChannelName = strvcat(ChannelName,sprintf('%s(%d,%d)', Family, DeviceList(i,1), DeviceList(i,2)));
+            ChannelName = strvcat(ChannelName,sprintf('%s', BPM_X(i,:)));
+            %ChannelName{i,1} = deblank(BPM_X(i,:));
+        end
+    case 'BPMy'
+        for i = 1:size(DeviceList,1)
+            %ChannelName = strvcat(ChannelName,sprintf('%s(%d,%d)', Family, DeviceList(i,1), DeviceList(i,2)));
+            ChannelName = strvcat(ChannelName,sprintf('%s', BPM_Y(i,:)));
+            %ChannelName{i,1} = deblank(BPM_Y(i,:));
+        end
+    case 'HCM'
+        for i = 1:size(DeviceList,1)
+%             ChannelName = strvcat(ChannelName,sprintf('%s(%d,%d)', Family, DeviceList(i,1), DeviceList(i,2)));
+              ChannelName = strvcat(ChannelName,sprintf('%s', HCM_PS(i,:)));
+        end
+    case 'VCM'
+        for i = 1:size(DeviceList,1)
+%             ChannelName = strvcat(ChannelName,sprintf('%s(%d,%d)', Family, DeviceList(i,1), DeviceList(i,2)));
+              ChannelName = strvcat(ChannelName,sprintf('%s', VCM_PS(i,:)));
+        end
+    case 'Q1'
+        for i = 1:size(DeviceList,1)
+%             ChannelName = strvcat(ChannelName,sprintf('%s(%d,%d)', Family, DeviceList(i,1), DeviceList(i,2)));
+              ChannelName = strvcat(ChannelName,sprintf('%s', Q1_PS(i,:)));
+        end
+    case 'Q2'
+        for i = 1:size(DeviceList,1)
+%             ChannelName = strvcat(ChannelName,sprintf('%s(%d,%d)', Family, DeviceList(i,1), DeviceList(i,2)));
+%             ChannelName = strvcat(ChannelName,sprintf('%s', QF2_PS(i,:)));
+              ChannelName = strvcat(ChannelName,sprintf('%s', Q2_PS(i,:)));
+        end
+    case 'QF'
+        for i = 1:size(DeviceList,1)
+%             ChannelName = strvcat(ChannelName,sprintf('%s(%d,%d)', Family, DeviceList(i,1), DeviceList(i,2)));
+              ChannelName = strvcat(ChannelName,sprintf('%s', QF_PS(i,:)));
+        end
+    case 'QM'
+        for i = 1:size(DeviceList,1)
+%             ChannelName = strvcat(ChannelName,sprintf('%s(%d,%d)', Family, DeviceList(i,1), DeviceList(i,2)));
+              ChannelName = strvcat(ChannelName,sprintf('%s', QM_PS(i,:)));
+        end
+    case 'S1'
+        for i = 1:size(DeviceList,1)
+            ChannelName = strvcat(ChannelName,sprintf('%s', 'RCS1PS'));
+        end
+    case 'S2'
+        for i = 1:size(DeviceList,1)
+            ChannelName = strvcat(ChannelName,sprintf('%s', 'RCS2PS'));
+        end
+        
+    case 'BD'
+        for i = 1:size(DeviceList,1)
+            ChannelName = strvcat(ChannelName,sprintf('%s', 'RCBDPS'));
+        end
+        
+    case 'BH'
+        for i = 1:size(DeviceList,1)
+            ChannelName = strvcat(ChannelName,sprintf('%s', 'RCBDPS'));
+        end
+%     case 'SWLS'
+%         for i = 1:size(DeviceList,1)
+% %             ChannelName = strvcat(ChannelName,sprintf('%s(%d,%d)', Family, DeviceList(i,1), DeviceList(i,2)));
+%             ChannelName = strvcat(ChannelName,sprintf('%s', 'SWLSMPS'));
+%         end
+%     case 'IASW6'
+%         for i = 1:size(DeviceList,1)
+% %             ChannelName = strvcat(ChannelName,sprintf('%s(%d,%d)', Family, DeviceList(i,1), DeviceList(i,2)));
+%             ChannelName = strvcat(ChannelName,sprintf('%s', 'IASWAMPS'));
+%         end
+%     case 'W20'
+%         for i = 1:size(DeviceList,1)
+% %             ChannelName = strvcat(ChannelName,sprintf('%s(%d,%d)', Family, DeviceList(i,1), DeviceList(i,2)));
+%             ChannelName = strvcat(ChannelName,sprintf('%s', 'W20GAP'));
+%         end
+%     case 'SW6'
+%         for i = 1:size(DeviceList,1)
+% %             ChannelName = strvcat(ChannelName,sprintf('%s(%d,%d)', Family, DeviceList(i,1), DeviceList(i,2)));
+%             ChannelName = strvcat(ChannelName,sprintf('%s', 'SMPW6MPS'));
+%         end
+%     case 'U9'
+%         for i = 1:size(DeviceList,1)
+% %             ChannelName = strvcat(ChannelName,sprintf('%s(%d,%d)', Family, DeviceList(i,1), DeviceList(i,2)));
+%             ChannelName = strvcat(ChannelName,sprintf('%s', 'U9GAP'));
+%         end
+%     case 'U5'
+%         for i = 1:size(DeviceList,1)
+% %             ChannelName = strvcat(ChannelName,sprintf('%s(%d,%d)', Family, DeviceList(i,1), DeviceList(i,2)));
+%             ChannelName = strvcat(ChannelName,sprintf('%s', 'U5GAP'));
+%         end
+%     case 'EPU56'
+%         for i = 1:size(DeviceList,1)
+% %             ChannelName = strvcat(ChannelName,sprintf('%s(%d,%d)', Family, DeviceList(i,1), DeviceList(i,2)));
+%             ChannelName = strvcat(ChannelName,sprintf('%s', 'EPU4GAP'));
+%         end
+    case 'RF'
+        for i = 1:size(DeviceList,1)
+%             ChannelName = strvcat(ChannelName,sprintf('%s(%d,%d)', Family, DeviceList(i,1), DeviceList(i,2)));
+            ChannelName = strvcat(ChannelName,sprintf('%s', 'crrffreq'));
+        end
+    case 'DCCT'
+        for i = 1:size(DeviceList,1)
+%             ChannelName = strvcat(ChannelName,sprintf('%s(%d,%d)', Family, DeviceList(i,1), DeviceList(i,2)));
+            ChannelName = strvcat(ChannelName,sprintf('%s', 'r3dccti'));
+        end
+    case 'TUNE'
+        for i = 1:size(DeviceList,1)
+%             ChannelName = strvcat(ChannelName,sprintf('%s(%d,%d)', Family, DeviceList(i,1), DeviceList(i,2)));
+            ChannelName = strvcat(ChannelName,sprintf('%s', TUNE(i,:)));
+        end
+end
+

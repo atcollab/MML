@@ -1,0 +1,41 @@
+# standard variables
+prefix=C:/epics/base_3_15_5
+exec_prefix=${prefix}
+bindir=${prefix}/bin/windows-x64
+libdir=${prefix}/lib/windows-x64
+
+# non-standard variables
+
+# EPICS Base install location
+FINAL_LOCATION=${prefix}
+ARCH=windows-x64
+OS_CLASS=WIN32
+CMPLR_CLASS=msvc
+
+EPICS_BASE_IOC_LIBS=dbRecStd dbCore ca Com
+
+# Directories
+
+includedir_osi=${prefix}/include
+includedir_osd=${prefix}/include/os/WIN32
+includedir_comp=${prefix}/include/compiler/msvc
+
+includedirs=${includedir_osi} ${includedir_osd} ${includedir_comp}
+
+dbddir=${prefix}/dbd
+dbdir=${prefix}/db
+
+# Tool chain
+
+CC=cl
+CXX=cl -EHsc -GR
+CPP=cl -nologo -C -E
+AR=ar
+LD=ld
+
+Name: epics-base-windows-x64
+Version: 3.15.5.0
+Description: EPICS Base for windows-x64
+Cflags: -I${includedir_osi} -I${includedir_osd} -I${includedir_comp} -nologo -D__STDC__=0 -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -GL -MD -DEPICS_BUILD_DLL -DEPICS_CALL_DLL
+Libs: -L${libdir} -LTCG -incremental:no -opt:ref -release -version:3.15 /MACHINE:X64
+Libs.private: 

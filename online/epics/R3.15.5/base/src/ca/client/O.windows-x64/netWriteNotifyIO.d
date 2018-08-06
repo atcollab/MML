@@ -1,0 +1,57 @@
+# DO NOT EDIT: This file created by mkmf.pl
+
+netWriteNotifyIO.obj : ../../../../include/errlog.h
+netWriteNotifyIO.obj : ../iocinf.h
+netWriteNotifyIO.obj : ../nciu.h
+netWriteNotifyIO.obj : ../cac.h
+netWriteNotifyIO.obj : ../../../../include/shareLib.h
+netWriteNotifyIO.obj : ../../../../include/compilerDependencies.h
+netWriteNotifyIO.obj : ../../../../include/resourceLib.h
+netWriteNotifyIO.obj : ../../../../include/tsDLList.h
+netWriteNotifyIO.obj : ../../../../include/tsFreeList.h
+netWriteNotifyIO.obj : ../../../../include/epicsMutex.h
+netWriteNotifyIO.obj : ../caProto.h
+netWriteNotifyIO.obj : ../cacIO.h
+netWriteNotifyIO.obj : ../../../../include/ipAddrToAsciiAsynchronous.h
+netWriteNotifyIO.obj : ../msgForMultiplyDefinedPV.h
+netWriteNotifyIO.obj : ../../../../include/epicsTimer.h
+netWriteNotifyIO.obj : ../../../../include/epicsEvent.h
+netWriteNotifyIO.obj : ../../../../include/freeList.h
+netWriteNotifyIO.obj : ../localHostName.h
+netWriteNotifyIO.obj : ../comBuf.h
+netWriteNotifyIO.obj : ../bhe.h
+netWriteNotifyIO.obj : ../netIO.h
+netWriteNotifyIO.obj : ../virtualCircuit.h
+netWriteNotifyIO.obj : ../../../../include/compiler/msvc/compilerSpecific.h
+netWriteNotifyIO.obj : ../../../../include/tsSLList.h
+netWriteNotifyIO.obj : ../../../../include/epicsString.h
+netWriteNotifyIO.obj : ../../../../include/epicsGuard.h
+netWriteNotifyIO.obj : ../../../../include/epicsAssert.h
+netWriteNotifyIO.obj : ../../../../include/os/WIN32/osdMutex.h
+netWriteNotifyIO.obj : ../../../../include/epicsThread.h
+netWriteNotifyIO.obj : ../../../../include/osiSock.h
+netWriteNotifyIO.obj : ../../../../include/epicsTime.h
+netWriteNotifyIO.obj : ../../../../include/os/WIN32/osdEvent.h
+netWriteNotifyIO.obj : ../../../../include/epicsSingleton.h
+netWriteNotifyIO.obj : ../../../../include/epicsTypes.h
+netWriteNotifyIO.obj : ../../../../include/osiWireFormat.h
+netWriteNotifyIO.obj : ../inetAddrID.h
+netWriteNotifyIO.obj : ../../../../include/epicsMemory.h
+netWriteNotifyIO.obj : ../../../../include/tsMinMax.h
+netWriteNotifyIO.obj : ../caServerID.h
+netWriteNotifyIO.obj : ../netiiu.h
+netWriteNotifyIO.obj : ../comQueSend.h
+netWriteNotifyIO.obj : ../comQueRecv.h
+netWriteNotifyIO.obj : ../tcpRecvWatchdog.h
+netWriteNotifyIO.obj : ../tcpSendWatchdog.h
+netWriteNotifyIO.obj : ../hostNameCache.h
+netWriteNotifyIO.obj : ../SearchDest.h
+netWriteNotifyIO.obj : ../../../../include/os/WIN32/osdThread.h
+netWriteNotifyIO.obj : ../../../../include/os/WIN32/osdSock.h
+netWriteNotifyIO.obj : ../../../../include/ellLib.h
+netWriteNotifyIO.obj : ../../../../include/os/WIN32/osdTime.h
+netWriteNotifyIO.obj : ../../../../include/os/WIN32/osdWireFormat.h
+netWriteNotifyIO.obj : ../../../../include/epicsEndian.h
+netWriteNotifyIO.obj : ../../../../include/os/WIN32/osdWireConfig.h
+
+

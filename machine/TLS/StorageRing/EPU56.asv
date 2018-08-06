@@ -1,0 +1,123 @@
+function Angle = EPU56(Gap,Index)
+Energy = getenergy;
+Brho = getbrho(Energy);
+EPU56.Parameter = [17 18 20 23 28 35 50 70 110 160 230]; % Gap (or Phase)
+EPU56.PeakField = [0.69915008 0.69915008 0.62564473 0.52931217 0.39986535 ...
+                   0.26945240 0.11531039 0.03683968 0.00373228 0.00000000 ...
+		   0.00000000];
+
+EPU56.Field = interp1(EPU56.Parameter,EPU56.PeakField,Gap,'linear');
+EPU56B0 = EPU56.Field;
+EPU56PB0 = EPU56B0/4;
+EPU56NB0 = -EPU56B0*3/4;
+EPU56K = EPU56B0/Brho;
+EPU56PK = EPU56PB0/Brho;
+EPU56NK = EPU56NB0/Brho;
+EPU56P = [0.309*EPU56K*0.0056 0.809*EPU56K*0.0056 EPU56K*0.0028];
+EPU56PP = [0.309*EPU56PK*0.0056 0.809*EPU56PK*0.0056 EPU56PK*0.0028];
+EPU56NP = [0.309*EPU56NK*0.0056 0.809*EPU56NK*0.0056 EPU56NK*0.0028];
+EPU56N = -EPU56P;
+
+X = family2atindex('EPU56');
+
+EPU56PEA = [ X(1) X(6) X(793) X(798) ];
+EPU56PEB = [ X(2) X(5) X(794) X(797) ];
+EPU56PEC = [ X(3) X(4) X(795) X(796) ];
+EPU56NEA = [ X(7) X(12) X(787) X(792) ];
+EPU56NEB = [ X(8) X(11) X(788) X(791) ];
+EPU56NEC = [ X(9) X(10) X(789) X(790) ];
+EPU56P1A = [ X(13) X(18) X(781) X(786) ];
+EPU56P1B = [ X(14) X(17) X(782) X(785) ];
+EPU56P1C = [ X(15) X(16) X(783) X(784) ];
+EPU56N1A = [ X(19) X(24) X(775) X(784) ];
+EPU56N1B = [ X(20) X(23) X(776) X(784) ];
+EPU56N1C = [ X(21) X(22) X(777) X(784) ];
+EPU56P2A = [ X(25) X(30) X(769) X(784) ];
+EPU56P2B = [ X(26) X(29) X(770) X(784) ];
+EPU56P2C = [ X(27) X(28) X(783) X(784) ];
+EPU56NA  = rbend('EPU56', 0.0056, EPU56N(1),  EPU56N(1)/2,  EPU56N(1)/2, 0, 'BendLinearPass');
+EPU56NB  = rbend('EPU56', 0.0056, EPU56N(2),  EPU56N(2)/2,  EPU56N(2)/2, 0, 'BendLinearPass');
+EPU56NC  = rbend('EPU56', 0.0028, EPU56N(3),  EPU56N(3)/2,  EPU56N(3)/2, 0, 'BendLinearPass');
+EPU56PA  = rbend('EPU56', 0.0056, EPU56P(1),  EPU56P(1)/2,  EPU56P(1)/2, 0, 'BendLinearPass');
+EPU56PB  = rbend('EPU56', 0.0056, EPU56P(2),  EPU56P(2)/2,  EPU56P(2)/2, 0, 'BendLinearPass');
+EPU56PC  = rbend('EPU56', 0.0028, EPU56P(3),  EPU56P(3)/2,  EPU56P(3)/2, 0, 'BendLinearPass');
+
+
+for k = 1:75
+    U5PNA(k) = struct('A', X(25)+12*(k-1),'B', X(30)+12*(k-1));
+    U5PNB(k) = struct('A', X(26)+12*(k-1),'B', X(29)+12*(k-1));
+    U5PNC(k) = struct('A', X(27)+12*(k-1),'B', X(28)+12*(k-1));
+    U5NNA(k) = struct('A', X(19)+12*(k-1),'B', X(24)+12*(k-1));
+    U5NNB(k) = struct('A', X(20)+12*(k-1),'B', X(23)+12*(k-1));
+    U5NNC(k) = struct('A', X(21)+12*(k-1),'B', X(22)+12*(k-1));
+end
+
+
+for i = 1:75
+    if i < 3
+        if Index == U5PEA(i) 
+            Angle = U5PEP(1);
+        elseif Index == U5PEB(i)
+            Angle = U5PEP(2);
+        elseif Index == U5PEC(i)
+            Angle = U5PEP(3);
+            
+        elseif Index == U5NEA(i)
+            Angle = U5NEP(1);
+        elseif Index == U5NEB(i)
+            Angle = U5NEP(2);
+        elseif Index == U5NEC(i)
+            Angle = U5NEP(3);
+            
+        elseif Index == U5P1A(i)
+            Angle = U5P1P(1);
+        elseif Index == U5P1B(i)
+            Angle = U5P1P(2);
+        elseif Index == U5P1C(i)
+            Angle = U5P1P(3);
+            
+        elseif Index == U5N1A(i)
+            Angle = U5N1P(1);
+        elseif Index == U5N1B(i)
+            Angle = U5N1P(2);
+        elseif Index == U5N1C(i)
+            Angle = U5N1P(3);
+            
+        elseif Index == U5P2A(i)
+            Angle = U5P2P(1);
+        elseif Index == U5P2B(i)
+            Angle = U5P2P(2);
+        elseif Index == U5P2C(i)
+            Angle = U5P2P(3);
+            
+        elseif Index == U5N2A(i)
+            Angle = U5N2P(1);
+        elseif Index == U5N2B(i)
+            Angle = U5N2P(2);
+        elseif Index == U5N2C(i)
+            Angle = U5N2P(3);
+            
+        end
+    end
+     
+    if (Index == U5PNA(i).A || Index == U5PNA(i).B)
+        Angle = U5P(1);
+    elseif (Index == U5PNB(i).A || Index == U5PNB(i).B)
+        Angle = U5P(2);
+    elseif (Index == U5PNC(i).A || Index == U5PNC(i).B)
+        Angle = U5P(3);
+        
+    elseif (Index == U5NNA(i).A || Index == U5NNA(i).B)
+        Angle = U5N(1);
+    elseif (Index == U5NNB(i).A || Index == U5NNB(i).B)
+        Angle = U5N(2);
+    elseif (Index == U5NNC(i).A || Index == U5NNC(i).B)
+        Angle = U5N(3);
+    end
+
+             
+end
+return
+
+
+    

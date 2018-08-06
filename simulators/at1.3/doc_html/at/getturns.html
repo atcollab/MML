@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of getturns</title>
+  <meta name="keywords" content="getturns">
+  <meta name="description" content="GETTURNS - Single particle tracking for multiple turns">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; getturns.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>getturns
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>GETTURNS - Single particle tracking for multiple turns</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [xAllBPMs, ATindex, LostBeam] = getturns(x0, N, Family, DeviceList) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">GETTURNS - Single particle tracking for multiple turns
+
+  [x, ATIndex, LostBeam] = getturns(x0, N, Family, DeviceList)
+  [x, ATIndex, LostBeam] = getturns(x0, N, ATIndex)
+
+  INPUTS
+  1. x0 - 6-component column vector
+          Initial particle launch condition at the start of the ring (see ringpass)
+          AT units are meters &amp; radians. {Default: getpvmodel('LaunchVector')}
+  2. N - Number of turns {Default: 1024}
+  3. Location to measure turns: Family / DeviceList  {Default: gethbpmfamily}
+                                  or
+                                ATIndex
+
+     NOTE: Family can be a MiddlyLayer family or AT family.
+           If using at AT family, then DeviceList is an index array (see family2atindex).   
+
+  OUTPUTS
+  1. x - Multiple turn data (BPM Number x N turns x 6)
+     Note: 1. The initial condition is included in the first turn.
+           2. Use squeeze to reduce dimensions.  Matlab automatically squeezes the last
+              dimension, ie, x(:,:,BPMnumber) will be a 2-dim matrix if BPMnumber is a scalar.
+  2. ATIndex - AT index vector 
+  3. LostBeam - 1 if particle is lost, else 0 
+
+  EXAMPLES
+  1. Get 1024 turns at BPMx(1,2) and BPMx(1,4) and plot the horizontal position FFT for BPMx(1,2)
+     [x, ATIndex, LostBeam] = getturns([.001 0, 0.001, 0, 0, 0]', 1024, 'BPMx', [1 2;1 4]);
+     multiturnfft(x(1,:,1));
+  2. Get 1024 turns at AT-index 1,2,10
+     [x, ATIndex, LostBeam] = getturns([.001 0, 0.001, 0, 0, 0]', 1024, [1 2 10]);
+  3. Get first turn at all AT indices
+     [x, ATIndex, LostBeam] = getturns([.001 0, 0.001, 0, 0, 0]', 1, 'All');
+
+  See also <a href="multiturnfft.html" class="code" title="function [X, f] = multiturnfft(x, LineType);">multiturnfft</a>, linepass</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>	FAMILY2ATINDEX - Returns the AT index for a given family</li><li><a href="getpvmodel.html" class="code" title="function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)">getpvmodel</a>	GETPVMODEL - Get the model value</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="getpvmodel.html" class="code" title="function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)">getpvmodel</a>	GETPVMODEL - Get the model value</li></ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [xAllBPMs, ATindex, LostBeam] = getturns(x0, N, Family, DeviceList)</a>
+0002 <span class="comment">%GETTURNS - Single particle tracking for multiple turns</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%  [x, ATIndex, LostBeam] = getturns(x0, N, Family, DeviceList)</span>
+0005 <span class="comment">%  [x, ATIndex, LostBeam] = getturns(x0, N, ATIndex)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%  INPUTS</span>
+0008 <span class="comment">%  1. x0 - 6-component column vector</span>
+0009 <span class="comment">%          Initial particle launch condition at the start of the ring (see ringpass)</span>
+0010 <span class="comment">%          AT units are meters &amp; radians. {Default: getpvmodel('LaunchVector')}</span>
+0011 <span class="comment">%  2. N - Number of turns {Default: 1024}</span>
+0012 <span class="comment">%  3. Location to measure turns: Family / DeviceList  {Default: gethbpmfamily}</span>
+0013 <span class="comment">%                                  or</span>
+0014 <span class="comment">%                                ATIndex</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%     NOTE: Family can be a MiddlyLayer family or AT family.</span>
+0017 <span class="comment">%           If using at AT family, then DeviceList is an index array (see family2atindex).</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">%  OUTPUTS</span>
+0020 <span class="comment">%  1. x - Multiple turn data (BPM Number x N turns x 6)</span>
+0021 <span class="comment">%     Note: 1. The initial condition is included in the first turn.</span>
+0022 <span class="comment">%           2. Use squeeze to reduce dimensions.  Matlab automatically squeezes the last</span>
+0023 <span class="comment">%              dimension, ie, x(:,:,BPMnumber) will be a 2-dim matrix if BPMnumber is a scalar.</span>
+0024 <span class="comment">%  2. ATIndex - AT index vector</span>
+0025 <span class="comment">%  3. LostBeam - 1 if particle is lost, else 0</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">%  EXAMPLES</span>
+0028 <span class="comment">%  1. Get 1024 turns at BPMx(1,2) and BPMx(1,4) and plot the horizontal position FFT for BPMx(1,2)</span>
+0029 <span class="comment">%     [x, ATIndex, LostBeam] = getturns([.001 0, 0.001, 0, 0, 0]', 1024, 'BPMx', [1 2;1 4]);</span>
+0030 <span class="comment">%     multiturnfft(x(1,:,1));</span>
+0031 <span class="comment">%  2. Get 1024 turns at AT-index 1,2,10</span>
+0032 <span class="comment">%     [x, ATIndex, LostBeam] = getturns([.001 0, 0.001, 0, 0, 0]', 1024, [1 2 10]);</span>
+0033 <span class="comment">%  3. Get first turn at all AT indices</span>
+0034 <span class="comment">%     [x, ATIndex, LostBeam] = getturns([.001 0, 0.001, 0, 0, 0]', 1, 'All');</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">%  See also multiturnfft, linepass</span>
+0037 
+0038 <span class="comment">%  Written by Greg Portmann</span>
+0039 
+0040 
+0041 <span class="keyword">global</span> THERING
+0042 <span class="keyword">if</span> isempty(THERING)
+0043     error(<span class="string">'THERING is not defined.'</span>);
+0044 <span class="keyword">end</span>
+0045 
+0046 
+0047 <span class="comment">% AT units meters &amp; radians</span>
+0048 <span class="keyword">if</span> nargin &lt; 1
+0049     x0 = [];
+0050 <span class="keyword">end</span>
+0051 <span class="keyword">if</span> isempty(x0)
+0052     x0 = <a href="getpvmodel.html" class="code" title="function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)">getpvmodel</a>(<span class="string">'LaunchVector'</span>);
+0053     <span class="keyword">if</span> isempty(x0)
+0054         <span class="comment">% 1 mm starting offset</span>
+0055         x0 = [0 0 0 0 0 0]';
+0056     <span class="keyword">end</span>
+0057 <span class="keyword">end</span>
+0058 
+0059 x0 = x0(:);
+0060 <span class="keyword">if</span> size(x0,1) ~= 6
+0061     error(<span class="string">'x0 must be a 6x1 vector.'</span>);
+0062 <span class="keyword">end</span>
+0063 
+0064 <span class="keyword">if</span> nargin &lt; 2
+0065     N = [];
+0066 <span class="keyword">end</span>
+0067 <span class="keyword">if</span> isempty(N)
+0068     N = 1024;
+0069 <span class="keyword">end</span>
+0070 
+0071 <span class="keyword">if</span> nargin &lt; 3
+0072     Family = [];
+0073 <span class="keyword">end</span>
+0074 <span class="keyword">if</span> isempty(Family)
+0075     Family = gethbpmfamily;
+0076 <span class="keyword">end</span>
+0077 
+0078 <span class="keyword">if</span> nargin &lt; 4
+0079     DeviceList = [];
+0080 <span class="keyword">end</span>
+0081 
+0082 
+0083 <span class="comment">% Get AT index</span>
+0084 <span class="keyword">if</span> ischar(Family)
+0085     ATindex = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(Family, DeviceList);
+0086     <span class="comment">% Watch for split magnets</span>
+0087     <span class="keyword">if</span> size(ATindex,2) &gt; 1
+0088         ATindex = ATindex(:,1);
+0089     <span class="keyword">end</span>
+0090 <span class="keyword">else</span>
+0091     <span class="comment">% AT index was input directly</span>
+0092     ATindex = Family;
+0093 <span class="keyword">end</span>
+0094 ATindex = ATindex(:)';
+0095 <span class="keyword">if</span> isempty(ATindex)
+0096     error(<span class="string">'AT index empty.'</span>);
+0097 <span class="keyword">end</span>
+0098 
+0099 <span class="comment">% Get single turn data</span>
+0100 <span class="keyword">if</span> N == 1
+0101     x = x0;
+0102     LostBeam = 0;
+0103 <span class="keyword">else</span>
+0104     [x, LostBeam] = ringpass(THERING, x0, N-1);  <span class="comment">% 'reuse' seems to cause errors</span>
+0105     x = [x0 x];
+0106     <span class="keyword">if</span> LostBeam
+0107         fprintf(<span class="string">'   Beam was lost\n'</span>);
+0108         xAllBPMs = [];
+0109         <span class="keyword">return</span>
+0110     <span class="keyword">end</span>
+0111 <span class="keyword">end</span>
+0112 
+0113 
+0114 <span class="comment">% Propagate single turn data around the ring</span>
+0115 <span class="keyword">for</span> iturn = 1:size(x,2)
+0116     <span class="comment">% if iturn == 1</span>
+0117     <span class="comment">% xAllBPMs (BPM Number x N turns x 6)</span>
+0118     [xAllBPMs(:,iturn,:)] = linepass(THERING, x(:,iturn), ATindex)';
+0119     
+0120     <span class="comment">% xAllBPMs (6 x N turns x BPM Number)</span>
+0121     <span class="comment">%[xAllBPMs(:,iturn,:)] = linepass(THERING, x(:,iturn), ATindex);</span>
+0122     <span class="comment">% else</span>
+0123     <span class="comment">% [xAllBPMs(:,iturn,:)] = linepass(THERING, x(:,iturn), ATindex, 'reuse');</span>
+0124     <span class="comment">% end</span>
+0125 <span class="keyword">end</span>
+0126 
+0127 
+0128 
+0129 
+0130</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

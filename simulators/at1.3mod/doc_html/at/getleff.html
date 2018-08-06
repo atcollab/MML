@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of getleff</title>
+  <meta name="keywords" content="getleff">
+  <meta name="description" content="GETLEFF - Returns the magnet length as in the AT deck [meters]">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; getleff.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>getleff
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>GETLEFF - Returns the magnet length as in the AT deck [meters]</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function Length = getleff(Family, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">GETLEFF - Returns the magnet length as in the AT deck [meters]
+  Leff = getleff(Family, DeviceList)
+
+  INPUTS
+  1. Family = Family Name 
+              Accelerator Object
+              Cell Array of Accelerator Objects or Family Names
+              AT FamName
+  2. DeviceList = [Sector Device #] or [element #] list {default or empty list: whole family}
+
+  NOTES
+  1. If Family is a cell array, then DeviceList must also be a cell array
+  2. If using AT FamName, then DeviceList is index vector, ie,
+              Length = THERING{ATIndexList}.Length(DeviceList)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="getkleff.html" class="code" title="function [KLeff, K, Leff] = getkleff(Family, varargin)">getkleff</a>	GETKLEFF - Returns K * Leff in the AT deck</li><li><a href="modelchrosensitivity.html" class="code" title="function [DSx DSz] = modelchrosensitivity(varargin)">modelchrosensitivity</a>	TUNESENSITIVITY - Computes sextupole change for a given dxi</li><li><a href="modeltunesensitivity.html" class="code" title="function [DKx DKz]=modeltunesensitivity(varargin)">modeltunesensitivity</a>	TUNESENSITIVITY - Computes quadrupole change for a given dnu</li></ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function Length = getleff(Family, varargin)</a>
+0002 <span class="comment">%GETLEFF - Returns the magnet length as in the AT deck [meters]</span>
+0003 <span class="comment">%  Leff = getleff(Family, DeviceList)</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">%  INPUTS</span>
+0006 <span class="comment">%  1. Family = Family Name</span>
+0007 <span class="comment">%              Accelerator Object</span>
+0008 <span class="comment">%              Cell Array of Accelerator Objects or Family Names</span>
+0009 <span class="comment">%              AT FamName</span>
+0010 <span class="comment">%  2. DeviceList = [Sector Device #] or [element #] list {default or empty list: whole family}</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%  NOTES</span>
+0013 <span class="comment">%  1. If Family is a cell array, then DeviceList must also be a cell array</span>
+0014 <span class="comment">%  2. If using AT FamName, then DeviceList is index vector, ie,</span>
+0015 <span class="comment">%              Length = THERING{ATIndexList}.Length(DeviceList)</span>
+0016 
+0017 <span class="comment">%  Written by Greg Portmann</span>
+0018 
+0019 <span class="keyword">global</span> THERING
+0020 
+0021 <span class="keyword">if</span> nargin == 0,
+0022     error(<span class="string">'Must have at least one input (Family or Channel Name).'</span>);
+0023 <span class="keyword">end</span>
+0024 
+0025 ATIndexList = getfamilydata(Family, <span class="string">'AT'</span>, <span class="string">'ATIndex'</span>, varargin{:});
+0026 
+0027 <span class="keyword">if</span> isempty(ATIndexList)
+0028     <span class="comment">% Try an AT family</span>
+0029     ATIndexList = findcells(THERING, <span class="string">'FamName'</span>, Family);
+0030     ATIndexList = ATIndexList(:);
+0031     <span class="keyword">if</span> nargin &gt;= 2
+0032         ATIndexList = ATIndexList(varargin{2});
+0033     <span class="keyword">end</span>
+0034 <span class="keyword">end</span>
+0035 
+0036 <span class="keyword">for</span> i=1:size(ATIndexList,1)
+0037     Length(i,1) = 0;
+0038     <span class="keyword">for</span> j=1:size(ATIndexList,2)
+0039         Length(i,1) = Length(i,1) + THERING{ATIndexList(i,j)}.Length;
+0040     <span class="keyword">end</span>
+0041 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

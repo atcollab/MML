@@ -1,0 +1,506 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>solorbit</title>
+      <meta name="generator" content="MATLAB 7.0.1">
+      <meta name="date" content="2004-10-23">
+      <meta name="m-file" content="solorbit"><style>
+body {
+  background-color: white;
+  margin:10px;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows.  On Gecko-based browsers, the shrink-to-fit doesn't work. */ 
+p,h1,h2,div {
+  /* for MATLAB's browser */
+  width: 600px;
+  /* for Mozilla, but the "width" tag overrides it anyway */
+  max-width: 600px;
+  /* for IE */
+  width:expression(document.body.clientWidth > 620 ? "600px": "auto" );
+}
+
+    </style></head>
+   <body>
+      <h2>Contents</h2>
+      <div>
+         <ul>
+            <li><a href="#2">Determine the mode used in the workspace</a></li>
+            <li><a href="#3">Get phase advanced for machine state</a></li>
+            <li><a href="#4">Orbit in micron {default}</a></li>
+            <li><a href="#5">Corrector in Harwareunits {default}</a></li>
+            <li><a href="#6">Cleaning up</a></li>
+         </ul>
+      </div><pre class="codeinput"><span class="comment">% GUI for orbit correction</span>
+<span class="comment">%</span>
+<span class="comment">%=============================================================</span>
+<span class="comment">% Instruction sequence to launch orbit program for SOLEIL</span>
+<span class="comment">% Laurent S. Nadolski from William J. Corbett (SPEAR3)</span>
+<span class="comment">%=============================================================</span>
+disp(<span class="string">'   Initializing orbit control panel...'</span>);
+
+<span class="comment">%Check to see AcceleratorObjects loaded</span>
+<span class="keyword">global</span> THERING
+<span class="keyword">if</span> isempty(getao) || ~exist(<span class="string">'THERING'</span>,<span class="string">'var'</span>)
+    disp(<span class="string">'Warning: Load Accelerator Model and AcceleratorObjects first'</span>);
+    <span class="keyword">return</span>
+<span class="keyword">end</span>
+
+<span class="comment">%Software operates in HW units</span>
+switch2hw;
+
+<span class="comment">%change directory to SOLEIL</span>
+vpath = getfamilydata(<span class="string">'Directory'</span>,<span class="string">'Orbit'</span>);
+cd(vpath);
+
+<span class="comment">%Clear global structures</span>
+clear <span class="string">global</span> <span class="string">SYS</span> <span class="string">BPM</span> <span class="string">COR</span> <span class="string">RSP</span>
+setappdata(0,<span class="string">'SYS'</span>,[]);
+setappdata(0,<span class="string">'BPM'</span>,[]);
+setappdata(0,<span class="string">'COR'</span>,[]);
+setappdata(0,<span class="string">'RSP'</span>,[]);
+
+<span class="comment">%Declare global structures</span>
+<span class="keyword">global</span> SYS BPM COR RSP <span class="comment">%... in the command window workspace for timer</span>
+
+BPMxFamily = <span class="string">'BPMx'</span>;
+BPMzFamily = <span class="string">'BPMz'</span>;
+HCORFamily = <span class="string">'HCOR'</span>;
+VCORFamily = <span class="string">'VCOR'</span>;
+
+<span class="comment">%Clear previous ORBIT figure</span>
+orbfig = findobj(0,<span class="string">'tag'</span>,<span class="string">'orbfig'</span>);  <span class="comment">%orbfig "global"</span>
+<span class="keyword">if</span> ~isempty(orbfig), delete(orbfig); <span class="keyword">end</span>
+
+<span class="comment">%Initialize Structures for Orbit Program (no control parameters)</span>
+BPM = BPMInit_Orb;
+COR = CORInit_Orb;
+
+<span class="comment">%SYS parameters are required for initialization</span>
+SYS.machine    = <span class="string">'SOLEIL'</span>;
+SYS.restorefile= <span class="string">'soleilrestore'</span>;
+SYS.localdata  = [vpath <span class="string">'localdata/'</span>];
+SYS.reffile    = <span class="string">'silver.dat'</span>;
+SYS.bpmode     = <span class="string">'slowacquisition'</span>;
+SYS.plane      = 1;          <span class="comment">% H-plane</span>
+SYS.cortype    = HCORFamily; <span class="comment">% consistent with SYS.plane=1</span>
+SYS.relative   = 1;          <span class="comment">% Absolute mode</span>
+SYS.current    = 500;        <span class="comment">% Amperes</span>
+SYS.energy     = getenergy;  <span class="comment">% In GeV</span>
+SYS.lifetime   = 15;         <span class="comment">% Lifetime in hours</span>
+SYS.units      =<span class="string">'HW'</span>;        <span class="comment">%default to hardware units</span>
+
+<span class="comment">%Draw main figure</span>
+orbgui(<span class="string">'OrbFig'</span>);               <span class="comment">%Figure with tag 'orbfig'</span>
+<span class="comment">% SYS.ahbpm = orbgui('Axes_1');   % Create handles for  Axes for BPM</span>
+<span class="comment">% setappdata(0,'SYS',SYS);</span>
+orbgui(<span class="string">'BPMAxes'</span>);              <span class="comment">%establish upper axes for BPMs, use ah_1 for BPMs</span>
+orbgui(<span class="string">'CorAxes'</span>);              <span class="comment">%COR axes with tag 'SYS.ahbpm'</span>
+orbgui(<span class="string">'SVDAxes'</span>);              <span class="comment">%SVD axes with tag 'SYS.ahbpm'</span>
+orbgui(<span class="string">'BPMbox'</span>);               <span class="comment">%BPM information display box</span>
+orbgui(<span class="string">'CorBox'</span>);               <span class="comment">%COR information display box</span>
+orbgui(<span class="string">'SVDBox'</span>);               <span class="comment">%SVD information display box</span>
+orbgui(<span class="string">'LstBox'</span>);               <span class="comment">%List Box to display program information</span>
+orbgui(<span class="string">'PlotMenu'</span>);             <span class="comment">%Menu for plot options</span>
+orbgui(<span class="string">'BPMMenu'</span>);              <span class="comment">%Menu for BPM options</span>
+orbgui(<span class="string">'CORMenu'</span>);              <span class="comment">%Menu for COR options</span>
+orbgui(<span class="string">'RespMenu'</span>);             <span class="comment">%Menu for Response Matrix options</span>
+orbgui(<span class="string">'EtaMenu'</span>);              <span class="comment">%Dispersion control panel</span>
+orbgui(<span class="string">'OptMenu'</span>);              <span class="comment">%Menu for Optics options</span>
+orbgui(<span class="string">'SimMenu'</span>);              <span class="comment">%Menu for Simulation options</span>
+orbgui(<span class="string">'SuperperiodMenu'</span>);      <span class="comment">%Menu for Response Matrix options</span>
+orbgui(<span class="string">'SYSMenu'</span>);              <span class="comment">%Menu for System options</span>
+orbgui(<span class="string">'UIControls'</span>);           <span class="comment">%UIControls</span>
+<span class="comment">%orbgui('AlgorithmMenu');       %Algo choice</span>
+<span class="comment">%orbgui('BumpSlider');          %Bump height adjustment</span>
+orbgui(<span class="string">'MachineParameters'</span>);    <span class="comment">%Text fields for system parameters, load initial values</span>
+
+
+<span class="comment">% init maximum x-scale</span>
+SYS.xlimax = getcircumference;
+setappdata(0,<span class="string">'SYS'</span>,SYS);
+
+orbgui(<span class="string">'LoadRaw2Real'</span>); <span class="comment">%Load Raw2Real coefficients from physdata</span>
+orbgui(<span class="string">'LatticeAxes'</span>);  <span class="comment">%Used to zoom abscissa</span>
+orbgui(<span class="string">'plotxaxis'</span>,<span class="string">'allmachine'</span>);   <span class="comment">%set default xaxis</span>
+
+<span class="comment">%Read reference orbit (to load iref; .abs and .des=.ref in routine)</span>
+BPM = RefOrb2Zero(BPM);
+
+<span class="comment">%Restore user parameters, load response matrices, golden orbit</span>
+[SYS BPM COR RSP] = restoreorbit(vpath,SYS.restorefile,<span class="string">'auto'</span>,SYS,BPM,COR,RSP);  <span class="comment">%no graphics commands</span>
+</pre><pre class="codeoutput">   Initializing orbit control panel...
+   Switch to hardware units: 23-Oct-2004 22:17:41
+   Loading restore file... soleilrestore
+   Finished loading restore file... soleilrestore
+</pre><img vspace="5" hspace="5" src="solorbit_01.png"> <h2>Determine the mode used in the workspace<a name="2"></a></h2><pre class="codeinput"><span class="keyword">switch</span> getmode(HCORFamily);
+    <span class="keyword">case</span> <span class="string">'Online'</span>
+        SYS.mode   = <span class="string">'Online'</span>;
+        set(SYS.online, <span class="string">'Checked'</span>, <span class="string">'On'</span>);
+        set(SYS.orbfig,<span class="string">'Name'</span>, <span class="keyword">...</span>
+            <span class="string">'SOLEIL Storage Ring Orbit Correction Interface (Online)'</span>);
+        set(SYS.modecolor,<span class="string">'BackGroundColor'</span>,<span class="string">'r'</span>,<span class="string">'String'</span>,<span class="string">'Online'</span>);
+    <span class="keyword">otherwise</span> <span class="comment">% Assume simulator mode</span>
+        SYS.mode   = <span class="string">'Simulator'</span>;
+        set(SYS.sim, <span class="string">'Checked'</span>, <span class="string">'On'</span>);
+        set(SYS.orbfig,<span class="string">'Name'</span>, <span class="keyword">...</span>
+            <span class="string">'SOLEIL Storage Ring Orbit Correction Interface (Simulator)'</span>);
+        set(SYS.modecolor,<span class="string">'BackGroundColor'</span>,<span class="string">'g'</span>,<span class="string">'String'</span>,<span class="string">'Simulator'</span>);
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="solorbit_02.png"> <h2>Get phase advanced for machine state<a name="3"></a></h2><pre class="codeinput">optics     = gettwiss(THERING,0.0);
+BPM(1).phi = optics.phix(BPM(1).ATindex);
+BPM(2).phi = optics.phix(BPM(2).ATindex);
+COR(1).phi = optics.phix(COR(1).ATindex);
+COR(2).phi = optics.phix(COR(2).ATindex);
+clear <span class="string">optics</span>;
+<span class="comment">%NOTE: expect response matrix in hardware units (mm/amp)</span>
+
+<span class="comment">%begin hardware checkouts</span>
+
+disp(<span class="string">'   Checking BPMs...'</span>);
+[BPM(1).status BPM(2).status] = soleilbpmcheck; <span class="comment">%get status from TANGO or sim</span>
+BPM(1).avail = BPM(1).status;    <span class="comment">%if status o.k. default to available</span>
+BPM(2).avail = BPM(2).status;
+BPM = SortBPMs(BPM,RSP);         <span class="comment">%sort for avail, ifit</span>
+
+<span class="comment">%Measure actual orbit</span>
+bpmgui(<span class="string">'GetAct'</span>);   <span class="comment">% mm for hardware, meters for physics</span>
+
+disp(<span class="string">'   Checking corrector magnets...'</span>);
+[COR(1).status COR(2).status] = soleilcorcheck;
+COR(1).avail = COR(1).status;     <span class="comment">%if status o.k. default to available</span>
+COR(2).avail = COR(2).status;
+COR          = sortcors(COR,RSP); <span class="comment">%Get COR status, sort for avail, ifit</span>
+
+<span class="comment">%Measure actual correctors</span>
+corgui(<span class="string">'GetAct'</span>);              <span class="comment">%amps for hardware, rad for physics</span>
+COR(1).ref = COR(1).act;
+COR(2).ref = COR(2).act;
+
+<span class="comment">%Updates data in workspace</span>
+BPM = orderfields(BPM);
+COR = orderfields(COR);
+setappdata(0,<span class="string">'BPM'</span>,BPM);
+setappdata(0,<span class="string">'COR'</span>,COR);
+
+<span class="comment">%Plot initial BPM data</span>
+disp(<span class="string">'   Initializing Plots...'</span>);
+bpmgui(<span class="string">'PlotRef_Init'</span>);                <span class="comment">%...solid red/loaded in BPMInit</span>
+bpmgui(<span class="string">'PlotIcons_Init'</span>);              <span class="comment">%...hot circles</span>
+bpmgui(<span class="string">'PlotDes_Init'</span>);                <span class="comment">%...dashed red line</span>
+bpmgui(<span class="string">'PlotAct_Init'</span>);                <span class="comment">%...initialize blue actual orbit plot</span>
+bpmgui(<span class="string">'PlotFit_Init'</span>);                <span class="comment">%...initialize orbit fit plot</span>
+bpmgui(<span class="string">'PlotResp_Init'</span>);               <span class="comment">%...initialize response matrix plot</span>
+bpmgui(<span class="string">'PlotEig_Init'</span>);                <span class="comment">%...initialize eigenvector plot</span>
+bpmgui(<span class="string">'PlotRef'</span>);                     <span class="comment">%...solid red/loaded in BPMInit</span>
+bpmgui(<span class="string">'PlotBPMs'</span>);                    <span class="comment">%...hot circles/loaded in BPMInit</span>
+bpmgui(<span class="string">'PlotAct'</span>);                     <span class="comment">%...blue line/loaded in BPMInit</span>
+
+<span class="comment">%Plot initial cor data</span>
+corgui(<span class="string">'PlotCor_Init'</span>);                <span class="comment">%...initialize corrector patches</span>
+
+<span class="comment">%Plot initial SVD data</span>
+respgui(<span class="string">'PlotSVD_Init'</span>);               <span class="comment">%...initialize bpm and corrector eigenvector plots</span>
+
+<span class="comment">%Set up program parameters: both planes</span>
+SYS = orderfields(SYS);
+disp(<span class="string">'   Setting up program parameters...'</span>);
+SYS.plane = 1;                           <span class="comment">%start with horizontal plane</span>
+<span class="keyword">for</span> ip = 1:2
+    orbgui(<span class="string">'Plane'</span>);                   <span class="comment">%switch to vertical</span>
+    corgui(<span class="string">'SaveCorrs'</span>,ip);            <span class="comment">%saves one plane only, all correctors</span>
+    COR(ip).rst = COR(ip).act;         <span class="comment">%default reset field for 'REMOVE' button</span>
+    setappdata(0,<span class="string">'COR'</span>,COR);
+<span class="keyword">end</span>
+
+<span class="keyword">for</span> ip = 2:-1:1
+    SYS.plane=ip;
+    setappdata(0,<span class="string">'SYS'</span>,SYS);
+    corgui(<span class="string">'HidePlots'</span>);
+<span class="keyword">end</span>
+corgui(<span class="string">'ShowPlots'</span>);
+<span class="comment">%orbgui('RefreshOrbGUI');</span>
+readwrite(<span class="string">'ReadBPMReference'</span>,<span class="string">'XZ'</span>,<span class="string">'Golden'</span>);  <span class="comment">%load golden orbit, calls RefreshOrbGUI</span>
+
+orbgui(<span class="string">'InitialSaveSet'</span>);              <span class="comment">%load data for restore</span>
+orbgui(<span class="string">'LBox'</span>,<span class="string">' Finished loading Restore File'</span>);
+</pre><pre class="codeoutput">Computing Coupled Lattice Parameters...
+Computing Dispersion...
+Horizontal Tune: 18.200
+Vertical Tune:   10.300
+   Checking BPMs...
+   Checking corrector magnets...
+   Initializing Plots...
+   Setting up program parameters...
+</pre><img vspace="5" hspace="5" src="solorbit_03.png"> <h2>Orbit in micron {default}<a name="4"></a></h2><pre class="codeinput">orbgui(<span class="string">'BPMChangeUnits'</span>,<span class="string">'1000xHardware'</span>);
+</pre><img vspace="5" hspace="5" src="solorbit_04.png"> <h2>Corrector in Harwareunits {default}<a name="5"></a></h2><pre class="codeinput">orbgui(<span class="string">'CORChangeUnits'</span>,<span class="string">'Hardware'</span>);
+
+<span class="comment">%make figure visible</span>
+set(orbfig,<span class="string">'Visible'</span>,<span class="string">'On'</span>);  drawnow;
+<span class="comment">% pause(1.0); set(orbfig,'Visible','On');  drawnow;   %why repeat??</span>
+disp(<span class="string">'   Finished initializing orbit program'</span>);
+set(findobj(0,<span class="string">'Tag'</span>,<span class="string">'orbfig'</span>),<span class="string">'Visible'</span>,<span class="string">'On'</span>);
+</pre><pre class="codeoutput">   Finished initializing orbit program
+</pre><img vspace="5" hspace="5" src="solorbit_05.png"> <h2>Cleaning up<a name="6"></a></h2><pre class="codeinput">clear <span class="string">ip</span> <span class="string">d</span> <span class="string">vpath</span> <span class="string">AO</span> <span class="string">orbfig</span> <span class="string">ad</span> <span class="string">BPMxFamily</span> <span class="string">BPMzFamily</span> <span class="string">HCORFamily</span> <span class="string">VCORFamily</span>;
+</pre><p class="footer"><br>
+         Published with MATLAB&reg; 7.0.1<br></p>
+      <!--
+##### SOURCE BEGIN #####
+% GUI for orbit correction
+%
+%=============================================================
+% Instruction sequence to launch orbit program for SOLEIL
+% Laurent S. Nadolski from William J. Corbett (SPEAR3)
+%=============================================================
+disp('   Initializing orbit control panel...');
+
+%Check to see AcceleratorObjects loaded
+global THERING
+if isempty(getao) || ~exist('THERING','var')
+    disp('Warning: Load Accelerator Model and AcceleratorObjects first');
+    return
+end
+
+%Software operates in HW units
+switch2hw;
+
+%change directory to SOLEIL
+vpath = getfamilydata('Directory','Orbit');
+cd(vpath);
+
+%Clear global structures
+clear global SYS BPM COR RSP
+setappdata(0,'SYS',[]);
+setappdata(0,'BPM',[]);
+setappdata(0,'COR',[]);
+setappdata(0,'RSP',[]);
+
+%Declare global structures
+global SYS BPM COR RSP %... in the command window workspace for timer
+
+BPMxFamily = 'BPMx';
+BPMzFamily = 'BPMz';
+HCORFamily = 'HCOR';
+VCORFamily = 'VCOR';
+
+%Clear previous ORBIT figure
+orbfig = findobj(0,'tag','orbfig');  %orbfig "global"
+if ~isempty(orbfig), delete(orbfig); end
+
+%Initialize Structures for Orbit Program (no control parameters)
+BPM = BPMInit_Orb;
+COR = CORInit_Orb;
+
+%SYS parameters are required for initialization
+SYS.machine    = 'SOLEIL';
+SYS.restorefile= 'soleilrestore';
+SYS.localdata  = [vpath 'localdata/'];
+SYS.reffile    = 'silver.dat';
+SYS.bpmode     = 'slowacquisition'; 
+SYS.plane      = 1;          % H-plane
+SYS.cortype    = HCORFamily; % consistent with SYS.plane=1
+SYS.relative   = 1;          % Absolute mode
+SYS.current    = 500;        % Amperes
+SYS.energy     = getenergy;  % In GeV
+SYS.lifetime   = 15;         % Lifetime in hours 
+SYS.units      ='HW';        %default to hardware units
+
+%Draw main figure
+orbgui('OrbFig');               %Figure with tag 'orbfig'
+% SYS.ahbpm = orbgui('Axes_1');   % Create handles for  Axes for BPM
+% setappdata(0,'SYS',SYS);
+orbgui('BPMAxes');              %establish upper axes for BPMs, use ah_1 for BPMs
+orbgui('CorAxes');              %COR axes with tag 'SYS.ahbpm'
+orbgui('SVDAxes');              %SVD axes with tag 'SYS.ahbpm'
+orbgui('BPMbox');               %BPM information display box
+orbgui('CorBox');               %COR information display box
+orbgui('SVDBox');               %SVD information display box
+orbgui('LstBox');               %List Box to display program information
+orbgui('PlotMenu');             %Menu for plot options
+orbgui('BPMMenu');              %Menu for BPM options
+orbgui('CORMenu');              %Menu for COR options
+orbgui('RespMenu');             %Menu for Response Matrix options
+orbgui('EtaMenu');              %Dispersion control panel
+orbgui('OptMenu');              %Menu for Optics options
+orbgui('SimMenu');              %Menu for Simulation options
+orbgui('SuperperiodMenu');      %Menu for Response Matrix options
+orbgui('SYSMenu');              %Menu for System options
+orbgui('UIControls');           %UIControls
+%orbgui('AlgorithmMenu');       %Algo choice
+%orbgui('BumpSlider');          %Bump height adjustment
+orbgui('MachineParameters');    %Text fields for system parameters, load initial values
+
+
+% init maximum x-scale
+SYS.xlimax = getcircumference;
+setappdata(0,'SYS',SYS);
+  
+orbgui('LoadRaw2Real'); %Load Raw2Real coefficients from physdata
+orbgui('LatticeAxes');  %Used to zoom abscissa
+orbgui('plotxaxis','allmachine');   %set default xaxis 
+
+%Read reference orbit (to load iref; .abs and .des=.ref in routine)
+BPM = RefOrb2Zero(BPM);
+
+%Restore user parameters, load response matrices, golden orbit
+[SYS BPM COR RSP] = restoreorbit(vpath,SYS.restorefile,'auto',SYS,BPM,COR,RSP);  %no graphics commands
+
+%% Determine the mode used in the workspace
+switch getmode(HCORFamily);
+    case 'Online'
+        SYS.mode   = 'Online';
+        set(SYS.online, 'Checked', 'On');
+        set(SYS.orbfig,'Name', ...
+            'SOLEIL Storage Ring Orbit Correction Interface (Online)');
+        set(SYS.modecolor,'BackGroundColor','r','String','Online');       
+    otherwise % Assume simulator mode
+        SYS.mode   = 'Simulator';
+        set(SYS.sim, 'Checked', 'On');
+        set(SYS.orbfig,'Name', ...
+            'SOLEIL Storage Ring Orbit Correction Interface (Simulator)');
+        set(SYS.modecolor,'BackGroundColor','g','String','Simulator');
+end
+
+%% Get phase advanced for machine state
+optics     = gettwiss(THERING,0.0);
+BPM(1).phi = optics.phix(BPM(1).ATindex);
+BPM(2).phi = optics.phix(BPM(2).ATindex);
+COR(1).phi = optics.phix(COR(1).ATindex);
+COR(2).phi = optics.phix(COR(2).ATindex);
+clear optics;
+%NOTE: expect response matrix in hardware units (mm/amp)
+
+%begin hardware checkouts
+
+disp('   Checking BPMs...');
+[BPM(1).status BPM(2).status] = soleilbpmcheck; %get status from TANGO or sim
+BPM(1).avail = BPM(1).status;    %if status o.k. default to available
+BPM(2).avail = BPM(2).status;
+BPM = SortBPMs(BPM,RSP);         %sort for avail, ifit
+
+%Measure actual orbit
+bpmgui('GetAct');   % mm for hardware, meters for physics
+
+disp('   Checking corrector magnets...');
+[COR(1).status COR(2).status] = soleilcorcheck;
+COR(1).avail = COR(1).status;     %if status o.k. default to available
+COR(2).avail = COR(2).status;
+COR          = sortcors(COR,RSP); %Get COR status, sort for avail, ifit
+
+%Measure actual correctors
+corgui('GetAct');              %amps for hardware, rad for physics
+COR(1).ref = COR(1).act;
+COR(2).ref = COR(2).act;
+
+%Updates data in workspace
+BPM = orderfields(BPM);
+COR = orderfields(COR);
+setappdata(0,'BPM',BPM);
+setappdata(0,'COR',COR);
+
+%Plot initial BPM data
+disp('   Initializing Plots...');
+bpmgui('PlotRef_Init');                %...solid red/loaded in BPMInit
+bpmgui('PlotIcons_Init');              %...hot circles
+bpmgui('PlotDes_Init');                %...dashed red line
+bpmgui('PlotAct_Init');                %...initialize blue actual orbit plot
+bpmgui('PlotFit_Init');                %...initialize orbit fit plot
+bpmgui('PlotResp_Init');               %...initialize response matrix plot
+bpmgui('PlotEig_Init');                %...initialize eigenvector plot
+bpmgui('PlotRef');                     %...solid red/loaded in BPMInit
+bpmgui('PlotBPMs');                    %...hot circles/loaded in BPMInit
+bpmgui('PlotAct');                     %...blue line/loaded in BPMInit
+
+%Plot initial cor data
+corgui('PlotCor_Init');                %...initialize corrector patches
+
+%Plot initial SVD data
+respgui('PlotSVD_Init');               %...initialize bpm and corrector eigenvector plots
+
+%Set up program parameters: both planes
+SYS = orderfields(SYS);
+disp('   Setting up program parameters...');
+SYS.plane = 1;                           %start with horizontal plane
+for ip = 1:2
+    orbgui('Plane');                   %switch to vertical
+    corgui('SaveCorrs',ip);            %saves one plane only, all correctors
+    COR(ip).rst = COR(ip).act;         %default reset field for 'REMOVE' button
+    setappdata(0,'COR',COR);
+end
+
+for ip = 2:-1:1
+    SYS.plane=ip;
+    setappdata(0,'SYS',SYS);
+    corgui('HidePlots');
+end
+corgui('ShowPlots');
+%orbgui('RefreshOrbGUI');
+readwrite('ReadBPMReference','XZ','Golden');  %load golden orbit, calls RefreshOrbGUI
+
+orbgui('InitialSaveSet');              %load data for restore
+orbgui('LBox',' Finished loading Restore File');
+
+%% Orbit in micron {default}
+orbgui('BPMChangeUnits','1000xHardware');
+%% Corrector in Harwareunits {default}
+orbgui('CORChangeUnits','Hardware');
+
+%make figure visible
+set(orbfig,'Visible','On');  drawnow;
+% pause(1.0); set(orbfig,'Visible','On');  drawnow;   %why repeat??
+disp('   Finished initializing orbit program');
+set(findobj(0,'Tag','orbfig'),'Visible','On');
+
+%% Cleaning up
+clear ip d vpath AO orbfig ad BPMxFamily BPMzFamily HCORFamily VCORFamily;
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

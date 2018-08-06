@@ -1,0 +1,60 @@
+#
+# 1.900000 GeV Storage Ring Operation
+#
+# This file created at 15:49 on 2005-02-16
+
+ASLFileName GSR0309.MCH
+BTSFileName 1_5GeV.BTS
+PulseMagnetFileName 1_5GeV.PLS
+RFdata.C1TempFBoffAC 43.0
+RFdata.C2TempFBoffAC 45.0
+RFdata.C1TempFBonAC 38.0
+RFdata.C1TempFBonAM 39.09
+RFdata.C2TempFBonAC 38.0
+RFdata.C2TempFBonAM 38.63
+RFdata.Power 120
+BUMPdata.BRBump1 144.3
+BUMPdata.BRBump2 250.0
+BUMPdata.BRBump3 100.0
+BUMPdata.BR2SEN 4298.1
+BUMPdata.BR2SENTiming 45250
+BUMPdata.BR2SEK 4797.6
+BUMPdata.BR2SEKTiming 0
+BUMPdata.BR2KE 84.1
+BUMPdata.BR2KETiming 59650
+BUMPdata.ExtFldTrigTiming 237000
+BUMPdata.BRBumpTrigTiming 234650
+BUMPdata.SRSEK 4349.8
+BUMPdata.SRSEKTiming 0
+BUMPdata.SRSEN 4430.6
+BUMPdata.SRSENTiming 47250
+BUMPdata.SRBUMP1 7000.0
+BUMPdata.SRBUMP1Timing 56700
+TFBdata.X1Bias -17.42
+TFBdata.Y1Bias 24.66
+TFBdata.X2Bias 31.35
+TFBdata.Y2Bias -14.05
+TFBdata.XAtten 12
+TFBdata.YAtten 20
+TFBdata.XDelay 8080
+TFBdata.YDelay 1520
+LFBdata.FrontEndDelay 4650
+LFBdata.FEPhaseOffset -2
+LFBdata.FEPhaseShift -37
+LFBdata.FEGainSign +
+LFBdata.BackEndDelay 5965
+LFBdata.QPSKAtten 4
+LFBdata.FillPattern 1:320
+LFBdata.SynchrotronFreq 11700
+LFBdata.CalculatedSynchrotronFreq 99999
+LFBdata.RingShift 20
+LFBdata.HoldBufferOffset 71
+LFBdata.MinDSPTime 2210
+LFBdata.ShiftGain 2
+THCdata.THC1MainAC 7.390
+THCdata.THC1MainAM 7.342
+THCdata.THC2MainAC 6.891
+THCdata.THC2MainAM 6.790
+THCdata.THC3MainAC 6.735
+THCdata.THC3MainAM 6.658
+beamcurrent 346.965

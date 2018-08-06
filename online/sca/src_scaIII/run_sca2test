@@ -1,0 +1,17 @@
+#!/bin/sh
+EPICS_TS_MIN_WEST=480
+export EPICS_TS_MIN_WEST
+
+sca2test $1 $2 $3 $4 $5 $6 $7 $8 $9
+
+# example
+#run_sca2test 4 50 1 1 1 0 0 500000 0 >/tmp/results
+#           4 repetitions of
+#             50 pv's
+#                1 with put grouping
+#                  1 with monitoring
+#                    1 with results printed at end
+#                      0 with no ap's printed at end
+#                        0 using sca_get, not sca_getbyname
+#                          500000 usec delay after each rep
+#                                 0 using sca_put, not sca_putbyname

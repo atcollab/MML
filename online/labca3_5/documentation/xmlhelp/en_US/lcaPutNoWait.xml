@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from lcaPutNoWait.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="lcaPutNoWait" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>lcaPutNoWait</refname>
+    <refpurpose>lcaPutNoWait is a variant of lcaPut that does not wait for the channel    access put request to complete on the server prior to returning control    to the command line.</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   
+   lcaPutNoWait(pvs, value, type)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Description</title>
+   <para>
+   </para>
+   <para>
+lcaPutNoWait is a variant of lcaPut that does not wait for the channel
+access put request to complete on the server prior to returning control
+to the command line. This call can be useful to set PVs that are known
+to take a long or indefinite time to complete processing, e.g., arming
+a waveform record which is triggered by a hardware event in the future
+or starting a stepper motor.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   </variablelist>
+</refsection>
+</refentry>

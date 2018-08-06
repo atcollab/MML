@@ -1,0 +1,138 @@
+5 May 2012
+S. Gierman
+
+Goal: Build labCA 3.4 for 64 bit windows.
+
+Tools: See 'build_baseR3.14.12.2.txt'
+
+Download from: http://www.slac.stanford.edu/~strauman/labca/index.html
+  labca_3_4.tgz
+  Size: 477 KB (488,643 bytes)
+
+Copy to c:\epics to be in parallel with base
+
+What's inside?
+C:\epics\R3.14.12.2\other>bsdtar -tf labca_3_4.tgz > list_labca_3_4.txt
+See .txt file
+
+Unpack archive:
+C:\epics\R3.14.12.2\other>bsdtar -xf labca_3_4.tgz
+  labca_3_4
+  Size:      1.32 MB (1,390,545 bytes)
+  Contains:  319 files, 24 folders
+
+Top-level folders are
+  configure
+  CVS
+  documentation
+  ezca
+  gule
+  matlab
+  testing
+
+I deleted all CVS directories (10).
+I deleted one junk file in \configure (.#RELEASE1.11).
+  labca_3_4
+  Size:       1.31 MB (1,381,485 bytes)
+  Contains:   277 file, 14 folders
+
+What's in \configure?
+  CONFIG
+  CONFIG_APP
+  Makefile
+  RELEASE
+  RELEASE.linux-x86_64
+  RELEASE.win32-x86
+  RULES
+  RULES.ioc
+  RULES_DIRS
+  RULES_TOP
+
+Makefile at top of application tree defines
+TOP = .
+
+Instructions for building are in \documentation\manual.pdf.
+
+Two files in \configure may need to be edited.
+I check or set the following:
+CONFIG
+  MAKEFOR=MATLAB
+  CONFIG_USE_CTRLC=YES
+RELEASE
+   (I put labca in parallel with epics/base, so I use a different EPICS_BASE)
+   (Steve's EPICS_BASE EPICS_BASE=$(TOP)/../../base)
+  EPICS_BASE=$(TOP)/../base
+   My matlab directory is located here as well
+  MATLABDIR=C:\matlab\R2012a
+   This seems to be the directory located in
+   $(MATLABDIR)/extern/lib/
+  MATLIB_SUBDIR=win64/microsoft
+
+I added these three lines at the end of RELEASE
+
+Note that by not setting INSTALL_LOCATION_APP in RELEASE, I'm accepting
+the default installation location, with is \labca_3_4 itself.
+I changed the name of the labca directory from labca_3_4 to labca
+
+
+Ready to build.
+
+Environment variable:
+EPICS_HOST_ARCH=windows-x64
+
+Set up compile environment:
+D:\>cmd /k ""C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"" amd64
+Setting environment for using Microsoft Visual Studio 2010 x64 tools.
+Again, this can be done from the Windows command
+All Programs
+  Microsoft Visual Studio 2010
+    Visual Studio Tools
+      Visual Studio x64 Win64 Command Prompt (2010)
+
+Build:
+C:\epics\R3.14.12.2\other\labca_3_4>make > make_labca_3_4.txt
+
+Done.
+Compile time was 34 seconds, starting 5/5/2012 4:02 PM.
+No messages were sent to command line.
+See make_labca_3_4.txt for details.
+Move make_labca_3_4.txt out of labca_3_4 folder.
+  labca_3_4
+  Size:      2.96 MB (3,111,817 bytes)
+  Contains:  451 files, 32 folders
+
+The build created the following directories in \labca_3_4
+  bin
+  doc
+  html
+  jar
+  lib
+
+Does it work?
+
+To test, I must have in my windows path:
+c:\epics\base\bin\windows-x64 (added in building of epics base)
+c:\epics\labca\bin\windows-x64
+(Steve's PATH additions
+C:\epics\R3.14.12.2\base\bin\windows-x64
+C:\epics\R3.14.12.2\other\labca_3_4\bin\windows-x64)
+
+and I must have in my matlab path:
+c:\epics\labca\bin\windows-x64\labca
+(Steve's MATLABPATH addition
+C:\epics\R3.14.12.2\other\labca_3_4\bin\windows-x64\labca)
+
+In matlab,
+>> lcaGet('GTL-GT1:Charge')
+Initializing labCA Release '$Name: labca_3_4 $'...
+Author: Till Straumann <strauman@slac.stanford.edu>
+
+ans =
+
+  490.4508
+
+Yes, it works.
+
+(I had already renamed my labca, but if I had not, follow Steve's instruction)
+Rename \labca_3_4 -> \labca,
+  in C:\epics\R3.14.12.2\other.

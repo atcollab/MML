@@ -1,0 +1,244 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of calccoupling</title>
+  <meta name="keywords" content="calccoupling">
+  <meta name="description" content="CALCCOUPLING - Calculates the coupling and tilt of the AT model">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; calccoupling.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>calccoupling
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>CALCCOUPLING - Calculates the coupling and tilt of the AT model</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [Tilt, Eta, EpsX, EpsY, Ratio, ENV, DP, DL, sigmas] = calccoupling </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">CALCCOUPLING - Calculates the coupling and tilt of the AT model
+  [Tilt, Eta, EpsX, EpsY, EmittanceRatio, ENV, DP, DL, BeamSize] = calccoupling
+
+  OUTPUTS
+  1. Tilt - Tilts of the emittance ellipse [radian]
+  2. Eta - Dispersion
+  3. EpsX - Horzontal emittance
+  4. EpsY - Vertical  emittance
+  5. EmittanceRatio - median(EpsX) / median(EpsX)
+  6-8. ENV, DP, DL - Output of ohmienvelope
+
+  NOTES
+  1. If there are no outputs, the coupling information will be plotted.
+  2. It can be helpful the draw the lattice on top of a plot (hold on; drawlattice(Offset, Height);)
+  3. Whenever using the MML and AT together the AT indexes must be matched to what
+     is in the MML.  Whenever changing THERING use updateatindex to sync the MML.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>	FAMILY2ATINDEX - Returns the AT index for a given family</li><li><a href="getcavity.html" class="code" title="function [CavityState, PassMethod, ATCavityIndex, RF, HarmonicNumber] = getcavity(THERING)">getcavity</a>	GETCAVITY - Returns the RF cavity state ('On' / 'Off')</li><li><a href="setcavity.html" class="code" title="function ATCavityIndex = setcavity(InputString)">setcavity</a>	SETCAVITY - Set the RF cavity state</li><li><a href="setpassmethod.html" class="code" title="function setpassmethod(ATIndex, PassMethod, DeviceList)">setpassmethod</a>	SETPASSMETHOD - Sets the PassMethod</li><li><a href="setradiation.html" class="code" title="function [PassMethod, ATIndex, FamName, PassMethodOld, ATIndexOld, FamNameOld] = setradiation(InputString)">setradiation</a>	SETRADIATION - Sets the model PassMethod to include or exclude radiation ('On' / 'Off' {Default})</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [Tilt, Eta, EpsX, EpsY, Ratio, ENV, DP, DL, sigmas] = calccoupling</a>
+0002 <span class="comment">%CALCCOUPLING - Calculates the coupling and tilt of the AT model</span>
+0003 <span class="comment">%  [Tilt, Eta, EpsX, EpsY, EmittanceRatio, ENV, DP, DL, BeamSize] = calccoupling</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">%  OUTPUTS</span>
+0006 <span class="comment">%  1. Tilt - Tilts of the emittance ellipse [radian]</span>
+0007 <span class="comment">%  2. Eta - Dispersion</span>
+0008 <span class="comment">%  3. EpsX - Horzontal emittance</span>
+0009 <span class="comment">%  4. EpsY - Vertical  emittance</span>
+0010 <span class="comment">%  5. EmittanceRatio - median(EpsX) / median(EpsX)</span>
+0011 <span class="comment">%  6-8. ENV, DP, DL - Output of ohmienvelope</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">%  NOTES</span>
+0014 <span class="comment">%  1. If there are no outputs, the coupling information will be plotted.</span>
+0015 <span class="comment">%  2. It can be helpful the draw the lattice on top of a plot (hold on; drawlattice(Offset, Height);)</span>
+0016 <span class="comment">%  3. Whenever using the MML and AT together the AT indexes must be matched to what</span>
+0017 <span class="comment">%     is in the MML.  Whenever changing THERING use updateatindex to sync the MML.</span>
+0018 
+0019 <span class="comment">%  Written by James Safranek</span>
+0020 
+0021 
+0022 <span class="keyword">global</span> THERING
+0023 
+0024 
+0025 C0 = 299792458;      <span class="comment">% Speed of light [m/s]</span>
+0026 
+0027 ati = atindex(THERING);
+0028 L0 = findspos(THERING, length(THERING)+1);
+0029 
+0030 <span class="comment">% HarmNumber = 936;</span>
+0031 <span class="comment">% THERING{ati.RF}.Frequency = HarmNumber*C0/L0;</span>
+0032 <span class="comment">% THERING{ati.RF}.PassMethod = 'CavityPass';</span>
+0033 <span class="comment">% for i = ati.RF</span>
+0034 <span class="comment">%     THERING{i}.Frequency = THERING{i}.HarmNumber*C0/L0;</span>
+0035 <span class="comment">%     THERING{i}.PassMethod = 'CavityPass';</span>
+0036 <span class="comment">% end</span>
+0037 
+0038 
+0039 [PassMethod, ATIndex, FamName, PassMethodOld, ATIndexOld, FamNameOld] = <a href="setradiation.html" class="code" title="function [PassMethod, ATIndex, FamName, PassMethodOld, ATIndexOld, FamNameOld] = setradiation(InputString)">setradiation</a>(<span class="string">'On'</span>);
+0040 
+0041 CavityState = <a href="getcavity.html" class="code" title="function [CavityState, PassMethod, ATCavityIndex, RF, HarmonicNumber] = getcavity(THERING)">getcavity</a>;
+0042 <a href="setcavity.html" class="code" title="function ATCavityIndex = setcavity(InputString)">setcavity</a>(<span class="string">'On'</span>);
+0043 
+0044 
+0045 <span class="comment">% Get all the AT elements that add radiation</span>
+0046 BendCell = findmemberof(<span class="string">'BEND'</span>);
+0047 iBend = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(BendCell);
+0048 <span class="keyword">for</span> ii = 1:length(iBend)
+0049     <span class="keyword">if</span> size(iBend{ii},2) &gt; 1
+0050         iBend{ii} = sort(iBend{ii}(:));
+0051         nanindx = find(isnan(iBend{ii}));
+0052         iBend{ii}(nanindx) = [];
+0053     <span class="keyword">end</span>
+0054 <span class="keyword">end</span>
+0055 iBend = cell2mat(iBend(:));
+0056 
+0057 
+0058 QuadCell = findmemberof(<span class="string">'QUAD'</span>);
+0059 iQuad = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(QuadCell);
+0060 <span class="keyword">for</span> ii = 1:length(iQuad)
+0061     <span class="keyword">if</span> size(iQuad{ii},2) &gt; 1
+0062         iQuad{ii} = sort(iQuad{ii}(:));
+0063         nanindx = find(isnan(iQuad{ii}));
+0064         iQuad{ii}(nanindx) = [];
+0065     <span class="keyword">end</span>
+0066 <span class="keyword">end</span>
+0067 iQuad = cell2mat(iQuad(:));
+0068 
+0069 
+0070 SextCell = findmemberof(<span class="string">'SEXT'</span>);
+0071 iSext = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(SextCell);
+0072 <span class="keyword">for</span> ii = 1:length(iSext)
+0073     <span class="keyword">if</span> size(iSext{ii},2) &gt; 1
+0074         iSext{ii} = sort(iSext{ii}(:));
+0075         nanindx = find(isnan(iSext{ii}));
+0076         iSext{ii}(nanindx) = [];
+0077     <span class="keyword">end</span>
+0078 <span class="keyword">end</span>
+0079 iSext = cell2mat(iSext(:));
+0080 
+0081 
+0082 RadiationElemIndex = sort([iBend(:); iQuad(:); iSext(:)]');
+0083 <span class="comment">%RadiationElemIndex(find(isnan(RadiationElemIndex))) = [];</span>
+0084 
+0085 [ENV, DP, DL] = ohmienvelope(THERING, RadiationElemIndex, 1:length(THERING)+1);
+0086 
+0087 sigmas = cat(2, ENV.Sigma);
+0088 Tilt = cat(2, ENV.Tilt);
+0089 spos = findspos(THERING, 1:length(THERING)+1);
+0090 
+0091 [TwissData, tune, chrom]  = twissring(THERING, 0, 1:length(THERING)+1, <span class="string">'chrom'</span>);
+0092 
+0093 
+0094 <span class="comment">% The the passmethods back</span>
+0095 <a href="setpassmethod.html" class="code" title="function setpassmethod(ATIndex, PassMethod, DeviceList)">setpassmethod</a>(ATIndexOld, PassMethodOld);
+0096 <a href="setcavity.html" class="code" title="function ATCavityIndex = setcavity(InputString)">setcavity</a>(CavityState);
+0097 
+0098 
+0099 <span class="comment">% Calculate tilts</span>
+0100 Beta = cat(1,TwissData.beta);
+0101 spos = cat(1,TwissData.SPos);
+0102 
+0103 Eta = cat(2,TwissData.Dispersion);
+0104 EpsX = (sigmas(1,:).^2-Eta(1,:).^2*DP^2)./Beta(:,1)';
+0105 EpsY = (sigmas(2,:).^2-Eta(3,:).^2*DP^2)./Beta(:,2)';
+0106 
+0107 <span class="comment">% RMS tilt</span>
+0108 TiltRMS = norm(Tilt)/sqrt(length(Tilt));
+0109 EtaY = Eta(3,:);
+0110 
+0111 EpsX0 = mean(EpsX);
+0112 EpsY0 = mean(EpsY);
+0113 <span class="comment">%EpsX0 = median(EpsX);</span>
+0114 <span class="comment">%EpsY0 = median(EpsY);</span>
+0115 Ratio = EpsY0 / EpsX0;
+0116 
+0117 
+0118 <span class="comment">% Fix imaginary data</span>
+0119 <span class="comment">% ohmienvelope seems to return complex when very close to zero</span>
+0120 <span class="keyword">if</span> ~isreal(sigmas(1,:))
+0121     <span class="comment">% Sigma is positive so this should be ok</span>
+0122     sigmas(1,:) = abs(sigmas(1,:));
+0123 <span class="keyword">end</span>
+0124 <span class="keyword">if</span> ~isreal(sigmas(2,:))
+0125     <span class="comment">% Sigma is positive so this should be ok</span>
+0126     sigmas(2,:) = abs(sigmas(2,:));
+0127 <span class="keyword">end</span>
+0128     
+0129 
+0130 <span class="keyword">if</span> nargout == 0
+0131     fprintf(<span class="string">'   RMS Tilt = %f [degrees]\n'</span>, (180/pi) * TiltRMS);
+0132     fprintf(<span class="string">'   RMS Vertical Dispersion = %f [m]\n'</span>, norm(EtaY)/sqrt(length(EtaY)));
+0133     fprintf(<span class="string">'   Mean Horizontal Emittance = %f [nm rad]\n'</span>, 1e9*EpsX0);
+0134     fprintf(<span class="string">'   Mean Vertical   Emittance = %f [nm rad]\n'</span>, 1e9*EpsY0);
+0135     fprintf(<span class="string">'   Emittance Ratio = %f%% \n'</span>, 100*Ratio);
+0136     
+0137     <span class="comment">%figure(1);</span>
+0138     gcf;
+0139     clf reset;
+0140     subplot(2,2,1);
+0141     plot(spos, Tilt*180/pi, <span class="string">'-'</span>)
+0142     set(gca,<span class="string">'XLim'</span>,[0 spos(end)])
+0143     ylabel(<span class="string">'Tilt [degrees]'</span>);
+0144     title(sprintf(<span class="string">'Rotation Angle of the Beam Ellipse  (RMS = %f)'</span>, (180/pi) * TiltRMS));
+0145     xlabel(<span class="string">'s - Position [m]'</span>);
+0146 
+0147     <span class="comment">%figure(2);</span>
+0148     subplot(2,2,3);
+0149     [AX, H1, H2] = plotyy(spos, 1e6*sigmas(1,:), spos, 1e6*sigmas(2,:));
+0150 
+0151     <span class="comment">%set(H1,'Marker','.')</span>
+0152     set(AX(1),<span class="string">'XLim'</span>,[0 spos(end)]);
+0153     <span class="comment">%set(H2,'Marker','.')</span>
+0154     set(AX(2),<span class="string">'XLim'</span>,[0 spos(end)]);
+0155     title(<span class="string">'Principal Axis of the Beam Ellipse'</span>);
+0156     set(get(AX(1),<span class="string">'Ylabel'</span>), <span class="string">'String'</span>, <span class="string">'Horizontal [\mum]'</span>); 
+0157     set(get(AX(2),<span class="string">'Ylabel'</span>), <span class="string">'String'</span>, <span class="string">'Vertical [\mum]'</span>); 
+0158     xlabel(<span class="string">'s - Position [m]'</span>);
+0159     
+0160     FontSize = get(get(AX(1),<span class="string">'Ylabel'</span>),<span class="string">'FontSize'</span>);
+0161 
+0162     <span class="comment">%figure(3);</span>
+0163     subplot(2,2,2);    
+0164     plot(spos, 1e9 * EpsX);
+0165     title(<span class="string">'Horizontal Emittance'</span>);
+0166     ylabel(sprintf(<span class="string">'\\fontsize{16}\\epsilon_x  \\fontsize{%d}[nm rad]'</span>, FontSize));
+0167     xlabel(<span class="string">'s - Position [m]'</span>);
+0168     xaxis([0 L0]);
+0169     
+0170     <span class="comment">%figure(4);</span>
+0171     subplot(2,2,4);
+0172     plot(spos, 1e9 * EpsY);
+0173     title(<span class="string">'Vertical Emittance'</span>);
+0174     ylabel(sprintf(<span class="string">'\\fontsize{16}\\epsilon_y  \\fontsize{%d}[nm rad]'</span>, FontSize));
+0175     xlabel(<span class="string">'s - Position [m]'</span>);
+0176     xaxis([0 L0]);
+0177    
+0178     h = addlabel(.75, 0, sprintf(<span class="string">'     Emittance Ratio = %f%% '</span>, 100*Ratio), 10);
+0179     set(h,<span class="string">'HorizontalAlignment'</span>,<span class="string">'Center'</span>);
+0180     
+0181     orient landscape;
+0182 <span class="keyword">end</span>
+0183</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

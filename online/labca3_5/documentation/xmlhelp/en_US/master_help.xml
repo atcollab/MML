@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book [
+<!--Begin Entities-->
+<!ENTITY ac56151651ad1f28b0e6943b10e2e2756 SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/Common.xml">
+<!ENTITY a183ee5507a8f63d49754477a3e49d169 SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/Error.xml">
+<!ENTITY a53f343b18cfd5a37ff2b54712b4a9761 SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaClear.xml">
+<!ENTITY a03279c9da244d2b5b77a508d64236c65 SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaDebugOff.xml">
+<!ENTITY a1a1d24ffece84ce52c032a54ddf17a61 SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaDebugOn.xml">
+<!ENTITY a2482ff79876c24961a450f0ec876915e SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaDelay.xml">
+<!ENTITY ab9eae56140e60457c0da85a8f6f844e2 SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaGet.xml">
+<!ENTITY a22029f56984547d4528956e97fe83f82 SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaGetAlarmLimits.xml">
+<!ENTITY a64d874f3c5d27d642b2e649de9bb5f0d SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaGetControlLimits.xml">
+<!ENTITY adeef5eed8dd865f49fa7aee5be7d2515 SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaGetEnumStrings.xml">
+<!ENTITY ad8547d0cb296a1ae7212acf9dc4970ae SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaGetGraphicLimits.xml">
+<!ENTITY acd0c38f8df3e9cca2819087496c7bfa7 SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaGetNelem.xml">
+<!ENTITY a79184e0656eb929bbb0e9ddd7e68d55d SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaGetPrecision.xml">
+<!ENTITY a9b2855b2a867e1850888fcb9ba7a9caf SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaGetRetryCount.xml">
+<!ENTITY aa27d157c867577709c040d595556232e SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaGetStatus.xml">
+<!ENTITY aad06900f13aee472fe99ee2b9fe8ad62 SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaGetTimeout.xml">
+<!ENTITY a3bee2bf13f2ae3ce6dbe264aa47107a0 SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaGetUnits.xml">
+<!ENTITY aed20856c4cff3038edbcbec4e096eb9d SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaGetWarnLimits.xml">
+<!ENTITY a9996b706d17d60e25d14ba43f627eafb SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaLastError.xml">
+<!ENTITY ab8ed7ddebf2d2ab7e06fa9cfaa9c6249 SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaNewMonitorValue.xml">
+<!ENTITY afd8684786e04676ee92f71007ee6e957 SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaNewMonitorWait.xml">
+<!ENTITY a1e252ff368d09fd3e13fdf334900c601 SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaPut.xml">
+<!ENTITY a18a4c5045330cc897c799aa541ba0688 SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaPutNoWait.xml">
+<!ENTITY a2f800a76488bf94f6cb8b51153e5c778 SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaSetMonitor.xml">
+<!ENTITY a8f352c9a666698adb652b07922c0e515 SYSTEM "/home/till/epics/labca/box/labca_3_5_1/documentation/xmlhelp/en_US/lcaSetSeverityWarnLevel.xml">
+<!--End Entities-->
+]>
+<book version="5.0-subset Scilab" xml:lang="en_US"
+      xmlns="http://docbook.org/ns/docbook"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns:svg="http://www.w3.org/2000/svg"
+      xmlns:mml="http://www.w3.org/1998/Math/MathML"
+      xmlns:html="http://www.w3.org/1999/xhtml"
+      xmlns:db="http://docbook.org/ns/docbook">
+  <info xml:id='labca_manual'>
+    <title>labCA</title>
+  </info>
+
+<part xml:id='section_9d122bd15b55cf8b15c18b6ec34a52fb'>
+<title>labCA</title>
+&ac56151651ad1f28b0e6943b10e2e2756;
+&a183ee5507a8f63d49754477a3e49d169;
+&a53f343b18cfd5a37ff2b54712b4a9761;
+&a03279c9da244d2b5b77a508d64236c65;
+&a1a1d24ffece84ce52c032a54ddf17a61;
+&a2482ff79876c24961a450f0ec876915e;
+&ab9eae56140e60457c0da85a8f6f844e2;
+&a22029f56984547d4528956e97fe83f82;
+&a64d874f3c5d27d642b2e649de9bb5f0d;
+&adeef5eed8dd865f49fa7aee5be7d2515;
+&ad8547d0cb296a1ae7212acf9dc4970ae;
+&acd0c38f8df3e9cca2819087496c7bfa7;
+&a79184e0656eb929bbb0e9ddd7e68d55d;
+&a9b2855b2a867e1850888fcb9ba7a9caf;
+&aa27d157c867577709c040d595556232e;
+&aad06900f13aee472fe99ee2b9fe8ad62;
+&a3bee2bf13f2ae3ce6dbe264aa47107a0;
+&aed20856c4cff3038edbcbec4e096eb9d;
+&a9996b706d17d60e25d14ba43f627eafb;
+&ab8ed7ddebf2d2ab7e06fa9cfaa9c6249;
+&afd8684786e04676ee92f71007ee6e957;
+&a1e252ff368d09fd3e13fdf334900c601;
+&a18a4c5045330cc897c799aa541ba0688;
+&a2f800a76488bf94f6cb8b51153e5c778;
+&a8f352c9a666698adb652b07922c0e515;
+</part>
+</book>

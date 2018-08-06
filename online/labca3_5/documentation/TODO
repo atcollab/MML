@@ -1,0 +1,19 @@
+ - 2015/06/04: '.sci' files are automatically (albeit crudely)
+               generated from 'help/%.m', then
+               conversion to .xml via help_from_sci().
+              
+               Error.xml, Common.xml are hand-written.
+
+               => If 'manual.tex' changes then the scilab-5
+			   help files should be double-checked.
+
+- scilab-5 needs javaHelp files.
+
+     a) create xml file in scilab format (must be broken out of
+        'manual.tex' somehow.
+     b) use scilab's xmltojar() command. Note that DOCBOOK_ROOT
+        envvar has to be set where 'javahelp/javahelp.xsl' (and maybe
+        others) can be found; I used scilab-5.1-top/thirdparty/docbook
+     c) use add_help_chapter() scilab command
+
+

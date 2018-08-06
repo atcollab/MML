@@ -1,0 +1,230 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN'
+     'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+
+<html>
+<head>
+<title>filters</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<link rel='stylesheet' href='style.css' type='text/css'>
+</head>
+<body>
+
+
+<div class="pod">
+
+<h1 id="Channel-Filters">Channel Filters</h1>
+
+<p>Channel Filters can be applied to Channel Access channels by a client, using a JSON Field Modifier to select the filter and any parameters. The following filters are available in this release:</p>
+
+<ul>
+
+<li><p><a href="#TimeStamp-Filter-ts">TimeStamp</a></p>
+
+</li>
+<li><p><a href="#Deadband-Filter-dbnd">Deadband</a></p>
+
+</li>
+<li><p><a href="#Array-Filter-arr">Array</a></p>
+
+</li>
+<li><p><a href="#Synchronize-Filter-sync">Synchronize</a></p>
+
+</li>
+</ul>
+
+<h2 id="Using-Filters">Using Filters</h2>
+
+<p>Channel filters can be added to any Channel Access channel name. There can be more than one filter applied to the same channel, in which case the order that they are specified will control the order in which they are applied to the resulting data-stream. The filter specification must appear after the field name, or if the default (VAL) field is used after a dot <code>.</code> appended to the record name. With the exception of the array short-hand which is described below, all filters must appear inside a pair of braces <code> {} </code> after the dot expressed as a JSON (<a href="http://www.json.org/">JavaScript Object Notation</a>) object, which allows filter parameters to be included as needed.</p>
+
+<p>Each filter is given as a name/value pair. The filter name (given in parentheses in the titles below) is a string, and must be enclosed inside double-quotes <code>&quot;</code> characters as per the JSON specification. Parameters to that filter are provided as the value part of the name/value pair, and will normally appear as a child JSON object consisting of name/value pairs inside a nested pair of braces <code> {} </code>.</p>
+
+<h4 id="Example-Filter">Example Filter</h4>
+
+<p>Given a record called <code>test:channel</code> the following would apply a filter <code>f</code> to the VAL field of that record, giving the filter two numeric parameters named <code>lo</code> and <code>hi</code>:</p>
+
+<pre><code> test:channel.{&quot;f&quot;:{&quot;lo&quot;:0,&quot;hi&quot;:10}}</code></pre>
+
+<p>Note that due to the required presence of the double-quote characters in the JSON strings in the name string, it will usually be necessary to enclose a filtered name within single-quotes <code>&#39; ... &#39;</code> when typing it as an argument to a Unix shell command.</p>
+
+<h2 id="Filter-Reference">Filter Reference</h2>
+
+<h3 id="TimeStamp-Filter-ts">TimeStamp Filter <code>&quot;ts&quot;</code></h3>
+
+<p>This filter is used to set the timestamp of the value fetched through the channel to the time the value was fetched (or an update was sent), rather than the time the record last processed which could have been days or even weeks ago for some records, or set to the EPICS epoch if the record has never processed.</p>
+
+<h4 id="Parameters">Parameters</h4>
+
+<p>None, use an empty pair of braces.</p>
+
+<h4 id="Example">Example</h4>
+
+<pre><code> Hal$ caget -a &#39;test:channel.{&quot;ts&quot;:{}}&#39;
+ test:channel.{&quot;ts&quot;:{}}   2012-08-28 22:10:31.192547 0 UDF INVALID
+ Hal$ caget -a &#39;test:channel&#39;
+ test:channel             &lt;undefined&gt; 0 UDF INVALID</code></pre>
+
+<h3 id="Deadband-Filter-dbnd">Deadband Filter <code>&quot;dbnd&quot;</code></h3>
+
+<p>This filter implements a channel-specific monitor deadband, which is applied after any deadbands implemented by the record itself (it can only drop updates that the unfiltered channel generates, never add additional updates).</p>
+
+<p>The deadband can be specified as an absolute value change, or as a relative percentage.</p>
+
+<h4 id="Parameters1">Parameters</h4>
+
+<dl>
+
+<dt>Mode+Deadband <code>&quot;abs&quot;</code>/<code>&quot;rel&quot;</code> (shorthand)</dt>
+<dd>
+
+<p>Mode and deadband can be specified in one definition (shorthand). The desired mode is given as parameter name (<code>&quot;abs&quot;</code> or <code>&quot;rel&quot;</code>), with the numeric size of the deadband (absolute value or numeric percentage) as value.</p>
+
+</dd>
+<dt>Deadband <code>&quot;d&quot;</code></dt>
+<dd>
+
+<p>The size of the deadband to use. Relative deadband values are given as a numeric percentage, but without any trailing percent character.</p>
+
+</dd>
+<dt>Mode <code>&quot;m&quot;</code> (optional)</dt>
+<dd>
+
+<p>A string (enclosed in double-quotes <code>&quot;</code>), which should contain either <code>abs</code> or <code>rel</code>. The default mode is <code>abs</code> if no mode parameter is included.</p>
+
+</dd>
+</dl>
+
+<h4 id="Example1">Example</h4>
+
+<pre><code> Hal$ camonitor &#39;test:channel&#39;
+ test:channel                    2012-09-01 22:10:19.600595 1 LOLO MAJOR
+ test:channel                    2012-09-01 22:10:20.600661 2 LOLO MAJOR
+ test:channel                    2012-09-01 22:10:21.600819 3 LOW MINOR
+ test:channel                    2012-09-01 22:10:22.600905 4 LOW MINOR
+ test:channel                    2012-09-01 22:10:23.601023 5  
+ test:channel                    2012-09-01 22:10:24.601136 6 HIGH MINOR
+ ^C
+ Hal$ camonitor &#39;test:channel.{&quot;dbnd&quot;:{&quot;abs&quot;:1.5}}&#39;
+ test:channel.{&quot;dbnd&quot;:{&quot;d&quot;:1.5}} 2012-09-01 22:11:49.613341 1 LOLO MAJOR
+ test:channel.{&quot;dbnd&quot;:{&quot;d&quot;:1.5}} 2012-09-01 22:11:51.613615 3 LOW MINOR
+ test:channel.{&quot;dbnd&quot;:{&quot;d&quot;:1.5}} 2012-09-01 22:11:53.613804 5  
+ test:channel.{&quot;dbnd&quot;:{&quot;d&quot;:1.5}} 2012-09-01 22:11:55.614074 7 HIGH MINOR
+ test:channel.{&quot;dbnd&quot;:{&quot;d&quot;:1.5}} 2012-09-01 22:11:57.614305 9 HIHI MAJOR
+ ^C</code></pre>
+
+<h3 id="Array-Filter-arr">Array Filter <code>&quot;arr&quot;</code></h3>
+
+<p>This filter is used to retrieve parts of an array (subarrays and strided subarrays).</p>
+
+<h4 id="Parameters2">Parameters</h4>
+
+<p>Note: Negative index numbers address from the end of the array, with <code>-1</code> being the last element.</p>
+
+<dl>
+
+<dt>Square bracket notation <code>[start:increment:end]</code> (shorthand)</dt>
+<dd>
+
+<p>The common square bracket notation with can be used in place of JSON. Any parameter may be omitted (keeping the colons) to use the default value. If only one colon is included, this means <code>[start:end]</code> with a increment of 1. If only a single parameter is used <code>[index]</code> the filter returns one element.</p>
+
+</dd>
+<dt>Start index <code>&quot;s&quot;</code></dt>
+<dd>
+
+<p>Index of the first original array element to retrieve.</p>
+
+</dd>
+<dt>Increment <code>&quot;i&quot;</code></dt>
+<dd>
+
+<p>Index increment between retrieved elements of the original array; must be a positive number.</p>
+
+</dd>
+<dt>End index <code>&quot;e&quot;</code></dt>
+<dd>
+
+<p>Index of the last original array element to retrieve.</p>
+
+</dd>
+</dl>
+
+<p>Defaults (when parameters are omitted) are: <code>s=0</code> (first element), <code>i=1</code> (fetch all elements), <code>e=-1</code> (last element)</p>
+
+<h4 id="Example2">Example</h4>
+
+<pre><code> Hal$ caget test:channel &#39;test:channel.{&quot;arr&quot;:{&quot;s&quot;:2,&quot;i&quot;:2,&quot;e&quot;:8}}&#39; test:channel.[3:5] test:channel.[3:2:-3]
+ test:channel 10 0 1 2 3 4 5 6 7 8 9
+ test:channel.{&quot;arr&quot;:{&quot;s&quot;:2,&quot;i&quot;:2,&quot;e&quot;:8}} 4 2 4 6 8
+ test:channel.[3:5] 3 3 4 5
+ test:channel.[3:2:-3] 3 3 5 7</code></pre>
+
+<h3 id="Synchronize-Filter-sync">Synchronize Filter <code>&quot;sync&quot;</code></h3>
+
+<p>This filter is used to dynamically enable or disable monitors according to a condition and a state variable declared by the IOC.</p>
+
+<p>State variables have a boolean value and can be set by a binary output record, an iocsh command or by other software running in the IOC calling <code>dbStateSet()</code>.</p>
+
+<h4 id="Parameters3">Parameters</h4>
+
+<dl>
+
+<dt>Mode+State</dt>
+<dd>
+
+<p>Mode and state can be specified in one definition (shorthand). The desired mode is given as parameter name (<code>&quot;before&quot;</code> / <code>&quot;first&quot;</code> / <code>&quot;while&quot;</code> / <code>&quot;last&quot;</code> / <code>&quot;after&quot;</code> / <code>&quot;unless&quot;</code>), with the state name (enclosed in double quotes <code>&quot;</code>) as value.</p>
+
+</dd>
+<dt>Mode <code>&quot;m&quot;</code></dt>
+<dd>
+
+<p>A single word from the list below, enclosed in double quotes <code>&quot;</code>. This controls how the state value should affect the monitor stream.</p>
+
+<dl>
+
+<dt><code>&quot;before&quot;</code> &mdash; only the last value received before the state changes from false to true is forwarded to the client.</dt>
+<dd>
+
+</dd>
+<dt><code>&quot;first&quot;</code> &mdash; only the first value received after the state changes from true to false is forwarded to the client.</dt>
+<dd>
+
+</dd>
+<dt><code>&quot;while&quot;</code> &mdash; values are forwarded to the client as long as the state is true.</dt>
+<dd>
+
+</dd>
+<dt><code>&quot;last&quot;</code> &mdash; only the last value received before the state changes from true to false is forwarded to the client.</dt>
+<dd>
+
+</dd>
+<dt><code>&quot;after&quot;</code> &mdash; only the first value received after the state changes from true to false is forwarded to the client.</dt>
+<dd>
+
+</dd>
+<dt><code>&quot;unless&quot;</code> &mdash; values are forwarded to the client as long as the state is false.</dt>
+<dd>
+
+</dd>
+</dl>
+
+</dd>
+<dt>State <code>&quot;s&quot;</code></dt>
+<dd>
+
+<p>The name of a state variable, enclosed in double quotes <code>&quot;</code>.</p>
+
+</dd>
+</dl>
+
+<h4 id="Example3">Example</h4>
+
+<p>Assuming there is a system state called &quot;blue&quot;, that is being controlled by some other facility such as a timing system, updates could be restricted to periods only when &quot;blue&quot; is true by using</p>
+
+<pre><code> Hal$ camonitor &#39;test:channel&#39; &#39;test:channel.{&quot;while&quot;:&quot;blue&quot;}&#39;
+ ...</code></pre>
+
+</div>
+
+</body>
+</html>
+

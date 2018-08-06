@@ -1,0 +1,14 @@
+LIBRARY sezcaglue
+
+EXPORTS
+
+ezcaSetSeverityWarnLevel
+multi_ezca_get
+multi_ezca_get_misc
+multi_ezca_get_nelem
+multi_ezca_put
+multi_ezca_ts_cvt
+multi_ezca_clear_channels
+multi_ezca_set_mon
+multi_ezca_check_mon
+ezca_

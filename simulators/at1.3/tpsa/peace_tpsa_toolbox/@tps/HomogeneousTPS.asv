@@ -1,0 +1,39 @@
+function r = HomogeneousTPS(p,o)
+%-------------------------------------------------------------------------------
+% Author:
+%  Chang, Ho-Ping (also written as Ho-Ping Chang or Peace Chang)
+%  National Synchrotron Radiation Research Center
+%  101 Hsin-Ann Road, Hsinchu Science-Based Industrial Park
+%  Hsinchu 30077, Taiwan
+%  E-mail: peace@srrc.gov.tw
+%
+% Created Date: 06-May-2002
+% Updated Date: 13-May-2003
+%    May-12-2003
+%  Source Files:
+%    @TPS/HomogeneousTPS.m
+% Terminology and Category:
+%    Truncated Power Series Algebra (TPSA)
+%    One-Step Index Pointer (OSIP)
+%    Truncated Power Series (TPS)
+%  Description:
+%    In MATLAB, the index of array works FORTRAN-like.
+%    Overloading Arithmetic Operators for TPS.
+%    r = HomogeneousTPS(p,o) is the o-order homogeneous of TPS p.
+%------------------------------------------------------------------------------
+global OSIP
+
+if o > p.o
+   r = TPS;
+else
+   r.n = p.n;
+   r.o = o;
+   r.c = zeros(1,OSIP_NumberOfMonomials(r.n,r.o));
+   r = class(r,'TPS');
+   i = OSIP_MonomialsBeginIndex(r.n,o);
+   f = OSIP_MonomialsEndedIndex(r.n,o);
+   r.c(i:f) = p.c(i:f);
+   clear i f
+end
+
+

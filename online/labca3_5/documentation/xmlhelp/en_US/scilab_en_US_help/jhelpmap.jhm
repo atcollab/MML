@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE map PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 1.0//EN" "http://java.sun.com/products/javahelp/map_1_0.dtd">
+<map version="1.0">
+<mapID target="index" url="index.html"/>
+<mapID target="section_9d122bd15b55cf8b15c18b6ec34a52fb" url="section_9d122bd15b55cf8b15c18b6ec34a52fb.html"/>
+<mapID target="lca_common" url="lca_common.html"/>
+<mapID target="lca_common_type_arg" url="lca_common.html#lca_common_type_arg"/>
+<mapID target="lca_common_timestamp_val" url="lca_common.html#lca_common_timestamp_val"/>
+<mapID target="lca_common_nan_val" url="lca_common.html#lca_common_nan_val"/>
+<mapID target="Error" url="Error.html"/>
+<mapID target="lca_errorcodes" url="Error.html#lca_errorcodes"/>
+<mapID target="lcaClear" url="lcaClear.html"/>
+<mapID target="lcaDebugOff" url="lcaDebugOff.html"/>
+<mapID target="lcaDebugOn" url="lcaDebugOn.html"/>
+<mapID target="lcaDelay" url="lcaDelay.html"/>
+<mapID target="lcaGet" url="lcaGet.html"/>
+<mapID target="lcaGetAlarmLimits" url="lcaGetAlarmLimits.html"/>
+<mapID target="lcaGetControlLimits" url="lcaGetControlLimits.html"/>
+<mapID target="lcaGetEnumStrings" url="lcaGetEnumStrings.html"/>
+<mapID target="lcaGetGraphicLimits" url="lcaGetGraphicLimits.html"/>
+<mapID target="lcaGetNelem" url="lcaGetNelem.html"/>
+<mapID target="lcaGetPrecision" url="lcaGetPrecision.html"/>
+<mapID target="lcaGetRetryCount" url="lcaGetRetryCount.html"/>
+<mapID target="lcaGetStatus" url="lcaGetStatus.html"/>
+<mapID target="lcaGetTimeout" url="lcaGetTimeout.html"/>
+<mapID target="lcaGetUnits" url="lcaGetUnits.html"/>
+<mapID target="lcaGetWarnLimits" url="lcaGetWarnLimits.html"/>
+<mapID target="lcaLastError" url="lcaLastError.html"/>
+<mapID target="lcaNewMonitorValue" url="lcaNewMonitorValue.html"/>
+<mapID target="lcaNewMonitorWait" url="lcaNewMonitorWait.html"/>
+<mapID target="lcaPut" url="lcaPut.html"/>
+<mapID target="lcaPutNoWait" url="lcaPutNoWait.html"/>
+<mapID target="lcaSetMonitor" url="lcaSetMonitor.html"/>
+<mapID target="lcaSetSeverityWarnLevel" url="lcaSetSeverityWarnLevel.html"/>
+</map>

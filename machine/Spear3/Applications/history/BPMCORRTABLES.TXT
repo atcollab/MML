@@ -1,0 +1,740 @@
+select pvname,tablename,columnname from spear_index
+where pvname like '%COR%Curr1';
+ PVNAME                            TABLENAME                         
+   COLUMNNAME                        
+ 01G-COR1H:Curr1                   READBACK033                       
+   T01G_COR1H$CURR1                  
+
+ 01G-COR1V:Curr1                   READBACK033                       
+   T01G_COR1V$CURR1                  
+
+ 01G-COR2V:Curr1                   READBACK030                       
+   T01G_COR2V$CURR1                  
+
+ 01G-COR3H:Curr1                   READBACK028                       
+   T01G_COR3H$CURR1                  
+
+ 01G-COR4H:Curr1                   READBACK027                       
+   T01G_COR4H$CURR1                  
+
+ 01G-COR4V:Curr1                   READBACK027                       
+   T01G_COR4V$CURR1                  
+
+ 02G-COR1H:Curr1                   READBACK027                       
+   T02G_COR1H$CURR1                  
+
+ 02G-COR1V:Curr1                   READBACK027                       
+   T02G_COR1V$CURR1                  
+
+ 02G-COR2V:Curr1                   READBACK032                       
+   T02G_COR2V$CURR1                  
+
+ 02G-COR3H:Curr1                   READBACK033                       
+   T02G_COR3H$CURR1                  
+
+ 02G-COR4H:Curr1                   READBACK033                       
+   T02G_COR4H$CURR1                  
+
+ 02G-COR4V:Curr1                   READBACK033                       
+   T02G_COR4V$CURR1                  
+
+ 03G-COR1H:Curr1                   READBACK029                       
+   T03G_COR1H$CURR1                  
+
+ 03G-COR1V:Curr1                   READBACK029                       
+   T03G_COR1V$CURR1                  
+
+ 03G-COR2V:Curr1                   READBACK028                       
+   T03G_COR2V$CURR1                  
+
+ 03G-COR3H:Curr1                   READBACK027                       
+   T03G_COR3H$CURR1                  
+
+ 03G-COR4H:Curr1                   READBACK030                       
+   T03G_COR4H$CURR1                  
+
+ 03G-COR4V:Curr1                   READBACK032                       
+   T03G_COR4V$CURR1                  
+
+ 04G-COR1H:Curr1                   READBACK030                       
+   T04G_COR1H$CURR1                  
+
+ 04G-COR1V:Curr1                   READBACK029                       
+   T04G_COR1V$CURR1                  
+
+ 04G-COR2V:Curr1                   READBACK029                       
+   T04G_COR2V$CURR1                  
+
+ 04G-COR3H:Curr1                   READBACK027                       
+   T04G_COR3H$CURR1                  
+
+ 04G-COR4H:Curr1                   READBACK027                       
+   T04G_COR4H$CURR1                  
+
+ 04G-COR4V:Curr1                   READBACK033                       
+   T04G_COR4V$CURR1                  
+
+ 05G-COR1H:Curr1                   READBACK031                       
+   T05G_COR1H$CURR1                  
+
+ 05G-COR1V:Curr1                   READBACK031                       
+   T05G_COR1V$CURR1                  
+
+ 05G-COR2V:Curr1                   READBACK028                       
+   T05G_COR2V$CURR1                  
+
+ 05G-COR3H:Curr1                   READBACK028                       
+   T05G_COR3H$CURR1                  
+
+ 05G-COR4H:Curr1                   READBACK027                       
+   T05G_COR4H$CURR1                  
+
+ 05G-COR4V:Curr1                   READBACK033                       
+   T05G_COR4V$CURR1                  
+
+ 06G-COR1H:Curr1                   READBACK031                       
+   T06G_COR1H$CURR1                  
+
+ 06G-COR1V:Curr1                   READBACK031                       
+   T06G_COR1V$CURR1                  
+
+ 06G-COR2V:Curr1                   READBACK028                       
+   T06G_COR2V$CURR1                  
+
+ 06G-COR3H:Curr1                   READBACK027                       
+   T06G_COR3H$CURR1                  
+
+ 06G-COR4H:Curr1                   READBACK027                       
+   T06G_COR4H$CURR1                  
+
+ 06G-COR4V:Curr1                   READBACK032                       
+   T06G_COR4V$CURR1                  
+
+ 07G-COR1H:Curr1                   READBACK032                       
+   T07G_COR1H$CURR1                  
+
+ 07G-COR1V:Curr1                   READBACK031                       
+   T07G_COR1V$CURR1                  
+
+ 07G-COR2V:Curr1                   READBACK029                       
+   T07G_COR2V$CURR1                  
+
+ 07G-COR3H:Curr1                   READBACK029                       
+   T07G_COR3H$CURR1                  
+
+ 07G-COR4H:Curr1                   READBACK028                       
+   T07G_COR4H$CURR1                  
+
+ 07G-COR4V:Curr1                   READBACK027                       
+   T07G_COR4V$CURR1                  
+
+ 08G-COR1H:Curr1                   READBACK031                       
+   T08G_COR1H$CURR1                  
+
+ 08G-COR1V:Curr1                   READBACK032                       
+   T08G_COR1V$CURR1                  
+
+ 08G-COR2V:Curr1                   READBACK031                       
+   T08G_COR2V$CURR1                  
+
+ 08G-COR3H:Curr1                   READBACK029                       
+   T08G_COR3H$CURR1                  
+
+ 08G-COR4H:Curr1                   READBACK028                       
+   T08G_COR4H$CURR1                  
+
+ 08G-COR4V:Curr1                   READBACK027                       
+   T08G_COR4V$CURR1                  
+
+ 09G-COR1H:Curr1                   READBACK030                       
+   T09G_COR1H$CURR1                  
+
+ 09G-COR1V:Curr1                   READBACK031                       
+   T09G_COR1V$CURR1                  
+
+ 09G-COR2V:Curr1                   READBACK031                       
+   T09G_COR2V$CURR1                  
+
+ 09G-COR3H:Curr1                   READBACK028                       
+   T09G_COR3H$CURR1                  
+
+ 09G-COR4H:Curr1                   READBACK027                       
+   T09G_COR4H$CURR1                  
+
+ 09G-COR4V:Curr1                   READBACK027                       
+   T09G_COR4V$CURR1                  
+
+ 10G-COR1H:Curr1                   READBACK032                       
+   T10G_COR1H$CURR1                  
+
+ 10G-COR1V:Curr1                   READBACK032                       
+   T10G_COR1V$CURR1                  
+
+ 10G-COR2V:Curr1                   READBACK032                       
+   T10G_COR2V$CURR1                  
+
+ 10G-COR3H:Curr1                   READBACK029                       
+   T10G_COR3H$CURR1                  
+
+ 10G-COR4H:Curr1                   READBACK029                       
+   T10G_COR4H$CURR1                  
+
+ 10G-COR4V:Curr1                   READBACK028                       
+   T10G_COR4V$CURR1                  
+
+ 118-COR144:Curr1                  NULL                              
+   T118_COR144$CURR1                 
+
+ 11G-COR1H:Curr1                   READBACK032                       
+   T11G_COR1H$CURR1                  
+
+ 11G-COR1V:Curr1                   READBACK031                       
+   T11G_COR1V$CURR1                  
+
+ 11G-COR2V:Curr1                   READBACK032                       
+   T11G_COR2V$CURR1                  
+
+ 11G-COR3H:Curr1                   READBACK029                       
+   T11G_COR3H$CURR1                  
+
+ 11G-COR4H:Curr1                   READBACK029                       
+   T11G_COR4H$CURR1                  
+
+ 11G-COR4V:Curr1                   READBACK028                       
+   T11G_COR4V$CURR1                  
+
+ 12G-COR1H:Curr1                   READBACK030                       
+   T12G_COR1H$CURR1                  
+
+ 12G-COR1V:Curr1                   READBACK032                       
+   T12G_COR1V$CURR1                  
+
+ 12G-COR2V:Curr1                   READBACK032                       
+   T12G_COR2V$CURR1                  
+
+ 12G-COR3H:Curr1                   READBACK031                       
+   T12G_COR3H$CURR1                  
+
+ 12G-COR4H:Curr1                   READBACK028                       
+   T12G_COR4H$CURR1                  
+
+ 12G-COR4V:Curr1                   READBACK028                       
+   T12G_COR4V$CURR1                  
+
+ 13G-COR1H:Curr1                   READBACK027                       
+   T13G_COR1H$CURR1                  
+
+ 13G-COR1V:Curr1                   READBACK031                       
+   T13G_COR1V$CURR1                  
+
+ 13G-COR2V:Curr1                   READBACK030                       
+   T13G_COR2V$CURR1                  
+
+ 13G-COR3H:Curr1                   READBACK029                       
+   T13G_COR3H$CURR1                  
+
+ 13G-COR4H:Curr1                   READBACK028                       
+   T13G_COR4H$CURR1                  
+
+ 13G-COR4V:Curr1                   READBACK028                       
+   T13G_COR4V$CURR1                  
+
+ 14G-COR1H:Curr1                   READBACK030                       
+   T14G_COR1H$CURR1                  
+
+ 14G-COR1V:Curr1                   READBACK032                       
+   T14G_COR1V$CURR1                  
+
+ 14G-COR2V:Curr1                   READBACK030                       
+   T14G_COR2V$CURR1                  
+
+ 14G-COR3H:Curr1                   READBACK029                       
+   T14G_COR3H$CURR1                  
+
+ 14G-COR4H:Curr1                   READBACK029                       
+   T14G_COR4H$CURR1                  
+
+ 14G-COR4V:Curr1                   READBACK028                       
+   T14G_COR4V$CURR1                  
+
+ 15G-COR1H:Curr1                   READBACK032                       
+   T15G_COR1H$CURR1                  
+
+ 15G-COR1V:Curr1                   READBACK030                       
+   T15G_COR1V$CURR1                  
+
+ 15G-COR2V:Curr1                   READBACK032                       
+   T15G_COR2V$CURR1                  
+
+ 15G-COR3H:Curr1                   READBACK029                       
+   T15G_COR3H$CURR1                  
+
+ 15G-COR4H:Curr1                   READBACK028                       
+   T15G_COR4H$CURR1                  
+
+ 15G-COR4V:Curr1                   READBACK027                       
+   T15G_COR4V$CURR1                  
+
+ 16G-COR1H:Curr1                   READBACK031                       
+   T16G_COR1H$CURR1                  
+
+ 16G-COR1V:Curr1                   READBACK032                       
+   T16G_COR1V$CURR1                  
+
+ 16G-COR2V:Curr1                   READBACK031                       
+   T16G_COR2V$CURR1                  
+
+ 16G-COR3H:Curr1                   READBACK028                       
+   T16G_COR3H$CURR1                  
+
+ 16G-COR4H:Curr1                   READBACK027                       
+   T16G_COR4H$CURR1                  
+
+ 16G-COR4V:Curr1                   READBACK031                       
+   T16G_COR4V$CURR1                  
+
+ 17G-COR1H:Curr1                   READBACK032                       
+   T17G_COR1H$CURR1                  
+
+ 17G-COR1V:Curr1                   READBACK029                       
+   T17G_COR1V$CURR1                  
+
+ 17G-COR2V:Curr1                   READBACK030                       
+   T17G_COR2V$CURR1                  
+
+ 17G-COR3H:Curr1                   READBACK031                       
+   T17G_COR3H$CURR1                  
+
+ 17G-COR4H:Curr1                   READBACK029                       
+   T17G_COR4H$CURR1                  
+
+ 17G-COR4V:Curr1                   READBACK029                       
+   T17G_COR4V$CURR1                  
+
+ 18G-COR1H:Curr1                   READBACK028                       
+   T18G_COR1H$CURR1                  
+
+ 18G-COR1V:Curr1                   READBACK030                       
+   T18G_COR1V$CURR1                  
+
+ 18G-COR2V:Curr1                   READBACK031                       
+   T18G_COR2V$CURR1                  
+
+ 18G-COR3H:Curr1                   READBACK032                       
+   T18G_COR3H$CURR1                  
+
+ 18G-COR4H:Curr1                   READBACK029                       
+   T18G_COR4H$CURR1                  
+
+ 18G-COR4V:Curr1                   READBACK029                       
+   T18G_COR4V$CURR1                  
+
+109 rows selected
+select pvname,tablename,columnname from spear_index
+where pvname like '%BPM%U' or pvname like '%BPM%V';
+ PVNAME                            TABLENAME                         
+   COLUMNNAME                        
+ 01G-BPM1:U                        READBACK039                       T01G_BPM1$U
+ 01G-BPM1:V                        READBACK039                       T01G_BPM1$V                       
+ 01G-BPM2:U                        READBACK039                       T01G_BPM2$U                       
+ 01G-BPM2:V                        READBACK038                       T01G_BPM2$V                      
+ 01G-BPM4:U                        READBACK038                       T01G_BPM4$U                       
+ 01G-BPM4:V                        READBACK038                       T01G_BPM4$V                       
+ 01G-BPM7:U                        READBACK037                       T01G_BPM7$U                       
+ 01G-BPM7:V                        READBACK037                       T01G_BPM7$V                       
+ 02G-BPM1:U                        READBACK038                       T02G_BPM1$U                       
+ 02G-BPM1:V                        READBACK037                       T02G_BPM1$V                       
+ 02G-BPM2:U                        READBACK037                       T02G_BPM2$U                       
+ 02G-BPM2:V                        READBACK039                       T02G_BPM2$V                       
+ 02G-BPM4:U                        READBACK040                       
+   T02G_BPM4$U                       
+
+ 02G-BPM4:V                        READBACK040                       
+   T02G_BPM4$V                       
+
+ 02G-BPM6:U                        READBACK039                       
+   T02G_BPM6$U                       
+
+ 02G-BPM6:V                        READBACK039                       
+   T02G_BPM6$V                       
+
+ 03G-BPM1:U                        READBACK038                       
+   T03G_BPM1$U                       
+
+ 03G-BPM1:V                        READBACK038                       
+   T03G_BPM1$V                       
+
+ 03G-BPM2:U                        READBACK038                       
+   T03G_BPM2$U                       
+
+ 03G-BPM2:V                        READBACK037                       
+   T03G_BPM2$V                       
+
+ 03G-BPM4:U                        READBACK038                       
+   T03G_BPM4$U                       
+
+ 03G-BPM4:V                        READBACK038                       
+   T03G_BPM4$V                       
+
+ 03G-BPM6:U                        READBACK037                       
+   T03G_BPM6$U                       
+
+ 03G-BPM6:V                        READBACK037                       
+   T03G_BPM6$V                       
+
+ 04G-BPM1:U                        READBACK040                       
+   T04G_BPM1$U                       
+
+ 04G-BPM1:V                        READBACK040                       
+   T04G_BPM1$V                       
+
+ 04G-BPM4:U                        READBACK039                       
+   T04G_BPM4$U                       
+
+ 04G-BPM4:V                        READBACK039                       
+   T04G_BPM4$V                       
+
+ 04G-BPM5:U                        READBACK039                       
+   T04G_BPM5$U                       
+
+ 04G-BPM5:V                        READBACK038                       
+   T04G_BPM5$V                       
+
+ 04G-BPM6:U                        READBACK038                       
+   T04G_BPM6$U                       
+
+ 04G-BPM6:V                        READBACK037                       
+   T04G_BPM6$V                       
+
+ 05G-BPM1:U                        READBACK037                       
+   T05G_BPM1$U                       
+
+ 05G-BPM1:V                        READBACK038                       
+   T05G_BPM1$V                       
+
+ 05G-BPM2:U                        READBACK039                       
+   T05G_BPM2$U                       
+
+ 05G-BPM2:V                        READBACK039                       
+   T05G_BPM2$V                       
+
+ 05G-BPM4:U                        READBACK039                       
+   T05G_BPM4$U                       
+
+ 05G-BPM4:V                        READBACK038                       
+   T05G_BPM4$V                       
+
+ 05G-BPM6:U                        READBACK038                       
+   T05G_BPM6$U                       
+
+ 05G-BPM6:V                        READBACK038                       
+   T05G_BPM6$V                       
+
+ 06G-BPM1:U                        READBACK037                       
+   T06G_BPM1$U                       
+
+ 06G-BPM1:V                        READBACK038                       
+   T06G_BPM1$V                       
+
+ 06G-BPM2:U                        READBACK038                       
+   T06G_BPM2$U                       
+
+ 06G-BPM2:V                        READBACK037                       
+   T06G_BPM2$V                       
+
+ 06G-BPM4:U                        READBACK037                       
+   T06G_BPM4$U                       
+
+ 06G-BPM4:V                        READBACK037                       
+   T06G_BPM4$V                       
+
+ 06G-BPM6:U                        READBACK037                       
+   T06G_BPM6$U                       
+
+ 06G-BPM6:V                        READBACK037                       
+   T06G_BPM6$V                       
+
+ 07G-BPM1:U                        READBACK037                       
+   T07G_BPM1$U                       
+
+ 07G-BPM1:V                        READBACK039                       
+   T07G_BPM1$V                       
+
+ 07G-BPM2:U                        READBACK039                       
+   T07G_BPM2$U                       
+
+ 07G-BPM2:V                        READBACK039                       
+   T07G_BPM2$V                       
+
+ 07G-BPM4:U                        READBACK038                       
+   T07G_BPM4$U                       
+
+ 07G-BPM4:V                        READBACK039                       
+   T07G_BPM4$V                       
+
+ 07G-BPM6:U                        READBACK039                       
+   T07G_BPM6$U                       
+
+ 07G-BPM6:V                        READBACK039                       
+   T07G_BPM6$V                       
+
+ 08G-BPM1:U                        READBACK038                       
+   T08G_BPM1$U                       
+
+ 08G-BPM1:V                        READBACK038                       
+   T08G_BPM1$V                       
+
+ 08G-BPM2:U                        READBACK038                       
+   T08G_BPM2$U                       
+
+ 08G-BPM2:V                        READBACK037                       
+   T08G_BPM2$V                       
+
+ 08G-BPM4:U                        READBACK037                       
+   T08G_BPM4$U                       
+
+ 08G-BPM4:V                        READBACK038                       
+   T08G_BPM4$V                       
+
+ 08G-BPM6:U                        READBACK037                       
+   T08G_BPM6$U                       
+
+ 08G-BPM6:V                        READBACK037                       
+   T08G_BPM6$V                       
+
+ 09G-BPM1:U                        READBACK037                       
+   T09G_BPM1$U                       
+
+ 09G-BPM1:V                        READBACK037                       
+   T09G_BPM1$V                       
+
+ 09G-BPM2:U                        READBACK040                       
+   T09G_BPM2$U                       
+
+ 09G-BPM2:V                        READBACK039                       
+   T09G_BPM2$V                       
+
+ 09G-BPM4:U                        READBACK039                       
+   T09G_BPM4$U                       
+
+ 09G-BPM4:V                        READBACK038                       
+   T09G_BPM4$V                       
+
+ 09G-BPM7:U                        READBACK038                       
+   T09G_BPM7$U                       
+
+ 09G-BPM7:V                        READBACK038                       
+   T09G_BPM7$V                       
+
+ 10G-BPM1:U                        READBACK037                       
+   T10G_BPM1$U                       
+
+ 10G-BPM1:V                        READBACK037                       
+   T10G_BPM1$V                       
+
+ 10G-BPM2:U                        READBACK038                       
+   T10G_BPM2$U                       
+
+ 10G-BPM2:V                        READBACK038                       
+   T10G_BPM2$V                       
+
+ 10G-BPM4:U                        READBACK037                       
+   T10G_BPM4$U                       
+
+ 10G-BPM4:V                        READBACK037                       
+   T10G_BPM4$V                       
+
+ 10G-BPM7:U                        READBACK037                       
+   T10G_BPM7$U                       
+
+ 10G-BPM7:V                        READBACK039                       
+   T10G_BPM7$V                       
+
+ 11G-BPM1:U                        READBACK039                       
+   T11G_BPM1$U                       
+
+ 11G-BPM1:V                        READBACK039                       
+   T11G_BPM1$V                       
+
+ 11G-BPM2:U                        READBACK039                       
+   T11G_BPM2$U                       
+
+ 11G-BPM2:V                        READBACK038                       
+   T11G_BPM2$V                       
+
+ 11G-BPM4:U                        READBACK038                       
+   T11G_BPM4$U                       
+
+ 11G-BPM4:V                        READBACK038                       
+   T11G_BPM4$V                       
+
+ 11G-BPM6:U                        READBACK037                       
+   T11G_BPM6$U                       
+
+ 11G-BPM6:V                        READBACK037                       
+   T11G_BPM6$V                       
+
+ 12G-BPM1:U                        READBACK038                       
+   T12G_BPM1$U                       
+
+ 12G-BPM1:V                        READBACK037                       
+   T12G_BPM1$V                       
+
+ 12G-BPM2:U                        READBACK037                       
+   T12G_BPM2$U                       
+
+ 12G-BPM2:V                        READBACK037                       
+   T12G_BPM2$V                       
+
+ 12G-BPM4:U                        READBACK040                       
+   T12G_BPM4$U                       
+
+ 12G-BPM4:V                        READBACK039                       
+   T12G_BPM4$V                       
+
+ 12G-BPM6:U                        READBACK039                       
+   T12G_BPM6$U                       
+
+ 12G-BPM6:V                        READBACK039                       
+   T12G_BPM6$V                       
+
+ 13G-BPM1:U                        READBACK038                       
+   T13G_BPM1$U                       
+
+ 13G-BPM1:V                        READBACK038                       
+   T13G_BPM1$V                       
+
+ 13G-BPM2:U                        READBACK038                       
+   T13G_BPM2$U                       
+
+ 13G-BPM2:V                        READBACK037                       
+   T13G_BPM2$V                       
+
+ 13G-BPM4:U                        READBACK038                       
+   T13G_BPM4$U                       
+
+ 13G-BPM4:V                        READBACK038                       
+   T13G_BPM4$V                       
+
+ 13G-BPM6:U                        READBACK037                       
+   T13G_BPM6$U                       
+
+ 13G-BPM6:V                        READBACK037                       
+   T13G_BPM6$V                       
+
+ 14G-BPM1:U                        READBACK039                       
+   T14G_BPM1$U                       
+
+ 14G-BPM1:V                        READBACK039                       
+   T14G_BPM1$V                       
+
+ 14G-BPM2:U                        READBACK038                       
+   T14G_BPM2$U                       
+
+ 14G-BPM2:V                        READBACK037                       
+   T14G_BPM2$V                       
+
+ 14G-BPM4:U                        READBACK039                       
+   T14G_BPM4$U                       
+
+ 14G-BPM4:V                        READBACK039                       
+   T14G_BPM4$V                       
+
+ 14G-BPM6:U                        READBACK039                       
+   T14G_BPM6$U                       
+
+ 14G-BPM6:V                        READBACK039                       
+   T14G_BPM6$V                       
+
+ 15G-BPM1:U                        READBACK039                       
+   T15G_BPM1$U                       
+
+ 15G-BPM1:V                        READBACK039                       
+   T15G_BPM1$V                       
+
+ 15G-BPM4:U                        READBACK038                       
+   T15G_BPM4$U                       
+
+ 15G-BPM4:V                        READBACK038                       
+   T15G_BPM4$V                       
+
+ 15G-BPM6:U                        READBACK038                       
+   T15G_BPM6$U                       
+
+ 15G-BPM6:V                        READBACK037                       
+   T15G_BPM6$V                       
+
+ 16G-BPM1:U                        READBACK037                       
+   T16G_BPM1$U                       
+
+ 16G-BPM1:V                        READBACK038                       
+   T16G_BPM1$V                       
+
+ 16G-BPM2:U                        READBACK039                       
+   T16G_BPM2$U                       
+
+ 16G-BPM2:V                        READBACK039                       
+   T16G_BPM2$V                       
+
+ 16G-BPM4:U                        READBACK039                       
+   T16G_BPM4$U                       
+
+ 16G-BPM4:V                        READBACK038                       
+   T16G_BPM4$V                       
+
+ 16G-BPM6:U                        READBACK038                       
+   T16G_BPM6$U                       
+
+ 16G-BPM6:V                        READBACK039                       
+   T16G_BPM6$V                       
+
+ 17G-BPM1:U                        READBACK039                       
+   T17G_BPM1$U                       
+
+ 17G-BPM1:V                        READBACK039                       
+   T17G_BPM1$V                       
+
+ 17G-BPM2:U                        READBACK038                       
+   T17G_BPM2$U                       
+
+ 17G-BPM2:V                        READBACK038                       
+   T17G_BPM2$V                       
+
+ 17G-BPM4:U                        READBACK038                       
+   T17G_BPM4$U                       
+
+ 17G-BPM4:V                        READBACK037                       
+   T17G_BPM4$V                       
+
+ 17G-BPM6:U                        READBACK038                       
+   T17G_BPM6$U                       
+
+ 17G-BPM6:V                        READBACK038                       
+   T17G_BPM6$V                       
+
+ 18G-BPM1:U                        READBACK039                       
+   T18G_BPM1$U                       
+
+ 18G-BPM1:V                        READBACK039                       
+   T18G_BPM1$V                       
+
+ 18G-BPM2:U                        READBACK039                       
+   T18G_BPM2$U                       
+
+ 18G-BPM2:V                        READBACK039                       
+   T18G_BPM2$V                       
+
+ 18G-BPM4:U                        READBACK040                       
+   T18G_BPM4$U                       
+
+ 18G-BPM4:V                        READBACK039                       
+   T18G_BPM4$V                       
+
+ 18G-BPM7:U                        READBACK039                       
+   T18G_BPM7$U                       
+
+ 18G-BPM7:V                        READBACK039                       
+   T18G_BPM7$V                       
+
+142 rows selected
+rollback;

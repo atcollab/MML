@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>lcaGetEnumStrings</TITLE>
+<META NAME="description" CONTENT="lcaGetEnumStrings">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="manual.css">
+
+<LINK REL="next" HREF="node22.html">
+<LINK REL="previous" HREF="node20.html">
+<LINK REL="up" HREF="node2.html">
+<LINK REL="next" HREF="node22.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html311"
+  HREF="node22.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html309"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html303"
+  HREF="node20.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html312"
+  HREF="node22.html">lcaGetRetryCount, lcaSetRetryCount</A>
+<B> Up:</B> <A NAME="tex2html310"
+  HREF="node2.html">Supported EZCA Calls</A>
+<B> Previous:</B> <A NAME="tex2html304"
+  HREF="node20.html">lcaGetUnits</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html313"
+  HREF="node21.html#SECTION000219100000000000000">Calling Sequence</A>
+<LI><A NAME="tex2html314"
+  HREF="node21.html#SECTION000219200000000000000">Description</A>
+<LI><A NAME="tex2html315"
+  HREF="node21.html#SECTION000219300000000000000">Parameters</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H2><A NAME="SECTION000219000000000000000">
+lcaGetEnumStrings</A>
+</H2>
+
+<H3><A NAME="SECTION000219100000000000000">
+Calling Sequence</A>
+</H3>
+<PRE>
+enum_states = lcaGetEnumStrings(pvs)
+</PRE>
+<H3><A NAME="SECTION000219200000000000000">
+Description</A>
+</H3>
+Retrieve the symbolic values of all <SPAN  CLASS="textbf">ENUM</SPAN> states of a number of PVs.
+Some PVs represent a selection of a particular value from a small (up to 16)
+set of possible values or states and the IOC designer may associate symbolic names
+with the permissible states. This call lets the user retrieve the symbolic names
+of all these states.
+
+<P>
+
+<H3><A NAME="SECTION000219300000000000000">
+Parameters</A>
+</H3>
+<DL>
+<DT><STRONG>pvs</STRONG></DT>
+<DD>Column vector (in matlab: <SPAN  CLASS="textbf">m x 1</SPAN> <SPAN  CLASS="textbf">cell-</SPAN> matrix)
+of <SPAN  CLASS="textbf">m</SPAN> strings.
+</DD>
+<DT><STRONG>enum_states</STRONG></DT>
+<DD><SPAN  CLASS="textbf">m x n</SPAN> (with <SPAN  CLASS="textbf">n</SPAN><SPAN  CLASS="textbf">=16</SPAN>) matrix (on <SPAN  CLASS="textbf">matlab</SPAN>: <SPAN  CLASS="textbf">cell-</SPAN> matrix)
+of strings holding the <SPAN  CLASS="textbf">ENUM</SPAN> states defined for the PVs.
+
+<P>
+Unused/undefined states -- this covers also the
+case when the PV does not support <SPAN  CLASS="textbf">ENUM</SPAN> states -- are set to the empty string.
+</DD>
+</DL>
+
+<P>
+<BR>
+<BR><HR>
+<ADDRESS>
+till
+2017-08-08
+</ADDRESS>
+</BODY>
+</HTML>

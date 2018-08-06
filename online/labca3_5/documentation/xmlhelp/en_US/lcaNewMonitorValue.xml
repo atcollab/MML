@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from lcaNewMonitorValue.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="lcaNewMonitorValue" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>lcaNewMonitorValue</refname>
+    <refpurpose>Check if monitored PVs need to be read, i.</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   
+   [flags] = lcaNewMonitorValue(pvs, type)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Description</title>
+   <para>
+   </para>
+   <para>
+Check if monitored PVs need to be read, i.e, if fresh data are
+available (e.g., due to initial connection or changes in value and/or
+severity status). Reading the actual data must be done using [1]lcaGet.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>Column vector (in matlab:</term>
+      <listitem><para> m x 1 cell- matrix) of m strings.</para></listitem></varlistentry>
+   <varlistentry><term>NOTE:</term>
+      <listitem><para> As of labCA version 3 the flags no longer report error</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+
+try and(lcaNewMonitorValue(pvvec))
+vals = lcaGet(pvvec)
+catch
+errs = lcaLastError()
+handleErrs(errs)
+end
+__________________________________________________________________
+
+
+till 2017-08-08
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>See also</title>
+   <simplelist type="inline">
+   <member><link linkend="lcaGet">1. lcaGet</link></member>
+   <member><link linkend="lcaGet">2. lcaGet</link></member>
+   <member><link linkend="lcaSetMonitor">3. lcaSetMonitor</link></member>
+   <member><link linkend="Error">4. Error</link></member>
+   <member><link linkend="lcaLastError">5. lcaLastError</link></member>
+   <member><link linkend="lcaNewMonitorWait">6. lcaNewMonitorWait</link></member>
+   </simplelist>
+</refsection>
+</refentry>

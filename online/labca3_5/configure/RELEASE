@@ -1,0 +1,88 @@
+# RELEASE Location of external products
+#
+# Run "gnumake clean uninstall install" in the application
+# top directory each time this file is changed.
+#
+# NOTE: The build does not check dependencies on files
+# external to this application. Thus you should run
+# "gnumake clean uninstall install" in the top directory
+# each time EPICS_BASE, SNCSEQ, or any other external
+# module defined in the RELEASE file is rebuilt.
+
+# If you don't want to install into $(TOP) then
+# define INSTALL_LOCATION_APP here
+
+#INSTALL_LOCATION_APP=<fullpathname>
+
+##########################################
+## Tell us where EPICS base is installed
+
+#EPICS_BASE=/home/till/epics/base/base-3-14-12
+EPICS_BASE=C:\epics\base
+
+##########################################
+# For the following definitions
+# (MATLABDIR + SCILABDIR, that is)
+# different methods can be used [we use
+# XXX as a placeholder which could be any
+# of MATLABDIR or SCILABDIR]:
+#
+# 1) if XXX is defined then it overrides
+#    everything else
+# 2) Architecture specific paths can be
+#    given (e.g., because matlab for solaris
+#    is installed in a different place from
+#    matlab for linux on a file server):
+#
+#    XXX_<epics_host_arch> is used if not empty
+#    else XXX_DEFAULT is used.
+#
+# Examples:
+#
+# MATLABDIR = /a/b/c  (use same MATLABDIR for everything)
+#
+# SCILABDIR_win32-x86 = C:\SCILAB           (use this on WIN32)
+# SCILABDIR_DEFAULT   = /usr/lib/scilab-4.1 (use for everything else)
+##########################################
+
+##########################################
+# Tell us where SCILAB is installed (only
+# needed if MAKEFOR != MATLAB [in CONFIG])
+
+#SCILABDIR=/usr
+
+#you can also use EPICS_HOST_ARCH - specific
+#paths -- see above
+
+##########################################
+# Tell us where MATLAB is installed (only
+# needed if MAKEFOR=MATLAB [in CONFIG])
+
+#MATLABDIR=/afs/slac/package/matlab/2010a
+MATLABDIR=C:\matlab\R2017b
+
+#you can also use EPICS_HOST_ARCH - specific
+#paths -- see above
+
+##########################################
+# Finally, we need to know what compiler
+# you use to get the correct matlab libmx and
+# libmex versions. This points to the compiler
+# specific subdir (example for MS visual C / matlab R2006b)
+# ONLY NEEDED ON WINDOZE (setting is ignored on
+# other platforms) where the 'libmex.lib' and
+# 'libmx.lib' are found.
+
+# older matlab needed 'msvcXY' subdir
+#
+#MATLIB_SUBDIR=win32/microsoft/msvc70
+#
+# more recent matlab just uses win32/microsoft
+#
+#MATLIB_SUBDIR=win32/microsoft
+#
+# or win64/microsoft
+#
+#MATLIB_SUBDIR=win64/microsoft
+#
+MATLIB_SUBDIR=win64/microsoft

@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of bendalign</title>
+  <meta name="keywords" content="bendalign">
+  <meta name="description" content="locate bend magnets in AO and return alignment to zero">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; bendalign.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>bendalign
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>locate bend magnets in AO and return alignment to zero</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function bendalign(sx,sy); </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">locate bend magnets in AO and return alignment to zero
+function bendalign(sx,sy);  sx and sy are sigma values for randn; 
+units are meters</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function bendalign(sx,sy);</a>
+0002 <span class="comment">%locate bend magnets in AO and return alignment to zero</span>
+0003 <span class="comment">%function bendalign(sx,sy);  sx and sy are sigma values for randn;</span>
+0004 <span class="comment">%units are meters</span>
+0005 <span class="keyword">if</span> nargin&lt;2
+0006     disp(<span class="string">'Error in bendalign - must supply alignment spreads'</span>);
+0007     <span class="keyword">return</span>
+0008 <span class="keyword">end</span>
+0009 
+0010 <span class="keyword">global</span> THERING
+0011 AO = getao;
+0012 
+0013 ATindx=[];   <span class="comment">%indices of bend magnets</span>
+0014 mx=[];
+0015 my=[];
+0016 len=findspos(THERING,length(THERING)+1);
+0017 
+0018 <span class="keyword">for</span> ii=1:length(AO)
+0019     <span class="keyword">if</span> strcmp(lower(AO{ii}.FamilyType),<span class="string">'bend'</span>)
+0020         indx=AO{ii}.AT.ATIndex;
+0021         
+0022         <span class="comment">%assign random alignment error to first magnet</span>
+0023         mx=[mx; sx*randn];
+0024         my=[my; sy*randn];
+0025 
+0026         <span class="comment">% assign random error to rest of family</span>
+0027         tol=1e-6; <span class="comment">%tolerance for spacing between magnets</span>
+0028         <span class="keyword">for</span> jj=2:length(indx)
+0029             
+0030             <span class="comment">%check for split magnets</span>
+0031             <span class="keyword">if</span> AO{ii}.Position(jj)-THERING{indx(jj)}.Length - AO{ii}.Position(jj-1)&lt;tol   <span class="comment">%magnet split</span>
+0032                disp([<span class="string">'   Split magnet '</span> AO{ii}.FamilyName <span class="string">' found in function bendalign with index  '</span>, num2str(indx(jj))]);
+0033                mx=[mx; -mx(end)];
+0034                my=[my; -my(end)];
+0035            <span class="keyword">else</span>   <span class="comment">%magnet not split</span>
+0036                mx=[mx; sx*randn];   
+0037                my=[my; sy*randn];
+0038            <span class="keyword">end</span>
+0039            
+0040         <span class="keyword">end</span>
+0041         
+0042         <span class="comment">%check if first/last element split in THERING</span>
+0043         <span class="keyword">if</span> abs(AO{ii}.Position(1))  &lt; tol  &amp; <span class="keyword">...</span><span class="comment">    %first element near zero</span>
+0044            abs((len - AO{ii}.Position(end) - THERING{indx(end)}.Length &lt; tol))      <span class="comment">%last element near end</span>
+0045            disp([<span class="string">'   Split magnet '</span> AO{ii}.FamilyName <span class="string">' found in function bendalign with index  '</span>,<span class="keyword">...</span>
+0046            num2str(indx(1)), <span class="string">' '</span>,num2str(indx(end))]);
+0047            mx(end)=-mx(end-length(indx)+1);       <span class="comment">%error on last quad same as error on first quad in family</span>
+0048            my(end)=-my(end-length(indx)+1);
+0049         <span class="keyword">end</span>
+0050         
+0051         ATindx=[ATindx; indx];
+0052     <span class="keyword">end</span>  <span class="comment">%end quad condition</span>
+0053 <span class="keyword">end</span>  <span class="comment">%end loop over families</span>
+0054 
+0055 <span class="comment">%set polynomials to mimic dipole misalignment errors</span>
+0056 <span class="keyword">for</span> ii=1:length(ATindx)
+0057     
+0058     rho=THERING{ATindx(ii)}.Length/THERING{ATindx(ii)}.BendingAngle;
+0059     dB=THERING{ATindx(ii)}.PolynomB(2)*mx(ii)*rho;                              <span class="comment">%dB = (gradB/B*rho)*dx*rho</span>
+0060     THERING{ATindx(ii)}.PolynomB(1)=THERING{ATindx(ii)}.PolynomB(1)+dB;         <span class="comment">%horizontal</span>
+0061 
+0062     THERING{ATindx(ii)}.PolynomA(1)=THERING{ATindx(ii)}.PolynomA(1)+dB;         <span class="comment">%vertical</span>
+0063 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

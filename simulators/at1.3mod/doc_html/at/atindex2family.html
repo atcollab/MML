@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of atindex2family</title>
+  <meta name="keywords" content="atindex2family">
+  <meta name="description" content="ATINDEX2FAMILY - Returns the AT index for a given family">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; atindex2family.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>atindex2family
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>ATINDEX2FAMILY - Returns the AT index for a given family</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [Family, DeviceList, FamilyCell, DeviceListCell, ErrorFlag] = atindex2family(ATIndex, varargin); </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">ATINDEX2FAMILY - Returns the AT index for a given family
+  [Family, DeviceList] = atindex2family(ATIndex)
+
+  INPUTS
+  1. ATIndexList - AT indexes referenced to THERING
+ 
+  OUTPUTS
+  1. Family - Family Name (first match found)
+  2. DeviceList - Device list (first match found)
+  3. FamilyCell - Family name cell array of all AT index matches 
+  4. DeviceListCell - Device list cell array of all AT index matches</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>	FAMILY2ATINDEX - Returns the AT index for a given family</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [Family, DeviceList, FamilyCell, DeviceListCell, ErrorFlag] = atindex2family(ATIndex, varargin);</a>
+0002 <span class="comment">%ATINDEX2FAMILY - Returns the AT index for a given family</span>
+0003 <span class="comment">%  [Family, DeviceList] = atindex2family(ATIndex)</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">%  INPUTS</span>
+0006 <span class="comment">%  1. ATIndexList - AT indexes referenced to THERING</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">%  OUTPUTS</span>
+0009 <span class="comment">%  1. Family - Family Name (first match found)</span>
+0010 <span class="comment">%  2. DeviceList - Device list (first match found)</span>
+0011 <span class="comment">%  3. FamilyCell - Family name cell array of all AT index matches</span>
+0012 <span class="comment">%  4. DeviceListCell - Device list cell array of all AT index matches</span>
+0013 
+0014 <span class="comment">%  Written by Greg Portmann</span>
+0015 
+0016 
+0017 <span class="keyword">if</span> nargin == 0,
+0018     error(<span class="string">'Must have at least one input (ATIndex).'</span>);
+0019 <span class="keyword">end</span>
+0020 
+0021 <span class="keyword">if</span> isempty(ATIndex)
+0022     Family = <span class="string">''</span>; 
+0023     DeviceList = [];
+0024     ErrorFlag = -1;
+0025     <span class="keyword">return</span>;
+0026 <span class="keyword">end</span>
+0027 
+0028 
+0029 Families = getfamilylist;
+0030 FamilyCell = {};
+0031 DeviceListCell = {};
+0032 iHit = [];
+0033 <span class="keyword">for</span> i = 1:size(Families,1)
+0034     Family = deblank(Families(i,:));
+0035     DeviceList = family2dev(Family, 0);
+0036     <span class="keyword">try</span>
+0037         [ATIndexList, ErrorFlag] = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(Family, DeviceList);
+0038         
+0039         [iHit, Col] = find(ATIndex == ATIndexList);
+0040         <span class="keyword">if</span> ~isempty(iHit)
+0041             FamilyCell = [FamilyCell;{Family}];
+0042             DeviceListCell = [DeviceListCell; {DeviceList(iHit,:)}];
+0043             <span class="keyword">if</span> nargout &lt; 3
+0044                 <span class="keyword">break</span>;
+0045             <span class="keyword">end</span>
+0046         <span class="keyword">end</span>
+0047     <span class="keyword">catch</span>
+0048     <span class="keyword">end</span>
+0049 <span class="keyword">end</span>
+0050 
+0051 <span class="keyword">if</span> isempty(FamilyCell)
+0052     Family = <span class="string">''</span>;
+0053     DeviceList = [];
+0054     ErrorFlag = -1;
+0055 <span class="keyword">else</span>
+0056     Family = FamilyCell{1};
+0057     DeviceList = DeviceListCell{1};
+0058     ErrorFlag = 0;
+0059 <span class="keyword">end</span>
+0060</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

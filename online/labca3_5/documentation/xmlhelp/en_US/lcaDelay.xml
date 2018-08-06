@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from lcaDelay.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="lcaDelay" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>lcaDelay</refname>
+    <refpurpose>Delay execution of scilab or matlab for the specified time to handle    channel access activity (monitors).</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   
+   lcaDelay(timeout)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Description</title>
+   <para>
+   </para>
+   <para>
+Delay execution of scilab or matlab for the specified time to handle
+channel access activity (monitors). Using this call is not needed under
+EPICS-3.14 since monitors are transparently handled by separate
+threads. These ``worker threads'' receive data from CA on monitored
+channels ``in the background'' while scilab/matlab are processing
+arbitrary calculations. You only need to either poll the library for
+the data being ready using the [1]lcaNewMonitorValue()) routine or
+block for data becoming available using [2]lcaNewMonitorWait.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>See also</title>
+   <simplelist type="inline">
+   <member><link linkend="lcaNewMonitorValue">1. lcaNewMonitorValue</link></member>
+   <member><link linkend="lcaNewMonitorWait">2. lcaNewMonitorWait</link></member>
+   </simplelist>
+</refsection>
+</refentry>

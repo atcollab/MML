@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of tfmad2at</title>
+  <meta name="keywords" content="tfmad2at">
+  <meta name="description" content="TFMAD2AT - Convert a MAD 6x6 transfer matrix to AT">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; tfmad2at.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>tfmad2at
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>TFMAD2AT - Convert a MAD 6x6 transfer matrix to AT</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function R = tfmad2at(R) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">TFMAD2AT - Convert a MAD 6x6 transfer matrix to AT
+  Rat = tfmad2at(Rmad)
+
+        1   2  3   4    5    6
+  MAD:  x, px, y, py,  dL,  dp/p   (negative time lag)
+  AT:   x, px, y, py, dp/p, dL     (positive time lag)
+
+  See also <a href="tfat2mad.html" class="code" title="function R = tfat2mad(R)">tfat2mad</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function R = tfmad2at(R)</a>
+0002 <span class="comment">%TFMAD2AT - Convert a MAD 6x6 transfer matrix to AT</span>
+0003 <span class="comment">%  Rat = tfmad2at(Rmad)</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">%        1   2  3   4    5    6</span>
+0006 <span class="comment">%  MAD:  x, px, y, py,  dL,  dp/p   (negative time lag)</span>
+0007 <span class="comment">%  AT:   x, px, y, py, dp/p, dL     (positive time lag)</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">%  See also tfat2mad</span>
+0010 
+0011 
+0012 <span class="comment">% MAD uses the same transverse variables if constant ddp is 0</span>
+0013 
+0014 R = R(:,[1 2 3 4 6 5]);
+0015 R = R([1 2 3 4 6 5],:);
+0016 R(:,6) = -1 * R(:,6);
+0017 R(6,:) = -1 * R(6,:);</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

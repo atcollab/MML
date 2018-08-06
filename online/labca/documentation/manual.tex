@@ -1,0 +1,1088 @@
+\documentclass{article}
+%\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{bookman}
+\usepackage{color}
+\usepackage{graphics}
+\usepackage{html, makeidx}
+
+\newcommand{\sca}{\ita{labCA}}
+\newcommand{\scilab}{\ita{scilab}}
+\newcommand{\matlab}{\ita{matlab}}
+\newcommand{\windoze}{\ita{win32}}
+\newcommand{\linux}{\ita{linux}}
+\newcommand{\solaris}{\ita{solaris}}
+\newcommand{\ezca}{\ita{ezca}}
+\newcommand{\com}[1]{{\tt #1}}
+\newcommand{\NAN}{\mbox{NaN}}
+\newcommand{\pbrk}{\pagebreak[3]}
+\newcommand{\pbrkf}{\pagebreak}
+\newcommand{\comref}[2]{\hyperref[ref]{\com{#1}}{\com{#1} (see }{)}{#2}}
+
+\newcommand{\ita}[1]{\emph{#1}}
+
+\newcommand{\m}{$m$}
+\newcommand{\mhack}{$m$} %latex2html didnt properly renewcommand \m inside \PVITEM ???
+\newcommand{\n}{$n$}
+\newcommand{\mxn}{$m\times n$}
+\newcommand{\mxl}{$m\times 1$}
+\newcommand{\lxn}{$1\times n$}
+\newcommand{\calimit}{$\approx 16$kB}
+\newcommand{\sevrange}{$0..3$}
+
+
+\begin{htmlonly}
+\renewcommand{\m}{\ita{m}}
+\newcommand{\mhack}{\ita{m}} %latex2html didnt properly renewcommand \m inside \PVITEM ???
+\renewcommand{\n}{\ita{n}}
+\renewcommand{\mxn}{\ita{m x n}}
+\renewcommand{\mxl}{\ita{m x 1}}
+\renewcommand{\lxn}{\ita{1 x n}}
+\renewcommand{\calimit}{\~{} 16kB}
+\renewcommand{\sevrange}{0..3}
+\renewcommand{\pbrk}{}
+\renewcommand{\pbrkf}{}
+\end{htmlonly}
+
+
+\newcommand{\PVITEM}{
+\item[pvs] Column vector (in matlab: \mxl{} \ita{cell-} matrix)
+of \mhack{} strings.
+}
+
+
+\title{\sca{} --- An EPICS Channel Access Interface for \scilab{} and \matlab{}}
+\author{Till Straumann $<$straumanATslac.stanford.edu$>$, 2003}
+\date{May 23, 2007}
+
+\begin{document}
+\maketitle
+{\hspace*{\fill}{\small\verb$Id: manual.tex,v 1.38 2007/06/05 05:00:12 guest Exp $}\hspace*{\fill}}
+\section{Introduction}
+The \sca{} package provides an interface to the
+EPICS channel access client library which can be
+integrated with the \scilab{} or \matlab{} applications.
+Both, \scilab{} and \matlab{} feature an API for interfacing
+to user binaries written in a programming language such
+as C or Fortran. \sca{} properly wraps the essential
+channel access routines and makes them accessible
+from the \scilab%
+\footnote{throughout this text, references to \scilab{}
+usually mean \scilab{} or \matlab.}
+command line.
+
+\sca{} actually uses an extra layer, the \ezca{} library
+which transparently manages and caches channel access 
+connections. A modified version of \ezca{} comes with
+\sca, adding thread-safety and hence EPICS 3.14 fitness.
+
+As of \sca{} version 3 further improvements to \ezca{}
+have been made that exploit features of the multi-threaded
+CA library (EPICS 3.14 only) in order to speed up response time.
+Earlier versions always handed control to \ezca{} in multiples of the
+\sca{} \ita{timeout}, i.e., even if data from a channel
+were available quicker the library would wait until the
+next timeout quantum expired. Since version 3 a \sca{}
+call returns immediately after the underlying request
+completes.
+
+A very convenient feature of \sca{} is the ability
+to execute \ezca{} calls on groups of PVs, simply by
+passing the respective \sca{} routine a column vector
+of PV names.
+
+\sca{} has been tested with EPICS 3.13%
+\footnote{Support for 3.13 has been dropped as of \sca{} version 3}%
+,
+3.14, \scilab-2.7 .. \scilab-4.1,
+\matlab-6.5, \matlab-7 on \ita{linux}, \ita{solaris} and
+\windoze. Note that while some of these combinations have been
+tested and been known working in the past, only the latest
+versions of the respective components have been tested
+and verified to build and run successfully with the
+current version of \sca{}. Modifications to the \com{Makefile}s
+might be necessary to build older versions.
+
+\vspace*{\fill}
+\pbrk
+\section{Supported EZCA Calls}
+\sca{} implements an interface to almost all public
+\ezca{} routines\footnote{%
+the \matlab{} implementation may still lack some of the
+more esoteric commands}. Note that the arguments and
+return values do not exactly correspond to the respective
+\ezca{} originals but have been adapted to make sense
+in the  \scilab{}%
+\footnote{throughout this text, references to \scilab{}
+usually mean \scilab{} or \matlab.}
+environment.
+
+\subsection{Common Arguments and Return Values}
+\subsubsection{PV Argument}
+All \sca{} calls take a \ita{PV} argument identifying
+the EPICS process variables the user wants to connect to.
+PVs are plain ASCII strings. \sca{} is capable of handling
+multiple PVs in a single call; they are simply passed as a
+column vector:
+\begin{verbatim}
+pvs = [ 'PVa'; 'b'; 'anotherone' ]
+\end{verbatim}
+Because \matlab{} doesn't allow the rows of
+a string vector to be of different size, the \matlab{}
+wrapper expects a \ita{cell-} array of strings:
+\begin{verbatim}
+pvs = { 'PVa'; 'b'; 'anotherone' }
+\end{verbatim}
+
+All channel access activities for the PVs
+passed to a single \sca{} call are batched together and
+completion of the batch is awaited before returning from
+the \sca{} call. Consider the following example:%
+\footnote{
+In \matlab{}, the square brackets (``[]'') must be replaced
+by curly braces (``\{\}'').}
+\begin{verbatim}
+lcaPut( 'trigger', 1 ) \\
+data=lcaGet( ['sensor1' ; 'sens2'] );
+\end{verbatim}
+\begin{itemize}
+%
+\item It is guaranteed that writing the ``trigger''
+completes (on the CA server) prior to reading the
+sensors.%%
+\footnote{If the remote sensors have finite
+processing time, the subsequent CA read may still
+get old data --- depending on the device support
+etc.; this is beyond the scope of channel access, however.}
+%
+\item Reading the two sensors is done in ``parallel'' ---
+the exact order is unspecified. After the command sequence
+(successfully) completes, all the data are valid.
+\end{itemize}
+
+\subsubsection{Timestamp Format}
+\label{tsformat}
+Channel access timestamps are ``POSIX struct timespec''
+compliant, i.e. they provide the number of nanoseconds
+expired since 00:00:00 UTC, January 1, 1970. \sca{} 
+translates the timestamps into \ita{complex numbers}
+with the seconds (\com{tv\_sec} member) and nanoseconds
+(\com{tv\_nsec}) in the real and imaginary parts, respectively.
+This makes it easy to extract the seconds while still maintaining
+full accuracy.
+
+\subsection{Error Handling}
+\label{errorhandling}
+All errors%
+\footnote{As of version 3; earlier versions didn't consistently
+``throw'' all errors so that they could be caught by the
+\com{try-catch-end} mechanism but would merely print messages
+when encountering some minor errors. Also, versions earlier than 3
+would not report error IDs/messages to \com{lasterror} nor
+implement the \comref{lcaLastError}{lcalasterror} routine.}
+encountered during execution of \sca{} calls result in the
+call being aborted, a message being printed to the console
+and an error status being recorded which
+can be retrieved using \scilab{}'s \com{lasterror} command.
+The recommended method for handling errors is \scilab{}'s
+\mbox{\com{try -- catch -- end}} construct:
+\begin{verbatim}
+	try
+		val = lcaGet(pvvector)
+	catch
+		err   = lasterror()
+		// additional information is provided
+		// by the 'lcaLastError' routine
+		stats = lcaLastError()
+		// handle error here
+	end
+\end{verbatim}
+Many \sca{} calls can handle multiple PVs at once
+and underlying CA operations may fail for a subset of PVs only.
+However, \com{lasterror} only supports reporting a single error
+status. Therefore the \comref{lcaLastError}{lcalasterror} routine
+was implemented: if a \sca{} call fails for a subset of PVs then
+a subsequent call to \com{lcaLastError} returns a column vector
+of status values for the individual PVs.
+The error codes are shown in
+\hyperref{Table~}{Table~}{}{tbl:errors}%
+\begin{htmlonly}
+\ref{tbl:errors}%
+\end{htmlonly}
+.
+
+\begin{table}[h]
+\begin{tabular}{r|l|p{5.5cm}}
+	\#                   &      Matlab Error ID         & Comment \\
+	\hline
+	0                    & \com{labca:unexpectedOK}     & No error \\
+    1                    & \com{labca:invalidArg}       & Invalid argument \\
+    2                    & \com{labca:noMemory}         & Not enough memory \\
+    3                    & \com{labca:channelAccessFail}& Underlying CA operation failed \\
+    4                    & \com{labca:udfCaReq}         & Item(s) requested undefined for its/their native data type\\
+    5                    & \com{labca:notConnected}     & Channel currently disconnected\\
+    6                    & \com{labca:timedOut}         & No response in time \\
+    7                    & \com{labca:inGroup}          & Currently in a EZCA group\\
+    8                    & \com{labca:notInGroup}       & Currently not in a EZCA group\\
+    9                    & \com{labca:usrAbort}         & EZCA call aborted by user (Ctrl-C) \\
+    20                   & \com{labca:noMonitor}        & No monitor for PV/type found\\
+    21                   & \com{labca:noChannel}        & No channel for PV name found\\
+\end{tabular}
+\caption{~\sca{} error codes. Numerical codes (\scilab{} \com{lasterror} and
+\com{lcaLastError()}) and corresponding \matlab{} error ``ID''s
+(as returned by \matlab{} \com{lasterror}).}
+\label{tbl:errors}
+\end{table}
+
+
+\vspace*{\fill}
+\pbrk
+\subsection{lcaGet}
+\label{lcaget}
+\subsubsection{Calling Syntax}
+\begin{verbatim}
+[value, timestamp] = lcaGet(pvs, nmax, type)
+\end{verbatim}
+\subsubsection{Description}
+Read a number of \m{} PVs, which may be scalars or arrays of
+different dimensions. The result is converted into a \mxn{}
+matrix. The number of columns, \n, is automatically assigned
+to fit the largest array among the \m{} PVs.  PVs with less than
+\n{} elements have their excess elements in the result matrix
+filled with \NAN.
+
+If all PVs are of native type DBF\_STRING or DBF\_ENUM, the
+values are returned as character strings; otherwise,
+all values are converted into double precision numbers.
+Explicit type conversion into strings can be enforced by submitting
+the `type' argument described below.
+
+\subsubsection{Parameters}
+\begin{description}
+\PVITEM
+%
+%
+\item[nmax] \label{nmaxarg}
+(\ita{optional argument}) Maximum number of elements
+(per PV) to retrieve (i.e. limit the number of columns of \com{value} to
+\ita{nmax}).
+If set to 0 (default), all elements are fetched
+and the number of columns, \n, in the result matrix is set to the
+maximum number of elements among the PVs. The option is useful
+to limit the transfer time of large waveforms (unfortunately,
+CA does not return the valid elements (``NORD'') of
+an array only --- it always ships \ita{all} elements).
+%
+%
+\item[type] \label{typearg}
+(\ita{optional argument}) A string specifying the
+data type to be used for the channel access data transfer. Note
+that unless the PVs are of native ``string'' type or conversion to
+``string'' is enforced explicitely (type = \com{char}), \sca{}
+always converts the data to ``double'' locally.
+
+It can be desirable, however, to use a different data type for the
+transfer because by default CA transfers are limited to \calimit.
+Legal values for \com{type}{} are \com{byte}, \com{short}, \com{long},
+\com{float}, \com{double}, \com{native} or \com{char} (strings).
+There should rarely be a need for using anything other than \com{native},
+the default, which directs CA to use the same type for transfer as the
+data are stored on the server.
+
+Occasionally, conversion to \com{char} can be useful: retrieve a number
+of PVs as strings, i.e. let the CA server convert them to strings
+(if the PVs are not native strings already) and transfer them.
+
+If multiple PVs are requested, either none or all must be of native
+DBF\_STRING or DBF\_ENUM type unless explicit conversion to \com{char}
+is enforced by specifying this argument.
+
+Note that while \com{native}{} might result in different types
+being used for different PVs, it is currently not possible to
+explicitely request different types for individual PVs (i.e.
+\com{type}{} can't be a vector).
+%
+%
+\item[value] The \mxn{} result matrix. \n{} is automatically
+assigned to accomodate the PV with the most elements. If the \com{nmax}{}
+argument is given and is nonzero but less than the automatically
+determined \n, then \n{} is clipped to \com{nmax}.
+Excess elements of PVs with less than \n{} elements are filled with
+\NAN{} values.
+
+The result is either a `double' or a (\matlab: \ita{cell-}) `string'
+matrix (if all PVs are of native string type or explicit conversion
+was requested by setting the `type' argument to `\com{char}').
+
+\sca{} checks the channel access severity of the retrieved PVs and
+fills the rows corresponding to \ita{INVALID} PVs with \NAN%
+\footnote{
+Actually, all fields of an EPICS database record share a common
+severity, (which itself is a field/PV --- the .SEVR field). However,
+the \ita{INVALID} status actually only applies to the .VAL field
+of a record --- other fields (e.g. .EGU) may still hold meaningful data.
+Consequently, \ita{INVALID} PVs are returned as \NAN{} only if
+they refer to a record's .VAL field.
+}. In addition, warning
+messages are printed to the console if a PV's alarm status exceeds
+a \hyperref[ref]{configurable threshold}{configurable threshold (see }{ )}{swarnlevel}.
+The refusal to read PVs with \ita{INVALID} severity can be tuned using
+the \com{lcaSetSeverityWarnLevel} call as well.
+%
+%
+\item[timestamp] (\ita{optional result}) A \mxl{}
+column vector of \ita{complex} numbers holding the CA timestamps of
+the requested PVs. The timestamps count the number of seconds (real part)
+and fractional nanoseconds (imaginary part) elapsed since
+00:00:00 UTC, Jan. 1, 1970.
+\end{description}
+\subsubsection{Examples}
+\begin{verbatim}
+// read a PV
+    lcaGet( 'thepv' )
+// read multiple PVs along with their EPICS timestamps
+    [ vals, tstamps] = lcaGet( [ 'aPV' ; 'anotherPV' ] )
+// read an 'ENUM/STRING'
+    lcaGet( 'thepv.SCAN' )
+// read an 'ENUM/STRING' as a number (server converts)
+    lcaGet( 'thepv.SCAN', 0, 'float' )
+// enforce reading all PVs as strings (server converts)
+// NOTE: necessary if native num/nonnum types are mixed
+    lcaGet( [ 'apv.SCAN'; 'numericalPV' ] , 0, 'char' )
+// limit reading a waveform to its NORD elements
+    nord = lcaGet( 'waveform.NORD' )
+	if nord > 0 then
+      lcaGet( 'waveform', nord )
+	end
+\end{verbatim}
+
+\pbrk
+\subsection{lcaPut}
+\label{lcaput}
+\subsubsection{Calling Syntax}
+\begin{verbatim}
+lcaPut(pvs, value, type)
+\end{verbatim}
+\subsubsection{Description}
+Write to a number of PVs which may be scalars or arrays of different
+dimensions. It is possible to write the same value to a collection of PVs.
+\subsubsection{Parameters}
+\begin{description}
+\PVITEM
+%
+%
+\item[value] \mxn{} matrix or \lxn{} row vector of values
+to be written to the PVs. If there is only a single row in \com{value}{}
+it is written to all \m{} PVs. \com{value} may be a matrix of ``double''
+precision numbers or  a (\matlab: \ita{cell-}) matrix of strings (in
+which case the values are transferred as strings and converted by the
+CA server to the native type --- this is particularly useful for
+DBF\_ENUM / ``menu'' type PVs).
+
+It is possible to write less than \n{} elements --- \sca{} scans all rows
+for \NAN{} values and only transfers up to the last non-\NAN{} element in each
+row.
+%
+%
+\item[type] (\ita{optional argument}) A string specifying the
+data type to be used for the channel access data transfer. Note
+that \sca{} always converts numerical data from ``double'' locally.
+
+It can be desirable, to use a different data type for the
+transfer because by default CA transfers are limited to \calimit.
+Legal values for \com{type}{} are \com{byte}, \com{short}, \com{long},
+\com{float}, \com{double}, \com{char} or \com{native}. There should rarely
+be a need for using anything other than \com{native}, the default,
+which directs CA to use the same type for transfer as the data are
+stored on the server. If \com{value} is a string matrix, \com{type}
+is automatically set to \com{char}.
+
+Note that while \com{native}{} might result in different types
+being used for different PVs, it is currently not possible to
+explicitely request different types for individual PVs (i.e. 
+\com{type}{} cannot be a vector).
+%
+\end{description}
+
+\subsubsection{Examples}
+\begin{verbatim}
+// write a PV
+    lcaPut( 'thepv', 1.234 )
+// write as a string (server converts)
+    lcaPut( 'thepv', '1.234' )
+// write/transfer as a short integer (server converts)
+    lcaPut( 'thepv', 12, 'short' )
+// write multiple PVs (use { } on matlab)
+    lcaPut( [ 'pvA'; 'pvB' ], [ 'a'; 'b' ] );
+// write array PV
+    lcaPut( 'thepv' , [ 1, 2, 3, 4 ] )
+// write same value to a group of PVs (string
+// concatenation differs on matlab)
+    lcaPut( [ 'pvA'; 'pvB' ] + '.SCAN', '1 second' )
+// write array and scalar PV (using NaN as a delimiter)
+    tab = [ 1, 2, 3, 4 ;   5, %nan, 0, 0 ]
+	lcaPut( [ 'arrayPV'; 'scalarPV' ], tab )
+\end{verbatim}
+
+\vspace*{\fill}
+\pbrkf
+\subsection{lcaPutNoWait}
+\label{lcaputnowait}
+\subsubsection{Calling Syntax}
+\begin{verbatim}
+lcaPutNoWait(pvs, value, type)
+\end{verbatim}
+\subsubsection{Description}
+\com{lcaPutNoWait} is a variant of \com{lcaPut} that does {\em not wait}
+for the channel access put request to complete on the server prior to
+returning control to the command line.
+This call can be useful to set PVs that are known to take a long
+or indefinite time to complete processing, e.g., arming a waveform record
+which is triggered by a hardware event in the future or starting a stepper
+motor.
+
+\subsubsection{Parameters}
+See \com{lcaPut}.
+
+\vspace*{\fill}
+\pbrk
+\subsection{lcaGetNelem}
+\subsubsection{Calling Syntax}
+\begin{verbatim}
+numberOfElements = lcaGetNelem(pvs)
+\end{verbatim}
+\subsubsection{Description}
+Retrieve the element count of a number of PVs. Note that this is not
+necessarily the number of \ita{valid} elements (e.g. the actual number
+of values read from a device into a waveform) but the maximum number
+of elements a PV can hold.
+\subsubsection{Parameters}
+\begin{description}
+\PVITEM
+%%
+\item[numberOfElements] \mxl{} column vector of the PV's number
+of elements (``array dimension'').
+\end{description}
+
+\pbrk
+\subsection{lcaSetMonitor}
+\label{lcasetmonitor}
+\subsubsection{Calling Syntax}
+\begin{verbatim}
+lcaSetMonitor(pvs, nmax, type)
+\end{verbatim}
+\subsubsection{Description}
+Set a ``monitor'' on a set of PVs. Monitored PVs are automatically retrieved
+every time their value or status changes. 
+Monitors are especially useful under EPICS-3.14 which supports
+multiple threads. EPICS-3.14 transparently reads monitored PVs as needed.
+Older, single threaded versions of EPICS require periodic calls to \sca{}
+e.g., to \comref{lcaDelay}{lcadelay}, in order to allow \sca{} to handle
+monitors.
+
+Use the \comref{lcaNewMonitorValue}{lcanewmonitorvalue} call to check
+monitor status (local flag) or \comref{lcaNewMonitorWait}{lcanewmonitorwait}
+to wait for new data to become available (since last \com{lcaGet} or \com{lcaSetMonitor}).
+If new data are available, they are retrieved using
+the ordinary \comref{lcaGet}{lcaget} call.
+
+Note the difference between polling and monitoring a PV in combination with
+polling the local monitor status flag (\comref{lcaNewMonitorValue}{lcanewmonitorvalue}).
+In the first case, remote data are fetched
+on every polling cycle whereas in the second case, data are transferred only
+when they change.  Also, in the monitored case, \com{lcaGet} reads from a local
+buffer rather than from the network. It is most convenient however to wait
+for monitored data to arrive using \comref{lcaNewMonitorWait}{lcanewmonitorwait}
+rather than polling.
+
+There is currently no possibility to selectively remove a monitor. Use
+the \comref{lcaClear}{lcaclear} call to disconnect a channel and as a side-effect,
+remove all monitors on that channel. Future access to a cleared channel
+simply reestablishes a connection (but no monitors).
+\subsubsection{Parameters}
+\begin{description}
+\PVITEM
+\item[nmax]
+(\ita{optional argument}) Maximum number of elements
+(per PV) to monitor/retrieve. If set to 0 (default), all elements are fetched.
+See \hyperref[ref]{here}{(}{)}{nmaxarg} for more information.
+
+Note that a subsequent \comref{lcaGet}{lcaget} must specify a \com{nmax}
+argument equal or less than the number given to \com{lcaSetMonitor} ---
+otherwise the \com{lcaGet} operation results in fetching a new
+set of data from the server because the \com{lcaGet} request cannot
+be satisfied using the copy locally cached by the monitor-thread.
+\item[type]
+(\ita{optional argument}) A string specifying the
+data type to be used for the channel access data transfer. The
+native type is used by default.
+See \hyperref[ref]{here}{(}{)}{typearg} for more information.
+
+The type specified for the subsequent \com{lcaGet} for retrieving
+the data should match the monitor's data type. Otherwise, \com{lcaGet}
+will fetch a new copy from the server instead of using the data that
+was already transferred as a result of the monitoring.
+\end{description}
+\subsubsection{Examples}
+\begin{verbatim}
+lcaSetMonitor('PV')
+// monitor 'PV'. Reduce network traffic by just have the
+// library retrieve the first 20 elements. Use DBR_SHORT
+// for transfer.
+lcaSetMonitor('PV', 20, 's')
+\end{verbatim}
+
+\pbrk
+\subsection{lcaNewMonitorWait}
+\label{lcanewmonitorwait}
+\subsubsection{Calling Syntax}
+\begin{verbatim}
+lcaNewMonitorValue(pvs, type)
+\end{verbatim}
+\subsubsection{Description}
+Similar to \comref{lcaNewMonitorValue}{lcanewmonitorvalue} but instead of
+returning the status of monitored PVs this routine blocks until all PVs
+have fresh data available (e.g., due to initial connection or changes in
+value and/or severity status).
+Reading the actual data must be done using \comref{lcaGet}{lcaget}.
+\subsubsection{Parameters}
+\begin{description}
+\PVITEM
+\item[type]
+(\ita{optional argument}) A string specifying the
+data type to be used for the channel access data transfer. The
+native type is used by default.
+See \hyperref[ref]{here}{(}{)}{typearg} for more information.
+
+Note that monitors are specific to a particular data type and therefore
+\com{lcaNewMonitorWait} will only report the status for a monitor that had been established
+(by \comref{lcaSetMonitor}{lcasetmonitor}) with a matching type.
+Using the ``native'' type, which is the default, for both calls
+satisfies this condition.
+\end{description}
+\subsubsection{Examples}
+\begin{verbatim}
+try lcaNewMonitorWait(pvs)
+	vals = lcaGet(pvs)
+catch
+	errs = lcaLastError()
+	handleErrors(errs)
+end
+\end{verbatim}
+
+\pbrk
+\subsection{lcaNewMonitorValue}
+\label{lcanewmonitorvalue}
+\subsubsection{Calling Syntax}
+\begin{verbatim}
+[flags] = lcaNewMonitorValue(pvs, type)
+\end{verbatim}
+\subsubsection{Description}
+Check if monitored PVs need to be read, i.e, if fresh data are available (e.g., due to
+initial connection or changes in value and/or severity status). Reading the actual
+data must be done using \comref{lcaGet}{lcaget}.
+\subsubsection{Parameters}
+\begin{description}
+\PVITEM
+\item[type]
+(\ita{optional argument}) A string specifying the
+data type to be used for the channel access data transfer. The
+native type is used by default.
+See \hyperref[ref]{here}{(}{)}{typearg} for more information.
+
+Note that monitors are specific to a particular data type and therefore
+\com{lcaNewMonitorValue} will only report the status for a monitor that had been established
+(by \comref{lcaSetMonitor}{lcasetmonitor}) with a matching type.
+Using the ``native'' type, which is the default, for both calls
+satisfies this condition.
+\item[flags]
+Column vector of flag values. A value of zero indicates that no new data are available --
+the monitored PV has not changed since it was last read (the data, that is, {\em not the flag}).
+A value of one indicates that new data are available for reading (\com{lcaGet}).
+
+{\em NOTE: As of \sca{} version 3 the \com{flags} no longer report error conditions.
+Errors are now reported in the 
+\hyperref{standard way}{standard way (see~}{)}{errorhandling},
+i.e., by aborting the \sca{} call.
+Errors can be caught by the standard \scilab{} \com{try}-\com{catch}-\com{end}
+construct. The \comref{lcaLastError}{lcalasterror} routine can be used to obtain
+status information for individual channels if \com{lcaNewMonitorValue} fails on
+a vector of PVs.}
+
+See also \comref{lcaNewMonitorWait}{lcanewmonitorwait}.
+\end{description}
+\subsubsection{Examples}
+\begin{verbatim}
+try and(lcaNewMonitorValue(pvvec))
+	vals = lcaGet(pvvec)
+catch
+    errs = lcaLastError()
+	handleErrs(errs)
+end
+\end{verbatim}
+
+\pbrk
+\subsection{lcaClear}
+\label{lcaclear}
+\subsubsection{Calling Syntax}
+\begin{verbatim}
+lcaClear(pvs)
+\end{verbatim}
+\subsubsection{Description}
+Clear / release (disconnect) channels. This is particularly useful with
+EPICS 3.14 to clean up invalid PVs (e.g., due to typos). Nonexisting PVs are
+continuously searched for by a CA background task which may result
+in cluttered IOC consoles and resource consumption.
+All monitors on the target channel(s) are cancelled/released as a
+consequence of this call.
+\subsubsection{Parameters}
+\begin{description}
+\PVITEM
+Alternatively, \com{lcaClear} may be called with {\em no} rhs argument
+thus clearing {\em all} channels (and monitors).
+\end{description}
+\subsubsection{Examples}
+\begin{verbatim}
+\\ clear a number of channels
+  lcaClear( ['aUseless_PV'; 'misTyppedPV' ] )
+\\ purge all channels (dont use parenthesis in matlab)
+  lcaClear()
+\end{verbatim}
+
+\vspace*{\fill}
+\pbrkf
+\subsection{lcaLastError}
+\label{lcalasterror}
+\subsubsection{Calling Syntax}
+\begin{verbatim}
+[err_status] = lcaLastError()
+\end{verbatim}
+\subsubsection{Description}
+This routine is a simple extension to \scilab{}'s \com{lasterror}
+which only allows a single error to be reported. If \sca{} encounters
+an error of general nature then \com{lasterror} is sufficient
+and \com{lcaLastError()} reports redundant/identical information.
+However, if a \sca{} operation only fails on a subset of a vector
+of PVs then \com{lcaLastError()} returns an error code for each individual
+PV (as a \mxl{} vector) so that failing channels can be identified.
+
+The error reported by \com{lasterror} corresponds to the first error
+found in the \com{err\_status} vector.
+
+Note that (matching \com{lasterror}'s semantics) the recorded
+errors are {\it not cleared by a successful \sca{} operation}.
+Hence, the status returned by \com{lcaLastError()} is only defined
+after an error occurred and the routine is intended to be used
+from the \com{catch} section of a \mbox{\com{try -- catch -- end}}
+construct.
+
+\subsubsection{Parameters}
+\begin{description}
+\item[err\_status] \mxl{} column vector of
+\hyperref{status codes}{(see~}{)}{errorhandling}
+for each PV of the last failing \sca{} call or a scalar.
+Note that this routine can return a scalar even if
+the last operation involved multiple PVs if the
+error was of general nature (e.g., ``invalid argument'').
+In this case the scalar is identical to the error reported
+by \scilab{}'s \com{lasterror}.
+\end{description}
+\subsubsection{Examples}
+\begin{verbatim}
+try
+  // lcaXXX command goes here
+catch
+  errors = lcaLastError()
+  // errors holds status vector or single status code
+  // depending on command, error cause and number of PVs.
+end
+\end{verbatim}
+
+\vspace*{\fill}
+\pbrkf
+\subsection{lcaGetControlLimits}
+\subsubsection{Calling Syntax}
+\begin{verbatim}
+[lowLimit, hiLimit] = lcaGetControlLimits(pvs)
+\end{verbatim}
+\subsubsection{Description}
+Retrieve the control limits associated with a number of PVs.
+\subsubsection{Parameters}
+\begin{description}
+\PVITEM
+%%
+\item[lowLimit] \mxl{} column vector of the PV's low control limit.
+\item[hiLimit]  \mxl{} column vector of the PV's high control limit.
+\end{description}
+
+
+\vspace*{\fill}
+\pbrk
+\subsection{lcaGetGraphicLimits}
+\subsubsection{Calling Syntax}
+\begin{verbatim}
+[lowLimit, hiLimit] = lcaGetGraphicLimits(pvs)
+\end{verbatim}
+\subsubsection{Description}
+Retrieve the graphic limits associated with a number of PVs.
+\subsubsection{Parameters}
+\begin{description}
+\PVITEM
+%%
+\item[lowLimit] \mxl{} column vector of the PV's low graphic limit.
+\item[hiLimit]  \mxl{} column vector of the PV's high graphic limit.
+\end{description}
+
+\vspace*{\fill}
+\pbrk
+\subsection{lcaGetStatus}
+\subsubsection{Calling Syntax}
+\begin{verbatim}
+[severity, status, timestamp] = lcaGetStatus(pvs)
+\end{verbatim}
+\subsubsection{Description}
+Retrieve the alarm severity and status of a number of PVs along
+with their timestamp.
+\subsubsection{Parameters}
+\begin{description}
+\PVITEM
+%%
+\item[severity] \mxl{} column vector of the alarm severities.
+\item[status] \mxl{} column vector of the alarm status.
+\item[timestamp] \mxl{} \ita{complex} column vector holding the
+PV \hyperref[ref]{timestamps}{timestamps (see }{ about the timestamp format)}{tsformat}.
+\end{description}
+
+
+\vspace*{\fill}
+\pbrk
+\subsection{lcaGetPrecision}
+\subsubsection{Calling Syntax}
+\begin{verbatim}
+precision = lcaGetPrecision(pvs)
+\end{verbatim}
+\subsubsection{Description}
+Retrieve the precision of a number of PVs.
+\subsubsection{Parameters}
+\begin{description}
+\PVITEM
+%%
+\item[precisiom] \mxl{} column vector of the PV's precision.
+\end{description}
+
+\vspace*{\fill}
+\pbrk
+\subsection{lcaGetUnits}
+\subsubsection{Calling Syntax}
+\begin{verbatim}
+units = lcaGetUnits(pvs)
+\end{verbatim}
+\subsubsection{Description}
+Retrieve the engineering units of a number of PVs.
+\subsubsection{Parameters}
+\begin{description}
+\PVITEM
+%%
+\item[units] \mxl{} column vector (on \matlab: \ita{cell-} matrix)
+of strings holding the PV EGUs.
+\end{description}
+
+\vspace*{\fill}
+\pbrk
+\subsection{lcaGetRetryCount, lcaSetRetryCount}
+\label{retrycnt}
+\subsubsection{Calling Syntax}
+\begin{verbatim}
+currentRetryCount = lcaGetRetryCount()
+lcaSetRetryCount(newRetryCount)
+\end{verbatim}
+\subsubsection{Description}
+Retrieve / set the \ezca{} library retryCount parameter (consult the \ezca{}
+documentation for more information). The retry count multiplied by the
+\hyperref[ref]{timeout parameter}{timeout parameter (see }{ )}{timeout}
+determines the maximum time the interface waits for connections and data
+transfers, respectively.
+
+\vspace*{\fill}
+\pbrk
+\subsection{lcaGetTimeout, lcaSetTimeout}
+\label{timeout}
+\subsubsection{Calling Syntax}
+\begin{verbatim}
+currentTimeout = lcaGetTimeout()
+lcaSetTimeout(newTimeout)
+\end{verbatim}
+\subsubsection{Description}
+Retrieve / set the \ezca{} library timeout parameter (consult the \ezca{}
+documentation for more information). Note that the semantics of the
+timeout parameter has changed with \sca{} version 3. The library no longer
+pends for CA activity in multiples of this timeout value but returns
+control to \scilab{} as soon as the underlying CA request completes.
+
+However, \sca{} checks for ``Ctrl-C'' key events every time
+(and only when) the timeout expires. Hence, it is convenient to
+choose a value $<1$s.
+
+The {\em maximal} time spent waiting for connections and/or data equals the
+timeout multiplied by the
+\hyperref[ref]{retry count}{retry count (see }{ )}{retrycnt}.
+
+\vspace*{\fill}
+\pbrk
+\subsection{lcaDebugOn, lcaDebugOff}
+\subsubsection{Calling Syntax}
+\begin{verbatim}
+lcaDebugOn()
+lcaDebugOff()
+\end{verbatim}
+\subsubsection{Description}
+Switch the \ezca{} library's debugging facility on and off, respectively.
+
+\vspace*{\fill}
+\pbrk
+\subsection{lcaSetSeverityWarnLevel}
+\label{swarnlevel}
+\subsubsection{Calling Syntax}
+\begin{verbatim}
+lcaSetSeverityWarnLevel(newlevel)
+\end{verbatim}
+\subsubsection{Description}
+Set the warning threshold for \com{lcaGet()} operations.
+A warning message is printed when retrieving a PV with a severity bigger
+or equal to the warning level. Supported values are \sevrange{} (No alarm,
+minor alarm, major alarm, invalid alarm). The initial/default value is 3.
+
+If a value $>=10$ is passed, the threshold for refusing to read the \com{.VAL}
+field of PVs with an \ita{INVALID} severity can be changed. The rejection
+can be switched off completely by passing 14 ($= 10 + INVALID\_ALARM + 1$)
+or made more sensitive by passing a value of less than 13 ($=10 + INVALID\_ALARM$),
+the default.
+
+\vspace*{\fill}
+\pbrk
+\subsection{lcaDelay}
+\label{lcadelay}
+\subsubsection{Calling Syntax}
+\begin{verbatim}
+lcaDelay(timeout)
+\end{verbatim}
+\subsubsection{Description}
+Delay execution of \scilab{} or \matlab{} for the specified time
+to handle channel access activity (monitors). 
+{\em Using this call is not needed under EPICS-3.14} since monitors
+are transparently handled by separate threads. These ``worker threads''
+receive data from CA on monitored channels ``in the background'' while
+\scilab{}/\matlab{} are processing arbitrary calculations.
+You only need to either poll the library for the data being ready using the
+\comref{lcaNewMonitorValue()}{lcanewmonitorvalue}) routine
+or block for data becoming available using
+\comref{lcaNewMonitorWait}{lcanewmonitorwait}.
+
+\subsubsection{Parameters}
+\begin{description}
+\item[timeout]
+A timeout value in seconds.
+\end{description}
+%\subsubsection{Examples}
+%\begin{verbatim}
+%lcaDelay(2.0)
+%\end{verbatim}
+
+\pbrkf
+\section{Building and Using \sca{}}
+\subsection{Build}
+{\em NOTE: If the binaries distributed with \sca{} work for you then there is
+no need to build anything. If you want/need to build your own version then read on
+otherwise proceed to \hyperref{Using \sca}{Subsection~}{}{usingsca}.}
+
+\sca{} comes with a `\com{configure}' subdirectory and Makefiles conforming to the
+EPICS build system. Following a configuration step which involves editing
+two small files, '\com{make}' is executed to install the generated libraries
+and scripts.
+
+Prior to invoking the \scilab{} or \matlab{} application, the system
+must be properly set up in order for the applications to locate the
+\sca{} and channel access libraries.
+
+\subsubsection{Prerequisites}
+\sca{} needs an EPICS BASE installation that was built \ita{with shared
+libraries enabled}%
+\footnote{
+To be precise: only \sca{} needs to be a shared library (but must then have
+EPICS BASE linked in); we recommend an EPICS BASE installation with
+shared libraries enabled because modifications to the EPICS Makefiles
+are required to build a shared \sca{} library that is linked against
+static versions of EPICS BASE.}%
+.
+The main reason being that \matlab's \ita{mex} files cannot
+have multiple entry points. Hence, when statically linking multiple \ita{mex}
+files against \ita{ezca, ca, Com} etc. multiple copies of those libraries
+would end up in the running \matlab{} application with possible adverse
+effects. It should be possible to build and use the \scilab{} interface
+with static libraries --- minor tweaks to the Makefiles might be necessary.
+
+\sca{} has been tested with \matlab-6.5, \matlab-7.0 and \scilab-2.7 .. \scilab-4.1
+under a variety of EPICS releases up to 3.14.9 on \ita{linux-x86},
+\ita{linux-ppc}, \ita{solaris-sparc-gnu},
+\ita{linux-x86\_64}, \ita{solaris-sparc}, \ita{solaris-sparc64}
+and \windoze%
+\footnote{
+Note that not all possible combinations have been tested with the latest \sca{} release
+but rather the latest versions of the respective components on the platforms
+that are in the distribution.}%
+.
+
+Note that the binary distribution of \sca{} usually ships with the
+necessary EPICS base libraries so there is no need to download anything
+besides \sca.
+%The \ita{linux}
+%and \ita{solaris} versions have these libraries built-in, the \windoze
+%version comes with the appropriate DLLs.
+
+\pbrkf
+\subsubsection{Configuration}
+Two files, `\com{configure/CONFIG}' and `\com{configure/RELEASE}' need to
+be adapted to the user's installation:
+\begin{description}
+\item[\tt CONFIG:] A handful of configuration parameters must be defined
+in this file.
+\begin{description}
+\item[\tt MAKEFOR:] Setting the \com{MAKEFOR} variable
+determines the target application program the interface library is
+built for. Valid settings are \com{MAKEFOR=SCILAB} or \com{MAKEFOR=MATLAB}.
+Any setting other than \com{MATLAB} is treated like \com{SCILAB}.
+
+\item[\tt CONFIG\_USE\_CTRLC:] Set this to {\tt YES} or {\tt NO} to enable
+or disable, respectively, code for handling ``Ctrl-C'' keystroke sequences.
+When enabled, \sca{} operations ({\em except for} \com{lcaDelay}) may be aborted
+by hitting ``Ctrl-C''.
+Note that \sca{} polls for an ``abort condition'' with a granularity of the
+\hyperref[ref]{\ezca{} timeout parameter}{timeout parameter (see }{ )}{timeout}.
+Unfortunately, neither \matlab{} nor \scilab{} feature a documented API for handling
+Ctrl-C events and therefore Ctrl-C support --- the implementation using undocumented
+features of \scilab{} and \matlab{} --- must be considered ``experimental''
+i.e., it might cause problems on certain operating system and/or \scilab/\matlab{}
+versions.
+
+\item[\tt INSTALL\_LOCATION:] Set this variable to install in a location
+different from the \sca{} top directory.
+
+{\em NOTE: This method has been
+deprecated. Use \com{INSTALL\_LOCATION\_APP} in the \com{RELEASE} file
+instead.}
+\end{description}
+%
+%
+\item[\tt RELEASE:] In this file, paths to the EPICS base (`\com{EPICS\_BASE}'
+variable) and \scilab{} (`\com{SCILABDIR}' variable) or \matlab{} (`\com{MATLABDIR}'
+variable) installations must be specified.
+
+Under \windoze{}, an additional variable
+`\com{MATLIB\_SUBDIR}' must be set directing the build process to select the correct
+\com{libmx.lib} and \com{libmex.lib} library variants. The setting of this variable
+is compiler dependent.
+\begin{description}
+\item[\tt INSTALL\_LOCATION\_APP=<path>] \com{<path>} defining the
+install location of the \sca{} package. If unset, the \sca{} \com{TOP}
+directory will be used.
+\item[\tt MATLABDIR=<path>] \com{<path>} defining the \matlab{} installation
+directory where the `\com{extern}' subdirectory can be found (e.g.
+\com{/opt/matlabR14beta2}).
+\item[\tt SCILABDIR=<path>] \com{<path>} defining the \scilab{} installation
+directory where the `\com{routines}' subdirectory can be found (e.g.
+\com{/usr/lib/scilab-2.7}).
+\item[\tt MATLIB\_SUBDIR=<pathelem>] \com{<pathelem>} chosing the subdirectory
+corresponding to the C-compiler that is used for the build. (e.g. 
+\com{win32/microsoft/msvc60} for the microsoft visual c++ 6.0 compiler).
+The \com{libmex.lib} and \com{libmx.lib} files for the applicable compiler
+are found there.
+\end{description}
+\end{description}
+Any irrelevant variables (such as \com{MATLABDIR} if \com{MAKEFOR=SCILAB})
+are ignored.
+
+Note that the EPICS build system has problems with path names containing
+white space as they are commonly used on \windoze. Although I have
+tried to work around this, you still might encounter problems. I found
+that setting the environment variable \com{MATLAB} to point to the \matlab{}
+directory helped (\ita{cygwin}). It is best to avoid white space in path
+names, however.
+
+\subsubsection{Building \sca}
+After setting the
+`\com{EPICS\_HOST\_ARCH}' environment variable, \ita{GNU} make is invoked from the \sca{} top 
+directory. Note that the compiler toolchain must be found in the system
+\com{PATH}\footnote{
+Under \windoze, the \ita{msvc} compiler features a \com{.BAT} file for
+setting up the necessary environment.
+}.
+
+\pbrk
+\subsection{Using \sca{}}
+\label{usingsca}
+\sca{} consists of a set of shared libraries which in turn reference
+other shared libraries (most notably the channel access client libraries
+from EPICS BASE). It is of \ita{crucial importance} that the operating
+system locates the correct versions at \ita{run-time} (i.e. the same versions
+\sca{} was \ita{linked} against). Otherwise, the run-time linker/loader
+could fail to load the required objects --- leaving the user (expecially
+in \matlab) at the prompt with obscure error messages.
+
+Under \ita{linux} or \ita{solaris}, the \com{LD\_LIBRARY\_PATH} environment
+variable or the \com{ld.so.conf / ldconfig} facility are used to point
+to the executable shared libraries (located in \com{lib/<arch>}).
+If using a binary distribution, the \com{PATH} variable also should point
+to \com{bin/<arch>} so that the \ita{CA repeater} executable is found.
+If you build from source using your own EPICS base installation then
+we assume that locating the \ita{CA repeater} has already been taken
+care of.
+
+Under \windoze{}, the \com{PATH} environment variable must point to the
+correct EPICS BASE and \sca{} DLLs (located in \com{bin/<arch>}).
+
+Note that the paths to the correct EPICS BASE and \sca{} shared libraries
+must be set up \ita{prior} to starting the \scilab{} or \matlab{} application.
+It is usually not possible to change the system search
+path from within an application.
+
+Possible problems could occur because
+\begin{itemize}
+\item third party setup scripts modify \com{LD\_LIBRARY\_PATH / PATH}.
+\item your EPICS BASE was not built with shared libraries but shared libraries
+of a different release are found somewhere.
+\item a ``innocent-looking'' directory present in \com{LD\_LIBRARY\_PATH}
+before EPICS BASE actually contains shared libraries of an older release.
+\item Note that the system search path is \ita{not} identical with the
+\matlab{} path --- changing the \matlab{} path (from withing \matlab)
+has no influence on the system search path.
+\end{itemize}
+
+\subsubsection{Using \sca{} with \scilab}
+Set up the shared library search path (as described above) and start
+\scilab. Run the \com{\sca.sce} script which was generated by the build process
+(\com{<\sca-top>/bin/<arch>/\sca.sce}) to load the \sca{} interface.
+The script also adds to the \com{\%helps} variable making on-line
+help available.
+
+The script can be installed at any convenient location --- the lines
+setting up the \com{\%helps} path need to be adapted in this case.
+
+It is also possible to permanently link \sca{} to \scilab{}. Consult
+the \scilab{} documentation for more information.
+
+\subsubsection{Using \sca{} with \matlab}
+Every entry point / \com{lcaXXX} routine 
+is contained in a separate
+shared object (AKA ``\com{mex}-'') file in the \com{<\sca-top>/bin/<arch>/labca}%
+\footnote{
+the extra subdirectory was added in order for the \matlab{} \com{help} command
+to easily locate the \com{Contents.m} file when the user types \com{help labca}.
+} directory
+which must be added to the \matlab{} search path.
+Note that this is in \ita{addition}
+to setting the system library search path which must be performed prior
+to starting \matlab{} (see previous section).
+All necessary objects and libraries are transparently loaded simply
+by invoking any of the entry point routines. Note that on-line help
+files are also installed to be located automatically.
+\end{document}

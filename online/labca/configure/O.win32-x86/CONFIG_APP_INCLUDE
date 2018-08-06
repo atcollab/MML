@@ -1,0 +1,15 @@
+# Do not modify this file, changes made here will
+# be lost when the application is next rebuilt.
+
+export TOP
+export EPICS_BASE
+export MATLABDIR
+export MATLIB_SUBDIR
+EPICS_BASE_HOST_BIN = $(strip $(EPICS_BASE))/bin/$(EPICS_HOST_ARCH)
+EPICS_BASE_HOST_LIB = $(strip $(EPICS_BASE))/bin/$(EPICS_HOST_ARCH)
+EPICS_BASE_BIN = $(strip $(EPICS_BASE))/bin/win32-x86
+EPICS_BASE_LIB = $(strip $(EPICS_BASE))/lib/win32-x86
+SHRLIB_SEARCH_DIRS += $(EPICS_BASE_LIB)
+RELEASE_INCLUDES += -I$(strip $(EPICS_BASE))/include/os/$(OS_CLASS)
+RELEASE_INCLUDES += -I$(strip $(EPICS_BASE))/include
+RELEASE_DBDFLAGS += -I $(strip $(EPICS_BASE))/dbd

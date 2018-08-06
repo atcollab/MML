@@ -1,0 +1,3 @@
+bump H
+
+A=setortbitbump('BPMx',[3 5 ; 3 6], [-1 -1] , 'HCOR', [-2 -1 1 2], 'Display')

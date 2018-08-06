@@ -1,0 +1,285 @@
+GP Notes:
+1. labca 3.1 has not been fully compiled yet
+   The older version still has the memory leak in lcaPutNoWait
+
+   a. linux-x86       - compiled
+   b. solaris-sparc64 - compiled
+   c. win32-x86       - compiled (vcredist_x86.exe may need to be run on each system)
+
+   d. linux-x86_64    - not compiled
+   e. solaris-sparc   - not compiled, but only needed for Matlab_2006b and earlier versions
+
+
+
+#####################################
+#  labca_3_1 (T.S, 2007/10/13):     #
+#####################################
+
+This is a bugfix release. Several memory leaks were plugged:
+lcaGetNoWait() and the scilab interface (only when encoutering
+errors) were leaking.
+
+Note that this is a source-code only release. I didn't have
+time to build and test on all the platforms. If you use
+scilab and/or lcaGetNoWait you should upgrade. If you use
+matlab and almost never use lcaGetNoWait then 3.0.beta
+should be OK.
+
+#####################################
+#  labca_3_0_beta (T.S, 2007/6/8):  #
+#####################################
+
+This is a new-feature release (consult the ChangeLog file for 
+more detail).
+
+BUILD SYSTEM CHANGES:
+ - mex file name extension is now determined automatically
+   (matlab versions that have the 'mexext' script).
+ - can specify EPICS_HOST_ARCH-specific locations for MATLABDIR/SCILABDIR
+   (see configure/RELEASE for details)
+
+SHARED LIBRARY NOTE:
+ - all rpath/runpaths have been removed from solaris/linux shared
+   libraries in the distribution (using the chrpath utility).
+
+SOLARIS/MATLAB NOTE:
+ Solaris ships with two different C++ std libraries; 'Cstd' (older) and
+ 'stlport4' (newer, more features) which are incompatible.
+ It is essential that all combined binaries (all libraries and final executable)
+ are built against the same flavor of this run-time library.
+ Apparently, newer MATLAB versions use stlport4 whereas older ones used
+ Cstd. OTOH, the EPICS build system doesn't allow the user to pick the
+ flavor of library but the makefiles imply the use of 'Cstd' which then
+ makes the CA library incompatible with MATLAB.
+ The EPICS BASE version that comes with labca was patched so that
+ the user can define USE_STLPORT (to YES or NO) e.g., from
+
+   'base/configure/os/CONFIG_SITE.Common.solaris-sparc'
+
+ To find out whether your particular version of MATLAB uses Cstd or stlport4
+ the 'ldd' utility is your friend. Call (<arch> is the applicable architecture,
+ either 'sol2' or 'sol64'):
+
+   ldd <matlab_dir>/bin/<arch>/MATLAB
+
+ and scan the output for libCstd or libstlport4, respectively.
+
+ Note that the stlport library might not be installed on your solaris system
+ - a version does come with matlab 2007a (or the sunwspro studio), though.
+ If you intend to use any executable (other than matlab --- e.g., the
+ caRepeater) built against epics base with the USE_STLPORT=YES option then
+ you must make sure the system can locate the stlport library e.g., by
+ pointing LD_LIBRARY_PATH to the subdirectory of the matlab installation
+ where a version of stlport resides.
+
+ More information about this issue can be found here:
+ 
+ http://developers.sun.com/sunstudio/articles/cmp_stlport_libCstd.html
+
+VERSION INFORMATION:
+
+ The binaries in the distribution were built against the following
+ versions of EPICS BASE and matlab / scilab:
+
+ EPICS_BASE: 3.14.9
+    vanilla 3.14.9 with some modifications in the build
+    system to make the choice of solaris C++ std runtime lib
+    configurable. Also, unused subdirs in base were commented
+    from the base/src/Makefile.)
+
+ Platform Details:
+    solaris-sparc:
+    * cc: SUNWspro studio 11
+    * SunOS flora04 5.9 Generic_118558-38 sun4u sparc SUNW,Sun-Fire-V240
+    * scilab-3.1.1
+    * MATLAB; built against: Version 7.3.0.298 (R2006b)
+      tested also with:
+      BINARY INCOMPATIBLE (but should be able to rebuild)
+         - Version 7.2.0.283 (R2006a)
+
+    solaris-sparc64:
+    * cc: SUNWspro studio 11
+    * SunOS flora04 5.9 Generic_118558-38 sun4u sparc SUNW,Sun-Fire-V240
+    * MATLAB; built against: Version 7.3.0.298 (R2006b)
+      tested also with:
+      BINARY INCOMPATIBLE (but should be able to rebuild)
+         - Version 7.2.0.283 (R2006a)
+
+    linux-x86:
+    * gcc (GCC) 3.4.6 20060404 (Red Hat 3.4.6-8)
+    * Linux lcls-prod02 2.6.9-42.0.10.ELsmp #1 SMP Fri Feb 16 17:17:21 EST 2007 i686 i686 i386 GNU/Linux
+    * scilab-4.0-b4-20060515
+      tested also with:
+	     - scilab-4.1
+    * MATLAB; built against: Version 7.3.0.298 (R2006b)
+      tested also with:
+         - Version 7.4.0.336 (R2007a)
+      BINARY INCOMPATIBLE (but should be able to rebuild)
+         - Version 7.2.0.283 (R2006a)
+
+    linux-x86_64:
+	* gcc (GCC) 3.4.6 20060404 (Red Hat 3.4.6-3)
+    * Linux tillpc.slac.stanford.edu 2.6.9-42.0.3.ELsmp #1 SMP Mon Sep 25 17:24:31 EDT 2006 x86_64 x86_64 x86_64 GNU/Linux
+    * scilab-4.0-b4-20060515
+    * MATLAB; built against: Version 7.4.0.287 (R2007a)
+
+    win32-x86:
+	* MS Windows XP Professional 2002, SP2
+    * cl version: Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 13.10.3077 for 80x86
+    * scilab-4.0
+    * MATLAB; built against: Version 7.3.0.267 (R2006b)
+      tested also with:
+         - Version 7.4.0.287 (R2007a)
+
+
+#####################################
+#  labca_2_1_beta (T.S, 2006/4/13): #
+#####################################
+
+INSTALL LOCATION CHANGES:
+
+ Note that all executables and DLLs are now installed under 'bin/<arch>'
+ i.e., it is not necessary anymore to add 'bin/<arch>/labca' to the PATH.
+ (.mex files are still underneath 'labca' but they are found by matlab
+ provided the matlab path points there [which is still necessary].)
+
+EPICS BASE RELEASE:
+
+ The binary release comes with EPICS 3.14.8.2 built in.
+
+MATLAB RELEASE:
+ 
+ The binary release comes built against
+
+  solaris: Version 7.0.0.19901 (R14), MAY 06, 2004
+		tested with:
+               Version 7.0.1.24704 (R14) Service Pack 1, September 13, 2004
+               Version 7.0.4.352 (R14) Service Pack 2, January 29, 2005
+               Version 7.1.0.183 (R14) Service Pack 3, August 02, 2005
+
+  linux:   Version 7.0.0.19901 (R14), May 06, 2004
+		tested with [using LD_PRELOAD, see below]:
+               Version 7.0.1.24704 (R14) Service Pack 1, September 13, 2004
+               Version 7.0.4.352 (R14) Service Pack 2, January 29, 2005
+               Version 7.1.0.183 (R14) Service Pack 3, August 02, 2005
+
+
+  win32:   Version 7.0.4.365 (R14) Service Pack 2, January 29, 2005
+
+		tested with:
+               Version 7.2.0.232 (R2006a), January 27, 2006
+
+SCILAB RELEASE
+
+ The binary release comes built against
+
+  solaris:     Version 3.1.1
+  linux-x86:   Version 3.1.1
+  win32:       Version 4.0
+
+LINUX/MATLAB PECULARITIES:
+
+MATLAB Version 7.1.0.183 (R14) Service Pack 3, dated August 02, 2005:
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ This release worked fine here at slac (RHEL3) w/o the need for
+ setting LD_PRELOAD as described below (workaround still needed for
+ other MATLAB versions). However, when quitting, the message
+
+  'libgcc_s.so.1 must be installed for pthread_cancel to work'
+
+ appears which doesn't happen if LD_PRELOAD is set in the way
+ described below.
+
+
+#####################################
+# labca_2_0_alpha (T.S, 2004/6/23): #
+#####################################
+
+LINUX/MATLAB PECULARITIES:
+
+MATLAB Version 7.0.0.14092 (R14) Prerelease, dated February 23, 2004:
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    The explanations below regarding C++ exceptions / mexErrMsgTxt()
+    still apply. Some details differ, however.
+    a) exception throwing is in libstdc++.so
+    b) THE FIX IS DIFFERENT - setting LDPATH_PREFIX from a
+       user initialization script no longer works. 
+
+    Here's what you want and can do: You want the C-library
+    (glibc), libgcc, libstdc++, EPICS, labca  and, ideally,
+    MATLAB to be compiled with the same compiler. Usually, MATLAB
+    supports specific versions of gcc and glibc as listed on
+    their website.
+    This is sometimes not enough, however, since there might be
+    slight differences in the compiler setup chosen by your distro.
+    Also, it might be possible to get things to work with slight
+    differences in versions of the libraries. YMMV.
+
+    Here's what I discovered on the RH enterprise systems at SLAC:
+
+      A)  installed glibc's exception handling does NOT MATCH
+          libstdc++/libgcc as shipped with MATLAB.
+
+      B)  system gcc-3.2.3 's versions of libstdc++/libgcc DO
+          WORK. MATLAB must be forced to use those libraries
+          however:
+           1) the sysadmin could remove MATLAB's versions
+              under $MATLABDIR/sys/os/glnx86. Ideally they
+              could be replaced by symlinks to working versions.
+           2) If you are not the sysadmin and it's midnight,
+              you can use the 'LD_PRELOAD' environment variable.
+              List the absolute pathnames of the good libgcc and libstdc++
+              libraries:
+                setenv LD_PRELOAD xxx/libgcc_s.so:yyy/libstdc++.so
+              This instructs the run-time system to load the good
+              libraries prior to executing MATLAB which then finds
+              the stuff it needs and it won't try to load it's own
+              library versions.
+              As it is the case with similar variables, LD_PRELOAD
+              must be set prior to launching matlab.
+
+
+MATLAB-14beta2 notes:
+- - - - - - - - - - -
+	I experienced labca crash matlab 14beta2 on linux (RH9)
+    when an lcaXXX Routine flags an error condition (i.e. aborts
+    the MEX file by calling mexErrMsgTxt()).
+
+    Matlab 14beta2 uses C++ exceptions to implement error handling.
+	Exception handling (simplified) requires the 'exception throwing' 
+    code to match the 'exception handling' pieces.
+
+	Unfortunately, Matlab comes with its own versions of some system
+    libraries which are quite old. They are located in the
+    'sys/os/glnx' subdirectory. 
+
+    Matlab always uses the C-library (glibc) installed on the system.
+    This means that the exception handling (stack unwinding) method
+    used by the system's glibc is to be used.
+
+    However, Matlab comes with it's own 'libgcc_s.so.1' which is where
+    exception throwing is actually implemented.
+
+	If libgcc and glibc don't match, something goes wrong. What happens
+    is that the (newer) glibc uses a different method of stack unwinding
+    than libgcc knows of dealing with.  libgcc expects an 'exception frame'
+    to be registered - a step that is omitted by glibc because it deals
+    with exceptions in a different way -- the result being that no
+    exception handler will be found and the program aborts.
+
+	FIX: Your system should come with a correct libgcc_s.so.1. In my case
+    (RH9) I found it in '/lib'. Here's how you can make matlab to pick up
+    the correct one (better solution would have the sysadmin remove the
+    outdated version in sys/os/glnx):
+
+	In your $HOME/.matlab6rc.sh file, add
+		LDPATH_PREFIX=/lib
+
+   	if you have no $HOME/.matlab6rc.sh, you use the following snippet:
+#
+# usage:        .matlab6rc.sh
+#
+. $MATLABdefault/bin/.matlab6rc.sh
+LDPATH_PREFIX=/lib
+	note that the initial comment lines are important since matlab checks
+    for their presence.

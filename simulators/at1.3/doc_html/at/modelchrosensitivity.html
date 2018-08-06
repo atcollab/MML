@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of modelchrosensitivity</title>
+  <meta name="keywords" content="modelchrosensitivity">
+  <meta name="description" content="TUNESENSITIVITY - Computes sextupole change for a given dxi">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; modelchrosensitivity.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>modelchrosensitivity
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>TUNESENSITIVITY - Computes sextupole change for a given dxi</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [DSx DSz] = modelchrosensitivity(varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">TUNESENSITIVITY - Computes sextupole change for a given dxi
+
+  INPUTS 
+  1. dxix - horizontal tune change
+  2. dxiz - vertical tune change
+
+  OUTPUTS
+  1. DSx - sextupole change to get dxix
+  2. DSz - sextupole change to get dxiz
+
+  See Also <a href="modeltunesensitivity.html" class="code" title="function [DKx DKz]=modeltunesensitivity(varargin)">modeltunesensitivity</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="getleff.html" class="code" title="function Length = getleff(Family, varargin)">getleff</a>	GETLEFF - Returns the magnet length as in the AT deck [meters]</li><li><a href="modeldisp.html" class="code" title="function [Dx, Dy, Sx, Sy, h] = modeldisp(varargin)">modeldisp</a>	MODELDISP - Returns the dispersion function of the model</li><li><a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>	MODELTWISS - Returns a twiss function of the model</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [DSx DSz] = modelchrosensitivity(varargin)</a>
+0002 <span class="comment">%TUNESENSITIVITY - Computes sextupole change for a given dxi</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%  INPUTS</span>
+0005 <span class="comment">%  1. dxix - horizontal tune change</span>
+0006 <span class="comment">%  2. dxiz - vertical tune change</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">%  OUTPUTS</span>
+0009 <span class="comment">%  1. DSx - sextupole change to get dxix</span>
+0010 <span class="comment">%  2. DSz - sextupole change to get dxiz</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%  See Also modeltunesensitivity</span>
+0013 
+0014 <span class="comment">%</span>
+0015 <span class="comment">%  Written by Laurent S. Nadolski</span>
+0016 
+0017 <span class="keyword">if</span> isempty(varargin)
+0018     dxix = 1e-1;
+0019     dxiz = 1e-1;
+0020 <span class="keyword">elseif</span> nvargin == 1
+0021     dxix = dxiz;
+0022 <span class="keyword">end</span>
+0023 
+0024 fprintf(<span class="string">'Sextupole change for dxix of %f and dxiz = %f \n'</span>,dxix,dxiz);
+0025 
+0026 <span class="comment">% get all sextupoles</span>
+0027 a = findmemberof(<span class="string">'SEXT'</span>);
+0028 
+0029 <span class="keyword">for</span> k = 1:10
+0030 
+0031     Family = a{k};
+0032 
+0033     [bx bz] = <a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>(<span class="string">'beta'</span>,Family);
+0034     [etax etaz] = <a href="modeldisp.html" class="code" title="function [Dx, Dy, Sx, Sy, h] = modeldisp(varargin)">modeldisp</a>(Family);
+0035 
+0036     L = <a href="getleff.html" class="code" title="function Length = getleff(Family, varargin)">getleff</a>(Family);
+0037     NQ = length(getspos(Family));
+0038 
+0039     DSx(k) =  2*pi*dxix/bx(1)/etax(1)/NQ/L(1);
+0040     DSz(k) = -2*pi*dxiz/bz(1)/etax(1)/NQ/L(1);
+0041 
+0042     fprintf(<span class="string">'%s : DSxL = %1.2e DSzL = %1.2e betax = %2.2f m betaz = %2.2f m etax = %2.2f m NQ = %2.0f  L= %1.2e m \n'</span>, <span class="keyword">...</span>
+0043         Family, DSx(k)*L(1), DSz(k)*L(1), bx(1), bz(1), etax(1), NQ, L(1));
+0044 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

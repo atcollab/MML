@@ -1,0 +1,33 @@
+# DO NOT EDIT: This file created by mkmf.pl,v 1.5 2002/03/25 21:33:24 jba Exp $ 
+
+ini.o : /home/als/alsbase/matlab_2007a/extern/include/mex.h
+ini.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/cadef.h
+ini.o : ../../ezca/ezca.h
+ini.o : ../multiEzcaCtrlC.h
+ini.o : ../multiEzca.h
+ini.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsExit.h
+ini.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/errlog.h
+ini.o : /home/als/alsbase/matlab_2007a/extern/include/matrix.h
+ini.o : /home/als/alsbase/matlab_2007a/extern/include/mwdebug.h
+ini.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsThread.h
+ini.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/shareLib.h
+ini.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/caerr.h
+ini.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/db_access.h
+ini.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/caeventmask.h
+ini.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsVersion.h
+ini.o : ../lcaError.h
+ini.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/tsDefs.h
+ini.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/compilerDependencies.h
+ini.o : /home/als/alsbase/matlab_2007a/extern/include/tmwtypes.h
+ini.o : /home/als/alsbase/matlab_2007a/extern/include/mat.h
+ini.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsEvent.h
+ini.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsMutex.h
+ini.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/os/solaris/osdThread.h
+ini.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsTypes.h
+ini.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsTime.h
+ini.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsAssert.h
+ini.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/os/solaris/osdEvent.h
+ini.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/os/solaris/osdMutex.h
+ini.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/os/solaris/osdTime.h
+
+

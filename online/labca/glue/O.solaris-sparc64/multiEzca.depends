@@ -1,0 +1,33 @@
+# DO NOT EDIT: This file created by mkmf.pl,v 1.5 2002/03/25 21:33:24 jba Exp $ 
+
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsTypes.h
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsStdio.h
+multiEzca.o : /home/als/alsbase/matlab_2007a/extern/include/mex.h
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/tsDefs.h
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/cadef.h
+multiEzca.o : ../../ezca/ezca.h
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/alarm.h
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/alarmString.h
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsVersion.h
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/shareLib.h
+multiEzca.o : ../multiEzca.h
+multiEzca.o : ../lcaError.h
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/compilerDependencies.h
+multiEzca.o : /home/als/alsbase/matlab_2007a/extern/include/matrix.h
+multiEzca.o : /home/als/alsbase/matlab_2007a/extern/include/mwdebug.h
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsTime.h
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsThread.h
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/caerr.h
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/db_access.h
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/caeventmask.h
+multiEzca.o : /home/als/alsbase/matlab_2007a/extern/include/tmwtypes.h
+multiEzca.o : /home/als/alsbase/matlab_2007a/extern/include/mat.h
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/os/solaris/osdTime.h
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsEvent.h
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsMutex.h
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/os/solaris/osdThread.h
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsAssert.h
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/os/solaris/osdEvent.h
+multiEzca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/os/solaris/osdMutex.h
+
+

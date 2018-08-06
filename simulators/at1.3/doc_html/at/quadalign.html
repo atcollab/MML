@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of quadalign</title>
+  <meta name="keywords" content="quadalign">
+  <meta name="description" content="QUADALIGN - Locates quadrupoles in AO and apply random alignment">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; quadalign.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>quadalign
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>QUADALIGN - Locates quadrupoles in AO and apply random alignment</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function quadalign(sx,sz) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">QUADALIGN - Locates quadrupoles in AO and apply random alignment
+quadalign(sx,sz);  sx and sz are sigma values for randn;
+ units are meters
+
+ INPUTS
+ 1. sx sigma for vertical plane
+ 2. sz sigma for horizontal plane</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function quadalign(sx,sz)</a>
+0002 <span class="comment">%QUADALIGN - Locates quadrupoles in AO and apply random alignment</span>
+0003 <span class="comment">%quadalign(sx,sz);  sx and sz are sigma values for randn;</span>
+0004 <span class="comment">% units are meters</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% INPUTS</span>
+0007 <span class="comment">% 1. sx sigma for vertical plane</span>
+0008 <span class="comment">% 2. sz sigma for horizontal plane</span>
+0009 
+0010 <span class="comment">% Written by SPEAR3</span>
+0011 <span class="comment">% Modified by Laurent S. Nadolski</span>
+0012 
+0013 <span class="comment">% TO DO - cut off for errors at n sigmas see randncut</span>
+0014 
+0015 
+0016 <span class="keyword">if</span> nargin&lt;2
+0017     error(<span class="string">'Error in quadalign - must supply alignment sigma values for both planes'</span>);
+0018 <span class="keyword">end</span>
+0019 
+0020 <span class="keyword">global</span> THERING
+0021 AO = getao;
+0022 
+0023 ATindx=[];   <span class="comment">%indices of quadrupoles</span>
+0024 mx=[];
+0025 my=[];
+0026 len = findspos(THERING,length(THERING)+1);
+0027 
+0028 
+0029 QuadList = findmemberof(<span class="string">'Quad'</span>);
+0030 
+0031 <span class="keyword">for</span> ii=1:length(QuadList),
+0032     Family = QuadList{ii};
+0033     indx=AO.(Family).AT.ATIndex;
+0034 
+0035     <span class="comment">%assign random alignment error to first magnet</span>
+0036     mx=[mx; sx*randn];
+0037     my=[my; sz*randn];
+0038 
+0039     <span class="comment">% assign random error to rest of family</span>
+0040     tol=1e-6; <span class="comment">%tolerance for spacing between magnets</span>
+0041     <span class="keyword">for</span> jj=2:length(indx)
+0042 
+0043         <span class="comment">%check for split magnets</span>
+0044         <span class="keyword">if</span> AO.(Family).Position(jj)-THERING{indx(jj)}.Length - AO.(Family).Position(jj-1)&lt;tol   <span class="comment">%magnet split</span>
+0045             disp([<span class="string">'   Split magnet '</span> AO{ii}.FamilyName <span class="string">' found in function quadalign with index  '</span>, num2str(indx(jj))]);
+0046             mx=[mx; -mx(end)];
+0047             my=[my; -my(end)];
+0048         <span class="keyword">else</span>   <span class="comment">%magnet not split</span>
+0049             mx=[mx; sx*randn];
+0050             my=[my; sz*randn];
+0051         <span class="keyword">end</span>
+0052 
+0053     <span class="keyword">end</span>
+0054 
+0055     <span class="comment">%check if first/last element split in THERING</span>
+0056     <span class="keyword">if</span> abs(AO.(Family).Position(1))  &lt; tol  &amp;&amp; <span class="keyword">...</span><span class="comment">    %first element near zero</span>
+0057             abs((len - AO.(Family).Position(end) - THERING{indx(end)}.Length &lt; tol))      <span class="comment">%last element near end</span>
+0058         disp([<span class="string">'   Split magnet '</span> AO.(Family).FamilyName <span class="string">' found in function quadalign with index  '</span>,<span class="keyword">...</span>
+0059             num2str(indx(1)), <span class="string">' '</span>,num2str(indx(end))]);
+0060         mx(end)=-mx(end-length(indx)+1);       <span class="comment">%error on last quad same as error on first quad in family</span>
+0061         my(end)=-my(end-length(indx)+1);
+0062     <span class="keyword">end</span>
+0063 
+0064     ATindx=[ATindx; indx];
+0065 <span class="keyword">end</span>  <span class="comment">%end loop over families</span>
+0066 
+0067 <span class="comment">% my=sz*randn(1,length(ATindx));</span>
+0068 <span class="comment">% mx=sx*randn(1,length(ATindx));</span>
+0069 setshift(ATindx,mx,my);
+0070</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

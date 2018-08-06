@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN'
+     'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+
+<html>
+<head>
+<title>Waveform&#x20;Record&#x20;(waveform)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<link rel='stylesheet' href='style.css' type='text/css'>
+</head>
+<body>
+
+
+<div class="pod">
+
+<h1 id="Waveform-Record-waveform">Waveform Record (waveform)</h1>
+
+<p>...</p>
+
+<h2 id="Record-specific-Menus">Record-specific Menus</h2>
+
+<h3 id="Menu-waveformPOST">Menu waveformPOST</h3>
+
+<p>The MPST and APST fields use this menu to determine when to post new value and archive monitors respectively.</p>
+
+<blockquote><table border="1"><tr>
+<th>Index</th><th>Identifier</th><th>Choice String</th></tr>
+<tr>
+<td class='cell DBD_Menu index'>0</td>
+<td class='cell DBD_Menu identifier'>waveformPOST_Always</td>
+<td class='cell DBD_Menu choice'>Always</td>
+</tr>
+<tr>
+<td class='cell DBD_Menu index'>1</td>
+<td class='cell DBD_Menu identifier'>waveformPOST_OnChange</td>
+<td class='cell DBD_Menu choice'>On Change</td>
+</tr>
+</table></blockquote>
+
+<p>...</p>
+
+<h2 id="Parameter-Fields">Parameter Fields</h2>
+
+<p>The record-specific fields are described below.</p>
+
+<blockquote><table border="1"><tr>
+<th>Field</th><th>Summary</th><th>Type</th><th>DCT</th>
+<th>Default</th><th>Read</th><th>Write</th><th>CA PP</th>
+</tr>
+<tr><td class="cell">VAL</td><td class="cell">Value</td><td class="cell">Set by FTVL</td><td class="cell">No</td><td class="cell">&nbsp;</td><td class="cell">Yes</td><td class="cell">Yes</td><td class="cell">Yes</td></tr>
+
+<tr><td class="cell">FTVL</td><td class="cell">Field Type of Value</td><td class="cell">MENU (<a href='menuFtype.html'>menuFtype</a>)</td><td class="cell">Yes</td><td class="cell">&nbsp;</td><td class="cell">Yes</td><td class="cell">No</td><td class="cell">No</td></tr>
+
+<tr><td class="cell">MPST</td><td class="cell">Post Value Monitors</td><td class="cell">MENU (<a href='#Menu_waveformPOST'>waveformPOST</a>)</td><td class="cell">Yes</td><td class="cell">&nbsp;</td><td class="cell">Yes</td><td class="cell">Yes</td><td class="cell">No</td></tr>
+
+<tr><td class="cell">APST</td><td class="cell">Post Archive Monitors</td><td class="cell">MENU (<a href='#Menu_waveformPOST'>waveformPOST</a>)</td><td class="cell">Yes</td><td class="cell">&nbsp;</td><td class="cell">Yes</td><td class="cell">Yes</td><td class="cell">No</td></tr>
+
+</table></blockquote>
+
+<p>...</p>
+
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of findTransportMap</title>
+  <meta name="keywords" content="findTransportMap">
+  <meta name="description" content="find the transfer matrix R and the second order transport map (T tensor)">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; findTransportMap.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>findTransportMap
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>find the transfer matrix R and the second order transport map (T tensor)</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [R,T] = findTransportMap(LINE,delta,orbit_in) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">find the transfer matrix R and the second order transport map (T tensor)
+for a LINE of elements through numerical differentiation
+[R,T] = findTransportMap(LINE,delta,orbit_in)
+Input:
+   LINE, element cells. 
+   delta, the change of variable for transfer matrix, =1e-8 by default,
+       the change for transport map calculation is sqrt(delta).
+   orbit_in, orbit around which the map is to be calculated
+Output:
+   R, the usual 6x6 matrix in AT coordinate convention (x, px,y,py,dp/p,z)
+   T, the 6x6x6 tensor in AT convention, $X_i = R_{ij} X_j+T_{ijk} X_j X_k$,
+       note that T(:,j,k) = T(:,k,j)
+usage:
+   [R,T] = findTransportMap(LINE), 
+   [R,T] = findTransportMap({BEND}), where BEND is a single element.
+Author:    Xiaobiao Huang, 
+Created on 2/12/2009</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function M66 = findlinem66(LINE, delta,orbit_in)</a></li></ul>
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [R,T] = findTransportMap(LINE,delta,orbit_in)</a>
+0002 <span class="comment">%find the transfer matrix R and the second order transport map (T tensor)</span>
+0003 <span class="comment">%for a LINE of elements through numerical differentiation</span>
+0004 <span class="comment">%[R,T] = findTransportMap(LINE,delta,orbit_in)</span>
+0005 <span class="comment">%Input:</span>
+0006 <span class="comment">%   LINE, element cells.</span>
+0007 <span class="comment">%   delta, the change of variable for transfer matrix, =1e-8 by default,</span>
+0008 <span class="comment">%       the change for transport map calculation is sqrt(delta).</span>
+0009 <span class="comment">%   orbit_in, orbit around which the map is to be calculated</span>
+0010 <span class="comment">%Output:</span>
+0011 <span class="comment">%   R, the usual 6x6 matrix in AT coordinate convention (x, px,y,py,dp/p,z)</span>
+0012 <span class="comment">%   T, the 6x6x6 tensor in AT convention, $X_i = R_{ij} X_j+T_{ijk} X_j X_k$,</span>
+0013 <span class="comment">%       note that T(:,j,k) = T(:,k,j)</span>
+0014 <span class="comment">%usage:</span>
+0015 <span class="comment">%   [R,T] = findTransportMap(LINE),</span>
+0016 <span class="comment">%   [R,T] = findTransportMap({BEND}), where BEND is a single element.</span>
+0017 <span class="comment">%Author:    Xiaobiao Huang,</span>
+0018 <span class="comment">%Created on 2/12/2009</span>
+0019 <span class="comment">%</span>
+0020 
+0021 <span class="keyword">if</span> nargin&lt;2
+0022     delta = 1e-8;
+0023 <span class="keyword">end</span>
+0024 <span class="keyword">if</span> nargin&lt;3
+0025     orbit_in = zeros(6,1);
+0026 <span class="keyword">end</span>
+0027 
+0028 R = <a href="#_sub1" class="code" title="subfunction M66 = findlinem66(LINE, delta,orbit_in)">findlinem66</a>(LINE, delta,orbit_in);
+0029 
+0030 X1=linepass(LINE,zeros(6,1)); <span class="comment">%sometimes zeros(6,1) is passed to nonzero, such as BndMPoleSymplectic4PassEdgeX</span>
+0031 Delta = sqrt(delta);
+0032 T = zeros(6,6,6);
+0033 <span class="keyword">for</span> jj=1:6
+0034     D6 = zeros(6,2);
+0035     D6(jj,:) = [Delta,-Delta];
+0036     RIN = orbit_in*ones(1,2) + D6;
+0037     ROUT = linepass(LINE,RIN);
+0038     T(:,jj,jj) = (ROUT(:,1)+ROUT(:,2)-2*X1)/2/Delta^2;
+0039     
+0040     <span class="keyword">for</span> kk=1:jj-1
+0041         D6 = zeros(6,4);
+0042         D6(jj,:) = [Delta,Delta, -Delta,-Delta];
+0043         D6(kk,:) = [Delta,-Delta,+Delta,-Delta];
+0044         RIN = orbit_in*ones(1,4) + D6;
+0045         ROUT = linepass(LINE,RIN);
+0046         T(:,jj,kk) = (ROUT(:,1)+ROUT(:,4)-ROUT(:,2)-ROUT(:,3))/4/Delta^2/2;
+0047         T(:,kk,jj) = T(:,jj,kk);
+0048     <span class="keyword">end</span>
+0049 <span class="keyword">end</span>
+0050 
+0051 
+0052 <a name="_sub1" href="#_subfunctions" class="code">function M66 = findlinem66(LINE, delta,orbit_in)</a>
+0053 <span class="comment">%</span>
+0054 <span class="keyword">if</span> nargin&lt;2
+0055     delta = 1e-8;
+0056 <span class="keyword">end</span>
+0057 dt = delta;
+0058 dl = delta;
+0059 
+0060 <span class="comment">% Build a diagonal matrix of initial conditions</span>
+0061 D6 = [dt*eye(4),zeros(4,2);zeros(2,4), dl*eye(2)];
+0062 <span class="comment">% Add to the orbit_in</span>
+0063 RIN = orbit_in*ones(1,12) + [D6, -D6];
+0064 <span class="comment">% Propagate through the element</span>
+0065 ROUT = linepass(LINE,RIN);
+0066 <span class="comment">% Calculate numerical derivative</span>
+0067 M66 = [(ROUT(:,1:4)-ROUT(:,7:10))./(2*dt), (ROUT(:,5:6)-ROUT(:,11:12))./(2*dl)];</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

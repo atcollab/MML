@@ -1,0 +1,132 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Common Arguments and Return Values</title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	<span class="previous"><a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">&lt;&lt; labCA</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="Error.html">Error Handling &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path"><a href="index.html">labCA</a> &gt;&gt; <a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a> &gt; Common Arguments and Return Values</span>
+
+    <br /><br />
+    <div class="info"></div>
+
+  <div class="refnamediv"><h1 class="refname">Common Arguments and Return Values</h1>
+	<p class="refpurpose">Used by several labCA functions</p></div>
+  <div class="refsection"><h3 class="title">PV Argument (&#0039;pvs&#0039;)</h3>
+  <p class="para">All labCA calls take a PV argument identifying the EPICS process
+   variables the user wants to connect to. PVs are plain ASCII strings.
+   labCA is capable of handling multiple PVs in a single call; they are
+   simply passed as a column vector:</p>
+  <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabid">pvs</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">PVa</span><span class="scilabstring">&#0039;</span><span class="scilabdefault">;</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">b</span><span class="scilabstring">&#0039;</span><span class="scilabdefault">;</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">anotherone</span><span class="scilabstring">&#0039;</span> <span class="scilabopenclose">]</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div>
+   <p class="para">Because matlab doesn&#0039;t allow the rows of a string vector to be of
+   different size, the matlab wrapper expects a cell- array of strings:</p>
+  <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabid">pvs</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">{</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">PVa</span><span class="scilabstring">&#0039;</span><span class="scilabdefault">;</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">b</span><span class="scilabstring">&#0039;</span><span class="scilabdefault">;</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">anotherone</span><span class="scilabstring">&#0039;</span> <span class="scilabopenclose">}</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div>
+   <p class="para">All channel access activities for the PVs passed to a single labCA call
+   are batched together and completion of the batch is awaited before
+   returning from the labCA call. Consider the following example:</p>
+  <table><tr><td valign="top"><img src="ScilabNote.png"/></td><td valign="top"><div class="note"><p class="para">In matlab, the square brackets (``[]&#0039;&#0039;) must be replaced by
+          curly braces (``{}&#0039;&#0039;).</p></div></td></tr></table>
+  <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabid">lcaPut</span><span class="scilabopenclose">(</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">trigger</span><span class="scilabstring">&#0039;</span><span class="scilabdefault">,</span> <span class="scilabnumber">1</span> <span class="scilabopenclose">)</span>
+<span class="scilabid">data</span> <span class="scilaboperator">=</span> <span class="scilabid">lcaGet</span><span class="scilabopenclose">(</span> <span class="scilabopenclose">[</span><span class="scilabstring">&#0039;</span><span class="scilabstring">sensor1</span><span class="scilabstring">&#0039;</span> <span class="scilabdefault">;</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">sens2</span><span class="scilabstring">&#0039;</span><span class="scilabopenclose">]</span> <span class="scilabopenclose">)</span><span class="scilabdefault">;</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div>
+  <ul class="itemizedlist"><li><p class="para">It is guaranteed that writing the ``trigger&#0039;&#0039; completes (on the CA
+     server) prior to reading the sensors.</p>
+     <table><tr><td valign="top"><img src="ScilabNote.png"/></td><td valign="top"><div class="note"><p class="para">If the remote sensors have finite processing time, the
+          subsequent CA read may still get old data -- depending on the
+          device support etc.; this is beyond the scope of channel access,
+          however.</p></div></td></tr></table></li>
+  <li><p class="para">Reading the two sensors is done in ``parallel&#0039;&#0039; -- the exact order
+     is unspecified. After the command sequence (successfully)
+     completes, all the data are valid.</p></li></ul></div>
+
+  <a name="lca_common_type_arg"></a><div class="refsection"><h3 class="title">Data Type Argument (&#0039;type&#0039;)</h3>
+  <p class="para">(optional argument) A string specifying the data type to be used for the
+  channel access data transfer.</p>
+  <table><tr><td valign="top"><img src="ScilabNote.png"/></td><td valign="top"><div class="note"><p class="para">Unless the PVs are of native &#0039;string&#0039; type or conversion to &#0039;string&#0039;
+  is enforced explicitly (type = <em>&#0039;char&#0039;</em>),
+  labCA always converts the data to <em>&#0039;double&#0039;</em> locally.</p></div></td></tr></table> 
+  <p class="para">It can be desirable, however, to use a different data type for the transfer
+  because by default CA transfers are limited to ~ 16kB.
+  Legal values for type are</p>
+  <ul class="itemizedlist"><li><p class="para"><em>&#0039;byte&#0039;</em></p></li>
+  <li><p class="para"><em>&#0039;short&#0039;</em></p></li>
+  <li><p class="para"><em>&#0039;long&#0039;</em></p></li>
+  <li><p class="para"><em>&#0039;float&#0039;</em></p></li>
+  <li><p class="para"><em>&#0039;double&#0039;</em></p></li>
+  <li><p class="para"><em>&#0039;native&#0039;</em></p></li>
+  <li><p class="para"><em>&#0039;char&#0039;</em>(strings)</p></li></ul>
+  <p class="para">There should rarely be a need for using anything other than
+  <em>&#0039;native&#0039;</em>, the default, which directs CA to use
+  the same type for transfer as the data are stored on the server.</p>
+  <p class="para">Occasionally, conversion to <em>&#0039;char&#0039;</em> can be useful:
+  retrieve a number of PVs as strings, i.e. let the CA server convert them
+  to strings (if the PVs are not native strings already) and transfer them.</p>
+  <p class="para">If multiple PVs are requested, either none or all must be of native
+  DBF_STRING or DBF_ENUM type unless explicit conversion to
+  <em>&#0039;char&#0039;</em> is enforced by specifying this argument.</p>
+  <table><tr><td valign="top"><img src="ScilabNote.png"/></td><td valign="top"><div class="note"><p class="para">While <em>&#0039;native&#0039;</em> might result in different types
+  being used for different PVs, it is currently not possible to
+  explicitly request different types for individual PVs (i.e.
+  type can&#0039;t be a vector).</p></div></td></tr></table></div>
+
+  <a name="lca_common_timestamp_val"></a><div class="refsection"><h3 class="title">Timestamp Format</h3>
+  <p class="para">Channel access timestamps are ``POSIX struct timespec&#0039;&#0039; compliant, i.e.
+   they provide the number of nanoseconds expired since 00:00:00 UTC,
+   January 1, 1970. labCA translates the timestamps into complex numbers
+   with the seconds (tv_sec member) and nanoseconds (tv_nsec) in the real
+   and imaginary parts, respectively. This makes it easy to extract the
+   seconds while still maintaining full accuracy.</p></div>
+
+  <a name="lca_common_nan_val"></a><div class="refsection"><h3 class="title">NaN Values</h3>
+  <p class="para">Actually, all fields of an EPICS database record share a common
+  severity, (which itself is a field/PV -- the .SEVR field).
+  However, the INVALID status actually only applies to the .VAL
+  field of a record -- other fields (e.g. .EGU) may still hold
+  meaningful data. Consequently, INVALID PVs are returned as NaN
+  only if they refer to a record&#0039;s .VAL field.</p></div>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	<span class="previous"><a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">&lt;&lt; labCA</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="Error.html">Error Handling &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

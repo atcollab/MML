@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from lcaLastError.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="lcaLastError" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>lcaLastError</refname>
+    <refpurpose>This routine is a simple extension to scilab's lasterror which only    allows a single error to be reported.</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   
+   [err_status] = lcaLastError()
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Description</title>
+   <para>
+   </para>
+   <para>
+This routine is a simple extension to scilab's lasterror which only
+allows a single error to be reported. If labCA encounters an error of
+general nature then lasterror is sufficient and lcaLastError() reports
+redundant/identical information. However, if a labCA operation only
+fails on a subset of a vector of PVs then lcaLastError() returns an
+error code for each individual PV (as a m x 1 vector) so that failing
+channels can be identified.
+   </para>
+   <para>
+The error reported by lasterror corresponds to the first error found in
+the err_status vector.
+   </para>
+   <para>
+Note that (matching lasterror's semantics) the recorded errors are not
+cleared by a successful labCA operation. Hence, the status returned by
+lcaLastError() is only defined after an error occurred and the routine
+is intended to be used from the catch section of a try - catch - end
+construct.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+
+try
+// lcaXXX command goes here
+catch
+errors = lcaLastError()
+// errors holds status vector or single status code
+// depending on command, error cause and number of PVs.
+end
+__________________________________________________________________
+
+
+till 2017-08-08
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>See also</title>
+   <simplelist type="inline">
+   <member><link linkend="Error">1. Error</link></member>
+   </simplelist>
+</refsection>
+</refentry>

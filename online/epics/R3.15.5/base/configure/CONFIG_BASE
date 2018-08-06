@@ -1,0 +1,117 @@
+#*************************************************************************
+# Copyright (c) 2002 The University of Chicago, as Operator of Argonne
+#     National Laboratory.
+# Copyright (c) 2002 The Regents of the University of California, as
+#     Operator of Los Alamos National Laboratory.
+# EPICS BASE Versions 3.13.7
+# and higher are distributed subject to a Software License Agreement found
+# in file LICENSE that is included with this distribution. 
+#*************************************************************************
+
+#---------------------------------------------------------------
+# Epics base directories
+
+EPICS_BASE_HOST_BIN = $(EPICS_BASE)/bin/$(EPICS_HOST_ARCH)
+EPICS_BASE_HOST_LIB = $(EPICS_BASE)/lib/$(EPICS_HOST_ARCH)
+ifdef T_A
+  EPICS_BASE_LIB    = $(EPICS_BASE)/lib/$(T_A)
+  EPICS_BASE_BIN    = $(EPICS_BASE)/bin/$(T_A)
+endif
+
+#---------------------------------------------------------------
+# Epics base Ioc libraries 
+
+EPICS_BASE_IOC_LIBS += dbRecStd dbCore ca Com 
+
+#---------------------------------------------------------------
+# Epics base Host libraries 
+
+EPICS_BASE_HOST_LIBS += cas gdd
+EPICS_BASE_HOST_LIBS += ca Com
+
+#---------------------------------------------------------------
+# Version number for base shared libraries (and win32 products)
+
+ifdef BASE_TOP
+  # Unix lib.so.<v.r.m>  Darwin lib.<v.r.m>.dylib
+  SHRLIB_VERSION = $(EPICS_VERSION).$(EPICS_REVISION).$(EPICS_MODIFICATION)
+  # Windows only allows 2 levels of version numbering
+  PROD_VERSION = $(EPICS_VERSION).$(EPICS_REVISION)
+endif # BASE_TOP
+
+#---------------------------------------------------------------
+# Base c preprocessor flags
+
+BASE_CPPFLAGS = 
+
+# osithread default stack
+OSITHREAD_USE_DEFAULT_STACK = NO
+OSITHREAD_DEFAULT_STACK_FLAGS_YES = -DOSITHREAD_USE_DEFAULT_STACK
+OSITHREAD_DEFAULT_STACK_FLAGS_NO =
+BASE_CPPFLAGS += $(OSITHREAD_DEFAULT_STACK_FLAGS_$(OSITHREAD_USE_DEFAULT_STACK))
+
+#---------------------------------------------------------------
+# Where to find the installed build tools
+#   Windows does not like commands with relative paths starting ../
+#   but the Perl scripts in TOP/src/tools are OK
+
+TOOLS = $(abspath $(EPICS_BASE_HOST_BIN))
+FIND_TOOL = $(firstword $(wildcard $(TOOLS)/$(1) $(TOP)/src/tools/$(1)))
+
+#---------------------------------------------------------------
+# Epics base build tools and tool flags
+
+MAKEBPT                    = $(TOOLS)/makeBpt$(HOSTEXE)
+DBEXPAND                   = $(PERL) $(TOOLS)/dbdExpand.pl
+DBTORECORDTYPEH            = $(PERL) $(TOOLS)/dbdToRecordtypeH.pl
+DBTOMENUH                  = $(PERL) $(TOOLS)/dbdToMenuH.pl
+REGISTERRECORDDEVICEDRIVER = $(PERL) $(TOOLS)/registerRecordDeviceDriver.pl
+CONVERTRELEASE             = $(PERL) $(call FIND_TOOL,convertRelease.pl)
+FULLPATHNAME               = $(PERL) $(TOOLS)/fullPathName.pl
+
+#-------------------------------------------------------
+# tools for installing libraries and products
+INSTALL_QUIETLY := $(if $(findstring s,$(MAKEFLAGS)),-q,)
+INSTALL = $(PERL) $(TOOLS)/installEpics.pl $(INSTALL_QUIETLY)
+INSTALL_PRODUCT = $(INSTALL)
+INSTALL_LIBRARY = $(INSTALL)
+
+#---------------------------------------------------------------
+# tools for making header dependancies and variable replacement
+MKMF                       = $(PERL) $(TOOLS)/mkmf.pl
+REPLACEVAR                 = $(PERL) $(TOOLS)/replaceVAR.pl
+
+#---------------------------------------------------------------
+# private versions of lex/yacc from EPICS
+EYACC = $(TOOLS)/antelope$(HOSTEXE)
+ELEX = $(TOOLS)/e_flex$(HOSTEXE) -S$(EPICS_BASE)/include/flex.skel.static
+
+YACC  = $(EYACC)
+LEX   = $(ELEX)
+
+#---------------------------------------------------------------
+# Our use of msi is incompatible with older versions
+
+MSI3_15 = $(EPICS_BASE_HOST_BIN)/msi
+
+#---------------------------------------------------------------
+# External tools and tool flags - must be in path or defined in application
+
+ADL2DL ?= adl2dl
+
+# sch2edif compiler and flags
+SCH2EDIF = sch2edif
+SCH2EDIF_PATH =
+SCH2EDIF_SYSFLAGS = -n -ap -p.+..+$(SCH2EDIF_PATH)+$(CAPFAST_TEMPLATES)/sym+
+SCH2EDIF_FLAGS =
+ 
+# e2db and flags
+#    - again there is an assumption where edb.def is installed.
+E2DB ?= e2db
+E2DB_SYSFLAGS = -ate -d $(CAPFAST_TEMPLATES)/edb.def
+E2DB_FLAGS =
+
+DBST ?= dbst
+
+
+

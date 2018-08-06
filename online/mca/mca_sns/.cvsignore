@@ -1,0 +1,4 @@
+mexopts.sh
+O.*
+.gdb*
+TestHash

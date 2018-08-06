@@ -1,0 +1,92 @@
+% function  [X Z Sum Q Va Vb Vc Vd] = readonebpm(num,pathName,Mode) 
+num = 1; % BPM number
+% Read data
+pathName = '/home/operateur/temp/';
+filename = [pathName num 'P3.raw'];
+fid = fopen(filename,'r')
+data = fscanf(fid,'%d %d %d %d %d %d %d %d',[8,Inf]);
+fclose(fid)
+
+switch Mode
+    case 'NoRaw'
+% Mode No raw data
+Va =data(1,:); 
+Vb =data(2,:); 
+Vc =data(3,:); 
+Vd =data(4,:); 
+X  = 2.1*data(5,:)*1e-6; 
+Z  = 2.1*data(6,:)*1e-6; 
+Q  = 2.1*data(7,:)*1e-6; 
+Sum=data(8,:);
+
+Va+Vb+Vc+Vd-Sum
+
+21*(Va+Vc-Vb-Vd)./Sum-Q
+
+21*(Va-Vb+Vd-Vc)./Sum-X
+21*(Va+Vb-Vd-Vc)./Sum-Z
+ 
+    case 'Raw'
+% MOde raw data
+cosVa = data(1,:);
+sinVa = data(2,:);
+cosVb = data(3,:);
+sinVb = data(4,:);
+cosVc = data(5,:);
+sinVc = data(6,:);
+cosVd = data(7,:);
+sinVd = data(8,:);
+
+Va = sqrt(cosVa.*cosVa+sinVa.*sinVa);
+Vb = sqrt(cosVb.*cosVb+sinVb.*sinVb);
+Vc = sqrt(cosVc.*cosVc+sinVc.*sinVc);
+Vd = sqrt(cosVd.*cosVd+sinVd.*sinVd);
+
+Kx = 21; Kz = 21;
+Sum = Va + Vb + Vc + Vd;
+X = Kx*(Va + Vd - Vc - Vb)./Sum;
+Z = Kz*(Va + Vb - Vc - Vd)./Sum;
+Q = Kx*(Va + Vc - Vb - Vd)./Sum;
+
+end
+
+% ./net-acquire  -a 0,1,0,1,0,1,0,1 172.17.15.151  23271 16 -s 3
+AO=getao;
+AO.BPMx.DeviceName;
+
+num = 6;
+rep = tango_read_attribute2(AO.BPMx.DeviceName{num},'XPosVector');
+X = rep.value;
+rep =tango_read_attribute2(AO.BPMx.DeviceName{num},'ZPosVector');
+Z = rep.value;
+
+rep =tango_read_attribute2(AO.BPMx.DeviceName{num},'QuadVector');
+Q = rep.value;
+
+rep =tango_read_attribute2(AO.BPMx.DeviceName{num},'SumVector');
+Sum = rep.value;
+
+subplot(2,2,1)
+plot(X)
+ylabel('X')
+subplot(2,2,2)
+plot(Z)
+ylabel('Z')
+subplot(2,2,3)
+plot(Sum)
+ylabel('SUM')
+subplot(2,2,4)
+plot(Q)
+ylabel('Q')
+
+
+%% init sur BPM
+
+devName=getfamilydata('BPMx','DeviceName');
+
+tango_command_inout2(devName{17},'Init');
+
+for k=1:length(devName)
+    tango_command_inout2(devName{k},'Init');
+end
+

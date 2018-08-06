@@ -1,0 +1,23 @@
+/Makefile/1.5/Mon Jun  4 18:56:18 2007//Tlabca_3_1
+/ecget.c/1.6/Sun Oct 14 03:28:04 2007//Tlabca_3_1
+/lcaClear.c/1.6/Thu May 31 21:16:44 2007//Tlabca_3_1
+/lcaDelay.c/1.7/Tue Jun  5 05:03:12 2007//Tlabca_3_1
+/lcaGet.c/1.12/Sun Oct 14 03:28:04 2007//Tlabca_3_1
+/lcaGetControlLimits.c/1.11/Sun Oct 14 03:28:04 2007//Tlabca_3_1
+/lcaGetGraphicLimits.c/1.10/Sun Oct 14 03:28:04 2007//Tlabca_3_1
+/lcaGetNelem.c/1.7/Thu May 31 21:16:45 2007//Tlabca_3_1
+/lcaGetPrecision.c/1.1/Mon Jun  4 18:56:18 2007//Tlabca_3_1
+/lcaGetRetryCount.c/1.5/Thu May 31 21:16:45 2007//Tlabca_3_1
+/lcaGetStatus.c/1.7/Sun Oct 14 03:28:04 2007//Tlabca_3_1
+/lcaGetTimeout.c/1.6/Fri Jun  1 07:00:49 2007//Tlabca_3_1
+/lcaGetUnits.c/1.2/Sun Oct 14 03:28:04 2007//Tlabca_3_1
+/lcaLastError.c/1.4/Fri Jun  1 21:36:53 2007//Tlabca_3_1
+/lcaNewMonitorValue.c/1.6/Thu May 31 21:16:45 2007//Tlabca_3_1
+/lcaNewMonitorWait.c/1.2/Thu May 31 21:16:45 2007//Tlabca_3_1
+/lcaPut.c/1.10/Mon Jun  4 18:56:18 2007//Tlabca_3_1
+/lcaPutNoWait.c/1.5/Mon Jun  4 18:56:18 2007//Tlabca_3_1
+/lcaSetMonitor.c/1.6/Thu May 31 21:16:45 2007//Tlabca_3_1
+/lcaSetRetryCount.c/1.7/Sat Jun  2 18:15:39 2007//Tlabca_3_1
+/lcaSetSeverityWarnLevel.c/1.5/Thu May 31 21:16:45 2007//Tlabca_3_1
+/lcaSetTimeout.c/1.6/Fri Jun  1 23:52:48 2007//Tlabca_3_1
+D

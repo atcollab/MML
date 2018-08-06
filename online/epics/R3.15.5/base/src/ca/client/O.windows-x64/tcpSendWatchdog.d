@@ -1,0 +1,56 @@
+# DO NOT EDIT: This file created by mkmf.pl
+
+tcpSendWatchdog.obj : ../iocinf.h
+tcpSendWatchdog.obj : ../cac.h
+tcpSendWatchdog.obj : ../virtualCircuit.h
+tcpSendWatchdog.obj : ../../../../include/compilerDependencies.h
+tcpSendWatchdog.obj : ../../../../include/ipAddrToAsciiAsynchronous.h
+tcpSendWatchdog.obj : ../msgForMultiplyDefinedPV.h
+tcpSendWatchdog.obj : ../../../../include/epicsTimer.h
+tcpSendWatchdog.obj : ../../../../include/epicsEvent.h
+tcpSendWatchdog.obj : ../../../../include/freeList.h
+tcpSendWatchdog.obj : ../localHostName.h
+tcpSendWatchdog.obj : ../../../../include/shareLib.h
+tcpSendWatchdog.obj : ../nciu.h
+tcpSendWatchdog.obj : ../comBuf.h
+tcpSendWatchdog.obj : ../bhe.h
+tcpSendWatchdog.obj : ../cacIO.h
+tcpSendWatchdog.obj : ../netIO.h
+tcpSendWatchdog.obj : ../../../../include/epicsMemory.h
+tcpSendWatchdog.obj : ../../../../include/tsDLList.h
+tcpSendWatchdog.obj : ../../../../include/tsMinMax.h
+tcpSendWatchdog.obj : ../caServerID.h
+tcpSendWatchdog.obj : ../netiiu.h
+tcpSendWatchdog.obj : ../comQueSend.h
+tcpSendWatchdog.obj : ../comQueRecv.h
+tcpSendWatchdog.obj : ../tcpRecvWatchdog.h
+tcpSendWatchdog.obj : ../tcpSendWatchdog.h
+tcpSendWatchdog.obj : ../hostNameCache.h
+tcpSendWatchdog.obj : ../SearchDest.h
+tcpSendWatchdog.obj : ../../../../include/compiler/msvc/compilerSpecific.h
+tcpSendWatchdog.obj : ../../../../include/osiSock.h
+tcpSendWatchdog.obj : ../../../../include/tsFreeList.h
+tcpSendWatchdog.obj : ../../../../include/epicsTime.h
+tcpSendWatchdog.obj : ../../../../include/epicsThread.h
+tcpSendWatchdog.obj : ../../../../include/os/WIN32/osdEvent.h
+tcpSendWatchdog.obj : ../../../../include/epicsSingleton.h
+tcpSendWatchdog.obj : ../../../../include/resourceLib.h
+tcpSendWatchdog.obj : ../../../../include/epicsMutex.h
+tcpSendWatchdog.obj : ../caProto.h
+tcpSendWatchdog.obj : ../../../../include/epicsAssert.h
+tcpSendWatchdog.obj : ../../../../include/epicsTypes.h
+tcpSendWatchdog.obj : ../../../../include/osiWireFormat.h
+tcpSendWatchdog.obj : ../inetAddrID.h
+tcpSendWatchdog.obj : ../../../../include/epicsGuard.h
+tcpSendWatchdog.obj : ../../../../include/os/WIN32/osdSock.h
+tcpSendWatchdog.obj : ../../../../include/ellLib.h
+tcpSendWatchdog.obj : ../../../../include/os/WIN32/osdTime.h
+tcpSendWatchdog.obj : ../../../../include/os/WIN32/osdThread.h
+tcpSendWatchdog.obj : ../../../../include/tsSLList.h
+tcpSendWatchdog.obj : ../../../../include/epicsString.h
+tcpSendWatchdog.obj : ../../../../include/os/WIN32/osdMutex.h
+tcpSendWatchdog.obj : ../../../../include/os/WIN32/osdWireFormat.h
+tcpSendWatchdog.obj : ../../../../include/epicsEndian.h
+tcpSendWatchdog.obj : ../../../../include/os/WIN32/osdWireConfig.h
+
+

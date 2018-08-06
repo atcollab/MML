@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of getcavity</title>
+  <meta name="keywords" content="getcavity">
+  <meta name="description" content="GETCAVITY - Returns the RF cavity state ('On' / 'Off')">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; getcavity.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>getcavity
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>GETCAVITY - Returns the RF cavity state ('On' / 'Off')</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [CavityState, PassMethod, ATCavityIndex, RF, HarmonicNumber] = getcavity(THERING) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">GETCAVITY - Returns the RF cavity state ('On' / 'Off')
+  [CavityState, PassMethod, ATCavityIndex, RF, HarmonicNumber] = getcavity(THERING)
+
+  OUTPUTS
+  1. CavityState
+  2. PassMethod
+  3. ATCavityIndex - AT Index of the RF cavities
+  4. RF - RF frequency [Hz]
+  5. HarmonicNumber - Harmonic number
+
+  See also <a href="setcavity.html" class="code" title="function ATCavityIndex = setcavity(InputString)">setcavity</a>, <a href="setradiation.html" class="code" title="function [PassMethod, ATIndex, FamName, PassMethodOld, ATIndexOld, FamNameOld] = setradiation(InputString)">setradiation</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="getharmonicnumber.html" class="code" title="function [HarmonicNumber, RF] = getharmonicnumber">getharmonicnumber</a>	GETHARMONICNUMBER - Returns the harmonic number from the AT model</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="calccoupling.html" class="code" title="function [Tilt, Eta, EpsX, EpsY, Ratio, ENV, DP, DL, sigmas] = calccoupling">calccoupling</a>	CALCCOUPLING - Calculates the coupling and tilt of the AT model</li><li><a href="concatenaterings.html" class="code" title="function varargout = concatenaterings(NRings)">concatenaterings</a>	</li><li><a href="getpvmodel.html" class="code" title="function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)">getpvmodel</a>	GETPVMODEL - Get the model value</li><li><a href="iscavityon.html" class="code" title="function Test = iscavityon">iscavityon</a>	ISCAVITYON - True is there is a powered cavity in THERING</li><li><a href="modelchro.html" class="code" title="function [Chro, Tune] = modelchro(varargin)">modelchro</a>	MODELCHRO - Returns the AT model chromaticity</li><li><a href="modeldisp.html" class="code" title="function [Dx, Dy, Sx, Sy, h] = modeldisp(varargin)">modeldisp</a>	MODELDISP - Returns the dispersion function of the model</li><li><a href="modeltune.html" class="code" title="function [FractionalTune, IntegerTune] = modeltune">modeltune</a>	MODELTUNE - Returns the model tune (2x1 vector)</li></ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [CavityState, PassMethod, ATCavityIndex, RF, HarmonicNumber] = getcavity(THERING)</a>
+0002 <span class="comment">%GETCAVITY - Returns the RF cavity state ('On' / 'Off')</span>
+0003 <span class="comment">%  [CavityState, PassMethod, ATCavityIndex, RF, HarmonicNumber] = getcavity(THERING)</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">%  OUTPUTS</span>
+0006 <span class="comment">%  1. CavityState</span>
+0007 <span class="comment">%  2. PassMethod</span>
+0008 <span class="comment">%  3. ATCavityIndex - AT Index of the RF cavities</span>
+0009 <span class="comment">%  4. RF - RF frequency [Hz]</span>
+0010 <span class="comment">%  5. HarmonicNumber - Harmonic number</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%  See also setcavity, setradiation</span>
+0013 
+0014 <span class="comment">%  Written by Greg Portmann</span>
+0015 
+0016 <span class="keyword">if</span> nargin &lt; 1
+0017     <span class="keyword">global</span> THERING
+0018 <span class="keyword">end</span>
+0019 
+0020 ATCavityIndex = findcells(THERING, <span class="string">'Frequency'</span>);
+0021 
+0022 CavityState = <span class="string">''</span>;
+0023 PassMethod = <span class="string">''</span>;
+0024 RF = [];
+0025 
+0026 <span class="keyword">if</span> isempty(ATCavityIndex)
+0027     <span class="comment">%disp('   No cavities were found in the lattice');</span>
+0028     [HarmonicNumber, RF] = <a href="getharmonicnumber.html" class="code" title="function [HarmonicNumber, RF] = getharmonicnumber">getharmonicnumber</a>;
+0029     <span class="keyword">return</span>
+0030 <span class="keyword">end</span>
+0031 
+0032 ATCavityIndex =ATCavityIndex(:)';
+0033 <span class="keyword">for</span> ii = ATCavityIndex(:)'
+0034     <span class="keyword">if</span> strcmpi(THERING{ii}.PassMethod, <span class="string">'DriftPass'</span>) || strcmpi(THERING{ii}.PassMethod, <span class="string">'IdentityPass'</span>)
+0035         CavityState = strvcat(CavityState,<span class="string">'Off'</span>);
+0036     <span class="keyword">else</span>
+0037         CavityState = strvcat(CavityState,<span class="string">'On'</span>);
+0038     <span class="keyword">end</span>
+0039     PassMethod = strvcat(PassMethod, THERING{ii}.PassMethod);
+0040     RF =  [RF; THERING{ii}.Frequency];
+0041 <span class="keyword">end</span>
+0042 
+0043 ATCavityIndex = ATCavityIndex(:);
+0044 
+0045 <span class="keyword">if</span> nargout &gt;= 5
+0046     <span class="keyword">if</span> isfield(THERING{ATCavityIndex(1)}, <span class="string">'HarmonicNumber'</span>)
+0047         HarmonicNumber = THERING{ATCavityIndex(1)}.HarmNumber;
+0048     <span class="keyword">else</span>
+0049         HarmonicNumber = [];
+0050     <span class="keyword">end</span>
+0051 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

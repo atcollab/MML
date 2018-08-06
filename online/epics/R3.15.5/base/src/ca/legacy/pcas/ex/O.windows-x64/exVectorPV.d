@@ -1,0 +1,53 @@
+# DO NOT EDIT: This file created by mkmf.pl
+
+exVectorPV.obj : ../../../../../../src/template/base/top/caServerApp/exServer.h
+exVectorPV.obj : ../../../../../../include/gddApps.h
+exVectorPV.obj : ../../../../../../include/gddAppFuncTable.h
+exVectorPV.obj : ../../../../../../include/smartGDDPointer.h
+exVectorPV.obj : ../../../../../../include/epicsTimer.h
+exVectorPV.obj : ../../../../../../include/casdef.h
+exVectorPV.obj : ../../../../../../include/epicsAssert.h
+exVectorPV.obj : ../../../../../../include/resourceLib.h
+exVectorPV.obj : ../../../../../../include/tsMinMax.h
+exVectorPV.obj : ../../../../../../include/gdd.h
+exVectorPV.obj : ../../../../../../include/gddAppTable.h
+exVectorPV.obj : ../../../../../../include/errMdef.h
+exVectorPV.obj : ../../../../../../include/errlog.h
+exVectorPV.obj : ../../../../../../include/shareLib.h
+exVectorPV.obj : ../../../../../../include/epicsTime.h
+exVectorPV.obj : ../../../../../../include/epicsThread.h
+exVectorPV.obj : ../../../../../../include/alarm.h
+exVectorPV.obj : ../../../../../../include/caNetAddr.h
+exVectorPV.obj : ../../../../../../include/casEventMask.h
+exVectorPV.obj : ../../../../../../include/compilerDependencies.h
+exVectorPV.obj : ../../../../../../include/tsSLList.h
+exVectorPV.obj : ../../../../../../include/epicsString.h
+exVectorPV.obj : ../../../../../../include/gddNewDel.h
+exVectorPV.obj : ../../../../../../include/gddUtils.h
+exVectorPV.obj : ../../../../../../include/gddErrorCodes.h
+exVectorPV.obj : ../../../../../../include/aitTypes.h
+exVectorPV.obj : ../../../../../../include/aitConvert.h
+exVectorPV.obj : ../../../../../../include/gddArray.h
+exVectorPV.obj : ../../../../../../include/gddScalar.h
+exVectorPV.obj : ../../../../../../include/gddContainer.h
+exVectorPV.obj : ../../../../../../include/gddI.h
+exVectorPV.obj : ../../../../../../include/gddArrayI.h
+exVectorPV.obj : ../../../../../../include/gddScalarI.h
+exVectorPV.obj : ../../../../../../include/gddContainerI.h
+exVectorPV.obj : ../../../../../../include/epicsTypes.h
+exVectorPV.obj : ../../../../../../include/os/WIN32/osdTime.h
+exVectorPV.obj : ../../../../../../include/epicsEvent.h
+exVectorPV.obj : ../../../../../../include/epicsMutex.h
+exVectorPV.obj : ../../../../../../include/os/WIN32/osdThread.h
+exVectorPV.obj : ../../../../../../include/osiSock.h
+exVectorPV.obj : ../../../../../../include/compiler/msvc/compilerSpecific.h
+exVectorPV.obj : ../../../../../../include/epicsGuard.h
+exVectorPV.obj : ../../../../../../include/gddUtilsI.h
+exVectorPV.obj : ../../../../../../include/aitHelpers.h
+exVectorPV.obj : ../../../../../../include/gddEnumStringTable.h
+exVectorPV.obj : ../../../../../../include/os/WIN32/osdEvent.h
+exVectorPV.obj : ../../../../../../include/os/WIN32/osdMutex.h
+exVectorPV.obj : ../../../../../../include/os/WIN32/osdSock.h
+exVectorPV.obj : ../../../../../../include/ellLib.h
+
+

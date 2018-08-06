@@ -1,0 +1,869 @@
+Get booster trigger channel from Eric
+
+crioc02	ai	EG______BIAS___AM01	BIAS_MON
+crioc02	ai	EG______HSTEMP_AM03	Temp Monitor
+crioc02	ai	EG______HTR____AM00	HEATER_MON
+crioc02	ai	EG______HV_____AM00	LI0147_TS1_4
+crioc02	ai	EG______HV_I___AM01	LI0147_TS1_7
+crioc02	ai	EG______MO_____AM00	Freq Reference
+crioc02	ai	EG______PHASE__AM02	EG Phase
+crioc02	ai	EG______PULSER_AM02	PULSER_MON
+crioc02	ai	EG______WBIAS__AM01	BIAS_MON
+
+crioc02	ao	EG______BIAS___AC01	BIAS_REF
+crioc02	ao	EG______HTR____AC00	HTR_REF
+crioc02	ao	EG______HV_____AC00	LI0130_P65_C
+crioc02	ao	EG______MO_____AC00	A
+crioc02	ao	EG______PHASE__AC02	EG Phase
+crioc02	ao	EG______PULSER_AC02	PULSER_REF
+crioc02	ao	EG______WBIAS__AC01	BIAS_REF
+
+crioc02	bi	EG______AUX____BM12	EN_GTL_VVR1+INM1
+crioc02	bi	EG______AUX____BM13	RF_TEST_BM
+crioc02	bi	EG______AUX____BM15	AUX_RDY
+crioc02	bi	EG______AUX____BM11	HV_TEST_LOC_BM
+crioc02	bi	EG______AUX____BM09	AUX_LOC_CNTL_BM
+crioc02	bi	EG______AUX____BM14	AUX_ON_BM
+crioc02	bi	EG______AUX____BM10	GUN_OPERATNL_BM1
+crioc02	bi	EG______EXTOSC_BM05	Ext Osc Sel
+crioc02	bi	EG______HQOSC__BM07	MQ MO Sel
+crioc02	bi	EG______HTR____BM01	HTR_LOC_CNTL_BM
+crioc02	bi	EG______HTR____BM08	HEATER_RDY
+crioc02	bi	EG______HTR____BM07	HTR_ON_BM1
+crioc02	bi	EG______HTR____BM06	K_AIR_BM
+crioc02	bi	EG______HTR____BM02	HV_TEST_OFF_BM
+crioc02	bi	EG______HTR____BM03	RF_TEST_OFF
+crioc02	bi	EG______HTR____BM04	GTL_IP1(B)_BM1
+crioc02	bi	EG______HTR____BM05	EG_IP1_BM
+crioc02	bi	EG______HV_____BM12	HTR_OFF_BM
+crioc02	bi	EG______HV_____BM02	HV_LOC_CNTL_BM
+crioc02	bi	EG______HV_____BM10	GTL_IP1(B)_BM2
+crioc02	bi	EG______HV_____BM11	GTL_VVR1_CLSD_BM
+crioc02	bi	EG______HV_____BM13	HV_TEST_BM
+crioc02	bi	EG______HV_____BM09	GUN_OPERATNL_BM2
+crioc02	bi	EG______HV_____BM14	HV_ON_BM
+crioc02	bi	EG______HV_____BM08	HTR_ON_BM2
+crioc02	bi	EG______HV_____BM06	GTL(IP1C+IG1)BM2
+crioc02	bi	EG______HV_____BM03	P_SAFETY_2_BM
+crioc02	bi	EG______HV_____BM04	P_SAFETY_1_BM
+crioc02	bi	EG______HV_____BM05	HV_ENCLOSURE_BM
+crioc02	bi	EG______HV_____BM07	GTL_VVR1_OPEN_BM
+crioc02	bi	EG______HV_____BM15	HV_RDY_BM1
+crioc02	bi	EG______MO_CENTBM15	CENTER REF FOR V
+crioc02	bi	EG______MO_COMPBM13	COMP REF FOR VCX
+crioc02	bi	EG______MO_EXT_BM10	MO IN EXT. POSIT
+crioc02	bi	EG______MO_LOC_BM14	MO IN LOCAL REF
+crioc02	bi	EG______MO_NORMBM11	MO IN NORM POSIT
+crioc02	bi	EG______MO_OK__BM09	MO DRV LEVEL OK
+crioc02	bi	EG______MO_SWP_BM12	MO IN SWEEP POSI
+crioc02	bi	EG______MQOSC__BM06	Ext Osc Sel
+crioc02	bi	EG______IP1____BM15	IP TRIPPED
+
+crioc02	bo	EG______EXTOSC_BC21	Ext Osc Sel
+crioc02	bo	EG______HQOSC__BC23	HQ MO Sel
+crioc02	bo	EG______HTR____BC22	HEATER_ON/OFF
+crioc02	bo	EG______HV_____BC23	HV_ON/OFF
+crioc02	bo	EG______MQOSC__BC22	MQ MO Sel
+crioc02	bo	EG______AUX____BC23	AUX_ON/OFF
+
+
+crioc02	ai	GTL_____BC1____AM00	CH1_ADC_+
+crioc02	ai	GTL_____BC2____AM01	CH2_ADC_+
+crioc02	ai	GTL_____BPM1_X_AM00	BPM X
+crioc02	ai	GTL_____BPM1_Y_AM01	BPM Y
+crioc02	ai	GTL_____BPM2_X_AM00	BEAM X POSITION
+crioc02	ai	GTL_____BPM2_Y_AM01	BEAM Y POSITION
+crioc02	ai	GTL_____HC1____AM03	CH2_ADC_+
+crioc02	ai	GTL_____HC2____AM01	CH2_ADC_+
+crioc02	ai	GTL_____HC3____AM03	CH2_ADC_+
+crioc02	ai	GTL_____HC4____AM01	CH2_ADC_+
+crioc02	ai	GTL_____IG1____AM00	ION GAUGE
+crioc02	ai	GTL_____IG1____AM01	CONV GAUGE
+crioc02	ai	GTL_____IG2____AM00	ION GAUGE x
+crioc02	ai	GTL_____IG2____AM01	CONV GAUGE
+crioc02	ai	GTL_____IP1____AM01	GTL IP1 PRESSURE
+crioc02	ai	GTL_____IP2____AM02	GTL IP2 PRESSURE
+crioc02	ai	GTL_____SHB1_HVAM01	125MHZ HV MON.
+crioc02	ai	GTL_____SHB1_PHAM00	PHASE MONITOR
+crioc02	ai	GTL_____SHB2_HVAM01	500MHZ HV MON.
+crioc02	ai	GTL_____SHB2_PHAM00	PHASE MONITOR
+crioc02	ai	GTL_____SOL1___AM00	B
+crioc02	ai	GTL_____SOL2___AM01	G
+crioc02	ai	GTL_____SOL3___AM02	L
+crioc02	ai	GTL_____VC1____AM02	CH1_ADC_+
+crioc02	ai	GTL_____VC2____AM00	CH1_ADC_+
+crioc02	ai	GTL_____VC3____AM02	CH1_ADC_+
+crioc02	ai	GTL_____VC4____AM00	CH1_ADC_+
+
+crioc02	ao	GTL_____BC1____AC00	CH1_DAC_+
+crioc02	ao	GTL_____BC2____AC01	CH2_DAC_+
+crioc02	ao	GTL_____HC1____AC03	CH2_DAC_+
+crioc02	ao	GTL_____HC2____AC01	CH2_DAC_+
+crioc02	ao	GTL_____HC3____AC03	CH2_DAC_+
+crioc02	ao	GTL_____HC4____AC01	CH2_ADC_+
+crioc02	ao	GTL_____SHB1_HVAC01	125MHZ HV REF.
+crioc02	ao	GTL_____SHB1_PHAC00	PHASE REFERENCE
+crioc02	ao	GTL_____SHB2_HVAC01	500MHZ HV REF.
+crioc02	ao	GTL_____SHB2_PHAC00	PHASE REFERENCE
+crioc02	ao	GTL_____SOL1___AC00	A
+crioc02	ao	GTL_____SOL2___AC01	F
+crioc02	ao	GTL_____SOL3___AC02	K
+crioc02	ao	GTL_____TV1ATN_AC00	GTL TV1 ATTN REF
+crioc02	ao	GTL_____TV2ATN_AC01	GTL TV2 ATTN REF
+crioc02	ao	GTL_____VC1____AC02	CH1_DAC_+
+crioc02	ao	GTL_____VC2____AC00	CH1_DAC_+
+crioc02	ao	GTL_____VC3____AC02	CH1_DAC_+
+crioc02	ao	GTL_____VC4____AC00	CH1_ADC_+
+
+crioc02	bi	GTL_____BC2____BM08	LOCAL
+crioc02	bi	GTL_____BC2____BM09	COMPUTER
+crioc02	bi	GTL_____BC2____BM15	PS_READY
+crioc02	bi	GTL_____BC2____BM10	EXT_INTLK_OK
+crioc02	bi	GTL_____BC2____BM14	PS_ON
+crioc02	bi	GTL_____BC2____BM12	120VAC_OK
+crioc02	bi	GTL_____BC2____BM11	PS_THERM_OK
+crioc02	bi	GTL_____BC2____BM13	+24V
+crioc02	bi	GTL_____HC1____BM06	PS_ON
+crioc02	bi	GTL_____HC1____BM05	+24V
+crioc02	bi	GTL_____HC1____BM07	PS_READY
+crioc02	bi	GTL_____HC1____BM00	LOCAL
+crioc02	bi	GTL_____HC1____BM01	COMPUTER
+crioc02	bi	GTL_____HC1____BM02	EXT_INTLK_OK
+crioc02	bi	GTL_____HC1____BM03	PSTHERM_OK
+crioc02	bi	GTL_____HC1____BM04	120VAC_OK
+crioc02	bi	GTL_____HC2____BM09	COMPUTER
+crioc02	bi	GTL_____HC2____BM10	EXT_INTLK_OK
+crioc02	bi	GTL_____HC2____BM13	+24V
+crioc02	bi	GTL_____HC2____BM14	PS_ON
+crioc02	bi	GTL_____HC2____BM15	PS_READY
+crioc02	bi	GTL_____HC2____BM12	120VAC_OK
+crioc02	bi	GTL_____HC2____BM11	PS_THERM_OK
+crioc02	bi	GTL_____HC2____BM08	LOCAL
+crioc02	bi	GTL_____HC3____BM00	LOCAL
+crioc02	bi	GTL_____HC3____BM02	EXT_INTLK_OK
+crioc02	bi	GTL_____HC3____BM06	PS_ON
+crioc02	bi	GTL_____HC3____BM04	120VAC_OK
+crioc02	bi	GTL_____HC3____BM07	PS_READY
+crioc02	bi	GTL_____HC3____BM01	COMPUTER
+crioc02	bi	GTL_____HC3____BM05	+24V
+crioc02	bi	GTL_____HC3____BM03	PS_THERM_OK
+crioc02	bi	GTL_____HC4____BM13	+24V
+crioc02	bi	GTL_____HC4____BM14	PS_ON
+crioc02	bi	GTL_____HC4____BM15	PS_READY
+crioc02	bi	GTL_____HC4____BM12	120VAC_OK
+crioc02	bi	GTL_____HC4____BM08	LOCAL
+crioc02	bi	GTL_____HC4____BM09	COMPUTER
+crioc02	bi	GTL_____HC4____BM10	EXT_INTLK_OK
+crioc02	bi	GTL_____HC4____BM11	PS_THERM_OK
+crioc02	bi	GTL_____IG1____BM02	over pressure
+crioc02	bi	GTL_____IG1____BM01	ion gauge on
+crioc02	bi	GTL_____IG1____BM00	ion gauge ready
+crioc02	bi	GTL_____IG2____BM01	ion gauge on
+crioc02	bi	GTL_____IG2____BM02	over pressure
+crioc02	bi	GTL_____IG2____BM00	ion gauge ready
+crioc02	bi	GTL_____INM1___BM15	GTL INM1 AIR OK
+crioc02	bi	GTL_____INM1___BM10	GTL INM1 IN MON
+crioc02	bi	GTL_____INM1___BM11	GTL INM1 OUT MON
+crioc02	bi	GTL_____INM1___BM14	GTL INM1 RDY
+crioc02	bi	GTL_____INM1LITBM12	GTL INM1LIT ON
+crioc02	bi	GTL_____INM1LITBM13	GTL INM1LIT RDY
+crioc02	bi	GTL_____IP1____BM12	RUN CONDITION
+crioc02	bi	GTL_____IP1____BM11	H.V. ON
+crioc02	bi	GTL_____IP1____BM14	NOT OPERATING
+crioc02	bi	GTL_____IP1____BM13	START CONDITION
+crioc02	bi	GTL_____IP2____BM09	START CONDITION
+crioc02	bi	GTL_____IP2____BM08	RUN CONDITION
+crioc02	bi	GTL_____IP2____BM07	H.V. ON
+crioc02	bi	GTL_____IP2____BM10	NOT OPERATING
+crioc02	bi	GTL_____PP1____BM08	GTL PP1 RDY
+crioc02	bi	GTL_____PP1____BM05	GTL PP1 OUT
+crioc02	bi	GTL_____PP1____BM04	GTL PP1 IN
+crioc02	bi	GTL_____PP1____BM09	GTL PP1 AIR OK
+crioc02	bi	GTL_____PP1LIT_BM07	GTL PP1LIT RDY
+crioc02	bi	GTL_____PP1LIT_BM06	GTL PP1LIT ON
+crioc02	bi	GTL_____SHB1_HVBM09	EXT INTRLK 1
+crioc02	bi	GTL_____SHB1_HVBM19	HV READY
+crioc02	bi	GTL_____SHB1_HVBM18	HV ON
+crioc02	bi	GTL_____SHB1_HVBM10	FIL TIME OUT
+crioc02	bi	GTL_____SHB1_HVBM15	24VDC OK
+crioc02	bi	GTL_____SHB1_HVBM11	PLUG INTRLK
+crioc02	bi	GTL_____SHB1_HVBM14	120VAC OK
+crioc02	bi	GTL_____SHB1_HVBM13	AIR FLOW
+crioc02	bi	GTL_____SHB1_HVBM12	THERMAL
+crioc02	bi	GTL_____SHB1_HVBM07	EXT INTRLK 3
+crioc02	bi	GTL_____SHB1_HVBM08	EXT INTRLK 2
+crioc02	bi	GTL_____SHB1_HVBM05	SHB1 IN LOCAL
+crioc02	bi	GTL_____SHB1_HVBM02	SHB1 PH IN LOCAL
+crioc02	bi	GTL_____SHB1_HVBM06	DRV AMP ON
+crioc02	bi	GTL_____SHB1_HVBM04	SHB1 IN COMPUTER
+crioc02	bi	GTL_____SHB1_HVBM03	SHB1 PH IN COMP.
+crioc02	bi	GTL_____SHB1_PHBM16	PULSING ON
+crioc02	bi	GTL_____SHB1_PHBM17	PULSING READY
+crioc02	bi	GTL_____SHB2_HVBM10	FIL TIME OUT
+crioc02	bi	GTL_____SHB2_HVBM12	THERMAL
+crioc02	bi	GTL_____SHB2_HVBM08	EXT INTRLK 2
+crioc02	bi	GTL_____SHB2_HVBM13	AIR FLOW
+crioc02	bi	GTL_____SHB2_HVBM05	SHB2 IN LOCAL
+crioc02	bi	GTL_____SHB2_HVBM09	EXT INTRLK 1
+crioc02	bi	GTL_____SHB2_HVBM04	SHB2 IN COMPUTER
+crioc02	bi	GTL_____SHB2_HVBM02	SHB2 PH IN LOCAL
+crioc02	bi	GTL_____SHB2_HVBM03	SHB2 PH IN COMP.
+crioc02	bi	GTL_____SHB2_HVBM14	120VAC OK
+crioc02	bi	GTL_____SHB2_HVBM07	EXT INTRLK 3
+crioc02	bi	GTL_____SHB2_HVBM18	HV ON
+crioc02	bi	GTL_____SHB2_HVBM15	24VDC OK
+crioc02	bi	GTL_____SHB2_HVBM11	PLUG INTRLK
+crioc02	bi	GTL_____SHB2_HVBM06	DRV AMP ON
+crioc02	bi	GTL_____SHB2_HVBM19	HV READY
+crioc02	bi	GTL_____SHB2_PHBM16	PULSING ON
+crioc02	bi	GTL_____SHB2_PHBM17	PULSING READY
+crioc02	bi	GTL_____SOL1___BM14	E
+crioc02	bi	GTL_____SOL1___BM15	D
+crioc02	bi	GTL_____SOL2___BM13	I
+crioc02	bi	GTL_____SOL2___BM12	J
+crioc02	bi	GTL_____SOL3___BM11	N
+crioc02	bi	GTL_____SOL3___BM10	O
+crioc02	bi	GTL_____TIME2__BM17	RNP READY
+crioc02	bi	GTL_____TIME2__BM16	NOT RAMP
+crioc02	bi	GTL_____TIME2__BM18	LOCAL/REMOTE SW
+crioc02	bi	GTL_____TV1____BM15	GTL TV1 AIR OK
+crioc02	bi	GTL_____TV1____BM14	GTL TV1 RDY
+crioc02	bi	GTL_____TV1____BM10	GTL TV1 IN
+crioc02	bi	GTL_____TV1____BM11	GTL TV1 OUT
+crioc02	bi	GTL_____TV1LIT_BM12	GRATICULE ON
+crioc02	bi	GTL_____TV1LIT_BM13	GRATICULE RDY
+crioc02	bi	GTL_____TV2____BM04	GTL TV2 IN
+crioc02	bi	GTL_____TV2____BM05	GTL TV2 OUT
+crioc02	bi	GTL_____TV2____BM08	GTL TV2 RDY
+crioc02	bi	GTL_____TV2____BM09	GTL TV2 AIR OK
+crioc02	bi	GTL_____TV2LIT_BM07	LIGHT RDY
+crioc02	bi	GTL_____TV2LIT_BM06	LIGHT ON
+crioc02	bi	GTL_____VVR1___BM12	VALVE OPEN
+crioc02	bi	GTL_____VVR1___BM15	VALVE NOT INTRLK
+crioc02	bi	GTL_____VVR1___BM17	DWNSTREAM VAC OK
+crioc02	bi	GTL_____VVR1___BM18	UPSTREAM VAC OK
+crioc02	bi	GTL_____VVR1___BM11	VALVE IN LOCAL
+crioc02	bi	GTL_____VVR1___BM19	GTL VVR1 AIR OK
+crioc02	bi	GTL_____VVR1___BM14	GTL VVR1 RDY
+crioc02	bi	GTL_____VVR1___BM16	IN CATHODE TEST
+crioc02	bi	GTL_____VVR1___BM13	VALVE CLOSED
+
+crioc02	bo	GTL_____BC2____BC23	PS_ON_1
+crioc02	bo	GTL_____HC1____BC22	PS_ON_2
+crioc02	bo	GTL_____HC2____BC23	PS_ON_1
+crioc02	bo	GTL_____HC3____BC22	PS_ON_2
+crioc02	bo	GTL_____HC4____BC23	PS_ON_1
+crioc02	bo	GTL_____IG1____BC00	ion gauge on/off
+crioc02	bo	GTL_____IG2____BC00	ion gauge on/off
+crioc02	bo	GTL_____INM1___BC23	GTL INM1 IN/OUT
+crioc02	bo	GTL_____INM1LITBC22	LIGHT ON/OFF
+crioc02	bo	GTL_____PP1____BC21	GTL PP1 IN/OUT
+crioc02	bo	GTL_____PP1LIT_BC20	GTL PP1LT ON/OFF
+crioc02	bo	GTL_____SHB1_HVBC23	HV ON/OFF
+crioc02	bo	GTL_____SHB1_PHBC22	PULSING ON/OFF
+crioc02	bo	GTL_____SHB2_HVBC23	HV ON/OFF
+crioc02	bo	GTL_____SHB2_PHBC22	PULSING ON/OFF
+crioc02	bo	GTL_____SOL1___BC23	C
+crioc02	bo	GTL_____SOL2___BC22	H
+crioc02	bo	GTL_____SOL3___BC21	M
+crioc02	bo	GTL_____TV1____BC23	GTL TV1 IN/OUT
+crioc02	bo	GTL_____TV1LIT_BC22	GRATICULE ON/OFF
+crioc02	bo	GTL_____TV2____BC21	GTL TV2 IN/OUT
+crioc02	bo	GTL_____TV2LIT_BC20	LIGHT ON/OFF
+crioc02	bo	GTL_____VVR1___BC23	OPEN/CLS CONTROL
+
+
+crioc02	ai	LN______AS1LCT_AM01	AS1 LOOP PHASE
+crioc02	ai	LN______AS1PER_AM03	AS1 PAD PH ERROR
+crioc02	ai	LN______AS1PPH_AM02	AS1 PAD PHASE
+crioc02	ai	LN______AS2_PH_AM00	AS2 PHASE
+crioc02	ai	LN______AS2LCT_AM01	AS2 LOOP PHASE
+crioc02	ai	LN______AS2PER_AM03	AS2 PAD PH ERROR
+crioc02	ai	LN______AS2PPH_AM02	AS2 PAD PHASE
+crioc02	ai	LN______BPM2_X_AM00	X POSITION MON
+crioc02	ai	LN______BPM2_Y_AM01	Y POSITION MON
+crioc02	ai	LN______HC1____AM01	CH2_ADC_+
+crioc02	ai	LN______HC2____AM03	CH2_ADC_+
+crioc02	ai	LN______IG1____AM00	ION GAUGE
+crioc02	ai	LN______IG1____AM01	CONV GAUGE
+crioc02	ai	LN______IP1____AM00	LN IP1 PRESSURE
+crioc02	ai	LN______IP2____AM01	LN IP2 PRESSURE
+crioc02	ai	LN______IP3____AM02	LN IP3 PRESSURE
+crioc02	ai	LN______IP4____AM00	LN IP4 PRESSURE
+crioc02	ai	LN______IP5____AM01	LN IP5 PRESSURE
+crioc02	ai	LN______KY1FC1_AM00	KY1 FOCUS COIL 1
+crioc02	ai	LN______KY1FC2_AM01	KY1 FOCUS COIL 2
+crioc02	ai	LN______KY1FC3_AM02	KY1 FOCUS COIL 3
+crioc02	ai	LN______KY1FIL_AM00	KY1 FILAMENT VOL
+crioc02	ai	LN______KY1PTB_AM01	KY1 CORE BIAS I
+crioc02	ai	LN______KY2FC1_AM00	KY2 FOCUS COIL 1
+crioc02	ai	LN______KY2FC2_AM01	KY2 FOCUS COIL 2
+crioc02	ai	LN______KY2FC3_AM02	KY2 FOCUS COIL 3
+crioc02	ai	LN______KY2FIL_AM00	KY2 FILAMENT VOL
+crioc02	ai	LN______KY2PTB_AM01	KY2 CORE BIAS I
+crioc02	ai	LN______MASTPH_AM00	LN MASTER PHASE
+crioc02	ai	LN______MD1CC__AM03	KY1 HV CHARGE I
+crioc02	ai	LN______MD1HV__AM02	MD1HV CHARGE MON
+crioc02	ai	LN______MD2CC__AM03	KY2 HV CHARGE I
+crioc02	ai	LN______MD2HV__AM02	MD2HV CHARGE MON
+crioc02	ai	LN______Q1,1___AM00	B
+crioc02	ai	LN______Q1,2___AM01	B
+crioc02	ai	LN______SBUNAT_AM01	ATTEN POSITION
+crioc02	ai	LN______SBUNPH_AM00	PHASE SHIFT POS
+crioc02	ai	LN______SOL1___AM00	B
+crioc02	ai	LN______SOL2___AM01	G
+crioc02	ai	LN______SOL3___AM02	B
+crioc02	ai	LN______SOL4___AM03	B
+crioc02	ai	LN______TV1ATN_AM00	LN TV1 ATTN MON
+crioc02	ai	LN______TV2ATN_AM01	LN TV2 ATTN MON
+crioc02	ai	LN______VC1____AM00	CH1_ADC_+
+crioc02	ai	LN______VC2____AM02	CH1_ADC_+
+crioc02	ai	LN______WTRA1T_AM01	ACC 1 TEMP
+crioc02	ai	LN______WTRA2T_AM02	ACC 2 TEMP
+crioc02	ai	LN______WTRBT__AM00	BUNCHER TEMP
+crioc02	ai	LN______WTRTKT_AM03	WATER TANK TEMP
+
+crioc02	ao	LN______AS1LCT_AC01	AS1 LOOP PHASE
+crioc02	ao	LN______AS1PPH_AC02	AS1 PAD PHASE
+crioc02	ao	LN______AS2_PH_AC00	AS2 PHASE
+crioc02	ao	LN______AS2LCT_AC01	AS2 LOOP PHASE
+crioc02	ao	LN______AS2PPH_AC02	AS2 PAD PHASE
+crioc02	ao	LN______HC1____AC01	CH2_DAC_+
+crioc02	ao	LN______HC2____AC03	CH2_DAC_+
+crioc02	ao	LN______MASTPH_AC00	LN MASTER PHASE
+crioc02	ao	LN______MD1HV__AC02	HV CHARGE REF
+crioc02	ao	LN______MD2HV__AC02	HV CHARGE REF
+crioc02	ao	LN______Q1,1___AC00	A
+crioc02	ao	LN______Q1,2___AC01	A
+crioc02	ao	LN______SOL1___AC00	A
+crioc02	ao	LN______SOL2___AC01	F
+crioc02	ao	LN______SOL3___AC02	A
+crioc02	ao	LN______SOL4___AC03	A
+crioc02	ao	LN______VC1____AC00	CH1_DAC_+
+crioc02	ao	LN______VC2____AC02	CH1_DAC_+
+crioc02	ao	LN______WTRTMP_AC00	WATER TEMP
+
+crioc02	bi	LN______AS1LCT_BM07	COMP LOOP RDY
+crioc02	bi	LN______AS1LCT_BM06	COMP LOOP MON
+crioc02	bi	LN______AS1LCT_BM12	COMP LOOP ON
+crioc02	bi	LN______AS1LCT_BM13	LOCAL LOOP MON
+crioc02	bi	LN______AS1LOP_BM05	AS1 LOOP RDY
+crioc02	bi	LN______AS1LOP_BM10	AS1 LOOP CLOSED
+crioc02	bi	LN______AS1LOP_BM04	LOOP OPN/CLS MON
+crioc02	bi	LN______AS1LOP_BM11	AS1 LOOP OPEN
+crioc02	bi	LN______AS1PPH_BM09	PAD PH IN LOCAL
+crioc02	bi	LN______AS1PPH_BM08	PAD PH READY
+crioc02	bi	LN______AS2_PH_BM14	AS2 PHASE RDY
+crioc02	bi	LN______AS2_PH_BM15	AS2 PH IN LOCAL
+crioc02	bi	LN______AS2LCT_BM06	COMP LOOP MON
+crioc02	bi	LN______AS2LCT_BM13	LOCAL LOOP MON
+crioc02	bi	LN______AS2LCT_BM07	COMP LOOP RDY
+crioc02	bi	LN______AS2LCT_BM12	COMP LOOP ON
+crioc02	bi	LN______AS2LOP_BM11	AS2 LOOP OPEN
+crioc02	bi	LN______AS2LOP_BM05	AS2 LOOP RDY
+crioc02	bi	LN______AS2LOP_BM04	LOOP OPN/CLS MON
+crioc02	bi	LN______AS2LOP_BM10	AS2 LOOP CLOSED
+crioc02	bi	LN______AS2PPH_BM09	PAD PH IN LOCAL
+crioc02	bi	LN______AS2PPH_BM08	PAD PH READY
+crioc02	bi	LN______HC1____BM10	EXT_INTLK_OK
+crioc02	bi	LN______HC1____BM11	PS_THERM_OK
+crioc02	bi	LN______HC1____BM12	120VAC_OK
+crioc02	bi	LN______HC1____BM09	COMPUTER
+crioc02	bi	LN______HC1____BM13	+24V
+crioc02	bi	LN______HC1____BM08	LOCAL
+crioc02	bi	LN______HC1____BM15	PS_READY
+crioc02	bi	LN______HC1____BM14	PS_ON
+crioc02	bi	LN______HC2____BM05	+24V
+crioc02	bi	LN______HC2____BM06	PS_ON
+crioc02	bi	LN______HC2____BM04	120VAC_OK
+crioc02	bi	LN______HC2____BM00	LOCAL
+crioc02	bi	LN______HC2____BM07	PS_READY
+crioc02	bi	LN______HC2____BM03	PS_THERM_OK
+crioc02	bi	LN______HC2____BM01	COMPUTER
+crioc02	bi	LN______HC2____BM02	EXT_INTLK_OK
+crioc02	bi	LN______IG1____BM02	over pressure
+crioc02	bi	LN______IG1____BM00	ion gauge ready
+crioc02	bi	LN______IG1____BM01	ion gauge on
+crioc02	bi	LN______IP1____BM15	NOT OPERATING
+crioc02	bi	LN______IP1____BM13	RUN CONDITION
+crioc02	bi	LN______IP1____BM12	H.V. ON
+crioc02	bi	LN______IP1____BM14	START CONDITION
+crioc02	bi	LN______IP2____BM09	RUN CONDITION
+crioc02	bi	LN______IP2____BM11	NOT OPERATING
+crioc02	bi	LN______IP2____BM10	START CONDITION
+crioc02	bi	LN______IP2____BM08	H.V. ON
+crioc02	bi	LN______IP3____BM07	NOT OPERATING
+crioc02	bi	LN______IP3____BM04	H.V. ON
+crioc02	bi	LN______IP3____BM05	RUN CONDITION
+crioc02	bi	LN______IP3____BM06	START CONDITION
+crioc02	bi	LN______IP4____BM13	RUN CONDITION
+crioc02	bi	LN______IP4____BM15	NOT OPERATING
+crioc02	bi	LN______IP4____BM14	START CONDITION
+crioc02	bi	LN______IP4____BM12	H.V. ON
+crioc02	bi	LN______IP5____BM08	H.V. ON
+crioc02	bi	LN______IP5____BM11	NOT OPERATING
+crioc02	bi	LN______IP5____BM10	START CONDITION
+crioc02	bi	LN______IP5____BM09	RUN CONDITION
+crioc02	bi	LN______KY1ARC_BM01	KLYSTRON ARC
+crioc02	bi	LN______KY2ARC_BM01	KLYSTRON ARC
+crioc02	bi	LN______MASTPH_BM15	MASTPH IN LOCAL
+crioc02	bi	LN______MASTPH_BM14	LN MASTER PH RDY
+crioc02	bi	LN______MD1____BM09	MD1 DOORS
+crioc02	bi	LN______MD1____BM08	MD1 AIR
+crioc02	bi	LN______MD1____BM07	PFN TUBE FIL T/O
+crioc02	bi	LN______MD1____BM06	KY1 FIL. TIMEOUT
+crioc02	bi	LN______MD1____BM05	KY1 FOCUS
+crioc02	bi	LN______MD1____BM10	MD1 GROUND STICK
+crioc02	bi	LN______MD1____BM11	MD1 LIDS
+crioc02	bi	LN______MD1____BM16	KY1 OIL LEVEL
+crioc02	bi	LN______MD1____BM15	MD1 H2O FLOW
+crioc02	bi	LN______MD1____BM12	START/STOP MON.
+crioc02	bi	LN______MD1____BM13	START/STOP RDY
+crioc02	bi	LN______MD1____BM19	EMERGENCY OFF
+crioc02	bi	LN______MD1____BM14	MD1 H2O TEMP
+crioc02	bi	LN______MD1____BM17	KY1 ION PUMP
+crioc02	bi	LN______MD1_RF_BM03	RF TEST MODE
+crioc02	bi	LN______MD1_RF_BM02	RF TEST ON
+crioc02	bi	LN______MD1_RF_BM04	RF TEST READY
+crioc02	bi	LN______MD1FLT_BM00	HV FAULT
+crioc02	bi	LN______MD1HV__BM03	MD1HV ON MONITOR
+crioc02	bi	LN______MD1HV__BM04	MD1HV READY
+crioc02	bi	LN______MD1INT_BM11	LNAS1 WATER TEMP
+crioc02	bi	LN______MD1INT_BM09	KY1 REV POWER OK
+crioc02	bi	LN______MD1INT_BM08	LN VVR1 OPEN
+crioc02	bi	LN______MD1INT_BM07	LN SOLS OK
+crioc02	bi	LN______MD1INT_BM10	LNAS1 WATER FLOW
+crioc02	bi	LN______MD1INT_BM16	E.GUN IN TEST
+crioc02	bi	LN______MD1INT_BM15	RADIATION CHAIN
+crioc02	bi	LN______MD1INT_BM18	MD1HV PERMISSIVE
+crioc02	bi	LN______MD1INT_BM14	WG BYPASS VALVE
+crioc02	bi	LN______MD1INT_BM12	LN AS1 VACUUM OK
+crioc02	bi	LN______MD1INT_BM06	TRIGGER READY
+crioc02	bi	LN______MD1INT_BM13	WG VACUUM OK
+crioc02	bi	LN______MD1INT_BM17	P.SAFETY CHAIN B
+crioc02	bi	LN______MD1INT_BM19	P.SAFETY CHAIN A
+crioc02	bi	LN______MD1RST_BM05	RESET FAULT
+crioc02	bi	LN______MD1TRG_BM02	TRIGGER ON
+crioc02	bi	LN______MD1TRG_BM18	TRIGGER READY
+crioc02	bi	LN______MD2____BM17	KY2 ION PUMP
+crioc02	bi	LN______MD2____BM12	START/STOP MON.
+crioc02	bi	LN______MD2____BM13	START/STOP RDY
+crioc02	bi	LN______MD2____BM19	EMERGENCY OFF
+crioc02	bi	LN______MD2____BM15	MD2 H2O FLOW
+crioc02	bi	LN______MD2____BM16	KY2 OIL LEVEL
+crioc02	bi	LN______MD2____BM10	MD2 GROUND STICK
+crioc02	bi	LN______MD2____BM14	MD2 H2O TEMP
+crioc02	bi	LN______MD2____BM06	KY2 FIL. TIMEOUT
+crioc02	bi	LN______MD2____BM05	KY2 FOCUS
+crioc02	bi	LN______MD2____BM08	MD2 AIR
+crioc02	bi	LN______MD2____BM07	PFN TUBE FIL T/O
+crioc02	bi	LN______MD2____BM11	MD2 LIDS
+crioc02	bi	LN______MD2____BM09	MD2 DOORS
+crioc02	bi	LN______MD2_RF_BM04	RF TEST READY
+crioc02	bi	LN______MD2_RF_BM03	RF TEST MODE
+crioc02	bi	LN______MD2_RF_BM02	RF TEST ON
+crioc02	bi	LN______MD2FLT_BM00	HV FAULT
+crioc02	bi	LN______MD2HV__BM03	MD2HV ON MONITOR
+crioc02	bi	LN______MD2HV__BM04	MD2HV READY
+crioc02	bi	LN______MD2INT_BM10	LNAS1 WATER FLOW
+crioc02	bi	LN______MD2INT_BM12	LN AS2 VACUUM OK
+crioc02	bi	LN______MD2INT_BM15	RADIATION CHAIN
+crioc02	bi	LN______MD2INT_BM13	START/STOP RDY
+crioc02	bi	LN______MD2INT_BM17	P. SAFTEY B MON.
+crioc02	bi	LN______MD2INT_BM14	WG BYPASS VALVE
+crioc02	bi	LN______MD2INT_BM19	P. SAFETY A MON.
+crioc02	bi	LN______MD2INT_BM16	E.GUN IN TEST
+crioc02	bi	LN______MD2INT_BM11	LNAS2 WATER TEMP
+crioc02	bi	LN______MD2INT_BM09	KY2 REV PWR OK
+crioc02	bi	LN______MD2INT_BM18	MD2HV PERMISSIVE
+crioc02	bi	LN______MD2INT_BM08	LN VVR1 OPEN
+crioc02	bi	LN______MD2INT_BM07	LN SOLS OK
+crioc02	bi	LN______MD2INT_BM06	MOD #2 TRIG RDY
+crioc02	bi	LN______MD2RST_BM05	RESET FAULT
+crioc02	bi	LN______MD2TRG_BM02	TRIGGER ON
+crioc02	bi	LN______MD2TRG_BM18	TRIGGER READY
+crioc02	bi	LN______Q1,1___BM14	ON/OFF MONITOR
+crioc02	bi	LN______Q1,1___BM15	READY
+crioc02	bi	LN______Q1,2___BM13	READY
+crioc02	bi	LN______Q1,2___BM12	ON/OFF MONITOR
+crioc02	bi	LN______SBUNAT_BM07	ATTEN IN/OUT LIM
+crioc02	bi	LN______SBUNAT_BM10	ATTEN READY MON
+crioc02	bi	LN______SBUNAT_BM09	ATTEN ON MONITOR
+crioc02	bi	LN______SBUNAT_BM08	ATTEN FAULT MON
+crioc02	bi	LN______SBUNAT_BM06	ATTEN IN LOCAL
+crioc02	bi	LN______SBUNPH_BM15	PH SHIFT READY
+crioc02	bi	LN______SBUNPH_BM14	PH SHIFT ON
+crioc02	bi	LN______SBUNPH_BM12	PH SHIFT LIMIT
+crioc02	bi	LN______SBUNPH_BM11	PH SHIFT LOCAL
+crioc02	bi	LN______SBUNPH_BM13	PH SHIFT FAULT
+crioc02	bi	LN______SOL1___BM14	E
+crioc02	bi	LN______SOL1___BM15	D
+crioc02	bi	LN______SOL2___BM12	H
+crioc02	bi	LN______SOL2___BM13	H
+crioc02	bi	LN______SOL3___BM11	D
+crioc02	bi	LN______SOL3___BM10	E
+crioc02	bi	LN______SOL4___BM08	E
+crioc02	bi	LN______SOL4___BM09	D
+crioc02	bi	LN______TV1____BM10	LN TV1 IN
+crioc02	bi	LN______TV1____BM14	LN TV1 RDY
+crioc02	bi	LN______TV1____BM15	LN TV1 AIR OK
+crioc02	bi	LN______TV1____BM11	LN TV1 OUT
+crioc02	bi	LN______TV1LIT_BM13	LIGHT RDY
+crioc02	bi	LN______TV1LIT_BM12	LIGHT ON
+crioc02	bi	LN______TV2____BM04	LN TV2 IN
+crioc02	bi	LN______TV2____BM09	LN TV2 AIR OK
+crioc02	bi	LN______TV2____BM08	LN TV2 RDY
+crioc02	bi	LN______TV2____BM05	LN TV2 OUT
+crioc02	bi	LN______TV2LIT_BM06	LIGHT ON
+crioc02	bi	LN______TV2LIT_BM07	LIGHT RDY
+crioc02	bi	LN______VVR1___BM09	UPSTREAM VAC OK
+crioc02	bi	LN______VVR1___BM04	VALVE OPEN
+crioc02	bi	LN______VVR1___BM10	LN VVR1 AIR OK
+crioc02	bi	LN______VVR1___BM08	DWNSTREAM VAC OK
+crioc02	bi	LN______VVR1___BM07	VALVE NOT INTRLK
+crioc02	bi	LN______VVR1___BM03	VALVE IN LOCAL
+crioc02	bi	LN______VVR1___BM05	VALVE CLOSED
+crioc02	bi	LN______VVR1___BM06	VALVE RDY
+crioc02	bi	LN______WTRHE__BM01	H EXCHGR ON
+crioc02	bi	LN______WTRHE__BM03	H EXCHGR RDY
+crioc02	bi	LN______WTRHTR_BM02	WATER HTR ON
+crioc02	bi	LN______WTRHTR_BM08	WATER HTR RDY
+crioc02	bi	LN______WTRPMP_BM04	WATER PUMP ON
+crioc02	bi	LN______WTRPMP_BM05	WATER PUMP RDY
+crioc02	bi	LN______WTRRST_BM00	RESET RDY
+crioc02	bi	LN______WTRSYS_BM06	TANK LEVEL OK
+crioc02	bi	LN______WTRSYS_BM07	TANK TEMP LL OK
+crioc02	bi	LN______WTRSYS_BM14	BUN TEMP LL OK
+crioc02	bi	LN______WTRSYS_BM10	ACC 2 TEMP LL OK
+crioc02	bi	LN______WTRSYS_BM09	TANK TEMP UL OK
+crioc02	bi	LN______WTRSYS_BM13	ACC 1 TEMP UL OK
+crioc02	bi	LN______WTRSYS_BM12	ACC 1 TEMP LL OK
+crioc02	bi	LN______WTRSYS_BM15	BUN TEMP UL OK
+crioc02	bi	LN______WTRSYS_BM11	ACC 2 TEMP UL OK
+
+crioc02	bo	LN______AS1LCT_BC23	COMP/LOCAL LOOP
+crioc02	bo	LN______AS1LOP_BC22	AS1 LOOP OPN/CLS
+crioc02	bo	LN______AS2LCT_BC23	COMP/LOCAL LOOP
+crioc02	bo	LN______AS2LOP_BC22	AS2 LOOP OPN/CLS
+crioc02	bo	LN______HC1____BC23	PS_ON_1
+crioc02	bo	LN______HC2____BC22	PS_ON_2
+crioc02	bo	LN______IG1____BC00	ion gauge on/off
+crioc02	bo	LN______MD1____BC23	MOD1 START/STOP
+crioc02	bo	LN______MD1_RF_BC21	RF TEST
+crioc02	bo	LN______MD1HV__BC22	MD1HV ON/OFF
+crioc02	bo	LN______MD1RST_BC23	RESET
+crioc02	bo	LN______MD1TRG_BC21	TRIGGER ON/OFF
+crioc02	bo	LN______MD2____BC23	MOD2 START/STOP
+crioc02	bo	LN______MD2_RF_BC21	RF TEST
+crioc02	bo	LN______MD2HV__BC22	MD2 HV ON/OFF
+crioc02	bo	LN______MD2RST_BC23	RESET
+crioc02	bo	LN______MD2TRG_BC21	TRIGGER ON/OFF
+crioc02	bo	LN______Q1,1___BC23	C
+crioc02	bo	LN______Q1,1___BC22	C
+crioc02	bo	LN______SBUNAT_BC16	ATTEN RUN IN/OUT
+crioc02	bo	LN______SBUNAT_BC19	ATTEN ON/OFF CNT
+crioc02	bo	LN______SBUNAT_BC18	ATTENUATOR SLOW
+crioc02	bo	LN______SBUNAT_BC17	ATTENUATOR FAST
+crioc02	bo	LN______SBUNPH_BC21	PHASE SHIFT FAST
+crioc02	bo	LN______SBUNPH_BC20	IN/OUT CONTROL
+crioc02	bo	LN______SBUNPH_BC22	PHASE SHIFT SLOW
+crioc02	bo	LN______SBUNPH_BC23	PH SHIFT ON/OFF
+crioc02	bo	LN______SOL1___BC23	C
+crioc02	bo	LN______SOL2___BC22	G
+crioc02	bo	LN______SOL3___BC21	C
+crioc02	bo	LN______SOL4___BC20	C
+crioc02	bo	LN______SOLIN1_BC19	LN SOL MD1 INTLK
+crioc02	bo	LN______SOLIN2_BC18	LN SOL MD2 INTLK
+crioc02	bo	LN______TV1____BC23	LN TV1 IN/OUT
+crioc02	bo	LN______TV1LIT_BC22	LIGHT ON/OFF
+crioc02	bo	LN______TV2____BC21	LN TV2 IN/OUT
+crioc02	bo	LN______TV2LIT_BC20	LIGHT ON/OFF
+crioc02	bo	LN______VVR1___BC22	OPEN/CLS CONTROL
+crioc02	bo	LN______WTRHE__BC22	H. EXCHGR ON/OFF
+crioc02	bo	LN______WTRHTR_BC21	WTR HTR ON/OFF
+crioc02	bo	LN______WTRPMP_BC23	WTR PUMP ON/OFF
+crioc02	bo	LN______WTRRST_BC20	SYS INTRLK RESET
+
+
+crioc02	ai	LTB_____B1_____AM02	PS_CURRENT_MON
+crioc02	ai	LTB_____B1_SHNTAM03	PS_SHUNT
+crioc02	ai	LTB_____B2_____AM00	PS_CURRENT_MON
+crioc02	ai	LTB_____B3_____AM03	PS_CURRENT_MON
+crioc02	ai	LTB_____BPM1_X_AM00	X POSITION MON
+crioc02	ai	LTB_____BPM1_Y_AM01	Y POSITION MON
+crioc02	ai	LTB_____BPM2_X_AM00	X POSITION MON
+crioc02	ai	LTB_____BPM2_Y_AM01	Y POSITION MON
+crioc02	ai	LTB_____BPM3_X_AM00	X POSITION MON
+crioc02	ai	LTB_____BPM3_Y_AM01	Y POSITION MON
+crioc02	ai	LTB_____BPM4_X_AM00	X POSITION MON
+crioc02	ai	LTB_____BPM4_Y_AM01	Y POSITION MON
+crioc02	ai	LTB_____BPM5_X_AM00	X POSITION MON
+crioc02	ai	LTB_____BPM5_Y_AM01	Y POSITION MON
+crioc02	ai	LTB_____BPM6_X_AM00	X POSITION MON
+crioc02	ai	LTB_____BPM6_Y_AM01	Y POSITION MON
+crioc02	ai	LTB_____BPM7_X_AM00	X POSITION MON
+crioc02	ai	LTB_____BPM7_Y_AM01	Y POSITION MON
+crioc02	ai	LTB_____BS_____AM01	PS_CURRENT_MON
+crioc02	ai	LTB_____BS_SHNTAM00	PS_SHUNT
+crioc02	ai	LTB_____HALL1__AM00	Mag Field
+crioc02	ai	LTB_____HC1____AM02	PS_CURRENT_MON
+crioc02	ai	LTB_____HC2____AM03	PS_CURRENT_MON
+crioc02	ai	LTB_____HC7____AM03	PS_CURRENT_MON
+crioc02	ai	LTB_____IG1____AM00	PRESSURE MONITOR
+crioc02	ai	LTB_____IG1____AM01	CONVECTRON GAUGE
+crioc02	ai	LTB_____IG2____AM05	PRESSURE MONITOR
+crioc02	ai	LTB_____IG2____AM06	CONVECTRON GAUGE
+crioc02	ai	LTB_____IP1____AM02	PRESSURE MONITOR
+crioc02	ai	LTB_____IP2____AM03	PRESSURE MONITOR
+crioc02	ai	LTB_____IP3____AM04	PRESSURE MONITOR
+crioc02	ai	LTB_____Q1,1___AM00	PS_CURRENT_MON
+crioc02	ai	LTB_____Q1,2___AM01	PS_CURRENT_MON
+crioc02	ai	LTB_____Q2_____AM03	PS_CURRENT_MON
+crioc02	ai	LTB_____Q3,1___AM00	PS_CURRENT_MON
+crioc02	ai	LTB_____Q3,2___AM01	PS_CURRENT_MON
+crioc02	ai	LTB_____Q4,1___AM01	PS_CURRENT_MON
+crioc02	ai	LTB_____Q4,2___AM02	PS_CURRENT_MON
+crioc02	ai	LTB_____Q5_____AM03	PS_CURRENT_MON
+crioc02	ai	LTB_____Q6_____AM00	PS_CURRENT_MON
+crioc02	ai	LTB_____TV1ATN_AM00	TV1 PLRZR MON
+crioc02	ai	LTB_____TV2ATN_AM01	TV2 PLRZR MON
+crioc02	ai	LTB_____TV3ATN_AM00	TV3 PLRZR MON
+crioc02	ai	LTB_____TV4ATN_AM01	TV4 PLRZR MON
+crioc02	ai	LTB_____TV5ATN_AM00	TV5 PLRZR MON
+crioc02	ai	LTB_____TV6ATN_AM01	TV6 PLRZR MON
+crioc02	ai	LTB_____VC1____AM02	PS_CURRENT_MON
+crioc02	ai	LTB_____VC2____AM03	PS_CURRENT_MON
+crioc02	ai	LTB_____VC3____AM00	PS_CURRENT_MON
+crioc02	ai	LTB_____VC4____AM01	PS_CURRENT_MON
+crioc02	ai	LTB_____VC5____AM00	PS_CURRENT_MON
+crioc02	ai	LTB_____VC6____AM01	PS_CURRENT_MON
+crioc02	ai	LTB_____VC7____AM02	PS_CURRENT_MON
+
+crioc02	ao	LTB_____B1_____AC02	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____B2_____AC00	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____B3_____AC03	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____BS_____AC00	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____HC1____AC02	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____HC2____AC03	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____HC7____AC03	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____Q1,1___AC00	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____Q1,2___AC01	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____Q2_____AC03	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____Q3,1___AC00	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____Q3,2___AC01	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____Q4,1___AC01	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____Q4,2___AC02	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____Q5_____AC03	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____Q6_____AC00	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____TV1ATN_AC00	TV1 PLRZR CNTRL
+crioc02	ao	LTB_____TV2ATN_AC01	TV2 PLRZR CNTRL
+crioc02	ao	LTB_____TV3ATN_AC00	TV3 PLRZR CNTRL
+crioc02	ao	LTB_____TV4ATN_AC01	TV4 PLRZR CNTRL
+crioc02	ao	LTB_____TV5ATN_AC00	TV5 PLRZR CNTRL
+crioc02	ao	LTB_____TV6ATN_AC01	TV6 PLRZR CNTRL
+crioc02	ao	LTB_____VC1____AC02	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____VC2____AC03	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____VC3____AC00	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____VC4____AC01	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____VC5____AC00	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____VC6____AC01	PS_CURRENT_CNTRL
+crioc02	ao	LTB_____VC7____AC02	PS_CURRENT_CNTRL
+
+crioc02	bi	LTB_____B1_____BM06	PS_OVER_TEMP
+crioc02	bi	LTB_____B1_____BM09	PS_ON_MON
+crioc02	bi	LTB_____B1_____BM08	PS_READY_MON
+crioc02	bi	LTB_____B1_____BM05	PS_CNTRL_PWR_MON
+crioc02	bi	LTB_____B1_____BM07	B1_MAG_INTLK
+crioc02	bi	LTB_____B2_____BM04	PS_ON_MON
+crioc02	bi	LTB_____B2_____BM01	PS_OVER_TEMP
+crioc02	bi	LTB_____B2_____BM03	PS_READY_MON
+crioc02	bi	LTB_____B2_____BM00	PS_CNTRL_PWR_MON
+crioc02	bi	LTB_____B2_____BM02	PS_WATER_FLO
+crioc02	bi	LTB_____B3_____BM07	PS_ON_MON
+crioc02	bi	LTB_____B3_____BM06	PS_READY_MON
+crioc02	bi	LTB_____BS_____BM02	SAFETY_CHAIN
+crioc02	bi	LTB_____BS_____BM00	PS_CNTRL_PWR_MON
+crioc02	bi	LTB_____BS_____BM01	BS_MAG_INTLK
+crioc02	bi	LTB_____BS_____BM04	PS_ON_MON
+crioc02	bi	LTB_____BS_____BM03	PS_READY_MON
+crioc02	bi	LTB_____BS_FC__BM10	BS_FC_MONITOR
+crioc02	bi	LTB_____BS_LTB_BM11	BS_LTB_MON
+crioc02	bi	LTB_____HC1____BM05	PS_ON_OFF
+crioc02	bi	LTB_____HC1____BM04	PS_READY_MON
+crioc02	bi	LTB_____HC2____BM07	PS_ON_OFF
+crioc02	bi	LTB_____HC2____BM06	PS_READY_MON
+crioc02	bi	LTB_____HC7____BM06	PS_READY_MON
+crioc02	bi	LTB_____HC7____BM07	PS_ON_MON
+crioc02	bi	LTB_____IG1____BM02	OVER PRESSURE
+crioc02	bi	LTB_____IG1____BM00	ION GAUGE1 READY
+crioc02	bi	LTB_____IG1____BM01	ION GAUGE1 ON
+crioc02	bi	LTB_____IG2____BM05	OVER PRESSURE
+crioc02	bi	LTB_____IG2____BM03	ION GAUGE2 READY
+crioc02	bi	LTB_____IG2____BM04	ION GAUGE2 ON
+crioc02	bi	LTB_____IP1____BM03	IP READY
+crioc02	bi	LTB_____IP1____BM04	ON/OFF MONITOR
+crioc02	bi	LTB_____IP2____BM06	READY MONITOR
+crioc02	bi	LTB_____IP2____BM07	ON/OFF MONITOR
+crioc02	bi	LTB_____IP3____BM08	READY MONITOR
+crioc02	bi	LTB_____IP3____BM09	ON/OFF MONITOR
+crioc02	bi	LTB_____Q1,1___BM00	PS_READY_MON
+crioc02	bi	LTB_____Q1,1___BM01	PS_ON_MON
+crioc02	bi	LTB_____Q1,2___BM03	PS_ON_MON
+crioc02	bi	LTB_____Q1,2___BM02	PS_READY_MON
+crioc02	bi	LTB_____Q2_____BM07	PS_ON_MON
+crioc02	bi	LTB_____Q2_____BM06	PS_READY_MON
+crioc02	bi	LTB_____Q3,1___BM01	PS_ON_MON
+crioc02	bi	LTB_____Q3,1___BM00	PS_READY_MON
+crioc02	bi	LTB_____Q3,2___BM02	PS_READY_MON
+crioc02	bi	LTB_____Q3,2___BM03	PS_ON_MON
+crioc02	bi	LTB_____Q4,1___BM06	PS_ON_MON
+crioc02	bi	LTB_____Q4,1___BM05	PS_READY_MON
+crioc02	bi	LTB_____Q4,2___BM07	PS_READY_MON
+crioc02	bi	LTB_____Q4,2___BM08	PS_ON_MON
+crioc02	bi	LTB_____Q5_____BM09	PS_READY_MON
+crioc02	bi	LTB_____Q5_____BM10	PS_ON_MON
+crioc02	bi	LTB_____Q6_____BM01	PS_ON_MON
+crioc02	bi	LTB_____Q6_____BM00	PS_READY_MON
+crioc02	bi	LTB_____TV1____BM01	TV1 PAD MON OUT
+crioc02	bi	LTB_____TV1____BM04	TV1 24V READY
+crioc02	bi	LTB_____TV1____BM00	TV1 PAD MON IN
+crioc02	bi	LTB_____TV1ATN_BM03	TV1 PLRZR CCW LM
+crioc02	bi	LTB_____TV1ATN_BM02	TV1 PLRZR CW LIM
+crioc02	bi	LTB_____TV1LIT_BM04	TV1 24V READY
+crioc02	bi	LTB_____TV1LIT_BM05	TV1 LAMP ON
+crioc02	bi	LTB_____TV2____BM10	TV2 24V READY
+crioc02	bi	LTB_____TV2____BM06	TV2 PAD MON IN
+crioc02	bi	LTB_____TV2____BM07	TV2 PAD MON OUT
+crioc02	bi	LTB_____TV2ATN_BM08	TV2 PLRZR CW LIM
+crioc02	bi	LTB_____TV2ATN_BM09	TV2 PLRZR CCW LM
+crioc02	bi	LTB_____TV2LIT_BM11	TV2 LAMP ON
+crioc02	bi	LTB_____TV2LIT_BM10	TV2 24V READY
+crioc02	bi	LTB_____TV3____BM01	TV3 PAD MON OUT
+crioc02	bi	LTB_____TV3____BM00	TV3 PAD MON IN
+crioc02	bi	LTB_____TV3____BM04	TV3 24V READY
+crioc02	bi	LTB_____TV3ATN_BM03	TV3 PLRZR CCW LM
+crioc02	bi	LTB_____TV3ATN_BM02	TV3 PLRZR CW LIM
+crioc02	bi	LTB_____TV3LIT_BM05	TV3 LAMP ON
+crioc02	bi	LTB_____TV3LIT_BM04	TV3 24V READY
+crioc02	bi	LTB_____TV4____BM06	TV4 PAD MON IN
+crioc02	bi	LTB_____TV4____BM07	TV4 PAD MON OUT
+crioc02	bi	LTB_____TV4____BM10	TV4 24V READY
+crioc02	bi	LTB_____TV4ATN_BM08	TV4 PLRZR CW LIM
+crioc02	bi	LTB_____TV4ATN_BM09	TV4 PLRZR CCW LM
+crioc02	bi	LTB_____TV4LIT_BM11	LIGHT ON MON
+crioc02	bi	LTB_____TV4LIT_BM10	TV4 24V READY
+crioc02	bi	LTB_____TV5____BM04	TV5 24V READY
+crioc02	bi	LTB_____TV5____BM01	TV5 PAD MON OUT
+crioc02	bi	LTB_____TV5____BM00	TV5 PAD MON IN
+crioc02	bi	LTB_____TV5ATN_BM03	TV5 PLRZR CCW LM
+crioc02	bi	LTB_____TV5ATN_BM02	TV5 PLRZR CW LIM
+crioc02	bi	LTB_____TV5LIT_BM05	TV5 LAMP ON
+crioc02	bi	LTB_____TV5LIT_BM04	TV5 24V READY
+crioc02	bi	LTB_____TV6____BM12	TV6 24V READY
+crioc02	bi	LTB_____TV6____BM09	TV6 PAD MON OUT
+crioc02	bi	LTB_____TV6____BM08	TV6 PAD MON IN
+crioc02	bi	LTB_____TV6ATN_BM11	TV6 PLRZR CCW LM
+crioc02	bi	LTB_____TV6ATN_BM10	TV6 PLRZR CW LIM
+crioc02	bi	LTB_____TV6LIT_BM12	TV6 24V READY
+crioc02	bi	LTB_____TV6LIT_BM13	TV6 LAMP ON
+crioc02	bi	LTB_____VC1____BM05	PS_ON_MON
+crioc02	bi	LTB_____VC1____BM04	PS_READY_MON
+crioc02	bi	LTB_____VC2____BM07	PS_ON_MON
+crioc02	bi	LTB_____VC2____BM06	PS_READY_MON
+crioc02	bi	LTB_____VC3____BM00	PS_READY_MON
+crioc02	bi	LTB_____VC3____BM01	PS_ON_MON
+crioc02	bi	LTB_____VC4____BM03	PS_ON_MON
+crioc02	bi	LTB_____VC4____BM02	PS_READY_MON
+crioc02	bi	LTB_____VC5____BM00	PS_READY_MON
+crioc02	bi	LTB_____VC5____BM01	PS_ON_MON
+crioc02	bi	LTB_____VC6____BM02	PS_READY_MON
+crioc02	bi	LTB_____VC6____BM03	PS_ON_MON
+crioc02	bi	LTB_____VC7____BM05	PS_ON_MON
+crioc02	bi	LTB_____VC7____BM04	PS_READY_MON
+crioc02	bi	LTB_____VVR1___BM14	UPSTRM VAC OK
+crioc02	bi	LTB_____VVR1___BM13	DOWNSTRM VAC OK
+crioc02	bi	LTB_____VVR1___BM10	VVR CLOSED
+crioc02	bi	LTB_____VVR1___BM15	24V CNTRL POWER
+crioc02	bi	LTB_____VVR1___BM12	VVR READY
+crioc02	bi	LTB_____VVR1___BM11	VVR OPEN
+crioc02	bi	LTB_____VVR2___BM04	VVR CLOSED
+crioc02	bi	LTB_____VVR2___BM07	DOWNSTRM VAC OK
+crioc02	bi	LTB_____VVR2___BM05	VVR OPEN
+crioc02	bi	LTB_____VVR2___BM08	UPSTREAM VAC OK
+crioc02	bi	LTB_____VVR2___BM06	VVR READY
+crioc02	bi	LTB_____VVR2___BM09	24VDC CNTRL PWR
+
+crioc02	bo	LTB_____B1_____BC21	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____B2_____BC20	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____B3_____BC23	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____BS_____BC20	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____BS_FC__BC23	BS_FC_CNTRL
+crioc02	bo	LTB_____BS_LTB_BC22	BS_LTB_CNTRL
+crioc02	bo	LTB_____HC1____BC22	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____HC2____BC23	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____HC7____BC23	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____IG1____BC00	ION GAUGE ON/OFF
+crioc02	bo	LTB_____IG2____BC04	ION GAUGE ON/OFF
+crioc02	bo	LTB_____IP1____BC01	IP ON/OFF
+crioc02	bo	LTB_____IP2____BC02	IP ON/OFF
+crioc02	bo	LTB_____IP3____BC03	IP ON/OFF
+crioc02	bo	LTB_____Q1,1___BC20	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____Q1,2___BC21	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____Q2_____BC23	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____Q3,1___BC20	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____Q3,2___BC21	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____Q4,1___BC21	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____Q4,2___BC22	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____Q5_____BC23	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____Q6_____BC20	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____TV1____BC16	TV1 PAD IN/OUT
+crioc02	bo	LTB_____TV1LIT_BC17	TV1 LAMP ON/OFF
+crioc02	bo	LTB_____TV2____BC18	TV2 PAD IN/OUT
+crioc02	bo	LTB_____TV2LIT_BC19	TV2 LAMP ON/OFF
+crioc02	bo	LTB_____TV3____BC16	TV3 PAD IN/OUT
+crioc02	bo	LTB_____TV3LIT_BC17	TV3 LAMP ON/OFF
+crioc02	bo	LTB_____TV4____BC18	TV4 PAD IN/OUT
+crioc02	bo	LTB_____TV4LIT_BC19	TV4 LAMP ON/OFF
+crioc02	bo	LTB_____TV5____BC16	TV5 PAD IN/OUT
+crioc02	bo	LTB_____TV5LIT_BC17	TV5 LAMP ON/OFF
+crioc02	bo	LTB_____TV6____BC19	TV6 PAD IN/OUT
+crioc02	bo	LTB_____TV6LIT_BC20	TV6 LAMP ON/OFF
+crioc02	bo	LTB_____VC1____BC22	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____VC2____BC23	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____VC3____BC20	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____VC4____BC21	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____VC5____BC20	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____VC6____BC21	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____VC7____BC22	PS_ON/OFF_CNTRL
+crioc02	bo	LTB_____VVR1___BC23	OPEN/CLS CONTROL
+crioc02	bo	LTB_____VVR2___BC22	OPEN/CLS CONTROL
+
+
+crioc02	ai	BR1_____KI_____AM00	BAVE
+crioc02	ai	BR1_____KI_AUX_AM02	AUX TEMP
+crioc02	ai	BR1_____KI_ERR_AM01	FLAT TOP ERROR
+crioc02	ai	BR1_____KI_TEM_AM03	AIR TEMP
+
+crioc02	ao	BR1_____KI_____AC00	B SET
+
+crioc02	bi	BR1_____KI_____BM10	HV PS ON
+crioc02	bi	BR1_____KI_____BM00	HV PS READY
+crioc02	bi	BR1_____KI_____BM07	OVERCURRENT NOT
+crioc02	bi	BR1_____KI_____BM05	THYRATHRON READY
+crioc02	bi	BR1_____KI_____BM03	AIRFLOW OK
+crioc02	bi	BR1_____KI_____BM06	RACK DOOR CLOSED
+crioc02	bi	BR1_____KI_____BM02	DC SUPPLIES ON
+crioc02	bi	BR1_____KI_____BM04	CATHODE TEMP OK
+crioc02	bi	BR1_____KI_____BM09	HV TO ANODE
+crioc02	bi	BR1_____KI_____BM12	UNDERTEMP
+crioc02	bi	BR1_____KI_____BM11	OVERTEMP
+crioc02	bi	BR1_____KI_____BM08	REMOTE READY
+crioc02	bi	BR1_____KI_____BM01	COMP HV ON IND
+crioc02	bi	BR1_____SIM_LOCBM05	Time Sim local
+crioc02	bi	BR1_____SIM_MONBM06	Time Simulation
+crioc02	bi	BR1_____TV1____BM12	TV1 24V READY
+crioc02	bi	BR1_____TV1____BM06	TV1 PAD MON IN
+crioc02	bi	BR1_____TV1____BM07	TV1 PAD MON OUT
+
+crioc02	bo	BR1_____KI_____BC16	HV ON
+crioc02	bo	BR1_____TV1____BC18	TV1 BR PADIN/OUT

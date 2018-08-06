@@ -1,0 +1,17 @@
+MG PV:   setpoint     readback      PowerOnOff   Fault
+
+	Quads(1 change from 1 to 15)
+	LTB-MG{Quad:1}I:Sp1-SP     LTB-MG{Quad:1}I:Ps1DCCT1-I     LTB-MG{Quad:1}PsOnOff-Sel   LTB-MG{Quad:1}Sum1-Sts
+
+	Bends(3 change from 1 to 4)
+	LTB-MG{Bend:3}I:Sp1-SP     LTB-MG{Bend:3}I:Ps1DCCT1-I    LTB-MG{Bend:3}PsOnOff-Sel  LTB-MG{Bend:3}Sum1-Sts
+
+	HCorrector ( change from 1 to 8)
+	LTB-MG{Cor:1}I:Sp1-SP      LTB-MG{Cor:1}I:Ps1DCCT1-I     LTB-MG{Cor:1}PsOnOff-Sel   LTB-MG{Cor:1}Sum1-Sts
+	VCorrector ( change from 1 to 8. H and V corrector shares the Power supply on/off PV )
+	LTB-MG{Cor:1}I:Sp2-SP      LTB-MG{Cor:1}I:Ps2DCCT1-I     LTB-MG{Cor:1}PsOnOff-Sel   LTB-MG{Cor:1}Sum2-Sts
+
+
+
+BPM PV:   x-readback     y-readback      sum-signal
+	LTB-BI{BPM:1}Pos:X-I    LTB-BI{BPM:1}Pos:Y-I     LTB-BI{BPM:1}Ampl:SSA-Calc

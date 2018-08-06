@@ -1,0 +1,21 @@
+
+BEND: SBEND, L=1.5048, K1=-0.31537858, ANGLE=0.184799567858223 ,&  
+              E1=0.092399783929112, E2= 0.092399783929112,&
+              FINT=0.6, HGAP=0.017,H1=0.1,H2=0.1 
+BEND0: SBEND, L=1.5048, K1=-0.31537858, ANGLE=0.184799567858223 ,&  
+              E1=0 , E2=0 
+
+BENDE: SBEND, L=0.00001, K1=-0.31537858E-9, ANGLE=0.000001 ,&  
+              E1=0.0, E2= 0.092399783929112,&
+              FINT=0.6, HGAP=0.017
+                            
+BLINE: LINE=(BEND)
+use, BLINE
+print full !#S/#E
+
+!survey, tape = "survey.out"
+
+select,flag=optics,
+sectormap,filename="secmap.out",deltap=0
+
+stop

@@ -1,0 +1,3 @@
+function mcapoll()
+%MCAPOLL      - poll channel access...
+mca(30)

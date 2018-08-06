@@ -1,0 +1,47 @@
+# Makefile for scalib Library 68040 version
+
+#------------------------------------------------------------- 
+# The following lines can be customized as needed.  In many cases, no
+# changes will be necessary.
+#---------------------------------------------------------------------------
+
+OBJ = .
+APPL = ..
+SRC = .
+EPICS_H = /home/als2/prod/als_std_epics/release/base/include
+
+GNU_DIR  =  /vxworks/`arch`.68k
+CC = $(GNU_DIR)/bin/cc68k
+
+INCLUDES = -I$(SRC) -I$(EPICS_H) -I$(EPICS_H)/rec -I/vxworks/h -I$(GNU_DIR)/lib/gcc-include
+
+STD_DEFINES = -DV5_vxWorks -DCPU=MC68040 -DvxWorks -DVXWORKS
+CFLAGS = -c -g -O -m68040 -W  -nostdinc $(INCLUDES) $(STD_DEFINES) -DWINAPI=
+
+
+#---------------------------------------------------------------------------
+# Many of the lines below begin with "##".  This is done to make them
+# comments.  In order to activate a line, the "##" must be removed.
+# Note well that, in general, indented lines in a Makefile must begin
+# with a tab, NOT blanks!
+#---------------------------------------------------------------------------
+
+HDRS = 
+
+#-------------------------------------------------------
+all: scalib.vx
+
+clean::
+	rm -f *.v *.vx
+
+#-------------------------------------------------------
+# simple channel access library
+#------------------------------------------------------
+scalib.v:	$(SRC)/scalib.c $(SRC)/scalib.h
+	$(CC) $(CFLAGS) -o scalib.v $(SRC)/scalib.c
+
+#-------------------------------------------------------
+# Now link everything together into scalib.vx
+#------------------------------------------------------
+scalib.vx:	scalib.v
+	ld68k -r -o scalib.vx scalib.v

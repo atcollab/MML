@@ -1,0 +1,53 @@
+# DO NOT EDIT: This file created by mkmf.pl
+
+exPV.obj : ../../../../../../src/template/base/top/caServerApp/exServer.h
+exPV.obj : ../../../../../../include/gddApps.h
+exPV.obj : ../../../../../../include/gddAppFuncTable.h
+exPV.obj : ../../../../../../include/smartGDDPointer.h
+exPV.obj : ../../../../../../include/epicsTimer.h
+exPV.obj : ../../../../../../include/casdef.h
+exPV.obj : ../../../../../../include/epicsAssert.h
+exPV.obj : ../../../../../../include/resourceLib.h
+exPV.obj : ../../../../../../include/tsMinMax.h
+exPV.obj : ../../../../../../include/gdd.h
+exPV.obj : ../../../../../../include/gddAppTable.h
+exPV.obj : ../../../../../../include/errMdef.h
+exPV.obj : ../../../../../../include/errlog.h
+exPV.obj : ../../../../../../include/shareLib.h
+exPV.obj : ../../../../../../include/epicsTime.h
+exPV.obj : ../../../../../../include/epicsThread.h
+exPV.obj : ../../../../../../include/alarm.h
+exPV.obj : ../../../../../../include/caNetAddr.h
+exPV.obj : ../../../../../../include/casEventMask.h
+exPV.obj : ../../../../../../include/compilerDependencies.h
+exPV.obj : ../../../../../../include/tsSLList.h
+exPV.obj : ../../../../../../include/epicsString.h
+exPV.obj : ../../../../../../include/gddNewDel.h
+exPV.obj : ../../../../../../include/gddUtils.h
+exPV.obj : ../../../../../../include/gddErrorCodes.h
+exPV.obj : ../../../../../../include/aitTypes.h
+exPV.obj : ../../../../../../include/aitConvert.h
+exPV.obj : ../../../../../../include/gddArray.h
+exPV.obj : ../../../../../../include/gddScalar.h
+exPV.obj : ../../../../../../include/gddContainer.h
+exPV.obj : ../../../../../../include/gddI.h
+exPV.obj : ../../../../../../include/gddArrayI.h
+exPV.obj : ../../../../../../include/gddScalarI.h
+exPV.obj : ../../../../../../include/gddContainerI.h
+exPV.obj : ../../../../../../include/epicsTypes.h
+exPV.obj : ../../../../../../include/os/WIN32/osdTime.h
+exPV.obj : ../../../../../../include/epicsEvent.h
+exPV.obj : ../../../../../../include/epicsMutex.h
+exPV.obj : ../../../../../../include/os/WIN32/osdThread.h
+exPV.obj : ../../../../../../include/osiSock.h
+exPV.obj : ../../../../../../include/compiler/msvc/compilerSpecific.h
+exPV.obj : ../../../../../../include/epicsGuard.h
+exPV.obj : ../../../../../../include/gddUtilsI.h
+exPV.obj : ../../../../../../include/aitHelpers.h
+exPV.obj : ../../../../../../include/gddEnumStringTable.h
+exPV.obj : ../../../../../../include/os/WIN32/osdEvent.h
+exPV.obj : ../../../../../../include/os/WIN32/osdMutex.h
+exPV.obj : ../../../../../../include/os/WIN32/osdSock.h
+exPV.obj : ../../../../../../include/ellLib.h
+
+

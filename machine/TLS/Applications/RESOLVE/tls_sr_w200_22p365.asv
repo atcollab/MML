@@ -1,0 +1,1624 @@
+ START_VALUES, ENERGY = 1.50000, DISTANCE = 0.000000, CHARGE = 1, MASS = 1;
+START         : MARK ;
+R1D1A         : DRIFT ,
+            LENGTH =   0.643354     ;
+INJ_POINT     : MARK ;
+ TSCN8        : MARK ;
+SCN1          : MARK ;
+R1D1AB        : DRIFT ,
+            LENGTH =   0.174646     ;
+R1HC0         : XCOR  ,
+            DTHETA = 0.0 ;
+R1D1BC        : DRIFT ,
+            LENGTH =   0.282000     ;
+R1KICM3       : MARK  ,
+            DTHETA = 0.0 ;
+R1D1CD        : DRIFT ,
+            LENGTH =   0.300000     ;
+ R1VC0        : YCOR  ,
+            DPHI   = 0.0 ;
+R1D1DE        : DRIFT ,
+            LENGTH =   0.095000     ;
+ R1BPM0       : MONI ;
+R1D1EF        : DRIFT ,
+            LENGTH =   0.047500     ;
+SWLSID        : DRIFT ,
+            LENGTH =   0.600000     ;
+R1D1FG        : DRIFT ,
+            LENGTH =   0.047500     ;
+ R1BPM1       : MONI ;
+R1D1GH        : DRIFT ,
+            LENGTH =   0.097000     ;
+ R1VC0A       : YCOR  ,
+            DPHI   = 0.0 ;
+R1D1HI        : DRIFT ,
+            LENGTH =   0.298000     ;
+R1KICM4       : MARK  ,
+            DTHETA = 0.0 ;
+R1D1IJ        : DRIFT ,
+            LENGTH =   0.272000     ;
+R1HC0A        : XCOR  ,
+            DTHETA = 0.0 ;
+R1D1JK        : DRIFT ,
+            LENGTH =   0.143000     ;
+ QD1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =  -75.96714035  ;
+RXD4          : DRIFT ,
+            LENGTH =   0.15000      ;
+R1HC1         : XCOR  ,
+            DTHETA = 0.0 ;
+RXD5          : DRIFT ,
+            LENGTH =   0.15000      ;
+ QF1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   143.7478235  ;
+R1D6A         : DRIFT ,
+            LENGTH =   0.140000     ;
+SCN2          : MARK ;
+R1D6BA        : DRIFT ,
+            LENGTH =   0.182000     ;
+R1VC1         : YCOR  ,
+            DPHI   = 0.0 ;
+R1HC1A        : XCOR  ,
+            DTHETA = 0.0 ;
+R1D6BB        : DRIFT ,
+            LENGTH =   0.273000     ;
+ QD2        : QUAD  ,
+            LENGTH =   0.240000     , 
+            B1     =   -58.11674112 ;
+RXD7          : DRIFT ,
+            LENGTH =   0.10500      ;
+ R1BPM2       : MONI ;
+RXD8          : DRIFT ,
+            LENGTH =   0.33000      ;
+ RXDMX        : BEND  , 
+            LENGTH   =   1.220000     , 
+            B0       =  14.31554287   ,
+            B1       = -18.3629409    ,
+            BETA_IN  =   0.1745329250 ,
+            BETA_OUT =   0.1745329250 ,
+            B2       =   0.000000E+00 , 
+            H_IN     =   0.000000E+00 , 
+            H_OUT    =   0.000000E+00 , 
+            GAP      =   0.000000E+00 , 
+            K_IN     =   0.000000     , 
+            K_OUT    =   0.000000     ; 
+RXD9          : DRIFT ,
+            LENGTH =   0.36000      ;
+R1VCSD1       : YCOR  ,
+            DPHI   = 0.0 ;
+SD         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =  -2020.316761  ,
+            ANGLE  =   0.000000E+00 ;
+RXD10         : DRIFT ,
+            LENGTH =   0.18000      ;
+ R1BPM3       : MONI ;
+RXD11         : DRIFT ,
+            LENGTH =   0.36000      ;
+ QF2        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   139.675609   ;
+RXD12         : DRIFT ,
+            LENGTH =   0.14000      ;
+R1HCSF1       : XCOR  ,
+            DTHETA = 0.0 ;
+SF         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =   1787.736721  ,
+            ANGLE  =   0.000000E+00 ;
+RXD13         : DRIFT ,
+            LENGTH =   0.76000      ;
+ R1BPM4       : MONI ;
+RXD14         : DRIFT ,
+            LENGTH =   0.13500      ;
+ R1VC2        : YCOR  ,
+            DPHI   = 0.0 ;
+RXD15         : DRIFT ,
+            LENGTH =   0.37500      ;
+ RXDMX        : BEND  , 
+            LENGTH   =   1.220000     , 
+            B0       =  14.31554287   ,
+            B1       = -18.3629409    ,
+            BETA_IN  =   0.1745329250 ,
+            BETA_OUT =   0.1745329250 ,
+            B2       =   0.000000E+00 , 
+            H_IN     =   0.000000E+00 , 
+            H_OUT    =   0.000000E+00 , 
+            GAP      =   0.000000E+00 , 
+            K_IN     =   0.000000     , 
+            K_OUT    =   0.000000     ; 
+RXD16         : DRIFT ,
+            LENGTH =   0.64500      ;
+ R1BPM5       : MONI ;
+RXD17         : DRIFT ,
+            LENGTH =   0.62500      ;
+R1HCSF2       : XCOR  ,
+            DTHETA = 0.0 ;
+SF         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =   1787.736721  ,
+            ANGLE  =   0.000000E+00 ;
+RXD18         : DRIFT ,
+            LENGTH =   0.14000      ;
+ QF2        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   139.675609   ;
+RXD19         : DRIFT ,
+            LENGTH =   0.44000      ;
+ R1BPM6       : MONI ;
+RXD20         : DRIFT ,
+            LENGTH =   0.10000      ;
+R1VCSD2       : YCOR  ,
+            DPHI   = 0.0 ;
+SD         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =  -2020.316761  ,
+            ANGLE  =   0.000000E+00 ;
+RXD21         : DRIFT ,
+            LENGTH =   0.36000      ;
+ RXDMX        : BEND  , 
+            LENGTH   =   1.220000     , 
+            B0       =  14.31554287   ,
+            B1       = -18.3629409    ,
+            BETA_IN  =   0.1745329250 ,
+            BETA_OUT =   0.1745329250 ,
+            B2       =   0.000000E+00 , 
+            H_IN     =   0.000000E+00 , 
+            H_OUT    =   0.000000E+00 , 
+            GAP      =   0.000000E+00 , 
+            K_IN     =   0.000000     , 
+            K_OUT    =   0.000000     ; 
+RXD23         : DRIFT ,
+            LENGTH =   0.43500      ;
+ QD2        : QUAD  ,
+            LENGTH =   0.240000     , 
+            B1     =   -58.11674112 ;
+R1D23A        : DRIFT ,
+            LENGTH =   0.14500      ;
+R1HC2A        : XCOR  ,
+            DTHETA = 0.0 ;
+ R1VC3A       : YCOR  ,
+            DPHI   = 0.0 ;
+R1D23B        : DRIFT ,
+            LENGTH =   0.09000      ;
+ R1BPM7       : MONI ;
+RXD24         : DRIFT ,
+            LENGTH =   0.36000      ;
+ QF1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   143.7478235  ;
+RXD25         : DRIFT ,
+            LENGTH =   0.14000      ;
+R1HC2         : XCOR  ,
+            DTHETA = 0.0 ;
+RXD26         : DRIFT ,
+            LENGTH =   0.16000      ;
+ QD1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =  -75.96714035  ;
+R1D27A        : DRIFT ,
+            LENGTH =   0.09000      ;
+ R1BPM8       : MONI ;
+R1D27B        : DRIFT ,
+            LENGTH =   0.13500      ;
+R1HC3         : XCOR  ,
+            DTHETA = 0.0 ;
+ R1VC3        : YCOR  ,
+            DPHI   = 0.0 ;
+R1D28A        : DRIFT ,
+            LENGTH =   0.13000      ;
+R1SCN1        : MARK ;
+RXD28B        : DRIFT ,
+            LENGTH =   0.16000      ;
+ R1BPM9       : MONI ;
+R1D29AA       : DRIFT ,
+            LENGTH =   0.38500      ;
+EPU4USVC      : MARK ;
+R1D29AB       : DRIFT ,
+            LENGTH =   0.09700      ;
+EPU4USHC      : MARK ;
+EPU56UD       : DRIFT ,
+            LENGTH =   0.14100      ;
+EPU56ID       : DRIFT ,
+            LENGTH =   3.72400      ;
+EPU56DD       : DRIFT ,
+            LENGTH =   0.14100      ;
+EPU4DSHC      : MARK ;
+R2D1AA        : DRIFT ,
+            LENGTH =   0.09700      ;
+EPU4DSVC      : MARK ;
+R2D1AB        : DRIFT ,
+            LENGTH =   0.09000      ;
+ R2BPM0       : MONI ;
+R2D1BA        : DRIFT ,
+            LENGTH =   0.11200      ;
+R2SQ0         : MARK ;
+R2D1BB        : DRIFT ,
+            LENGTH =   0.47300      ;
+R2HC0         : XCOR  ,
+            DTHETA = 0.0 ;
+ R2VC1        : YCOR  ,
+            DPHI   = 0.0 ;
+RXD2          : DRIFT ,
+            LENGTH =   0.13500      ;
+ R2BPM1       : MONI ;
+RXD3          : DRIFT ,
+            LENGTH =   0.09000      ;
+ QD1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =  -75.96714035  ;
+RXD4          : DRIFT ,
+            LENGTH =   0.15000      ;
+R2HC1         : XCOR  ,
+            DTHETA = 0.0 ;
+RXD5          : DRIFT ,
+            LENGTH =   0.15000      ;
+ QF1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   143.7478235  ;
+R2D6A         : DRIFT ,
+            LENGTH =   0.32500      ;
+ R2VC1A       : YCOR  ,
+            DPHI   = 0.0 ;
+R2HC1A        : XCOR  ,
+            DTHETA = 0.0 ;
+R2D6B         : DRIFT ,
+            LENGTH =   0.27000      ;
+ QD2        : QUAD  ,
+            LENGTH =   0.240000     , 
+            B1     =   -58.11674112 ;
+RXD7          : DRIFT ,
+            LENGTH =   0.10500      ;
+ R2BPM2       : MONI ;
+RXD8          : DRIFT ,
+            LENGTH =   0.33000      ;
+ RXDMX        : BEND  , 
+            LENGTH   =   1.220000     , 
+            B0       =  14.31554287   ,
+            B1       = -18.3629409    ,
+            BETA_IN  =   0.1745329250 ,
+            BETA_OUT =   0.1745329250 ,
+            B2       =   0.000000E+00 , 
+            H_IN     =   0.000000E+00 , 
+            H_OUT    =   0.000000E+00 , 
+            GAP      =   0.000000E+00 , 
+            K_IN     =   0.000000     , 
+            K_OUT    =   0.000000     ; 
+RXD9          : DRIFT ,
+            LENGTH =   0.36000      ;
+R2VCSD1       : YCOR  ,
+            DPHI   = 0.0 ;
+SD         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =  -2020.316761  ,
+            ANGLE  =   0.000000E+00 ;
+RXD10         : DRIFT ,
+            LENGTH =   0.18000      ;
+ R2BPM3       : MONI ;
+RXD11         : DRIFT ,
+            LENGTH =   0.36000      ;
+ QF2        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   139.675609   ;
+R2D12A        : DRIFT ,
+            LENGTH =   0.06950      ;
+ R2BPM4       : MONI ;
+R2D12B        : DRIFT ,
+            LENGTH =   0.07050      ;
+R2HCSF1       : XCOR  ,
+            DTHETA = 0.0 ;
+SF         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =   1787.736721  ,
+            ANGLE  =   0.000000E+00 ;
+R2D13A        : DRIFT ,
+            LENGTH =   0.24300      ;
+R2HC1B        : MARK ;
+R2D13B        : DRIFT ,
+            LENGTH =   0.13800      ;
+IASWBID2      : DRIFT ,
+            LENGTH =   0.48800      ;
+R2D14A        : DRIFT ,
+            LENGTH =   0.17000      ;
+ R2VC2        : YCOR  ,
+            DPHI   = 0.0 ;
+R2D14B        : DRIFT ,
+            LENGTH =   0.23100      ;
+ RXDMX        : BEND  , 
+            LENGTH   =   1.220000     , 
+            B0       =  14.31554287   ,
+            B1       = -18.3629409    ,
+            BETA_IN  =   0.1745329250 ,
+            BETA_OUT =   0.1745329250 ,
+            B2       =   0.000000E+00 , 
+            H_IN     =   0.000000E+00 , 
+            H_OUT    =   0.000000E+00 , 
+            GAP      =   0.000000E+00 , 
+            K_IN     =   0.000000     , 
+            K_OUT    =   0.000000     ; 
+RXD16         : DRIFT ,
+            LENGTH =   0.64500      ;
+ R2BPM5       : MONI ;
+RXD17A        : DRIFT ,
+            LENGTH =   0.19000      ;
+R2SQF1         : MARK ;
+RXD17B        : DRIFT ,
+            LENGTH =   0.43500      ;
+R2HCSF2       : XCOR  ,
+            DTHETA = 0.0 ;
+SF         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =   1787.736721  ,
+            ANGLE  =   0.000000E+00 ;
+RXD18         : DRIFT ,
+            LENGTH =   0.14000      ;
+ QF2        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   139.675609   ;
+RXD19         : DRIFT ,
+            LENGTH =   0.44000      ;
+ R2BPM6       : MONI ;
+RXD20         : DRIFT ,
+            LENGTH =   0.10000      ;
+R2VCSD2       : YCOR  ,
+            DPHI   = 0.0 ;
+SD         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =  -2020.316761  ,
+            ANGLE  =   0.000000E+00 ;
+RXD21         : DRIFT ,
+            LENGTH =   0.36000      ;
+ RXDMX        : BEND  , 
+            LENGTH   =   1.220000     , 
+            B0       =  14.31554287   ,
+            B1       = -18.3629409    ,
+            BETA_IN  =   0.1745329250 ,
+            BETA_OUT =   0.1745329250 ,
+            B2       =   0.000000E+00 , 
+            H_IN     =   0.000000E+00 , 
+            H_OUT    =   0.000000E+00 , 
+            GAP      =   0.000000E+00 , 
+            K_IN     =   0.000000     , 
+            K_OUT    =   0.000000     ; 
+RXD23         : DRIFT ,
+            LENGTH =   0.43500      ;
+ QD2        : QUAD  ,
+            LENGTH =   0.240000     , 
+            B1     =   -58.11674112 ;
+R2D23A        : DRIFT ,
+            LENGTH =   0.11500      ;
+ R2VC3A       : YCOR  ,
+            DPHI   = 0.0 ;
+R2HC2A        : XCOR  ,
+            DTHETA = 0.0 ;
+R2D23B        : DRIFT ,
+            LENGTH =   0.12000      ;
+ R2BPM7       : MONI ;
+R2D24A        : DRIFT ,
+            LENGTH =   0.06250      ;
+R2VCU         : MARK ;
+R2D24B        : DRIFT ,
+            LENGTH =   0.29750      ;
+ QF1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   143.7478235  ;
+RXD25         : DRIFT ,
+            LENGTH =   0.14000      ;
+R2HC2         : XCOR  ,
+            DTHETA = 0.0 ;
+RXD26         : DRIFT ,
+            LENGTH =   0.16000      ;
+ QD1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =  -75.96714035  ;
+R2D27A        : DRIFT ,
+            LENGTH =   0.09000      ;
+ R2BPM8       : MONI ;
+R2D27B        : DRIFT ,
+            LENGTH =   0.13500      ;
+R2HC3         : XCOR  ,
+            DTHETA = 0.0 ;
+ R2VC3        : YCOR  ,
+            DPHI   = 0.0 ;
+R2D28A        : DRIFT ,
+            LENGTH =   0.13000      ;
+R2SCN1        : MARK ;
+RXD28B        : DRIFT ,
+            LENGTH =   0.16000      ;
+ R2BPM9       : MONI ;
+R2U5D         : DRIFT ,
+            LENGTH =   0.53500      ;
+U50IDL        : DRIFT ,
+            LENGTH =   1.95000      ;
+U5BPM         : MARK ;
+U50IDR        : DRIFT ,
+            LENGTH =   1.95000      ;
+R3U5DAA       : DRIFT ,
+            LENGTH =   0.17000      ;
+ R3VC0        : YCOR  ,
+            DPHI   = 0.0 ;
+R3U5DAB       : DRIFT ,
+            LENGTH =   0.08000      ;
+ R3BPM0       : MONI ;
+R3U5DB        : DRIFT ,
+            LENGTH =   0.57500      ;
+R3HC0         : XCOR  ,
+            DTHETA = 0.0 ;
+ R3VC1        : YCOR  ,
+            DPHI   = 0.0 ;
+RXD2          : DRIFT ,
+            LENGTH =   0.13500      ;
+ R3BPM1       : MONI ;
+RXD3          : DRIFT ,
+            LENGTH =   0.09000      ;
+ QD1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =  -75.96714035  ;
+RXD4          : DRIFT ,
+            LENGTH =   0.15000      ;
+R3HC1         : XCOR  ,
+            DTHETA = 0.0 ;
+RXD5          : DRIFT ,
+            LENGTH =   0.15000      ;
+ QF1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   143.7478235  ;
+R3D6A         : DRIFT ,
+            LENGTH =   0.32500      ;
+ R3VC1A       : YCOR  ,
+            DPHI   = 0.0 ;
+R3HC1A        : XCOR  ,
+            DTHETA = 0.0 ;
+R3D6B         : DRIFT ,
+            LENGTH =   0.27000      ;
+ QD2        : QUAD  ,
+            LENGTH =   0.240000     , 
+            B1     =   -58.11674112 ;
+RXD7          : DRIFT ,
+            LENGTH =   0.10500      ;
+ R3BPM2       : MONI ;
+RXD8          : DRIFT ,
+            LENGTH =   0.33000      ;
+ RXDMX        : BEND  , 
+            LENGTH   =   1.220000     , 
+            B0       =  14.31554287   ,
+            B1       = -18.3629409    ,
+            BETA_IN  =   0.1745329250 ,
+            BETA_OUT =   0.1745329250 ,
+            B2       =   0.000000E+00 , 
+            H_IN     =   0.000000E+00 , 
+            H_OUT    =   0.000000E+00 , 
+            GAP      =   0.000000E+00 , 
+            K_IN     =   0.000000     , 
+            K_OUT    =   0.000000     ; 
+RXD9          : DRIFT ,
+            LENGTH =   0.36000      ;
+R3VCSD1       : YCOR  ,
+            DPHI   = 0.0 ;
+SD         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =  -2020.316761  ,
+            ANGLE  =   0.000000E+00 ;
+RXD10         : DRIFT ,
+            LENGTH =   0.18000      ;
+ R3BPM3       : MONI ;
+RXD11         : DRIFT ,
+            LENGTH =   0.36000      ;
+ QF2        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   139.675609   ;
+RXD12         : DRIFT ,
+            LENGTH =   0.14000      ;
+R3HCSF1       : XCOR  ,
+            DTHETA = 0.0 ;
+SF         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =   1787.736721  ,
+            ANGLE  =   0.000000E+00 ;
+R3D13A        : DRIFT ,
+            LENGTH =   0.35500      ;
+ R3BPM4       : MONI ;
+R3D13B        : DRIFT ,
+            LENGTH =   0.12300      ;
+R3EPBM1       : MARK ;
+R3D13C        : DRIFT ,
+            LENGTH =   0.33000      ;
+ R3VC2        : YCOR  ,
+            DPHI   = 0.0 ;
+R3D14         : DRIFT ,
+            LENGTH =   0.13200      ;
+ R3BPM4A      : MONI ;
+R3D15         : DRIFT ,
+            LENGTH =   0.39000      ;
+ RXDMX        : BEND  , 
+            LENGTH   =   1.220000     , 
+            B0       =  14.31554287   ,
+            B1       = -18.3629409    ,
+            BETA_IN  =   0.1745329250 ,
+            BETA_OUT =   0.1745329250 ,
+            B2       =   0.000000E+00 , 
+            H_IN     =   0.000000E+00 , 
+            H_OUT    =   0.000000E+00 , 
+            GAP      =   0.000000E+00 , 
+            K_IN     =   0.000000     , 
+            K_OUT    =   0.000000     ; 
+R3D16A        : DRIFT ,
+            LENGTH =   0.29500      ;
+ R3BPM5A      : MONI ;
+R3D16B        : DRIFT ,
+            LENGTH =   0.19800      ;
+R3EPBM3       : MARK ;
+R3D17A        : DRIFT ,
+            LENGTH =   0.43500      ;
+R3EPBM4       : MARK ;
+R3D17B        : DRIFT ,
+            LENGTH =   0.13200      ;
+ R3BPM5       : MONI ;
+R3D17C        : DRIFT ,
+            LENGTH =   0.15000      ;
+R3HCSF2       : XCOR  ,
+            DTHETA = 0.0 ;
+SF         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =   1787.736721  ,
+            ANGLE  =   0.000000E+00 ;
+RXD18         : DRIFT ,
+            LENGTH =   0.14000      ;
+ QF2        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   139.675609   ;
+RXD19         : DRIFT ,
+            LENGTH =   0.44000      ;
+ R3BPM6       : MONI ;
+RXD20         : DRIFT ,
+            LENGTH =   0.10000      ;
+R3VCSD2       : YCOR  ,
+            DPHI   = 0.0 ;
+SD         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =  -2020.316761  ,
+            ANGLE  =   0.000000E+00 ;
+RXD21         : DRIFT ,
+            LENGTH =   0.36000      ;
+ RXDMX        : BEND  , 
+            LENGTH   =   1.220000     , 
+            B0       =  14.31554287   ,
+            B1       = -18.3629409    ,
+            BETA_IN  =   0.1745329250 ,
+            BETA_OUT =   0.1745329250 ,
+            B2       =   0.000000E+00 , 
+            H_IN     =   0.000000E+00 , 
+            H_OUT    =   0.000000E+00 , 
+            GAP      =   0.000000E+00 , 
+            K_IN     =   0.000000     , 
+            K_OUT    =   0.000000     ; 
+RXD23         : DRIFT ,
+            LENGTH =   0.43500      ;
+ QD2        : QUAD  ,
+            LENGTH =   0.240000     , 
+            B1     =   -58.11674112 ;
+RXD23         : DRIFT ,
+            LENGTH =   0.23500      ;
+ R3BPM7       : MONI ;
+RXD24         : DRIFT ,
+            LENGTH =   0.36000      ;
+ QF1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   143.7478235  ;
+RXD25         : DRIFT ,
+            LENGTH =   0.14000      ;
+R3HC2         : XCOR  ,
+            DTHETA = 0.0 ;
+RXD26         : DRIFT ,
+            LENGTH =   0.16000      ;
+ QD1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =  -75.96714035  ;
+R3D27         : DRIFT ,
+            LENGTH =   0.20800      ;
+ R3BPM8       : MONI ;
+R3D28         : DRIFT ,
+            LENGTH =   0.29100      ;
+ R3VC3        : YCOR  ,
+            DPHI   = 0.0 ;
+R3HC3         : XCOR  ,
+            DTHETA = 0.0 ;
+R3D29         : DRIFT ,
+            LENGTH =   0.95200      ;
+SRF_U         : DRIFT ,
+            LENGTH =   0.50000      ;
+SRFCAV        : ACCEL ,
+            LENGTH =   0.30000      ,
+            FREQ   =   499.6422     ;
+SRF_D         : DRIFT ,
+            LENGTH =   0.50000      ;
+R3D31         : DRIFT ,
+            LENGTH =   0.24900      ;
+R4D1A         : DRIFT ,
+            LENGTH =   0.71900      ;
+ R4BPM0       : MONI ;
+R4D1B         : DRIFT ,
+            LENGTH =   0.11250      ;
+ R4VC0        : YCOR  ,
+            DPHI   = 0.0 ;
+R4HC0         : XCOR  ,
+            DTHETA = 0.0 ;
+R4D2A         : DRIFT ,
+            LENGTH =   0.26350      ;
+R4SCRP        : MARK ;
+R4D2B         : DRIFT ,
+            LENGTH =   0.25700      ;
+SW6HC1        : MARK ;
+SW6UD         : DRIFT ,
+            LENGTH =   0.16000      ;
+SW60ID        : DRIFT ,
+            LENGTH =   0.96000      ;
+SW6DD         : DRIFT ,
+            LENGTH =   0.16000      ;
+SW6HC2        : MARK ;
+R4D3          : DRIFT ,
+            LENGTH =   0.17500      ;
+R4HC0A        : XCOR  ,
+            DTHETA = 0.0 ;
+ R4VC1        : YCOR  ,
+            DPHI   = 0.0 ;
+R4D4          : DRIFT ,
+            LENGTH =   0.11500      ;
+ R4BPM1       : MONI ;
+R4D5          : DRIFT ,
+            LENGTH =   0.07800      ;
+ QD1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =  -75.96714035  ;
+RXD4          : DRIFT ,
+            LENGTH =   0.15000      ;
+R4HC1         : XCOR  ,
+            DTHETA = 0.0 ;
+RXD5          : DRIFT ,
+            LENGTH =   0.15000      ;
+ QF1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   143.7478235  ;
+R4D6A         : DRIFT ,
+            LENGTH =   0.32500      ;
+R4SQD1         : MARK ;
+R4D6B         : DRIFT ,
+            LENGTH =   0.27000      ;
+ QD2        : QUAD  ,
+            LENGTH =   0.240000     , 
+            B1     =   -58.11674112 ;
+RXD7          : DRIFT ,
+            LENGTH =   0.10500      ;
+ R4BPM2       : MONI ;
+RXD8          : DRIFT ,
+            LENGTH =   0.33000      ;
+ RXDMX        : BEND  , 
+            LENGTH   =   1.220000     , 
+            B0       =  14.31554287   ,
+            B1       = -18.3629409    ,
+            BETA_IN  =   0.1745329250 ,
+            BETA_OUT =   0.1745329250 ,
+            B2       =   0.000000E+00 , 
+            H_IN     =   0.000000E+00 , 
+            H_OUT    =   0.000000E+00 , 
+            GAP      =   0.000000E+00 , 
+            K_IN     =   0.000000     , 
+            K_OUT    =   0.000000     ; 
+RXD9          : DRIFT ,
+            LENGTH =   0.36000      ;
+R4VCSD1       : YCOR  ,
+            DPHI   = 0.0 ;
+SD         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =  -2020.316761  ,
+            ANGLE  =   0.000000E+00 ;
+RXD10         : DRIFT ,
+            LENGTH =   0.18000      ;
+ R4BPM3       : MONI ;
+RXD11         : DRIFT ,
+            LENGTH =   0.36000      ;
+ QF2        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   139.675609   ;
+R4D12A        : DRIFT ,
+            LENGTH =   0.06950      ;
+ R4BPM4       : MONI ;
+R4D12B        : DRIFT ,
+            LENGTH =   0.07050      ;
+R4HCSF1       : XCOR  ,
+            DTHETA = 0.0 ;
+SF         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =   1787.736721  ,
+            ANGLE  =   0.000000E+00 ;
+R4D13A        : DRIFT ,
+            LENGTH =   0.24300      ;
+R4HC1A        : XCOR  ,
+            DTHETA = 0.0 ;
+R4D13B        : DRIFT ,
+            LENGTH =   0.13800      ;
+IASWCID2      : DRIFT ,
+            LENGTH =   0.48800      ;
+R4D14A        : DRIFT ,
+            LENGTH =   0.17000      ;
+ R4VC2        : YCOR  ,
+            DPHI   = 0.0 ;
+R4D14B        : DRIFT ,
+            LENGTH =   0.23100      ;
+ RXDMX        : BEND  , 
+            LENGTH   =   1.220000     , 
+            B0       =  14.31554287   ,
+            B1       = -18.3629409    ,
+            BETA_IN  =   0.1745329250 ,
+            BETA_OUT =   0.1745329250 ,
+            B2       =   0.000000E+00 , 
+            H_IN     =   0.000000E+00 , 
+            H_OUT    =   0.000000E+00 , 
+            GAP      =   0.000000E+00 , 
+            K_IN     =   0.000000     , 
+            K_OUT    =   0.000000     ; 
+RXD16         : DRIFT ,
+            LENGTH =   0.64500      ;
+ R4BPM5       : MONI ;
+RXD17         : DRIFT ,
+            LENGTH =   0.62500      ;
+R4HCSF2       : XCOR  ,
+            DTHETA = 0.0 ;
+SF         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =   1787.736721  ,
+            ANGLE  =   0.000000E+00 ;
+RXD18         : DRIFT ,
+            LENGTH =   0.14000      ;
+ QF2        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   139.675609   ;
+RXD19         : DRIFT ,
+            LENGTH =   0.44000      ;
+ R4BPM6       : MONI ;
+RXD20         : DRIFT ,
+            LENGTH =   0.10000      ;
+R4VCSD2       : YCOR  ,
+            DPHI   = 0.0 ;
+SD         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =  -2020.316761  ,
+            ANGLE  =   0.000000E+00 ;
+RXD21         : DRIFT ,
+            LENGTH =   0.36000      ;
+ RXDMX        : BEND  , 
+            LENGTH   =   1.220000     , 
+            B0       =  14.31554287   ,
+            B1       = -18.3629409    ,
+            BETA_IN  =   0.1745329250 ,
+            BETA_OUT =   0.1745329250 ,
+            B2       =   0.000000E+00 , 
+            H_IN     =   0.000000E+00 , 
+            H_OUT    =   0.000000E+00 , 
+            GAP      =   0.000000E+00 , 
+            K_IN     =   0.000000     , 
+            K_OUT    =   0.000000     ; 
+RXD23         : DRIFT ,
+            LENGTH =   0.43500      ;
+ QD2        : QUAD  ,
+            LENGTH =   0.240000     , 
+            B1     =   -58.11674112 ;
+R4D23A        : DRIFT ,
+            LENGTH =   0.11500      ;
+ R4VC3A       : YCOR  ,
+            DPHI   = 0.0 ;
+R4HC2A        : XCOR  ,
+            DTHETA = 0.0 ;
+R2D23B        : DRIFT ,
+            LENGTH =   0.12000      ;
+ R4BPM7       : MONI ;
+RXD24         : DRIFT ,
+            LENGTH =   0.36000      ;
+ QF1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   143.7478235  ;
+RXD25         : DRIFT ,
+            LENGTH =   0.14000      ;
+R4HC2         : XCOR  ,
+            DTHETA = 0.0 ;
+RXD26         : DRIFT ,
+            LENGTH =   0.16000      ;
+ QD1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =  -75.96714035  ;
+RXD27         : DRIFT ,
+            LENGTH =   0.22000      ;
+ R4BPM8       : MONI ;
+RXD28A        : DRIFT ,
+            LENGTH =   0.13500      ;
+R4SCN1        : MARK ;
+RXD28B        : DRIFT ,
+            LENGTH =   0.16000      ;
+ R4VC3        : YCOR  ,
+            DPHI   = 0.0 ;
+R4D29         : DRIFT ,
+            LENGTH =   0.63000      ;
+R4HC3         : XCOR  ,
+            DTHETA = 0.0 ;
+ R4VC4        : YCOR  ,
+            DPHI   = 0.0 ;
+R4D30         : DRIFT ,
+            LENGTH =   0.15000      ;
+ R4BPM9       : MONI ;
+R4D31         : DRIFT ,
+            LENGTH =   0.21000      ;
+RXWD1         : DRIFT ,
+            LENGTH =   0.09450      ;
+R4ENDHC       : MARK ;
+RXWD2         : DRIFT ,
+            LENGTH =   0.05050      ;
+!W200ID        : DRIFT ,
+!            LENGTH =   2.70000      ;
+W200P01P : MARK ;
+W200A011 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.098617278, BETA_IN = 1.97E-03, BETA_OUT = 1.97E-03 ;
+W200B012 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.258192162, BETA_IN = 5.16E-03, BETA_OUT = 5.16E-03 ;
+W200C013 : BEND , LENGTH = 0.010000     ,
+            B0 = 0.319149768, BETA_IN = 3.19E-03, BETA_OUT = 3.19E-03 ;
+W200C014 : BEND , LENGTH = 0.010000     ,
+            B0 = 0.319149768, BETA_IN = 3.19E-03, BETA_OUT = 3.19E-03 ;
+W200B015 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.258192162, BETA_IN = 5.16E-03, BETA_OUT = 5.16E-03 ;
+W200A016 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.098617278, BETA_IN = 1.97E-03, BETA_OUT = 1.97E-03 ;
+W200P02N : MARK ;
+W200A021 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.32770242, BETA_IN = -6.55E-03, BETA_OUT = -6.55E-03 ;
+W200B022 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.857965235, BETA_IN = -1.71E-02, BETA_OUT = -1.71E-02 ;
+W200C023 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.06052563, BETA_IN = -1.06E-02, BETA_OUT = -1.06E-02 ;
+W200C024 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.06052563, BETA_IN = -1.06E-02, BETA_OUT = -1.06E-02 ;
+W200B025 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.857965235, BETA_IN = -1.71E-02, BETA_OUT = -1.71E-02 ;
+W200A026 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.32770242, BETA_IN = -6.55E-03, BETA_OUT = -6.55E-03 ;
+W200P03X  : MARK ;
+W200A031 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200B032 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200C033 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200C034 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200B035 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200A036 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200P04C   : MARK ;
+W200A041 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200B042 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200C043 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200C044 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200B045 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200A046 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200P05X   : MARK ;
+W200A051 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200B052 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200C053 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200C054 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200B055 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200A056 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200P06C   : MARK ;
+W200A061 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200B062 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200C063 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200C064 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200B065 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200A066 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200P07X   : MARK ;
+W200A071 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200B072 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200C073 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200C074 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200B075 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200A076 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200P08C   : MARK ;
+W200A081 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200B082 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200C083 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200C084 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200B085 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200A086 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200P09X   : MARK ;
+W200A091 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200B092 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200C093 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200C094 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200B095 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200A096 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200P10C   : MARK ;
+W200A101 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200B102 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200C103 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200C104 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200B105 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200A106 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200P11X   : MARK ;
+W200A111 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200B112 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200C113 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200C114 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200B115 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200A116 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200P12C   : MARK ;
+W200A121 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200B122 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200C123 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200C124 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200B125 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200A126 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200P13X   : MARK ;
+W200A131 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200B132 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200C133 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200C134 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200B135 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200A136 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200P14C   : MARK ;
+W200A141 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200B142 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200C143 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200C144 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200B145 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200A146 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200P15X   : MARK ;
+W200A151 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200B152 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200C153 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200C154 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200B155 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200A156 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200P16C   : MARK ;
+W200A161 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200B162 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200C163 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200C164 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200B165 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200A166 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200P17X   : MARK ;
+W200A171 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200B172 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200C173 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200C174 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200B175 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200A176 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200P18C   : MARK ;
+W200A181 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200B182 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200C183 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200C184 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200B185 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200A186 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200P19X   : MARK ;
+W200A191 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200B192 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200C193 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200C194 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200B195 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200A196 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200P20C   : MARK ;
+W200A201 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200B202 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200C203 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200C204 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200B205 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200A206 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200P21X   : MARK ;
+W200A211 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200B212 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200C213 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200C214 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200B215 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200A216 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200P22C   : MARK ;
+W200A221 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200B222 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200C223 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200C224 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200B225 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200A226 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200P23X   : MARK ;
+W200A231 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200B232 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200C233 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200C234 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200B235 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200A236 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200P24C   : MARK ;
+W200A241 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200B242 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200C243 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200C244 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.222462317, BETA_IN = -1.22E-02, BETA_OUT = -1.22E-02 ;
+W200B245 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.988972015, BETA_IN = -1.98E-02, BETA_OUT = -1.98E-02 ;
+W200A246 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.377740856, BETA_IN = -7.55E-03, BETA_OUT = -7.55E-03 ;
+W200P25X   : MARK ;
+W200A251 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200B252 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200C253 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200C254 : BEND , LENGTH = 0.010000     ,
+            B0 = 1.42593599, BETA_IN = 1.42E-02, BETA_OUT = 1.42E-02 ;
+W200B255 : BEND , LENGTH = 0.020000     ,
+            B0 = 1.153582216, BETA_IN = 2.31E-02, BETA_OUT = 2.31E-02 ;
+W200A256 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.440614221, BETA_IN = 8.81E-03, BETA_OUT = 8.81E-03 ;
+W200P26N   : MARK ;
+W200A261 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.32770242, BETA_IN = -6.55E-03, BETA_OUT = -6.55E-03 ;
+W200B262 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.857965235, BETA_IN = -1.71E-02, BETA_OUT = -1.71E-02 ;
+W200C263 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.06052563, BETA_IN = -1.06E-02, BETA_OUT = -1.06E-02 ;
+W200C264 : BEND , LENGTH = 0.010000     ,
+            B0 = -1.06052563, BETA_IN = -1.06E-02, BETA_OUT = -1.06E-02 ;
+W200B265 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.857965235, BETA_IN = -1.71E-02, BETA_OUT = -1.71E-02 ;
+W200A266 : BEND , LENGTH = 0.020000     ,
+            B0 = -0.32770242, BETA_IN = -6.55E-03, BETA_OUT = -6.55E-03 ;
+W200P27P   : MARK ;
+W200A271 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.098617278, BETA_IN = 1.97E-03, BETA_OUT = 1.97E-03 ;
+W200B272 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.258192162, BETA_IN = 5.16E-03, BETA_OUT = 5.16E-03 ;
+W200C273 : BEND , LENGTH = 0.010000     ,
+            B0 = 0.319149768, BETA_IN = 3.19E-03, BETA_OUT = 3.19E-03 ;
+W200C274 : BEND , LENGTH = 0.010000     ,
+            B0 = 0.319149768, BETA_IN = 3.19E-03, BETA_OUT = 3.19E-03 ;
+W200B275 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.258192162, BETA_IN = 5.16E-03, BETA_OUT = 5.16E-03 ;
+W200A276 : BEND , LENGTH = 0.020000     ,
+            B0 = 0.098617278, BETA_IN = 1.97E-03, BETA_OUT = 1.97E-03 ;
+! End of W200
+RXWD2         : DRIFT ,
+            LENGTH =   0.05050      ;
+R5ENDHC       : MARK ;
+RXWD1         : DRIFT ,
+            LENGTH =   0.09450      ;
+R5D1A         : DRIFT ,
+            LENGTH =   0.21000      ;
+ R5BPM0       : MONI ;
+R5D1B         : DRIFT ,
+            LENGTH =   0.15000      ;
+R5HC0         : XCOR  ,
+            DTHETA = 0.0 ;
+ R5VC0        : YCOR  ,
+            DPHI   = 0.0 ;
+R5D1C         : DRIFT ,
+            LENGTH =   0.92000      ;
+ R5VC1        : YCOR  ,
+            DPHI   = 0.0 ;
+RXD2          : DRIFT ,
+            LENGTH =   0.13500      ;
+ R5BPM1       : MONI ;
+RXD3          : DRIFT ,
+            LENGTH =   0.09000      ;
+ QD1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =  -75.96714035  ;
+RXD4          : DRIFT ,
+            LENGTH =   0.15000      ;
+R5HC1         : XCOR  ,
+            DTHETA = 0.0 ;
+RXD5          : DRIFT ,
+            LENGTH =   0.15000      ;
+ QF1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   143.7478235  ;
+RXD6A         : DRIFT ,
+            LENGTH =   0.32200      ;
+ R5VC1A       : YCOR  ,
+            DPHI   = 0.0 ;
+R5HC1A        : XCOR  ,
+            DTHETA = 0.0 ;
+RXD6A         : DRIFT ,
+            LENGTH =   0.27300      ;
+ QD2        : QUAD  ,
+            LENGTH =   0.240000     , 
+            B1     =   -58.11674112 ;
+RXD7          : DRIFT ,
+            LENGTH =   0.10500      ;
+ R5BPM2       : MONI ;
+RXD8          : DRIFT ,
+            LENGTH =   0.33000      ;
+ RXDMX        : BEND  , 
+            LENGTH   =   1.220000     , 
+            B0       =  14.31554287   ,
+            B1       = -18.3629409    ,
+            BETA_IN  =   0.1745329250 ,
+            BETA_OUT =   0.1745329250 ,
+            B2       =   0.000000E+00 , 
+            H_IN     =   0.000000E+00 , 
+            H_OUT    =   0.000000E+00 , 
+            GAP      =   0.000000E+00 , 
+            K_IN     =   0.000000     , 
+            K_OUT    =   0.000000     ; 
+RXD9          : DRIFT ,
+            LENGTH =   0.36000      ;
+R5VCSD1       : YCOR  ,
+            DPHI   = 0.0 ;
+SD         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =  -2020.316761  ,
+            ANGLE  =   0.000000E+00 ;
+RXD10         : DRIFT ,
+            LENGTH =   0.18000      ;
+ R5BPM3       : MONI ;
+RXD11         : DRIFT ,
+            LENGTH =   0.36000      ;
+ QF2        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   139.675609   ;
+RXD12         : DRIFT ,
+            LENGTH =   0.14000      ;
+R5HCSF1       : XCOR  ,
+            DTHETA = 0.0 ;
+SF         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =   1787.736721  ,
+            ANGLE  =   0.000000E+00 ;
+R5D13A        : DRIFT ,
+            LENGTH =   0.39900      ;
+R5SQD1         : MARK ;
+R5D13BA       : DRIFT ,
+            LENGTH =   0.11100      ;
+R5DCCTD       : DRIFT ,
+            LENGTH =   0.16500      ;
+R5DCCT        : MARK ;
+R5DCCTD       : DRIFT ,
+            LENGTH =   0.16500      ;
+R5D13BB       : DRIFT ,
+            LENGTH =   0.02500      ;
+ R5VC2        : YCOR  ,
+            DPHI   = 0.0 ;
+R5D14         : DRIFT ,
+            LENGTH =   0.07500      ;
+ R5BPM4       : MONI ;
+R5D15         : DRIFT ,
+            LENGTH =   0.33000      ;
+ RXDMX        : BEND  , 
+            LENGTH   =   1.220000     , 
+            B0       =  14.31554287   ,
+            B1       = -18.3629409    ,
+            BETA_IN  =   0.1745329250 ,
+            BETA_OUT =   0.1745329250 ,
+            B2       =   0.000000E+00 , 
+            H_IN     =   0.000000E+00 , 
+            H_OUT    =   0.000000E+00 , 
+            GAP      =   0.000000E+00 , 
+            K_IN     =   0.000000     , 
+            K_OUT    =   0.000000     ; 
+RXD16         : DRIFT ,
+            LENGTH =   0.64500      ;
+ R5BPM5       : MONI ;
+RXD17A        : DRIFT ,
+            LENGTH =   0.19000      ;
+R5SQF1         : MARK ;
+RXD17B        : DRIFT ,
+            LENGTH =   0.43500      ;
+R5HCSF2       : XCOR  ,
+            DTHETA = 0.0 ;
+SF         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =   1787.736721  ,
+            ANGLE  =   0.000000E+00 ;
+RXD18         : DRIFT ,
+            LENGTH =   0.14000      ;
+ QF2        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   139.675609   ;
+RXD19         : DRIFT ,
+            LENGTH =   0.44000      ;
+ R5BPM6       : MONI ;
+RXD20         : DRIFT ,
+            LENGTH =   0.10000      ;
+R5VCSD2       : YCOR  ,
+            DPHI   = 0.0 ;
+SD         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =  -2020.316761  ,
+            ANGLE  =   0.000000E+00 ;
+RXD21         : DRIFT ,
+            LENGTH =   0.36000      ;
+ RXDMX        : BEND  , 
+            LENGTH   =   1.220000     , 
+            B0       =  14.31554287   ,
+            B1       = -18.3629409    ,
+            BETA_IN  =   0.1745329250 ,
+            BETA_OUT =   0.1745329250 ,
+            B2       =   0.000000E+00 , 
+            H_IN     =   0.000000E+00 , 
+            H_OUT    =   0.000000E+00 , 
+            GAP      =   0.000000E+00 , 
+            K_IN     =   0.000000     , 
+            K_OUT    =   0.000000     ; 
+RXD23         : DRIFT ,
+            LENGTH =   0.43500      ;
+ QD2        : QUAD  ,
+            LENGTH =   0.240000     , 
+            B1     =   -58.11674112 ;
+R5D23A        : DRIFT ,
+            LENGTH =   0.14500      ;
+R5HC2A        : XCOR  ,
+            DTHETA = 0.0 ;
+ R5VC3A       : YCOR  ,
+            DPHI   = 0.0 ;
+R5D23B        : DRIFT ,
+            LENGTH =   0.09000      ;
+ R5BPM7       : MONI ;
+RXD24         : DRIFT ,
+            LENGTH =   0.36000      ;
+ QF1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   143.7478235  ;
+RXD25         : DRIFT ,
+            LENGTH =   0.14000      ;
+R5HC2         : XCOR  ,
+            DTHETA = 0.0 ;
+RXD26         : DRIFT ,
+            LENGTH =   0.16000      ;
+ QD1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =  -75.96714035  ;
+R5D27         : DRIFT ,
+            LENGTH =   0.09000      ;
+ R5BPM8       : MONI ;
+R5D28A        : DRIFT ,
+            LENGTH =   0.13500      ;
+ R5VC3        : YCOR  ,
+            DPHI   = 0.0 ;
+R5HC3         : XCOR  ,
+            DTHETA = 0.0 ;
+R5D28B        : DRIFT ,
+            LENGTH =   0.16250      ;
+R5SCN1        : MARK ;
+R5D28C        : DRIFT ,
+            LENGTH =   0.12750      ;
+ R5BPM9       : MONI ;
+U9UDA         : DRIFT ,
+            LENGTH =   0.05300      ;
+ R5VC4        : YCOR  ,
+            DPHI   = 0.0 ;
+U9UDB         : DRIFT ,
+            LENGTH =   0.18200      ;
+U90ID         : DRIFT ,
+            LENGTH =   4.50000      ;
+U9DDA         : DRIFT ,
+            LENGTH =   0.19500      ;
+ R6VC0        : YCOR  ,
+            DPHI   = 0.0 ;
+U9DDB         : DRIFT ,
+            LENGTH =   0.07500      ;
+ R6BPM0       : MONI ;
+R6D1          : DRIFT ,
+            LENGTH =   0.25500      ;
+ R6VC1        : YCOR  ,
+            DPHI   = 0.0 ;
+R6HC0         : XCOR  ,
+            DTHETA = 0.0 ;
+RXD2          : DRIFT ,
+            LENGTH =   0.13500      ;
+ R6BPM1       : MONI ;
+RXD3          : DRIFT ,
+            LENGTH =   0.09000      ;
+ QD1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =  -75.96714035  ;
+RXD4          : DRIFT ,
+            LENGTH =   0.15000      ;
+R6HC1         : XCOR  ,
+            DTHETA = 0.0 ;
+RXD5          : DRIFT ,
+            LENGTH =   0.15000      ;
+ QF1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   143.7478235  ;
+R6D6A         : DRIFT ,
+            LENGTH =   0.32500      ;
+ R6VC1A       : YCOR  ,
+            DPHI   = 0.0 ;
+R6HC1A        : XCOR  ,
+            DTHETA = 0.0 ;
+R6D6B         : DRIFT ,
+            LENGTH =   0.27000      ;
+ QD2        : QUAD  ,
+            LENGTH =   0.240000     , 
+            B1     =   -58.11674112 ;
+RXD7          : DRIFT ,
+            LENGTH =   0.10500      ;
+ R6BPM2       : MONI ;
+RXD8          : DRIFT ,
+            LENGTH =   0.33000      ;
+ RXDMX        : BEND  , 
+            LENGTH   =   1.220000     , 
+            B0       =  14.31554287   ,
+            B1       = -18.3629409    ,
+            BETA_IN  =   0.1745329250 ,
+            BETA_OUT =   0.1745329250 ,
+            B2       =   0.000000E+00 , 
+            H_IN     =   0.000000E+00 , 
+            H_OUT    =   0.000000E+00 , 
+            GAP      =   0.000000E+00 , 
+            K_IN     =   0.000000     , 
+            K_OUT    =   0.000000     ; 
+RXD9          : DRIFT ,
+            LENGTH =   0.36000      ;
+R6VCSD1       : YCOR  ,
+            DPHI   = 0.0 ;
+SD         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =  -2020.316761  ,
+            ANGLE  =   0.000000E+00 ;
+RXD10         : DRIFT ,
+            LENGTH =   0.18000      ;
+ R6BPM3       : MONI ;
+RXD11         : DRIFT ,
+            LENGTH =   0.36000      ;
+ QF2        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   139.675609   ;
+R6D12A        : DRIFT ,
+            LENGTH =   0.06950      ;
+ R6BPM4       : MONI ;
+R6D12B        : DRIFT ,
+            LENGTH =   0.07050      ;
+R6HCSF1       : XCOR  ,
+            DTHETA = 0.0 ;
+SF         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =   1787.736721  ,
+            ANGLE  =   0.000000E+00 ;
+R6D13A        : DRIFT ,
+            LENGTH =   0.24300      ;
+R6HC2A        : XCOR  ,
+            DTHETA = 0.0 ;
+R6D13B        : DRIFT ,
+            LENGTH =   0.13800      ;
+IASWAID6      : DRIFT ,
+            LENGTH =   0.48800      ;
+R6D14A        : DRIFT ,
+            LENGTH =   0.17000      ;
+ R6VC2        : YCOR  ,
+            DPHI   = 0.0 ;
+R6D14B        : DRIFT ,
+            LENGTH =   0.23100      ;
+ RXDMX        : BEND  , 
+            LENGTH   =   1.220000     , 
+            B0       =  14.31554287   ,
+            B1       = -18.3629409    ,
+            BETA_IN  =   0.1745329250 ,
+            BETA_OUT =   0.1745329250 ,
+            B2       =   0.000000E+00 , 
+            H_IN     =   0.000000E+00 , 
+            H_OUT    =   0.000000E+00 , 
+            GAP      =   0.000000E+00 , 
+            K_IN     =   0.000000     , 
+            K_OUT    =   0.000000     ; 
+RXD16         : DRIFT ,
+            LENGTH =   0.64500      ;
+ R6BPM5       : MONI ;
+RXD17A        : DRIFT ,
+            LENGTH =   0.19000      ;
+R6SQF1         : MARK ;
+RXD17B        : DRIFT ,
+            LENGTH =   0.43500      ;
+R6HCSF2       : XCOR  ,
+            DTHETA = 0.0 ;
+SF         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =   1787.736721  ,
+            ANGLE  =   0.000000E+00 ;
+RXD18         : DRIFT ,
+            LENGTH =   0.14000      ;
+ QF2        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   139.675609   ;
+RXD19         : DRIFT ,
+            LENGTH =   0.44000      ;
+ R6BPM6       : MONI ;
+RXD20         : DRIFT ,
+            LENGTH =   0.10000      ;
+R6VCSD2       : YCOR  ,
+            DPHI   = 0.0 ;
+SD         : SEXT  , 
+            LENGTH =   0.1200000000 , 
+            B2     =  -2020.316761  ,
+            ANGLE  =   0.000000E+00 ;
+RXD21         : DRIFT ,
+            LENGTH =   0.36000      ;
+ RXDMX        : BEND  , 
+            LENGTH   =   1.220000     , 
+            B0       =  14.31554287   ,
+            B1       = -18.3629409    ,
+            BETA_IN  =   0.1745329250 ,
+            BETA_OUT =   0.1745329250 ,
+            B2       =   0.000000E+00 , 
+            H_IN     =   0.000000E+00 , 
+            H_OUT    =   0.000000E+00 , 
+            GAP      =   0.000000E+00 , 
+            K_IN     =   0.000000     , 
+            K_OUT    =   0.000000     ; 
+RXD22         : DRIFT ,
+            LENGTH =   0.23500      ;
+ QD2        : QUAD  ,
+            LENGTH =   0.240000     , 
+            B1     =   -58.11674112 ;
+RXD23         : DRIFT ,
+            LENGTH =   0.43500      ;
+ R6BPM7       : MONI ;
+RXD24         : DRIFT ,
+            LENGTH =   0.36000      ;
+ QF1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =   143.7478235  ;
+RXD25         : DRIFT ,
+            LENGTH =   0.14000      ;
+R6HC2         : XCOR  ,
+            DTHETA = 0.0 ;
+RXD26         : DRIFT ,
+            LENGTH =   0.16000      ;
+ QD1        : QUAD  ,
+            LENGTH =   0.350000     , 
+            B1     =  -75.96714035  ;
+R6D27         : DRIFT ,
+            LENGTH =   0.41500      ;
+R1KICM1       : XCOR  ,
+            DTHETA = 0.0 ;
+R6D28         : DRIFT ,
+            LENGTH =   0.44500      ;
+ R6VC3        : YCOR  ,
+            DPHI   = 0.0 ;
+R6D29         : DRIFT ,
+            LENGTH =   0.15000      ;
+R6SCN1        : MARK ;
+R6D30         : DRIFT ,
+            LENGTH =   0.89000      ;
+R1KICM2       : XCOR  ,
+            DTHETA = 0.0 ;
+R6D31A        : DRIFT ,
+            LENGTH =   0.68500      ;
+ R6VC5        : YCOR  ,
+            DPHI   = 0.0 ;
+R6HC4         : XCOR  ,
+            DTHETA = 0.0 ;
+R6D31B        : DRIFT ,
+            LENGTH =   0.41500      ;
+ END_BEAM_LINE;

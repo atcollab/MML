@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>lcaNewMonitorValue</TITLE>
+<META NAME="description" CONTENT="lcaNewMonitorValue">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="manual.css">
+
+<LINK REL="next" HREF="node12.html">
+<LINK REL="previous" HREF="node10.html">
+<LINK REL="up" HREF="node2.html">
+<LINK REL="next" HREF="node12.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html173"
+  HREF="node12.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html171"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html165"
+  HREF="node10.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html174"
+  HREF="node12.html">lcaClear</A>
+<B> Up:</B> <A NAME="tex2html172"
+  HREF="node2.html">Supported EZCA Calls</A>
+<B> Previous:</B> <A NAME="tex2html166"
+  HREF="node10.html">lcaNewMonitorWait</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html175"
+  HREF="node11.html#SECTION00029100000000000000">Calling Syntax</A>
+<LI><A NAME="tex2html176"
+  HREF="node11.html#SECTION00029200000000000000">Description</A>
+<LI><A NAME="tex2html177"
+  HREF="node11.html#SECTION00029300000000000000">Parameters</A>
+<LI><A NAME="tex2html178"
+  HREF="node11.html#SECTION00029400000000000000">Examples</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H2><A NAME="SECTION00029000000000000000"></A>
+<A NAME="lcanewmonitorvalue"></A>
+<BR>
+lcaNewMonitorValue
+</H2>
+
+<H3><A NAME="SECTION00029100000000000000">
+Calling Syntax</A>
+</H3>
+<PRE>
+[flags] = lcaNewMonitorValue(pvs, type)
+</PRE>
+<H3><A NAME="SECTION00029200000000000000">
+Description</A>
+</H3>
+Check if monitored PVs need to be read, i.e, if fresh data are available (e.g., due to
+initial connection or changes in value and/or severity status). Reading the actual
+data must be done using <A HREF="node5.html#lcaget"><TT>lcaGet</TT></A>.
+
+<H3><A NAME="SECTION00029300000000000000">
+Parameters</A>
+</H3>
+<DL>
+<DT><STRONG>pvs</STRONG></DT>
+<DD>Column vector (in matlab: <SPAN  CLASS="textit">m x 1</SPAN> <SPAN  CLASS="textit">cell-</SPAN> matrix)
+of <SPAN  CLASS="textit">m</SPAN> strings.
+
+</DD>
+<DT><STRONG>type</STRONG></DT>
+<DD>(<SPAN  CLASS="textit">optional argument</SPAN>) A string specifying the
+data type to be used for the channel access data transfer. The
+native type is used by default.
+See <A HREF="node5.html#typearg">here</A> for more information.
+
+<P>
+Note that monitors are specific to a particular data type and therefore
+<TT>lcaNewMonitorValue</TT> will only report the status for a monitor that had been established
+(by <A HREF="node9.html#lcasetmonitor"><TT>lcaSetMonitor</TT></A>) with a matching type.
+Using the ``native'' type, which is the default, for both calls
+satisfies this condition.
+</DD>
+<DT><STRONG>flags</STRONG></DT>
+<DD>Column vector of flag values. A value of zero indicates that no new data are available -
+the monitored PV has not changed since it was last read (the data, that is, <EM>not the flag</EM>).
+A value of one indicates that new data are available for reading (<TT>lcaGet</TT>).
+
+<P>
+<EM>NOTE: As of <SPAN  CLASS="textit">labCA</SPAN> version 3 the <TT>flags</TT> no longer report error conditions.
+Errors are now reported in the 
+<A HREF="node4.html#errorhandling">standard way</A>,
+i.e., by aborting the <SPAN  CLASS="textit">labCA</SPAN> call.
+Errors can be caught by the standard <SPAN  CLASS="textit">scilab</SPAN> <TT>try</TT>-<TT>catch</TT>-<TT>end</TT>
+construct. The <A HREF="node13.html#lcalasterror"><TT>lcaLastError</TT></A> routine can be used to obtain
+status information for individual channels if <TT>lcaNewMonitorValue</TT> fails on
+a vector of PVs.</EM>
+
+<P>
+See also <A HREF="node10.html#lcanewmonitorwait"><TT>lcaNewMonitorWait</TT></A>.
+</DD>
+</DL>
+<H3><A NAME="SECTION00029400000000000000">
+Examples</A>
+</H3>
+<PRE>
+try and(lcaNewMonitorValue(pvvec))
+	vals = lcaGet(pvvec)
+catch
+    errs = lcaLastError()
+	handleErrs(errs)
+end
+</PRE>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html173"
+  HREF="node12.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html171"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html165"
+  HREF="node10.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html174"
+  HREF="node12.html">lcaClear</A>
+<B> Up:</B> <A NAME="tex2html172"
+  HREF="node2.html">Supported EZCA Calls</A>
+<B> Previous:</B> <A NAME="tex2html166"
+  HREF="node10.html">lcaNewMonitorWait</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+till
+2007-10-13
+</ADDRESS>
+</BODY>
+</HTML>

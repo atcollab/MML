@@ -1,0 +1,174 @@
+# ALS Simple Channel Access Makefile.solaris
+# changed for solaris 2.5 using Sunpro compiler
+# and dynamic linking (libsca.so)
+
+#CC = acc
+#CC = /opt/SUNWspro/bin/cc
+CC = cc
+#RELEASE = /home/als2/devel/als_std_epics/
+RELEASE = ../epics
+BASE = $(RELEASE)/base
+INCLUDES = $(BASE)/include
+INCLUDE_JAVA = /vol/pub/java-1.2_01/include
+INCLUDE_JAVA_SOLARIS = $(INCLUDE_JAVA)/solaris
+#OS = sun4 
+OS = solaris
+DBG =
+CFLAGS_SO = -G -KPIC
+CFLAGS= -R.:/local/prod/lib:/opt/local/lib
+SUNOS_DIST = /home/als2/www/docs/epics_collaboration/sca/sunos
+SCA_DIST = /home/als2/www/docs/epics_collaboration/sca
+SOLARIS2_DIST = csg:~ftp/pub/als/epics/solaris2
+
+all: info scaget scaput libsca.so libJSca.so \
+	sca3_time sca3_example sca3a_example \
+	group_test alias_test connect_test sca2test
+
+libsca.so : Makefile.solaris ./scalib.c ./scalib_private.h ./scalib_shared.h Makefile
+	rm -f core
+	rm -f libsca.so.3
+	rm -f libsca.so
+	$(CC) $(DBG) $(CFLAGS_SO) -h libsca.so.3 -I$(INCLUDES) -I. -o libsca.so.3 ./scalib.c \
+	-L$(BASE)/lib/$(OS) -lca -lCom -lsocket -lnsl -lc -lm
+	ln -s libsca.so.3 libsca.so
+
+libJSca.so : Makefile.solaris ./libsca.so  Makefile
+	rm -f core
+	rm -f libJSca.so.1
+	rm -f libJSca.so
+	$(CC) $(DBG) $(CFLAGS_SO) -h libJSca.so.1 -I$(INCLUDES) -I. -I$(INCLUDE_JAVA) -I$(INCLUDE_JAVA_SOLARIS) \
+	-o libJSca.so.1 ./JScaimpl.c -L$(BASE)/lib/$(OS) -L. -lsca
+	ln -s libJSca.so.1 libJSca.so
+
+scaput : Makefile.solaris ./scaput.c ./scaget.h ./scalib.h ./scalib_shared.h ./libsca.so
+	rm -f core
+	rm -f scaput
+	$(CC) $(DBG) $(CFLAGS) -I. -o scaput ./scaput.c \
+		-L$(BASE)/lib/$(OS) -L. -lca -lCom -lsca
+
+scaget : Makefile.solaris ./scaget.c ./scaget.h ./scalib.h ./scalib_shared.h ./libsca.so
+	rm -f core
+	rm -f scaget
+	$(CC) $(DBG) $(CFLAGS) -I. -o scaget ./scaget.c -L. -lsca
+
+sca3_time : Makefile.solaris ./sca3_time.c ./scalib.h ./scalib_shared.h ./libsca.so
+	rm -f core
+	rm -f sca3_time
+	$(CC) $(DBG) $(CFLAGS) -I. \
+		-o sca3_time ./sca3_time.c \
+		-L$(BASE)/lib/$(OS) -L. -lca -lCom -lsca
+
+sca3_example : Makefile.solaris ./sca3_example.c ./scalib.h ./scalib_shared.h ./libsca.so
+	rm -f core
+	rm -f sca3_example
+	$(CC) $(DBG) $(CFLAGS) -I. \
+		-o sca3_example ./sca3_example.c \
+		-L$(BASE)/lib/$(OS) -L. -lca -lCom -lsca
+
+sca3a_example : Makefile.solaris ./sca3_example.c ./scalib.h ./libsca.so
+	rm -f core
+	rm -f sca3a_example
+	$(CC) $(DBG) $(CFLAGS) -DUSE_CACHE_PUT -I. \
+		-o sca3a_example ./sca3_example.c \
+		-L$(BASE)/lib/$(OS) -L. -lca -lCom -lsca
+
+group_test : Makefile.solaris ./group_test.c ./scalib.h ./scalib_shared.h ./libsca.so
+	rm -f core
+	rm -f group_test
+	$(CC) $(DBG) $(CFLAGS) -I. \
+		-o group_test ./group_test.c \
+		-L$(BASE)/lib/$(OS) -L. -lca -lCom -lsca
+
+index_example : Makefile.solaris ./index_example.c ./scalib.h ./scalib_shared.h \
+        ./libsca.so
+	rm -f core
+	rm -f index_example
+	$(CC) $(DBG) $(CFLAGS) -I. \
+        -o index_example ./index_example.c \
+		-L$(BASE)/lib/$(OS) -L. -lca -lCom -lsca
+
+indexa_example : Makefile.solaris ./index_example.c ./scalib.h ./scalib_shared.h \
+        ./libsca.so
+	rm -f core
+	rm -f indexa_example
+	$(CC) $(DBG) $(CFLAGS) -DUSE_CACHE_PUT -I. \
+        -o indexa_example ./index_example.c \
+		-L$(BASE)/lib/$(OS) -L. -lca -lCom -lsca
+
+sca2test : Makefile.solaris ./sca2test.c ./scalib.h ./scalib_shared.h ./libsca.so
+	rm -f core
+	rm -f sca2test
+	$(CC) $(DBG) $(CFLAGS) -I. \
+        -o sca2test ./sca2test.c \
+		-L$(BASE)/lib/$(OS) -L. -lca -lCom -lsca
+
+alias_test : Makefile.solaris ./alias_test.c ./scalib.h ./scalib_shared.h ./libsca.so
+	rm -f core
+	rm -f alias_test
+	$(CC) $(DBG) $(CFLAGS) -I. \
+        -o alias_test ./alias_test.c \
+		-L$(BASE)/lib/$(OS) -L. -lca -lCom -lsca
+
+connect_test : Makefile.solaris ./connect_test.c ./scalib.h ./scalib_shared.h ./libsca.so
+	rm -f core
+	rm -f connect_test
+	$(CC) $(DBG) $(CFLAGS) -I. \
+        -o connect_test ./connect_test.c \
+		-L$(BASE)/lib/$(OS) -L. -lca -lCom -lsca
+
+test_compress : Makefile.solaris ./test_compress.c ./scalib.h ./scalib_shared.h \
+    ./libsca.so
+	rm -f core
+	rm -f test_compress
+	$(CC) $(DBG) $(CFLAGS) -I. \
+        -o test_compress ./test_compress.c \
+		-L$(BASE)/lib/$(OS) -L. -lca -lCom -lsca
+
+solaris2_dist:
+	rm -f sca.tar.gz
+	tar cf - Makefile.solaris scalib.h scalib_shared.h scalib_private.h \
+		sca_release.h scalib.c \
+		scaget.c scaput.c sca3_example.c sca3_example.db group_test.c \
+		scaget scaput libsca.so.3 sca3_example \
+		..\epics\base\bin\O.$(OS)\caRepeater \
+		scalib_doc scaget_doc scaput_doc | gzip > sca.tar.gz
+		rcp sca.tar.gz $(SOLARIS2_DIST)
+
+info:
+	@echo "make DBG=-g    #for debug  mode"
+
+test_install:
+	rdist -v -w -y
+
+install:
+	cp -p scalib.h scalib_shared.h scalib_private.h \
+		/opt/local/include
+
+	cp -p libsca.so.3 /home/als2/prod/scaIII/lib
+	rm -f /home/als2/prod/scaIII/lib/libsca.so
+	ln -s /home/als2/prod/scaIII/lib/libsca.so.3 /home/als2/prod/scaIII/lib/libsca.so
+
+	cp -p libsca.so.3 /opt/local/lib
+	rm -f /opt/local/lib/libsca.so
+	ln -s /opt/local/lib/libsca.so.3 /opt/local/lib/libsca.so
+
+	cp -p scaget /opt/local/bin
+	cp -p scaput /opt/local/bin
+
+clean:
+	rm -f core
+	rm -f libsca.so
+	rm -f libsca.so.3
+	rm -f scaget
+	rm -f scaput
+
+	rm -f sca3_time
+	rm -f sca3_example
+	rm -f sca3a_example
+	rm -f index_example
+	rm -f indexa_example
+	rm -f group_test
+	rm -f sca.tar
+	rm -f sca.tar.gz
+
+#include ../include/makelib

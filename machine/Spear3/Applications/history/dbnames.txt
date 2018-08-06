@@ -1,0 +1,387 @@
+Computer: spear2 (VMS)
+% sql
+
+SQL> attach 'file spear_history_db';
+
+Remember to rollback at the end of the session
+SQL> rollback;
+
+
+SQL> select parameter,sn,tab,col from spear_index where parameter containing 'cor';
+
+ PARAMETER                  SN                         TAB                COL                        
+ CORR.CORECTN               ZB1/XX4                    SPEAR              ZB$XX4_9                   
+ HCORR1                     T04C6/AM1                  TRIMS              T04C6$AM1                  
+ HCORR1_AC                  T04C6/AC1                  TRIMS_AC           T04C6$AC1                  
+ HCORR2                     T02C5/AM1                  TRIMS              T02C5$AM1                  
+ HCORR2_AC                  T02C5/AC1                  TRIMS_AC           T02C5$AC1                  
+ HCORR3                     T02C6/AM1                  TRIMS              T02C6$AM1                  
+ HCORR3_AC                  T02C6/AC1                  TRIMS_AC           T02C6$AC1                  
+ HCORR4                     T04C5/AM1                  TRIMS              T04C5$AM1                  
+ HCORR4_AC                  T04C5/AC1                  TRIMS_AC           T04C5$AC1                  
+ ORB_CORECTN                ZB1/XX4                    SPEAR              ZB$XX4_8                   
+ VCORR1                     T04C18/AM1                 TRIMS              T04C18$AM1                 
+ VCORR1_AC                  T04C18/AC1                 TRIMS_AC           T04C18$AC1                 
+ VCORR2                     T02C17/AM1                 TRIMS              T02C17$AM1                 
+ VCORR2_AC                  T02C17/AC1                 TRIMS_AC           T02C17$AC1                 
+ VCORR3                     T02C18/AM1                 TRIMS              T02C18$AM1                 
+ VCORR3_AC                  T02C18/AC1                 TRIMS_AC           T02C18$AC1                 
+ VCORR4                     T04C17/AM1                 TRIMS              T04C17$AM1                 
+ VCORR4_AC                  T04C17/AC1                 TRIMS_AC           T04C17$AC1                 
+
+select parameter,sn,tab,col from spear_index where parameter containing 'corr';
+
+SQL> select parameter,sn,tab,col from spear_index where parameter containing '10s11';
+
+ PARAMETER                  SN                         TAB                COL                        
+ 10S11                      V02G11/AM1                 VACUUM             V02G11$AM1                 
+ 10S11.A                    ZC3/XX1                    SPEAR_BPM_BUTTON   BPM_10S11$A                
+ 10S11.B                    ZC4/XX1                    SPEAR_BPM_BUTTON   BPM_10S11$B                
+ 10S11.C                    ZC5/XX1                    SPEAR_BPM_BUTTON   BPM_10S11$C                
+ 10S11.D                    ZC6/XX1                    SPEAR_BPM_BUTTON   BPM_10S11$D                
+ 10S11.X                    ZC1/XX1                    SPEAR_BPM          BPM_10S11$X                
+ 10S11.Y                    ZC2/XX1                    SPEAR_BPM          BPM_10S11$Y                
+ 10S11BL9T                  T04Q1E8/AM1                TRIMS              T04Q1E8$AM1                
+ 10S11BL9TA_AC              T04Q1E8/AC1                TRIMS_AC           T04Q1E8$AC1                
+ 10S11LCW RTD               R02S2K1/AM9                RF                 R02S2K1$AM9                
+ 10S11_#1_TB_LO             R02S2C1G12/AM1             RF                 R02S2C1G12$AM1             
+ 10S11_#1_TB_UP             R02S2C1G11/AM1             RF                 R02S2C1G11$AM1             
+ 10S11_#5_TB_LO             R02S2C1G14/AM1             RF                 R02S2C1G14$AM1             
+ 10S11_#5_TB_UP             R02S2C1G13/AM1             RF                 R02S2C1G13$AM1             
+ 10S11_BD1_RTN              R02S2C1G4/AM1              RF                 R02S2C1G7$AM1              
+ 10S11_BD2_RTN              R02S2C1G8/AM1              RF                 R02S2C1G8$AM1              
+ 10S11_BD3_RTN              R02S2C1G9/AM1              RF                 R02S2C1G9$AM1              
+ 10S11_BM_VLTG              R02S2K1/AM4                RF                 R02S2K1$AM4                
+ 10S11_C1GAPV               R02S2C1C1/AM1              RF                 R02S2C1C1$AM1              
+ 10S11_C2GAPV               R02S2C1C2/AM1              RF                 R02S2C1C2$AM1              
+ 10S11_C3GAPV               R02S2C1C3/AM1              RF                 R02S2C1C3$AM1              
+ 10S11_C4GAPV               R02S2C1C4/AM1              RF                 R02S2C1C4$AM1              
+ 10S11_C5GAPV               R02S2C1C5/AM1              RF                 R02S2C1C5$AM1              
+ 10S11_KLYSAT               R02S2K1/AM3                RF                 R02S2K1$AM3                
+ 10S11_LCW_INP              R02S2C1G1/AM1              RF                 R02S2C1G1$AM1              
+ 10S11_PH_COMP              R02S2K1/AC2                RF                 R02S2K1$AC2                
+ 10S11_SPARE                R02S2C1G15/AM1             RF                 R02S2C1G15$AM1             
+ 10S11_STA_PH               R02S2K1/AM2                RF                 R02S2K1$AM2                
+ 10S11_T1-POS               R02S2K1/AM5                RF                 R02S2K1$AM5                
+ 10S11_T5-POS               R02S2K1/AM6                RF                 R02S2K1$AM6                
+ 10S11_THERMIST             R02S2C1G16/AM1             RF                 R02S2C1G16$AM1             
+ 10S11_TOTAL_GV             R02S2K1/AM1                RF                 R02S2K1$AM1                
+ 10S11_VGAP_AC              R02S2K1/AC1                RF                 R02S2K1$AC1                
+ 10S11_VVT                  S02G10/AM1                 SPECIAL            S02G10$AM1                 
+ 10S11_WELL#2               R02S2C1G2/AM1              RF                 R02S2C1G2$AM1              
+ 10S11_WELL#3               R02S2C1G3/AM1              RF                 R02S2C1G3$AM1              
+ 10S11_WELL#4               R02S2C1G4/AM1              RF                 R02S2C1G4$AM1              
+ 10S11_WINDOW               R02S2C1G6/AM1              RF                 R02S2C1G6$AM1              
+ V10S11.A                   ZC3/XX2                    SPEAR_VME_BUTTON   VME_10S11$A                
+ V10S11.B                   ZC4/XX2                    SPEAR_VME_BUTTON   VME_10S11$B                
+ V10S11.C                   ZC5/XX2                    SPEAR_VME_BUTTON   VME_10S11$C                
+ V10S11.D                   ZC6/XX2                    SPEAR_VME_BUTTON   VME_10S11$D                
+ V10S11.X                   ZC1/XX2                    SPEAR_BPM          BPM_VME21$X                
+ V10S11.Y                   ZC2/XX2                    SPEAR_BPM          BPM_VME21$Y                
+ WG_10S11                   R02S1C1G5/AM1              RF                 R02S1C1G5$AM1              
+ WG_10S11_PRES              R02S2K1/AM8                RF                 R02S2K1$AM8                
+ WG_10S11_PRES_AC           R02S2K1/AC8                RF                 R02S2K1$AC8                
+ WG_10S11_VALVE             R02S2K1/AM7                RF                 R02S2K1$AM7                
+48 rows selected
+
+
+
+SQL> show table spear_index;
+Information for table SPEAR_INDEX
+ 
+Columns for table SPEAR_INDEX:
+Column Name                     Data Type        Domain
+-----------                     ---------        ------
+PARAMETER                       CHAR(24)         
+ Comment:       Name of parameter in history buffer
+ Primary Key constraint SPEAR_INDEX_PRIMARY_PARAMETER
+SN                              CHAR(24)         
+ Comment:       Signal name in online database
+SN_INDEX                        INTEGER          
+ Comment:       Index of value in XX block
+TAB                             CHAR(16)         
+ Comment:       Name of TABLE where parameter is stored
+ Not Null constraint SPEAR_INDEX_TAB_NOT_NULL
+COL                             CHAR(24)         
+ Comment:       Name of COLUMN in table TAB where parameter is stored
+ Unique constraint SPEAR_INDEX_UNIQUE_COL
+DN                              CHAR(24)         
+ Comment:       If missing, this value is taken from online DB
+SU                              CHAR(16)         
+ Comment:       If missing, this value is taken from online DB
+DISPLAYGROUP                    VARCHAR(24)      
+ Comment:       Group this parameter belongs to in displays
+DISPLAYPARAMETER                VARCHAR(24)      
+ 
+Table constraints for SPEAR_INDEX:
+SPEAR_INDEX_PRIMARY_PARAMETER
+ Primary Key constraint 
+ Column constraint for SPEAR_INDEX.PARAMETER
+ Evaluated on UPDATE, NOT DEFERRABLE
+ Source:
+        SPEAR_INDEX.PARAMETER PRIMARY key 
+ 
+SPEAR_INDEX_TAB_NOT_NULL
+ Not Null constraint 
+ Column constraint for SPEAR_INDEX.TAB
+ Evaluated on UPDATE, NOT DEFERRABLE
+ Source:
+        SPEAR_INDEX.TAB NOT null 
+ 
+SPEAR_INDEX_UNIQUE_COL
+ Unique constraint 
+     Null values are considered the same
+ Column constraint for SPEAR_INDEX.COL
+ Evaluated on UPDATE, NOT DEFERRABLE
+ Source:
+        SPEAR_INDEX.COL UNIQUE 
+ 
+Constraints referencing table SPEAR_INDEX:
+No constraints found
+ 
+Indexes on table SPEAR_INDEX:
+SPEAR_INDEX_DISPLAYPARAMETER    with column DISPLAYPARAMETER
+  Duplicates are allowed
+  Type is Sorted Ranked
+    Duplicates are Compressed Bitmaps
+  Key suffix compression is DISABLED
+  Node size  430
+ Store clause:          STORE in index_area
+ 
+ Partition information for index:
+  Partition: (1) SYS_P00038
+   Storage Area: INDEX_AREA
+ 
+SPEAR_INDEX_PARAMETER           with column PARAMETER
+  No Duplicates allowed
+  Type is Sorted Ranked
+  Key suffix compression is DISABLED
+  Node size  430
+ Store clause:          STORE in index_area
+ 
+ Partition information for index:
+  Partition: (1) SYS_P00090
+   Storage Area: INDEX_AREA
+ 
+SPEAR_INDEX_TAB_SN              with column TAB
+                                and column SN
+  Duplicates are allowed
+  Type is Sorted Ranked
+    Duplicates are Compressed Bitmaps
+  Key suffix compression is DISABLED
+  Node size  430
+ Store clause:          STORE in index_area
+ 
+ Partition information for index:
+  Partition: (1) SYS_P00097
+   Storage Area: INDEX_AREA
+ 
+Storage Map for table SPEAR_INDEX:
+     SPEAR_INDEX_MAP 
+ 
+Triggers on table SPEAR_INDEX:
+No triggers found
+ 
+SQL> select parameter,sn,sn_index,tab,col from spear_index where tab='SPEAR_BPM';
+
+ PARAMETER                  SN                            SN_INDEX   TAB                COL                        
+ IRPM-1.X                   ZC1/XX1                              1   SPEAR_BPM          BPM_IRPM1$X                
+ WIS1.X                     ZC1/XX1                              2   SPEAR_BPM          BPM_WIS1$X                 
+ 1S2.X                      ZC1/XX1                              3   SPEAR_BPM          BPM_1S2$X                  
+ 2S3.X                      ZC1/XX1                              4   SPEAR_BPM          BPM_2S3$X                  
+ 4QF1M.X                    ZC1/XX1                              6   SPEAR_BPM          BPM_4QF1M$X                
+ 4S5A.X                     ZC1/XX1                              7   SPEAR_BPM          BPM_4S5A$X                 
+ 4S5B.X                     ZC1/XX1                              8   SPEAR_BPM          BPM_4S5B$X                 
+ 5S6.X                      ZC1/XX1                              9   SPEAR_BPM          BPM_5S6$X                  
+ 6S7A.X                     ZC1/XX1                             10   SPEAR_BPM          BPM_6S7A$X                 
+ 6S7B.X                     ZC1/XX1                             11   SPEAR_BPM          BPM_6S7B$X                 
+ 7S8A.X                     ZC1/XX1                             12   SPEAR_BPM          BPM_7S8A$X                 
+ 7S8B.X                     ZC1/XX1                             13   SPEAR_BPM          BPM_7S8B$X                 
+ 8S9.X                      ZC1/XX1                             14   SPEAR_BPM          BPM_8S9$X                  
+ 9SEI.X                     ZC1/XX1                             15   SPEAR_BPM          BPM_9SEI$X                 
+ IRPM-2.X                   ZC1/XX1                             16   SPEAR_BPM          BPM_IRPM2$X                
+ IRPM-3.X                   ZC1/XX1                             17   SPEAR_BPM          BPM_IRPM3$X                
+ EIS10.X                    ZC1/XX1                             18   SPEAR_BPM          BPM_EIS10$X                
+ 10S11.X                    ZC1/XX1                             19   SPEAR_BPM          BPM_10S11$X                
+ 11S12A.X                   ZC1/XX1                             20   SPEAR_BPM          BPM_11S12A$X               
+ 11S12B.X                   ZC1/XX1                             21   SPEAR_BPM          BPM_11S12B$X               
+ 12S13A.X                   ZC1/XX1                             22   SPEAR_BPM          BPM_12S13A$X               
+ 13S14.X                    ZC1/XX1                             24   SPEAR_BPM          BPM_13S14$X                
+ 14S15A.X                   ZC1/XX1                             25   SPEAR_BPM          BPM_14S15A$X               
+ 14S15B.X                   ZC1/XX1                             26   SPEAR_BPM          BPM_14S15B$X               
+ 15S16.X                    ZC1/XX1                             27   SPEAR_BPM          BPM_15S16$X                
+ 16S17.X                    ZC1/XX1                             28   SPEAR_BPM          BPM_16S17$X                
+ 17S18.X                    ZC1/XX1                             29   SPEAR_BPM          BPM_17S18$X                
+ 18SWI.X                    ZC1/XX1                             30   SPEAR_BPM          BPM_18SWI$X                
+ IRPM-4.X                   ZC1/XX1                             31   SPEAR_BPM          BPM_IRPM4$X                
+ 12S13B.X                   ZC1/XX1                             23   SPEAR_BPM          BPM_12S13B$X               
+ BPM_ATTN                   ZC1/XX1                             53   SPEAR_BPM          BPM_ATTN                   
+ 3QF2M.X                    ZC1/XX1                              5   SPEAR_BPM          BPM_3QF2M$X  
+
+              
+ IRPM-1.Y                   ZC2/XX1                              1   SPEAR_BPM          BPM_IRPM1$Y                
+ WIS1.Y                     ZC2/XX1                              2   SPEAR_BPM          BPM_WIS1$Y                 
+ 1S2.Y                      ZC2/XX1                              3   SPEAR_BPM          BPM_1S2$Y                  
+ 2S3.Y                      ZC2/XX1                              4   SPEAR_BPM          BPM_2S3$Y                  
+ 4QF1M.Y                    ZC2/XX1                              6   SPEAR_BPM          BPM_4QF1M$Y                
+ 4S5A.Y                     ZC2/XX1                              7   SPEAR_BPM          BPM_4S5A$Y                 
+ 4S5B.Y                     ZC2/XX1                              8   SPEAR_BPM          BPM_4S5B$Y                 
+ 5S6.Y                      ZC2/XX1                              9   SPEAR_BPM          BPM_5S6$Y                  
+ 6S7B.Y                     ZC2/XX1                             11   SPEAR_BPM          BPM_6S7B$Y                 
+ 7S8A.Y                     ZC2/XX1                             12   SPEAR_BPM          BPM_7S8A$Y                 
+ 7S8B.Y                     ZC2/XX1                             13   SPEAR_BPM          BPM_7S8B$Y                 
+ 8S9.Y                      ZC2/XX1                             14   SPEAR_BPM          BPM_8S9$Y                  
+ 9SEI.Y                     ZC2/XX1                             15   SPEAR_BPM          BPM_9SEI$Y                 
+ IRPM-2.Y                   ZC2/XX1                             16   SPEAR_BPM          BPM_IRPM2$Y                
+ IRPM-3.Y                   ZC2/XX1                             17   SPEAR_BPM          BPM_IRPM3$Y                
+ EIS10.Y                    ZC2/XX1                             18   SPEAR_BPM          BPM_EIS10$Y                
+ 10S11.Y                    ZC2/XX1                             19   SPEAR_BPM          BPM_10S11$Y                
+ 11S12A.Y                   ZC2/XX1                             20   SPEAR_BPM          BPM_11S12A$Y               
+ 11S12B.Y                   ZC2/XX1                             21   SPEAR_BPM          BPM_11S12B$Y               
+ 12S13A.Y                   ZC2/XX1                             22   SPEAR_BPM          BPM_12S13A$Y               
+ 13S14.Y                    ZC2/XX1                             24   SPEAR_BPM          BPM_13S14$Y                
+ 14S15A.Y                   ZC2/XX1                             25   SPEAR_BPM          BPM_14S15A$Y               
+ 14S15B.Y                   ZC2/XX1                             26   SPEAR_BPM          BPM_14S15B$Y               
+ 15S16.Y                    ZC2/XX1                             27   SPEAR_BPM          BPM_15S16$Y                
+ 16S17.Y                    ZC2/XX1                             28   SPEAR_BPM          BPM_16S17$Y                
+ 17S18.Y                    ZC2/XX1                             29   SPEAR_BPM          BPM_17S18$Y                
+ 18SWI.Y                    ZC2/XX1                             30   SPEAR_BPM          BPM_18SWI$Y                
+ IRPM-4.Y                   ZC2/XX1                             31   SPEAR_BPM          BPM_IRPM4$Y                
+ 12S13B.Y                   ZC2/XX1                             23   SPEAR_BPM          BPM_12S13B$Y               
+ 6S7A.Y                     ZC2/XX1                             10   SPEAR_BPM          BPM_6S7A$Y                 
+ 3QF2M.Y                    ZC2/XX1                              5   SPEAR_BPM          BPM_3QF2M$Y  
+
+              
+ VIRPM-1.X                  ZC1/XX2                              1   SPEAR_BPM          BPM_VME1$X                 
+ VWIS1.X                    ZC1/XX2                              2   SPEAR_BPM          BPM_VME2$X                 
+ V1S2.X                     ZC1/XX2                              3   SPEAR_BPM          BPM_VME3$X                 
+ V2S3.X                     ZC1/XX2                              4   SPEAR_BPM          BPM_VME4$X                 
+ V3QDM.X                    ZC1/XX2                              5   SPEAR_BPM          BPM_VME5$X                 
+ V3QF2M.X                   ZC1/XX2                              6   SPEAR_BPM          BPM_VME6$X                 
+ V4QF1M.X                   ZC1/XX2                              7   SPEAR_BPM          BPM_VME7$X                 
+ V4QF2M.X                   ZC1/XX2                              8   SPEAR_BPM          BPM_VME8$X                 
+ V4S5A.X                    ZC1/XX2                              9   SPEAR_BPM          BPM_VME9$X                 
+ V4S5B.X                    ZC1/XX2                             10   SPEAR_BPM          BPM_VME10$X                
+ V5S6.X                     ZC1/XX2                             11   SPEAR_BPM          BPM_VME11$X                
+ V6S7A.X                    ZC1/XX2                             12   SPEAR_BPM          BPM_VME12$X                
+ V6S7B.X                    ZC1/XX2                             13   SPEAR_BPM          BPM_VME13$X                
+ V7S8A.X                    ZC1/XX2                             14   SPEAR_BPM          BPM_VME14$X                
+ V7S8B.X                    ZC1/XX2                             15   SPEAR_BPM          BPM_VME15$X                
+ V8S9.X                     ZC1/XX2                             16   SPEAR_BPM          BPM_VME16$X                
+ V9SEI.X                    ZC1/XX2                             17   SPEAR_BPM          BPM_VME17$X                
+ VIRPM-2.X                  ZC1/XX2                             18   SPEAR_BPM          BPM_VME18$X                
+ VIRPM-3.X                  ZC1/XX2                             19   SPEAR_BPM          BPM_VME19$X                
+ VEIS10.X                   ZC1/XX2                             20   SPEAR_BPM          BPM_VME20$X                
+ V10S11.X                   ZC1/XX2                             21   SPEAR_BPM          BPM_VME21$X                
+ V11S12A.X                  ZC1/XX2                             22   SPEAR_BPM          BPM_VME22$X                
+ V11S12B.X                  ZC1/XX2                             23   SPEAR_BPM          BPM_VME23$X                
+ V12S13A.X                  ZC1/XX2                             24   SPEAR_BPM          BPM_VME24$X                
+ V12S13B.X                  ZC1/XX2                             25   SPEAR_BPM          BPM_VME25$X                
+ V13S14.X                   ZC1/XX2                             26   SPEAR_BPM          BPM_VME26$X                
+ V14S15A.X                  ZC1/XX2                             27   SPEAR_BPM          BPM_VME27$X                
+ V14S15B.X                  ZC1/XX2                             28   SPEAR_BPM          BPM_VME28$X                
+ V15S16.X                   ZC1/XX2                             29   SPEAR_BPM          BPM_VME29$X                
+ V16S17.X                   ZC1/XX2                             30   SPEAR_BPM          BPM_VME30$X                
+ V17S18.X                   ZC1/XX2                             31   SPEAR_BPM          BPM_VME31$X                
+ V18SWI.X                   ZC1/XX2                             32   SPEAR_BPM          BPM_VME32$X                
+ VIRPM-4.X                  ZC1/XX2                             33   SPEAR_BPM          BPM_VME33$X  
+ 
+             
+ VIRPM-1.Y                  ZC2/XX2                              1   SPEAR_BPM          BPM_VME1$Y                 
+ VWIS1.Y                    ZC2/XX2                              2   SPEAR_BPM          BPM_VME2$Y                 
+ V1S2.Y                     ZC2/XX2                              3   SPEAR_BPM          BPM_VME3$Y                 
+ V2S3.Y                     ZC2/XX2                              4   SPEAR_BPM          BPM_VME4$Y                 
+ V3QDM.Y                    ZC2/XX2                              5   SPEAR_BPM          BPM_VME5$Y                 
+ V3QF2M.Y                   ZC2/XX2                              6   SPEAR_BPM          BPM_VME6$Y                 
+ V4QF1M.Y                   ZC2/XX2                              7   SPEAR_BPM          BPM_VME7$Y                 
+ V4QF2M.Y                   ZC2/XX2                              8   SPEAR_BPM          BPM_VME8$Y                 
+ V4S5A.Y                    ZC2/XX2                              9   SPEAR_BPM          BPM_VME9$Y                 
+ V4S5B.Y                    ZC2/XX2                             10   SPEAR_BPM          BPM_VME10$Y                
+ V5S6.Y                     ZC2/XX2                             11   SPEAR_BPM          BPM_VME11$Y                
+ V6S7A.Y                    ZC2/XX2                             12   SPEAR_BPM          BPM_VME12$Y                
+ V6S7B.Y                    ZC2/XX2                             13   SPEAR_BPM          BPM_VME13$Y                
+ V7S8A.Y                    ZC2/XX2                             14   SPEAR_BPM          BPM_VME14$Y                
+ V7S8B.Y                    ZC2/XX2                             15   SPEAR_BPM          BPM_VME15$Y                
+ V8S9.Y                     ZC2/XX2                             16   SPEAR_BPM          BPM_VME16$Y                
+ V9SEI.Y                    ZC2/XX2                             17   SPEAR_BPM          BPM_VME17$Y                
+ VIRPM-2.Y                  ZC2/XX2                             18   SPEAR_BPM          BPM_VME18$Y                
+ VIRPM-3.Y                  ZC2/XX2                             19   SPEAR_BPM          BPM_VME19$Y                
+ VEIS10.Y                   ZC2/XX2                             20   SPEAR_BPM          BPM_VME20$Y                
+ V10S11.Y                   ZC2/XX2                             21   SPEAR_BPM          BPM_VME21$Y                
+ V11S12A.Y                  ZC2/XX2                             22   SPEAR_BPM          BPM_VME22$Y                
+ V11S12B.Y                  ZC2/XX2                             23   SPEAR_BPM          BPM_VME23$Y                
+ V12S13A.Y                  ZC2/XX2                             24   SPEAR_BPM          BPM_VME24$Y                
+ V12S13B.Y                  ZC2/XX2                             25   SPEAR_BPM          BPM_VME25$Y                
+ V13S14.Y                   ZC2/XX2                             26   SPEAR_BPM          BPM_VME26$Y                
+ V14S15A.Y                  ZC2/XX2                             27   SPEAR_BPM          BPM_VME27$Y                
+ V14S15B.Y                  ZC2/XX2                             28   SPEAR_BPM          BPM_VME28$Y                
+ V15S16.Y                   ZC2/XX2                             29   SPEAR_BPM          BPM_VME29$Y                
+ V16S17.Y                   ZC2/XX2                             30   SPEAR_BPM          BPM_VME30$Y                
+ V17S18.Y                   ZC2/XX2                             31   SPEAR_BPM          BPM_VME31$Y                
+ V18SWI.Y                   ZC2/XX2                             32   SPEAR_BPM          BPM_VME32$Y                
+ VIRPM-4.Y                  ZC2/XX2                             33   SPEAR_BPM          BPM_VME33$Y                
+
+
+SQL> select parameter,sn,tab,col from spear_index where parameter containing 'bpm';
+
+ PARAMETER                  SN                         TAB                COL                        
+ BL10BPM_ERR                S02L10F1/AM2               SPECIAL            S02L10F1$AM2               
+ BL10BPM_SUM                S02L10F1/AM3               SPECIAL            S02L10F1$AM3               
+ BL11BPM_ERR                S02L11F1/AM2               SPECIAL            S02L11F1$AM2               
+ BL11BPM_SUM                S02L11F1/AM3               SPECIAL            S02L11F1$AM3               
+ BL1_BPM_ERR                S02L1F1/AM2                SPECIAL            S02L1F1$AM2                
+ BL1_BPM_SUM                S02L1F1/AM3                SPECIAL            S02L1F1$AM3                
+ BL2_BPM_ERR                S02L2F1/AM2                SPECIAL            S02L2F1$AM2                
+ BL2_BPM_SUM                S02L2F1/AM3                SPECIAL            S02L2F1$AM3                
+ BL3_BPM_ERR                S02L3F1/AM2                SPECIAL            S02L3F1$AM2                
+ BL3_BPM_SUM                S02L3F1/AM3                SPECIAL            S02L3F1$AM3                
+ BL4_BPM_ERR                S02L4F1/AM2                SPECIAL            S02L4F1$AM2                
+ BL4_BPM_SUM                S02L4F1/AM3                SPECIAL            S02L4F1$AM3                
+ BL5_BPM_ERR                S02L5F1/AM2                SPECIAL            S02L5F1$AM2                
+ BL5_BPM_SUM                S02L5F1/AM3                SPECIAL            S02L5F1$AM3                
+ BL6_BPM_ERR                S02L6F1/AM2                SPECIAL            S02L6F1$AM2                
+ BL6_BPM_SUM                S02L6F1/AM3                SPECIAL            S02L6F1$AM3                
+ BL7_BPM_ERR                S02L7F1/AM2                SPECIAL            S02L7F1$AM2                
+ BL7_BPM_SUM                S02L7F1/AM3                SPECIAL            S02L7F1$AM3                
+ BL8_BPM_ERR                S02L8F1/AM2                SPECIAL            S02L8F1$AM2                
+ BL8_BPM_SUM                S02L8F1/AM3                SPECIAL            S02L8F1$AM3                
+ BL9_BPM_ERR                S02L9F1/AM2                SPECIAL            S02L9F1$AM2                
+ BL9_BPM_SUM                S02L9F1/AM3                SPECIAL            S02L9F1$AM3                
+ BPM_ATTN                   ZC1/XX1                    SPEAR_BPM          BPM_ATTN                   
+ BPM_HORI                   ZB1/XX7                    SPEAR              ZB$XX7_13                  
+ BPM_HORI_AVE               ZB1/XX7                    SPEAR              ZB$XX7_16                  
+ BPM_HORI_VAR               ZB1/XX7                    SPEAR              ZB$XX7_18                  
+ BPM_VERT                   ZB1/XX7                    SPEAR              ZB$XX7_14                  
+ BPM_VERT_AVE               ZB1/XX7                    SPEAR              ZB$XX7_17                  
+ BPM_VERT_VAR               ZB1/XX7                    SPEAR              ZB$XX7_19                  
+
+SQL> select parameter,tab,col from spear_index where tab containing 'mains';
+ BEND_AC                    MAINS              M02Q1$AC1                  
+ BEND_FIELD                 MAINS              M02Q1$AM1                  
+ BEND                       MAINS              M02Q1$DV1                  
+ QFB_AC                     MAINS              M02Q10$AC1                 
+ QFB                        MAINS              M02Q10$DV1                 
+ Q1_AC                      MAINS              M02Q11$AC1                 
+ Q1                         MAINS              M02Q11$DV1                 
+ Q2_AC                      MAINS              M02Q13$AC1                 
+ Q2                         MAINS              M02Q13$DV1                 
+ WIGS_AC                    MAINS              M02Q15$AC1                 
+ WIGS                       MAINS              M02Q15$AM1                 
+ WIGN_AC                    MAINS              M02Q16$AC1                 
+ WIGN                       MAINS              M02Q16$AM1                 
+ BTSB7_AC                   MAINS              M02Q18$AC1                 
+ BTSB7                      MAINS              M02Q18$DV1                 
+ QF_AC                      MAINS              M02Q2$AC1                  
+ QF                         MAINS              M02Q2$DV1                  
+ QFA_AC                     MAINS              M02Q4$AC1                  
+ QFA                        MAINS              M02Q4$DV1                  
+ SDB_AC                     MAINS              M02Q5$AC1                  
+ SDB                        MAINS              M02Q5$DV1                  
+ QDA_AC                     MAINS              M02Q6$AC1                  
+ QDA                        MAINS              M02Q6$DV1                  
+ SF_AC                      MAINS              M02Q7$AC1                  
+ SF                         MAINS              M02Q7$DV1                  
+ SDA_AC                     MAINS              M02Q8$AC1                  
+ SDA                        MAINS              M02Q8$DV1                  
+ QD_AC                      MAINS              M02Q9$AC1                  
+ QD                         MAINS              M02Q9$DV1     

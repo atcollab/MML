@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of solerror</title>
+  <meta name="keywords" content="solerror">
+  <meta name="description" content="% In Tracy or AT for rotation, the beam is rotated and not the element">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; solerror.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>solerror
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>% In Tracy or AT for rotation, the beam is rotated and not the element</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">% In Tracy or AT for rotation, the beam is rotated and not the element
+ This is not equivalent to rotating elements
+ For zero closed orbit, there is no effect on closed orbit of
+ 1. rotation around s-axis
+   One way is just to rotate the element ie the component of the multipole
+   But special attention has to be watch for 2n poles
+ 2. s-displacement --&gt; in reality it is equivalent to a orbit kick</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%% In Tracy or AT for rotation, the beam is rotated and not the element</span>
+0002 <span class="comment">% This is not equivalent to rotating elements</span>
+0003 <span class="comment">% For zero closed orbit, there is no effect on closed orbit of</span>
+0004 <span class="comment">% 1. rotation around s-axis</span>
+0005 <span class="comment">%   One way is just to rotate the element ie the component of the multipole</span>
+0006 <span class="comment">%   But special attention has to be watch for 2n poles</span>
+0007 <span class="comment">% 2. s-displacement --&gt; in reality it is equivalent to a orbit kick</span>
+0008 
+0009 <span class="keyword">global</span> THERING;
+0010 
+0011 ATind = atindex(THERING);
+0012 
+0013 <span class="comment">% Dipoles</span>
+0014 sigmaDs = 500e-6; <span class="comment">% meter</span>
+0015 sigmaDx = 500e-6; <span class="comment">% meter</span>
+0016 sigmaDz = 000e-6; <span class="comment">% meter</span>
+0017 sigmaRs = 200e-6; <span class="comment">% meter</span>
+0018 
+0019 Index = ATind.BEND;
+0020 
+0021 sigmaDx = sigmaDx*randn(size(Index));
+0022 sigmaDz = sigmaDz*randn(size(Index));
+0023 sigmaDs = sigmaDs*randn(size(Index));
+0024 sigmaRs = sigmaRs*randn(size(Index));
+0025 
+0026 mvelem(Index,sigmaDs);
+0027 setshift(Index, sigmaDx, sigmaDz);
+0028 
+0029 <span class="comment">%settilt(Index, sigmaRs);</span>
+0030 <span class="comment">% Rotation of the dipole fields</span>
+0031 Theta = THERING{Index(1)}.BendingAngle*/getbrho;
+0032 
+0033 <span class="comment">% for ik = 1:length(Index)</span>
+0034 <span class="comment">%     THERING{Index(ik)}.PolynomeA(1) = sin(sigmaRs(ik))*</span>
+0035 <span class="comment">% end</span>
+0036 
+0037 <span class="comment">% Quadrupoles</span>
+0038 
+0039 sigmaDx = 100e-6; <span class="comment">% meter</span>
+0040 sigmaDz = 100e-6; <span class="comment">% meter</span>
+0041 
+0042 Index = [ATind.Q1, ATind.Q2, ATind.Q3, ATind.Q4, ATind.Q5 <span class="keyword">...</span>
+0043          ATind.Q6, ATind.Q7, ATind.Q8, ATind.Q9, ATind.Q10];
+0044 
+0045 sigmaDx = sigmaDx*randn(size(Index));
+0046 sigmaDz = sigmaDz*randn(size(Index));
+0047 
+0048       
+0049 setshift(Index, sigmaDx, sigmaDz);
+0050 
+0051 <span class="comment">% Sextupoles</span></pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

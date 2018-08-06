@@ -1,0 +1,85 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>lcaGetTimeout</title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	<span class="previous"><a href="lcaGetStatus.html">&lt;&lt; lcaGetStatus</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="lcaGetUnits.html">lcaGetUnits &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path"><a href="index.html">labCA</a> &gt;&gt; <a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a> &gt; lcaGetTimeout</span>
+
+    <br /><br />
+    <div class="refnamediv"><h1 class="refname">lcaGetTimeout</h1>
+    <p class="refpurpose">Retrieve / set the ezca library timeout parameter (consult the ezca    documentation for more information).</p></div>
+
+
+<div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3>
+   <div class="synopsis"><pre><span class="default">currentTimeout</span><span class="default"> = </span><span class="functionid">lcaGetTimeout</span><span class="default">()</span>
+<span class="default">lcaSetTimeout</span><span class="default">(</span><span class="default">newTimeout</span><span class="default">)</span></pre></div></div>
+
+<div class="refsection"><h3 class="title">Description</h3>
+   <p class="para"></p>
+   <p class="para">Retrieve / set the ezca library timeout parameter (consult the ezca
+documentation for more information). Note that the semantics of the
+timeout parameter has changed with labCA version 3. The library no
+longer pends for CA activity in multiples of this timeout value but
+returns control to scilab as soon as the underlying CA request
+completes.</p>
+   <p class="para">However, labCA checks for ``Ctrl-C&#0039;&#0039; key events every time (and only
+when) the timeout expires. Hence, it is convenient to choose a value
+$&lt;1$ s.</p>
+   <p class="para">The maximal time spent waiting for connections and/or data equals the
+timeout multiplied by the [1]retry count.
+__________________________________________________________________</p>
+   <p class="para"></p>
+   <p class="para">till 2017-08-08</p>
+   <p class="para"></p></div>
+
+<div class="refsection"><h3 class="title">See also</h3>
+   <ul class="itemizedlist"><li class="member"><a href="lcaGetRetryCount.html" class="link">1. lcaGetRetryCount</a></li></ul></div>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	<span class="previous"><a href="lcaGetStatus.html">&lt;&lt; lcaGetStatus</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="lcaGetUnits.html">lcaGetUnits &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

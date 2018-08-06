@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of fittunedisp2</title>
+  <meta name="keywords" content="fittunedisp2">
+  <meta name="description" content="FITTUNEDISP2 - Fits the linear tunes and the dispersion of model using 3 quadrupole families.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; fittunedisp2.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>fittunedisp2
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>FITTUNEDISP2 - Fits the linear tunes and the dispersion of model using 3 quadrupole families.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function varargout =  fittunedisp2(newtunes_disp, quadfam1, quadfam2, quadfam3, dispind, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">FITTUNEDISP2 - Fits the linear tunes and the dispersion of model using 3 quadrupole families.  
+  fittune2([nux nuy disp], QUADFAMILY1, QUADFAMILY2, QUADFAMILY3, DISPIND)
+ 
+  INPUTS
+  1. nux and nuy - the tunes (indlucing the integer parts)
+     disp        - dispersion at the position (AT index) given by DISPIND 
+  2. QUADFAMILY1 - Quadrupole family #1
+  3. QUADFAMILY2 - Quadrupole family #2
+  4. QUADFAMILY3 - Quadrupole family #3
+  5. DISPIND - AT index to measure dispersion 
+
+  ALGORITHM
+  Iteratively calculate the required quadrupole strengths to fit the new tunes and dispersion.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="fittunedisp2.html" class="code" title="function varargout =  fittunedisp2(newtunes_disp, quadfam1, quadfam2, quadfam3, dispind, varargin)">fittunedisp2</a>	FITTUNEDISP2 - Fits the linear tunes and the dispersion of model using 3 quadrupole families.</li><li><a href="machine_at.html" class="code" title="function varargout = machine_at(varargin)">machine_at</a>	MACHINE_AT - Returns the optics function as a structure</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="fittunedisp2.html" class="code" title="function varargout =  fittunedisp2(newtunes_disp, quadfam1, quadfam2, quadfam3, dispind, varargin)">fittunedisp2</a>	FITTUNEDISP2 - Fits the linear tunes and the dispersion of model using 3 quadrupole families.</li></ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function varargout =  fittunedisp2(newtunes_disp, quadfam1, quadfam2, quadfam3, dispind, varargin)</a>
+0002 <span class="comment">%FITTUNEDISP2 - Fits the linear tunes and the dispersion of model using 3 quadrupole families.</span>
+0003 <span class="comment">%  fittune2([nux nuy disp], QUADFAMILY1, QUADFAMILY2, QUADFAMILY3, DISPIND)</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">%  INPUTS</span>
+0006 <span class="comment">%  1. nux and nuy - the tunes (indlucing the integer parts)</span>
+0007 <span class="comment">%     disp        - dispersion at the position (AT index) given by DISPIND</span>
+0008 <span class="comment">%  2. QUADFAMILY1 - Quadrupole family #1</span>
+0009 <span class="comment">%  3. QUADFAMILY2 - Quadrupole family #2</span>
+0010 <span class="comment">%  4. QUADFAMILY3 - Quadrupole family #3</span>
+0011 <span class="comment">%  5. DISPIND - AT index to measure dispersion</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">%  ALGORITHM</span>
+0014 <span class="comment">%  Iteratively calculate the required quadrupole strengths to fit the new tunes and dispersion.</span>
+0015 
+0016 <span class="comment">%  Written by Eugene Tan</span>
+0017 
+0018 
+0019 <span class="comment">% Must declare THERING as global in order for the function to modify quadrupole values</span>
+0020 <span class="keyword">global</span> THERING
+0021 MAXDEPTH = 5;
+0022 threshold = 1e-9;
+0023 <span class="keyword">if</span> nargin &gt; 5 <span class="comment">% use externally supplied step size for quadrupole K-values</span>
+0024     delta = varargin{1};
+0025 <span class="keyword">else</span>
+0026     delta = 1e-6; <span class="comment">% default step size for quadrupole K-values</span>
+0027 <span class="keyword">end</span>
+0028 <span class="keyword">if</span> nargin &gt; 6
+0029     recursion_depth = varargin{2};
+0030 <span class="keyword">else</span>
+0031     recursion_depth = 0;
+0032 <span class="keyword">end</span>
+0033 <span class="keyword">try</span>
+0034     THERING{dispind};
+0035 <span class="keyword">catch</span>
+0036     fprintf(<span class="string">'Invalid position/index to measure dispersion %d\n'</span>,dispind);
+0037 <span class="keyword">end</span>
+0038 
+0039 <span class="comment">% find indexes of the 2 quadrupole families use for fitting</span>
+0040 Q1I = findcells(THERING,<span class="string">'FamName'</span>,quadfam1);
+0041 <span class="keyword">if</span> isempty(Q1I); fprintf(<span class="string">'Cannot find quadfamily: %s\n'</span>,quadfam1); <span class="keyword">return</span>; <span class="keyword">end</span>;
+0042 Q2I = findcells(THERING,<span class="string">'FamName'</span>,quadfam2);
+0043 <span class="keyword">if</span> isempty(Q2I); fprintf(<span class="string">'Cannot find quadfamily: %s\n'</span>,quadfam2); <span class="keyword">return</span>; <span class="keyword">end</span>;
+0044 Q3I = findcells(THERING,<span class="string">'FamName'</span>,quadfam3);
+0045 <span class="keyword">if</span> isempty(Q3I); fprintf(<span class="string">'Cannot find quadfamily: %s\n'</span>,quadfam3); <span class="keyword">return</span>; <span class="keyword">end</span>;
+0046 
+0047 
+0048 InitialK1 = getcellstruct(THERING,<span class="string">'K'</span>,Q1I);
+0049 InitialK2 = getcellstruct(THERING,<span class="string">'K'</span>,Q2I);
+0050 InitialK3 = getcellstruct(THERING,<span class="string">'K'</span>,Q3I);
+0051 InitialPolB1 = getcellstruct(THERING,<span class="string">'PolynomB'</span>,Q1I,2);
+0052 InitialPolB2 = getcellstruct(THERING,<span class="string">'PolynomB'</span>,Q2I,2);
+0053 InitialPolB3 = getcellstruct(THERING,<span class="string">'PolynomB'</span>,Q3I,2);
+0054 
+0055 <span class="comment">% Compute initial tunes before fitting</span>
+0056 <span class="comment">% [ LD, InitialTunes] = linopt(THERING,0);</span>
+0057 mach = <a href="machine_at.html" class="code" title="function varargout = machine_at(varargin)">machine_at</a>;
+0058 TempTunes = [mach.nux(end);mach.nuy(end)];
+0059 TempDisp  = mach.etax(1);
+0060 TempK1 = InitialK1;
+0061 TempK2 = InitialK2;
+0062 TempK3 = InitialK3;
+0063 TempPolB1 = InitialPolB1;
+0064 TempPolB2 = InitialPolB2;
+0065 TempPolB3 = InitialPolB3;
+0066 
+0067 <span class="keyword">if</span> recursion_depth == 0
+0068     fprintf(<span class="string">'\n==== Fitting Tunes and Dispersion ====\n'</span>);
+0069     fprintf(<span class="string">'Desired Tunes and Dispersion: %14.10f (H) %14.10f (V) %14.10f (D)\n'</span>,<span class="keyword">...</span>
+0070         newtunes_disp);
+0071     fprintf(<span class="string">'Initial Tunes and Dispersion: %14.10f (H) %14.10f (V) %14.10f (D)\n'</span>,<span class="keyword">...</span>
+0072         TempTunes(1),TempTunes(2),TempDisp);
+0073     fprintf(<span class="string">'Inital K values: %9.7f (%s) %9.7f (%s) %9.7f (%s)\n'</span>,<span class="keyword">...</span>
+0074         InitialK1(1), quadfam1, InitialK2(1), quadfam2, InitialK3(1), quadfam3);
+0075 <span class="keyword">end</span>
+0076 
+0077 <span class="comment">% Take Derivative</span>
+0078 THERING = setcellstruct(THERING,<span class="string">'K'</span>,Q1I,TempK1+delta);
+0079 THERING = setcellstruct(THERING,<span class="string">'PolynomB'</span>,Q1I,TempPolB1+delta,2);
+0080 mach = <a href="machine_at.html" class="code" title="function varargout = machine_at(varargin)">machine_at</a>;
+0081 Tunes_dK1 = [mach.nux(end);mach.nuy(end)];
+0082 Disp_dK1 = mach.etax(1);
+0083 THERING = setcellstruct(THERING,<span class="string">'K'</span>,Q1I,TempK1);
+0084 THERING = setcellstruct(THERING,<span class="string">'PolynomB'</span>,Q1I,TempPolB1,2);
+0085 
+0086 THERING = setcellstruct(THERING,<span class="string">'K'</span>,Q2I,TempK2+delta);
+0087 THERING = setcellstruct(THERING,<span class="string">'PolynomB'</span>,Q2I,TempPolB2+delta,2);
+0088 mach = <a href="machine_at.html" class="code" title="function varargout = machine_at(varargin)">machine_at</a>;
+0089 Tunes_dK2 = [mach.nux(end);mach.nuy(end)];
+0090 Disp_dK2 = mach.etax(1);
+0091 THERING = setcellstruct(THERING,<span class="string">'K'</span>,Q2I,TempK2);
+0092 THERING = setcellstruct(THERING,<span class="string">'PolynomB'</span>,Q2I,TempPolB2,2);
+0093 
+0094 THERING = setcellstruct(THERING,<span class="string">'K'</span>,Q3I,TempK3+delta);
+0095 THERING = setcellstruct(THERING,<span class="string">'PolynomB'</span>,Q3I,TempPolB3+delta,2);
+0096 mach = <a href="machine_at.html" class="code" title="function varargout = machine_at(varargin)">machine_at</a>;
+0097 Tunes_dK3 = [mach.nux(end);mach.nuy(end)];
+0098 Disp_dK3 = mach.etax(1);
+0099 THERING = setcellstruct(THERING,<span class="string">'K'</span>,Q3I,TempK3);
+0100 THERING = setcellstruct(THERING,<span class="string">'PolynomB'</span>,Q3I,TempPolB3,2);
+0101 
+0102 
+0103 <span class="comment">%Construct the Jacobian</span>
+0104 change_dK = zeros(3);
+0105 tempTunesDisp = zeros(3);
+0106 
+0107 change_dK(:,1) = [Tunes_dK1(1); Tunes_dK1(2); Disp_dK1];
+0108 change_dK(:,2) = [Tunes_dK2(1); Tunes_dK2(2); Disp_dK2];
+0109 change_dK(:,3) = [Tunes_dK3(1); Tunes_dK3(2); Disp_dK3];
+0110 tempTunesDisp(:,1) = [TempTunes(1); TempTunes(2); TempDisp];
+0111 tempTunesDisp(:,2) = [TempTunes(1); TempTunes(2); TempDisp];
+0112 tempTunesDisp(:,3) = [TempTunes(1); TempTunes(2); TempDisp];
+0113 
+0114 
+0115 J = (change_dK - tempTunesDisp)/delta;
+0116 Jinv = inv(J);
+0117 
+0118 dnu = (newtunes_disp(:) - tempTunesDisp(:,1));
+0119 dK = Jinv*dnu;
+0120 
+0121 
+0122 TempK1 = TempK1+dK(1);
+0123 TempK2 = TempK2+dK(2);
+0124 TempK3 = TempK3+dK(3);
+0125 TempPolB1 = TempPolB1+dK(1);
+0126 TempPolB2 = TempPolB2+dK(2);
+0127 TempPolB3 = TempPolB3+dK(3);
+0128 
+0129 
+0130 THERING = setcellstruct(THERING,<span class="string">'K'</span>,Q1I,TempK1);
+0131 THERING = setcellstruct(THERING,<span class="string">'PolynomB'</span>,Q1I,TempPolB1,2);
+0132 THERING = setcellstruct(THERING,<span class="string">'K'</span>,Q2I,TempK2);
+0133 THERING = setcellstruct(THERING,<span class="string">'PolynomB'</span>,Q2I,TempPolB2,2);
+0134 THERING = setcellstruct(THERING,<span class="string">'K'</span>,Q3I,TempK3);
+0135 THERING = setcellstruct(THERING,<span class="string">'PolynomB'</span>,Q3I,TempPolB3,2);
+0136 
+0137 mach = <a href="machine_at.html" class="code" title="function varargout = machine_at(varargin)">machine_at</a>;
+0138 newTunes = [mach.nux(end);mach.nuy(end)];
+0139 newDisp = mach.etax(1);
+0140 <span class="keyword">if</span> sqrt((newtunes_disp - [newTunes(:); newDisp]').^2)/3 &gt; threshold | recursion_depth &gt; MAXDEPTH
+0141 <span class="comment">%     disp('looping again')</span>
+0142     [Kvals newTunes] = <a href="fittunedisp2.html" class="code" title="function varargout =  fittunedisp2(newtunes_disp, quadfam1, quadfam2, quadfam3, dispind, varargin)">fittunedisp2</a>(newtunes_disp,quadfam1,quadfam2,quadfam3,dispind,delta,recursion_depth+1);
+0143 <span class="keyword">else</span>
+0144     fprintf(<span class="string">'Finished calculations. Recursion depth %d\n'</span>,recursion_depth);
+0145     Kvals = [TempK1(1) TempK2(1) TempK3(1)];
+0146     newTunes = [mach.nux(end) mach.nuy(end) mach.etax(1)];
+0147 <span class="keyword">end</span>
+0148 
+0149 <span class="keyword">if</span> recursion_depth == 0
+0150     fprintf(<span class="string">'Final K values:  %9.7f (%s) %9.7f (%s) %9.7f (%s)\n'</span>,<span class="keyword">...</span>
+0151         Kvals(1), quadfam1, Kvals(2), quadfam2, Kvals(3), quadfam3);
+0152     fprintf(<span class="string">'Change        :  %9.7f (%s) %9.7f (%s) %9.7f (%s)\n'</span>,<span class="keyword">...</span>
+0153         1-(InitialK1(1)/Kvals(1)), quadfam1, 1-(InitialK2(1)/Kvals(2)), quadfam2, 1-(InitialK3(1)/Kvals(3)), quadfam3);
+0154     fprintf(<span class="string">'Final Tunes and Dispersion:   %14.10f (H) %14.10f (V) %14.10f (D)\n'</span>,<span class="keyword">...</span>
+0155         newTunes(1), newTunes(2), newTunes(3));
+0156 <span class="keyword">end</span>
+0157 
+0158 varargout{1} = Kvals;
+0159 varargout{2} = newTunes;</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

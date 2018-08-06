@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of setpassmethod</title>
+  <meta name="keywords" content="setpassmethod">
+  <meta name="description" content="SETPASSMETHOD - Sets the PassMethod">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; setpassmethod.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>setpassmethod
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>SETPASSMETHOD - Sets the PassMethod</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function setpassmethod(ATIndex, PassMethod, DeviceList) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">SETPASSMETHOD - Sets the PassMethod 
+  setpassmethod(Family,  PassMethod, DeviceList)
+  setpassmethod(ATIndex, PassMethod)
+  setpassmethod(FamName, PassMethod)
+
+  INPUTS
+  1. Family, ATIndex, FamName
+  2. PassMethod - String, string matrix, or cell array
+  3. DeviceList (optional if using a Family name)
+
+  See also <a href="getpassmethod.html" class="code" title="function [PassMethod, ATIndex, FamName] = getpassmethod(ATIndex, DeviceList)">getpassmethod</a>, <a href="getcavity.html" class="code" title="function [CavityState, PassMethod, ATCavityIndex, RF, HarmonicNumber] = getcavity(THERING)">getcavity</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>	FAMILY2ATINDEX - Returns the AT index for a given family</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="calccoupling.html" class="code" title="function [Tilt, Eta, EpsX, EpsY, Ratio, ENV, DP, DL, sigmas] = calccoupling">calccoupling</a>	CALCCOUPLING - Calculates the coupling and tilt of the AT model</li></ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function setpassmethod(ATIndex, PassMethod, DeviceList)</a>
+0002 <span class="comment">%SETPASSMETHOD - Sets the PassMethod</span>
+0003 <span class="comment">%  setpassmethod(Family,  PassMethod, DeviceList)</span>
+0004 <span class="comment">%  setpassmethod(ATIndex, PassMethod)</span>
+0005 <span class="comment">%  setpassmethod(FamName, PassMethod)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%  INPUTS</span>
+0008 <span class="comment">%  1. Family, ATIndex, FamName</span>
+0009 <span class="comment">%  2. PassMethod - String, string matrix, or cell array</span>
+0010 <span class="comment">%  3. DeviceList (optional if using a Family name)</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%  See also getpassmethod, getcavity</span>
+0013 
+0014 <span class="comment">%  Written by Greg Portmann</span>
+0015 
+0016 
+0017 
+0018 
+0019 <span class="keyword">global</span> THERING
+0020 
+0021 <span class="keyword">if</span> nargin &lt; 2
+0022     error(<span class="string">'2 inputs required.'</span>);
+0023 <span class="keyword">end</span>
+0024 <span class="keyword">if</span> isempty(ATIndex)
+0025     <span class="keyword">return</span>
+0026 <span class="keyword">end</span>
+0027 <span class="keyword">if</span> isempty(PassMethod)
+0028     <span class="keyword">return</span>
+0029 <span class="keyword">end</span>
+0030 
+0031 
+0032 <span class="keyword">if</span> ischar(ATIndex)
+0033     <span class="keyword">if</span> nargin &gt;= 3
+0034         ATIndex = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(ATIndex, DeviceList);
+0035     <span class="keyword">else</span>
+0036         ATIndex = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(ATIndex);
+0037     <span class="keyword">end</span>
+0038 <span class="keyword">end</span>
+0039 
+0040 
+0041 <span class="keyword">for</span> i = 1:length(ATIndex)
+0042     <span class="keyword">if</span> iscell(PassMethod)
+0043         <span class="keyword">if</span> length(PassMethod) == 1
+0044             THERING = setcellstruct(THERING, <span class="string">'PassMethod'</span>, ATIndex(i), deblank(PassMethod{1}));
+0045         <span class="keyword">else</span>
+0046             THERING = setcellstruct(THERING, <span class="string">'PassMethod'</span>, ATIndex(i), deblank(PassMethod{i}));
+0047         <span class="keyword">end</span>
+0048     <span class="keyword">else</span>
+0049         <span class="keyword">if</span> size(PassMethod,1) == 1
+0050             THERING = setcellstruct(THERING, <span class="string">'PassMethod'</span>, ATIndex(i), deblank(PassMethod(1,:)));
+0051         <span class="keyword">else</span>
+0052             THERING = setcellstruct(THERING, <span class="string">'PassMethod'</span>, ATIndex(i), deblank(PassMethod(i,:)));
+0053         <span class="keyword">end</span>
+0054     <span class="keyword">end</span>
+0055 <span class="keyword">end</span>
+0056 
+0057</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

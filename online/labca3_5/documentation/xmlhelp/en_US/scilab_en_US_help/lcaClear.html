@@ -1,0 +1,86 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>lcaClear</title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	<span class="previous"><a href="Error.html">&lt;&lt; Error Handling</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="lcaDebugOff.html">lcaDebugOff &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path"><a href="index.html">labCA</a> &gt;&gt; <a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a> &gt; lcaClear</span>
+
+    <br /><br />
+    <div class="refnamediv"><h1 class="refname">lcaClear</h1>
+    <p class="refpurpose">Clear / release (disconnect) channels.</p></div>
+
+
+<div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3>
+   <div class="synopsis"><pre><span class="functionid">lcaClear</span><span class="default">(</span><span class="default">pvs</span><span class="default">)</span></pre></div></div>
+
+<div class="refsection"><h3 class="title">Description</h3>
+   <p class="para"></p>
+   <p class="para">Clear / release (disconnect) channels. This is particularly useful with
+EPICS 3.14 to clean up invalid PVs (e.g., due to typos). Nonexisting
+PVs are continuously searched for by a CA background task which may
+result in cluttered IOC consoles and resource consumption. All monitors
+on the target channel(s) are cancelled/released as a consequence of
+this call.</p>
+   <p class="para"></p></div>
+
+<div class="refsection"><h3 class="title">Parameters</h3>
+   <dl><dt><span class="term">Column vector (in matlab:</span>
+      <dd><p class="para">m x 1 cell- matrix) of m strings.</p></dd></dt></dl></div>
+
+<div class="refsection"><h3 class="title">Examples</h3>
+   <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilaboperator">\</span><span class="scilaboperator">\</span> <span class="scilabid">clear</span> <span class="scilabid">a</span> <span class="scilabid">number</span> <span class="scilabid">of</span> <span class="scilabid">channels</span>
+<span class="scilabid">lcaClear</span><span class="scilabopenclose">(</span> <span class="scilabopenclose">[</span><span class="scilabstring">&#0039;</span><span class="scilabstring">aUseless_PV</span><span class="scilabstring">&#0039;</span><span class="scilabdefault">;</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">misTyppedPV</span><span class="scilabstring">&#0039;</span> <span class="scilabopenclose">]</span> <span class="scilabopenclose">)</span>
+<span class="scilaboperator">\</span><span class="scilaboperator">\</span> <span class="scilabid">purge</span> <span class="scilabid">all</span> <span class="scilabid">channels</span> <span class="scilabopenclose">(</span><span class="scilabid">dont</span> <span class="scilabid">use</span> <span class="scilabid">parenthesis</span> <span class="scilabid">in</span> <span class="scilabid">matlab</span><span class="scilabopenclose">)</span>
+<span class="scilabid">lcaClear</span><span class="scilabopenclose">(</span><span class="scilabopenclose">)</span>
+<span class="scilabid">__________________________________________________________________</span>
+
+<span class="scilabid">till</span> <span class="scilabnumber">2017</span><span class="scilaboperator">-</span><span class="scilabnumber">08</span><span class="scilaboperator">-</span><span class="scilabnumber">08</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	<span class="previous"><a href="Error.html">&lt;&lt; Error Handling</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="lcaDebugOff.html">lcaDebugOff &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

@@ -1,0 +1,4 @@
+OS-class: WIN32 
+Target-arch: windows-x64 
+Tests: dbShutdownTest.t dbPutLinkTest.t dbLockTest.t testdbConvert.t callbackTest.t callbackParallelTest.t dbStateTest.t dbCaStatsTest.t scanIoTest.t dbChannelTest.t dbChArrTest.t chfPluginTest.t arrShorthandTest.t recGblCheckDeadbandTest.t 
+Files: ../O.Common/dbTestIoc.dbd ../xRecord.db ../dbPutLinkTest.db ../dbLockTest.db ../dbCaStatsTest.db ../O.Common/scanIoTest.dbd ../scanIoTest.db ../O.Common/dbChArrTest.dbd ../dbChArrTest.db 

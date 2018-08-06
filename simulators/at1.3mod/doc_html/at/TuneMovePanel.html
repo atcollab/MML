@@ -1,0 +1,540 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of TuneMovePanel</title>
+  <meta name="keywords" content="TuneMovePanel">
+  <meta name="description" content="TUNEMOVEPANEL M-file for TuneMovePanel.fig">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; TuneMovePanel.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>TuneMovePanel
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>TUNEMOVEPANEL M-file for TuneMovePanel.fig</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function varargout = TuneMovePanel(varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> TUNEMOVEPANEL M-file for TuneMovePanel.fig
+      TUNEMOVEPANEL, by itself, creates a new TUNEMOVEPANEL or raises the existing
+      singleton*.
+
+      H = TUNEMOVEPANEL returns the handle to a new TUNEMOVEPANEL or the handle to
+      the existing singleton*.
+
+      TUNEMOVEPANEL('CALLBACK',hObject,eventData,handles,...) calls the local
+      function named CALLBACK in TUNEMOVEPANEL.M with the given input arguments.
+
+      TUNEMOVEPANEL('Property','Value',...) creates a new TUNEMOVEPANEL or raises the
+      existing singleton*.  Starting from the left, property value pairs are
+      applied to the GUI before TuneMovePanel_OpeningFunction gets called.  An
+      unrecognized property name or invalid value makes property application
+      stop.  All inputs are passed to TuneMovePanel_OpeningFcn via varargin.
+
+      *See GUI Options on GUIDE's Tools menu.  Choose &quot;GUI allows only one
+      instance to run (singleton)&quot;.
+
+ See also: GUIDE, GUIDATA, GUIHANDLES</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="calcemittance.html" class="code" title="function [NaturalEmittance] = calcemittance">calcemittance</a>	CALCEMITTANCE - Calculates the natural emittance of the AT model</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function TuneMovePanel_OpeningFcn(hObject, eventdata, handles, varargin)</a></li><li><a href="#_sub2" class="code">function varargout = TuneMovePanel_OutputFcn(hObject, eventdata, handles)</a></li><li><a href="#_sub3" class="code">function dqField_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub4" class="code">function dqField_CreateFcn(hObject, eventdata, handles)</a></li><li><a href="#_sub5" class="code">function qyUpButton_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub6" class="code">function qyDownButton_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub7" class="code">function qxUpButton_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub8" class="code">function qxDownButton_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub9" class="code">function UpdatePlot(hObject, handles)</a></li><li><a href="#_sub10" class="code">function summaryButton_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub11" class="code">function optionsMeno_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub12" class="code">function betaAxe_CreateFcn(hObject, eventdata, handles)</a></li><li><a href="#_sub13" class="code">function emitCheckBox_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub14" class="code">function thesteptune(dqx, dqy)</a></li><li><a href="#_sub15" class="code">function panelResetMenu_Callback(hObject, eventdata, handles)</a></li><li><a href="#_sub16" class="code">function theReset(hObject, eventdata, handles)</a></li><li><a href="#_sub17" class="code">function [handle] = drawlattice_local(hParent, Offset, Scaling)</a></li><li><a href="#_sub18" class="code">function [name, val] = quad_getsetpoint()</a></li><li><a href="#_sub19" class="code">function [handle] = quad_table(title, name, value, position)</a></li></ul>
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function varargout = TuneMovePanel(varargin)</a>
+0002 <span class="comment">% TUNEMOVEPANEL M-file for TuneMovePanel.fig</span>
+0003 <span class="comment">%      TUNEMOVEPANEL, by itself, creates a new TUNEMOVEPANEL or raises the existing</span>
+0004 <span class="comment">%      singleton*.</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">%      H = TUNEMOVEPANEL returns the handle to a new TUNEMOVEPANEL or the handle to</span>
+0007 <span class="comment">%      the existing singleton*.</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">%      TUNEMOVEPANEL('CALLBACK',hObject,eventData,handles,...) calls the local</span>
+0010 <span class="comment">%      function named CALLBACK in TUNEMOVEPANEL.M with the given input arguments.</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%      TUNEMOVEPANEL('Property','Value',...) creates a new TUNEMOVEPANEL or raises the</span>
+0013 <span class="comment">%      existing singleton*.  Starting from the left, property value pairs are</span>
+0014 <span class="comment">%      applied to the GUI before TuneMovePanel_OpeningFunction gets called.  An</span>
+0015 <span class="comment">%      unrecognized property name or invalid value makes property application</span>
+0016 <span class="comment">%      stop.  All inputs are passed to TuneMovePanel_OpeningFcn via varargin.</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">%      *See GUI Options on GUIDE's Tools menu.  Choose &quot;GUI allows only one</span>
+0019 <span class="comment">%      instance to run (singleton)&quot;.</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">% See also: GUIDE, GUIDATA, GUIHANDLES</span>
+0022 
+0023 
+0024 <span class="comment">% To do:</span>
+0025 <span class="comment">% 1. uitable redraws over and over (Java is questionable on linux/solaris)</span>
+0026 <span class="comment">% 2. make work online</span>
+0027 <span class="comment">%    * setpoints</span>
+0028 <span class="comment">%    * gettune</span>
+0029 <span class="comment">%    * match model to the machine for beta/tune etc?</span>
+0030 <span class="comment">% 3. figure - betax, betay label and dispersion on a different axis</span>
+0031 <span class="comment">%             could use plottwiss</span>
+0032 
+0033 <span class="comment">% Edit the above text to modify the response to help TuneMovePanel</span>
+0034 
+0035 <span class="comment">% Last Modified by GUIDE v2.5 28-Mar-2008 15:20:58</span>
+0036 
+0037 
+0038 <span class="comment">% Begin initialization code - DO NOT EDIT</span>
+0039 gui_Singleton = 1;
+0040 gui_State = struct(<span class="string">'gui_Name'</span>,       mfilename, <span class="keyword">...</span>
+0041                    <span class="string">'gui_Singleton'</span>,  gui_Singleton, <span class="keyword">...</span>
+0042                    <span class="string">'gui_OpeningFcn'</span>, @<a href="#_sub1" class="code" title="subfunction TuneMovePanel_OpeningFcn(hObject, eventdata, handles, varargin)">TuneMovePanel_OpeningFcn</a>, <span class="keyword">...</span>
+0043                    <span class="string">'gui_OutputFcn'</span>,  @<a href="#_sub2" class="code" title="subfunction varargout = TuneMovePanel_OutputFcn(hObject, eventdata, handles)">TuneMovePanel_OutputFcn</a>, <span class="keyword">...</span>
+0044                    <span class="string">'gui_LayoutFcn'</span>,  [] , <span class="keyword">...</span>
+0045                    <span class="string">'gui_Callback'</span>,   []);
+0046 <span class="keyword">if</span> nargin &amp;&amp; ischar(varargin{1})
+0047     gui_State.gui_Callback = str2func(varargin{1});
+0048 <span class="keyword">end</span>
+0049 
+0050 <span class="keyword">if</span> nargout
+0051     [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
+0052 <span class="keyword">else</span>
+0053     gui_mainfcn(gui_State, varargin{:});
+0054 <span class="keyword">end</span>
+0055 <span class="comment">% End initialization code - DO NOT EDIT</span>
+0056 
+0057 
+0058 <span class="comment">% --- Executes just before TuneMovePanel is made visible.</span>
+0059 <a name="_sub1" href="#_subfunctions" class="code">function TuneMovePanel_OpeningFcn(hObject, eventdata, handles, varargin)</a>
+0060 <span class="comment">% This function has no output args, see OutputFcn.</span>
+0061 <span class="comment">% hObject    handle to figure</span>
+0062 <span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+0063 <span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+0064 <span class="comment">% varargin   command line arguments to TuneMovePanel (see VARARGIN)</span>
+0065 
+0066 <span class="comment">% Choose default command line output for TuneMovePanel</span>
+0067 handles.output = hObject;
+0068 
+0069 <span class="comment">% Update handles structure</span>
+0070 <span class="comment">%display('Launching Tune Move Panel ....');</span>
+0071 
+0072 <a href="#_sub16" class="code" title="subfunction theReset(hObject, eventdata, handles)">theReset</a>(hObject, eventdata, handles)
+0073 
+0074 <span class="comment">%tunespaceplot([18 18.5] , [8 8.5], 8, 4, handles.webAxe);</span>
+0075 
+0076 <span class="comment">% UIWAIT makes TuneMovePanel wait for user response (see UIRESUME)</span>
+0077 <span class="comment">% uiwait(handles.figure1);</span>
+0078 
+0079 
+0080 <span class="comment">% --- Outputs from this function are returned to the command line.</span>
+0081 <a name="_sub2" href="#_subfunctions" class="code">function varargout = TuneMovePanel_OutputFcn(hObject, eventdata, handles) </a>
+0082 <span class="comment">% varargout  cell array for returning output args (see VARARGOUT);</span>
+0083 <span class="comment">% hObject    handle to figure</span>
+0084 <span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+0085 <span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+0086 
+0087 <span class="comment">% Get default command line output from handles structure</span>
+0088 varargout{1} = handles.output;
+0089 
+0090 
+0091 <a name="_sub3" href="#_subfunctions" class="code">function dqField_Callback(hObject, eventdata, handles)</a>
+0092 <span class="comment">% hObject    handle to dqField (see GCBO)</span>
+0093 <span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+0094 <span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+0095 
+0096 
+0097 <span class="comment">% --- Executes during object creation, after setting all properties.</span>
+0098 <a name="_sub4" href="#_subfunctions" class="code">function dqField_CreateFcn(hObject, eventdata, handles)</a>
+0099 <span class="comment">% hObject    handle to dqField (see GCBO)</span>
+0100 <span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+0101 <span class="comment">% handles    empty - handles not created until after all CreateFcns called</span>
+0102 
+0103 <span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+0104     set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+0105 <span class="keyword">end</span>
+0106 
+0107 
+0108 <span class="comment">% --- Executes on button press in qyUpButton.</span>
+0109 <a name="_sub5" href="#_subfunctions" class="code">function qyUpButton_Callback(hObject, eventdata, handles)</a>
+0110 <span class="comment">% hObject    handle to qyUpButton (see GCBO)</span>
+0111 <span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+0112 <span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+0113 dQx=0;
+0114 dQy=str2double(get(handles.dqField,<span class="string">'string'</span>));
+0115 <a href="#_sub14" class="code" title="subfunction thesteptune(dqx, dqy)">thesteptune</a>(dQx,dQy);
+0116 <a href="#_sub9" class="code" title="subfunction UpdatePlot(hObject, handles)">UpdatePlot</a>(hObject, handles);
+0117 
+0118 
+0119 <span class="comment">% --- Executes on button press in qyDownButton.</span>
+0120 <a name="_sub6" href="#_subfunctions" class="code">function qyDownButton_Callback(hObject, eventdata, handles)</a>
+0121 <span class="comment">% hObject    handle to qyDownButton (see GCBO)</span>
+0122 <span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+0123 <span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+0124 dQx=0;
+0125 dQy=str2double(get(handles.dqField,<span class="string">'string'</span>));
+0126 <a href="#_sub14" class="code" title="subfunction thesteptune(dqx, dqy)">thesteptune</a>(dQx,-dQy);
+0127 <a href="#_sub9" class="code" title="subfunction UpdatePlot(hObject, handles)">UpdatePlot</a>(hObject, handles);
+0128 
+0129 
+0130 <span class="comment">% --- Executes on button press in qxUpButton.</span>
+0131 <a name="_sub7" href="#_subfunctions" class="code">function qxUpButton_Callback(hObject, eventdata, handles)</a>
+0132 <span class="comment">% hObject    handle to qxUpButton (see GCBO)</span>
+0133 <span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+0134 <span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+0135 dQx=str2double(get(handles.dqField,<span class="string">'string'</span>));
+0136 dQy=0;
+0137 <a href="#_sub14" class="code" title="subfunction thesteptune(dqx, dqy)">thesteptune</a>(dQx,dQy);
+0138 <a href="#_sub9" class="code" title="subfunction UpdatePlot(hObject, handles)">UpdatePlot</a>(hObject, handles);
+0139 
+0140 
+0141 <span class="comment">% --- Executes on button press in qxDownButton.</span>
+0142 <a name="_sub8" href="#_subfunctions" class="code">function qxDownButton_Callback(hObject, eventdata, handles)</a>
+0143 <span class="comment">% hObject    handle to qxDownButton (see GCBO)</span>
+0144 <span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+0145 <span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+0146 dQx=str2double(get(handles.dqField,<span class="string">'string'</span>));
+0147 dQy=0;
+0148 <a href="#_sub14" class="code" title="subfunction thesteptune(dqx, dqy)">thesteptune</a>(-dQx,dQy);
+0149 <a href="#_sub9" class="code" title="subfunction UpdatePlot(hObject, handles)">UpdatePlot</a>(hObject, handles);
+0150 
+0151 
+0152 <span class="comment">% --------------------------------------------------------------------</span>
+0153 <a name="_sub9" href="#_subfunctions" class="code">function UpdatePlot(hObject, handles)</a>
+0154 <span class="keyword">global</span> THERING;
+0155 [TD, tune, chrom] = twissring(THERING,0,1:handles.L+1,<span class="string">'chrom'</span>, 1e-8);
+0156 BETA = cat(1,TD.beta);
+0157 S  = cat(1,TD.SPos);
+0158 Disp=cat(2,TD.Dispersion);
+0159 
+0160 set(handles.betax,<span class="string">'YData'</span>,BETA(:,1));
+0161 set(handles.qxText,<span class="string">'String'</span>,num2str(tune(1)));
+0162 
+0163 set(handles.betay,<span class="string">'YData'</span>,BETA(:,2));
+0164 set(handles.qyText,<span class="string">'String'</span>,num2str(tune(2)));
+0165 
+0166 set(handles.dx, <span class="string">'YData'</span>, 100*Disp(1,:)');
+0167 
+0168 delete(handles.QDot);
+0169 handles.Qx = tune(1);
+0170 handles.Qy = tune(2);
+0171 handles.QDot = line(<span class="string">'parent'</span>,handles.webAxe,<span class="string">'XData'</span>,handles.Qx,<span class="string">'YData'</span>,handles.Qy,<span class="string">'Marker'</span>,<span class="string">'+'</span>,<span class="string">'MarkerSize'</span>,12.0);
+0172 [name, val] = <a href="#_sub18" class="code" title="subfunction [name, val] = quad_getsetpoint()">quad_getsetpoint</a>;
+0173 <span class="comment">%handles.figure1;</span>
+0174 <a href="#_sub19" class="code" title="subfunction [handle] = quad_table(title, name, value, position)">quad_table</a>(<span class="string">'title'</span>, name, val, [0.1 0.45 0.2 0.325]);
+0175 set(handles.cxText,<span class="string">'String'</span>,num2str(chrom(1)));
+0176 set(handles.cyText,<span class="string">'String'</span>,num2str(chrom(2)));
+0177 <span class="keyword">if</span> handles.emitCalc
+0178     <span class="comment">%e = getemit(TD);</span>
+0179     e = <a href="calcemittance.html" class="code" title="function [NaturalEmittance] = calcemittance">calcemittance</a>;
+0180     set(handles.emitText,<span class="string">'String'</span>,num2str(e(1)));
+0181 <span class="keyword">else</span>
+0182     set(handles.emitText,<span class="string">'String'</span>,<span class="string">'No Calc'</span>);
+0183 <span class="keyword">end</span>
+0184 guidata(hObject,handles);
+0185 
+0186 
+0187 <span class="comment">% --- Executes on button press in summaryButton.</span>
+0188 <a name="_sub10" href="#_subfunctions" class="code">function summaryButton_Callback(hObject, eventdata, handles)</a>
+0189 <span class="comment">% hObject    handle to summaryButton (see GCBO)</span>
+0190 <span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+0191 <span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+0192 
+0193 
+0194 <span class="comment">% --------------------------------------------------------------------</span>
+0195 <a name="_sub11" href="#_subfunctions" class="code">function optionsMeno_Callback(hObject, eventdata, handles)</a>
+0196 <span class="comment">% hObject    handle to optionsMeno (see GCBO)</span>
+0197 <span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+0198 <span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+0199 
+0200 
+0201 <span class="comment">% --- Executes during object creation, after setting all properties.</span>
+0202 <a name="_sub12" href="#_subfunctions" class="code">function betaAxe_CreateFcn(hObject, eventdata, handles)</a>
+0203 <span class="comment">% hObject    handle to betaAxe (see GCBO)</span>
+0204 <span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+0205 <span class="comment">% handles    empty - handles not created until after all CreateFcns called</span>
+0206 
+0207 
+0208 <span class="comment">% --- Executes on button press in emitCheckBox.</span>
+0209 <a name="_sub13" href="#_subfunctions" class="code">function emitCheckBox_Callback(hObject, eventdata, handles)</a>
+0210 <span class="comment">% hObject    handle to emitCheckBox (see GCBO)</span>
+0211 <span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+0212 <span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+0213 <span class="keyword">if</span> (get(hObject,<span class="string">'Value'</span>) == get(hObject,<span class="string">'Max'</span>))
+0214     <span class="comment">% then checkbox is checked-take approriate action</span>
+0215     handles.emitCalc=true;
+0216     <span class="comment">%e = getemit(TD);</span>
+0217     e = <a href="calcemittance.html" class="code" title="function [NaturalEmittance] = calcemittance">calcemittance</a>;
+0218     set(handles.emitText,<span class="string">'String'</span>,num2str(e(1)));
+0219 <span class="keyword">else</span>
+0220     <span class="comment">% checkbox is not checked-take approriate action</span>
+0221     handles.emitCalc=false;
+0222 <span class="keyword">end</span>
+0223 guidata(hObject,handles);
+0224 
+0225 <a name="_sub14" href="#_subfunctions" class="code">function thesteptune(dqx, dqy)</a>
+0226 <span class="keyword">if</span> strcmpi(getfamilydata(<span class="string">'Machine'</span>), <span class="string">'ALBA'</span>)
+0227     ALBAsteptune(dqx, dqy, <span class="string">'model'</span>);
+0228 <span class="keyword">else</span>
+0229     steptune([dqx; dqy], <span class="string">'model'</span>);
+0230 <span class="keyword">end</span>
+0231 
+0232 
+0233 <span class="comment">% --------------------------------------------------------------------</span>
+0234 <a name="_sub15" href="#_subfunctions" class="code">function panelResetMenu_Callback(hObject, eventdata, handles)</a>
+0235 <span class="comment">% hObject    handle to panelResetMenu (see GCBO)</span>
+0236 <span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+0237 <span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+0238 delete(handles.QDot);
+0239 delete(handles.betax);
+0240 delete(handles.betay);
+0241 delete(handles.dx);
+0242 <a href="#_sub16" class="code" title="subfunction theReset(hObject, eventdata, handles)">theReset</a> (hObject, eventdata, handles)
+0243 
+0244 
+0245 <span class="comment">% --------------------------------------------------------------------</span>
+0246 <a name="_sub16" href="#_subfunctions" class="code">function theReset(hObject, eventdata, handles)</a>
+0247 <span class="keyword">global</span> THERING
+0248 handles.L = length(THERING);
+0249 [TD, tune] = twissring(THERING,0,1:handles.L+1);
+0250 <span class="keyword">if</span> isnan(tune(1))
+0251     tune(1) = .25;
+0252 <span class="keyword">end</span>;
+0253 <span class="keyword">if</span> isnan(tune(2))
+0254     tune(2)=0.25;
+0255 <span class="keyword">end</span>;
+0256 
+0257 handles.spos = findspos(THERING,1:handles.L+1);
+0258 handles.betax  = line(<span class="string">'parent'</span>,handles.betaAxe,<span class="string">'XData'</span>,handles.spos,<span class="string">'YData'</span>,0.*handles.spos,<span class="string">'Color'</span>,<span class="string">'r'</span>);
+0259 handles.betay  = line(<span class="string">'parent'</span>,handles.betaAxe,<span class="string">'XData'</span>,handles.spos,<span class="string">'YData'</span>,0.*handles.spos,<span class="string">'Color'</span>,<span class="string">'b'</span>);
+0260 handles.dx     = line(<span class="string">'parent'</span>,handles.betaAxe,<span class="string">'XData'</span>,handles.spos,<span class="string">'YData'</span>,0.*handles.spos,<span class="string">'Color'</span>,<span class="string">'g'</span>);
+0261 
+0262 <span class="keyword">if</span> strcmpi(getfamilydata(<span class="string">'Machine'</span>), <span class="string">'ALBA'</span>)
+0263     <a href="#_sub17" class="code" title="subfunction [handle] = drawlattice_local(hParent, Offset, Scaling)">drawlattice_local</a>(handles, -1, 1);
+0264 <span class="keyword">else</span>
+0265     <a href="#_sub17" class="code" title="subfunction [handle] = drawlattice_local(hParent, Offset, Scaling)">drawlattice_local</a>(handles, -1, 1);
+0266     <span class="comment">%drawlattice(-1, 1, handles.betaAxe);</span>
+0267 <span class="keyword">end</span>
+0268 
+0269 xlabel(handles.betaAxe,<span class="string">'s - position [m]'</span>);
+0270 ylabel(handles.betaAxe,<span class="string">'{\it\beta}  [m]    &amp;    {\it\eta_x}  [cm]'</span>);
+0271 xaxis([0 handles.spos(handles.L+1)/4], handles.betaAxe);
+0272 guidata(hObject,handles);
+0273 handles.Qx = tune(1);
+0274 handles.Qy = tune(2);
+0275 handles.emitCalc = false;
+0276 handles.QDot = line(<span class="string">'parent'</span>,handles.webAxe,<span class="string">'XData'</span>,handles.Qx,<span class="string">'YData'</span>,handles.Qy,<span class="string">'Marker'</span>,<span class="string">'+'</span>);
+0277 <a href="#_sub9" class="code" title="subfunction UpdatePlot(hObject, handles)">UpdatePlot</a>(hObject, handles);
+0278 handles.webAxe;
+0279 max_order= 5;
+0280 per = 4;
+0281 window = [tune(1)-0.255 tune(1)+0.255 tune(2)-0.255 tune(2)+0.255];
+0282 <span class="keyword">for</span> i=max_order:-1:1,
+0283     [k, tab] = reson(i,per,window);
+0284     hold on;
+0285 <span class="keyword">end</span>
+0286 hold off
+0287 axis(window);
+0288 handles.betaAxe;
+0289 
+0290 set(handles.emitCheckBox, <span class="string">'Value'</span>,0);
+0291 <span class="comment">%guidata(hObject,handles);</span>
+0292 
+0293 
+0294 <span class="comment">% --------------------------------------------------------------------</span>
+0295 <a name="_sub17" href="#_subfunctions" class="code">function [handle] = drawlattice_local(hParent, Offset, Scaling)</a>
+0296 <span class="comment">%DRAWLATTICE - Draws the AT lattice to a figure</span>
+0297 <span class="comment">%  drawlattice(Offset, Scaling)</span>
+0298 
+0299 <span class="comment">%  Written by Greg Portmann</span>
+0300 
+0301 <span class="keyword">if</span> nargin &lt; 2
+0302     Offset = 0;
+0303 <span class="keyword">end</span>
+0304 Offset = Offset(1);
+0305 <span class="keyword">if</span> nargin &lt; 3
+0306     Scaling = 1;
+0307 <span class="keyword">end</span>
+0308 Scaling = Scaling(1);
+0309 
+0310 <span class="keyword">global</span> THERING
+0311 
+0312 SPositions = findspos(THERING, 1:length(THERING)+1);
+0313 L = SPositions(end);
+0314 line(<span class="string">'parent'</span>,hParent.betaAxe,<span class="string">'XData'</span>,[0 L],<span class="string">'YData'</span>,[0 0]+Offset,<span class="string">'Color'</span>,<span class="string">'k'</span>);
+0315 
+0316 <span class="comment">% Remember the hold state then turn hold on</span>
+0317 HoldState = ishold;
+0318 hold on;
+0319 
+0320 <span class="comment">% Make default icons for elements of different physical types</span>
+0321 <span class="keyword">for</span> i = 1:length(THERING)
+0322     SPos = SPositions(i);
+0323     <span class="keyword">if</span> isfield(THERING{i},<span class="string">'BendingAngle'</span>) &amp; THERING{i}.BendingAngle
+0324         <span class="comment">% make icons for bending magnets</span>
+0325         IconHeight = .3;
+0326         IconColor = [1 1 0];
+0327         IconWidth = THERING{i}.Length;
+0328         <span class="keyword">if</span> IconWidth &lt; .15 <span class="comment">% meters</span>
+0329             IconWidth = .15;
+0330             SPos = SPos - IconWidth/2 + THERING{i}.Length/2;
+0331         <span class="keyword">end</span>
+0332         vx = [SPos SPos+IconWidth SPos+IconWidth SPos];
+0333         vy = [IconHeight IconHeight -IconHeight -IconHeight];
+0334         h = patch(vx, Scaling*vy+Offset, IconColor,<span class="string">'LineStyle'</span>,<span class="string">'-'</span>,<span class="string">'parent'</span>,hParent.betaAxe);
+0335         <span class="comment">%if IconWidth &lt; .1 % meters</span>
+0336         <span class="comment">%    set(h, 'EdgeColor', IconColor);</span>
+0337         <span class="comment">%end</span>
+0338 
+0339     <span class="keyword">elseif</span> isfield(THERING{i},<span class="string">'K'</span>) &amp; THERING{i}.K
+0340         <span class="comment">% Quadrupole</span>
+0341         <span class="keyword">if</span> THERING{i}.K &gt; 0
+0342             <span class="comment">% Focusing quadrupole</span>
+0343             IconHeight = .6;
+0344             IconColor = [1 0 0];
+0345             IconWidth = THERING{i}.Length;
+0346             <span class="keyword">if</span> IconWidth &lt; .15 <span class="comment">% meters</span>
+0347                 IconWidth = .15;
+0348                 SPos = SPos - IconWidth/2 + THERING{i}.Length/2;
+0349             <span class="keyword">end</span>
+0350             vx = [SPos SPos+IconWidth/2  SPos+IconWidth SPos+IconWidth/2 SPos];
+0351             vy = [0          IconHeight               0      -IconHeight    0];
+0352         <span class="keyword">else</span>
+0353             <span class="comment">% Defocusing quadrupole</span>
+0354             IconHeight = .6;
+0355             IconColor = [0 0 1];
+0356             IconWidth = THERING{i}.Length;
+0357             <span class="keyword">if</span> IconWidth &lt; .15 <span class="comment">% meters</span>
+0358                 IconWidth = .15;
+0359                 SPos = SPos - IconWidth/2 + THERING{i}.Length/2;
+0360             <span class="keyword">end</span>
+0361             vx = [SPos+.4*IconWidth    SPos    SPos+IconWidth  SPos+.6*IconWidth  SPos+IconWidth    SPos      SPos+.4*IconWidth];
+0362             vy = [     0            IconHeight   IconHeight          0              -IconHeight  -IconHeight    0];
+0363         <span class="keyword">end</span>
+0364         h = patch(vx, Scaling*vy+Offset, IconColor,<span class="string">'LineStyle'</span>,<span class="string">'-'</span>,<span class="string">'Parent'</span>,hParent.betaAxe);
+0365         <span class="comment">%if IconWidth &lt; .1 % meters</span>
+0366         <span class="comment">%    set(h, 'EdgeColor', IconColor);</span>
+0367         <span class="comment">%end</span>
+0368 
+0369     <span class="keyword">elseif</span> isfield(THERING{i},<span class="string">'PolynomB'</span>) &amp; length(THERING{i}.PolynomB)&gt;2 &amp; THERING{i}.PolynomB(3)
+0370         <span class="comment">% Sextupole</span>
+0371         <span class="keyword">if</span> THERING{i}.PolynomB(3)&gt;0
+0372             <span class="comment">% Focusing sextupole</span>
+0373             IconHeight = .5;
+0374             IconColor = [1 0 1];
+0375             IconWidth = THERING{i}.Length;
+0376             <span class="keyword">if</span> IconWidth &lt; .1 <span class="comment">% meters</span>
+0377                 IconWidth = .1;
+0378                 SPos = SPos - IconWidth/2 + THERING{i}.Length/2;
+0379             <span class="keyword">end</span>
+0380             vx = [SPos          SPos+.33*IconWidth  SPos+.66*IconWidth  SPos+IconWidth   SPos+IconWidth   SPos+.66*IconWidth  SPos+.33*IconWidth      SPos          SPos];
+0381             vy = [IconHeight/3      IconHeight          IconHeight        IconHeight/3    -IconHeight/3      -IconHeight          -IconHeight     -IconHeight/3  IconHeight/3];
+0382         <span class="keyword">else</span>
+0383             <span class="comment">% Defocusing sextupole</span>
+0384             IconHeight = .5;
+0385             IconColor = [0 1 0];
+0386             IconWidth = THERING{i}.Length;
+0387             <span class="keyword">if</span> IconWidth &lt; .1 <span class="comment">% meters</span>
+0388                 IconWidth = .1;
+0389                 SPos = SPos - IconWidth/2 + THERING{i}.Length/2;
+0390             <span class="keyword">end</span>
+0391             vx = [SPos          SPos+.33*IconWidth  SPos+.66*IconWidth  SPos+IconWidth   SPos+IconWidth   SPos+.66*IconWidth  SPos+.33*IconWidth      SPos          SPos];
+0392             vy = [IconHeight/3      IconHeight          IconHeight        IconHeight/3    -IconHeight/3      -IconHeight          -IconHeight     -IconHeight/3  IconHeight/3];
+0393         <span class="keyword">end</span>
+0394         h = patch(vx, Scaling*vy+Offset, IconColor,<span class="string">'LineStyle'</span>,<span class="string">'-'</span>);
+0395         <span class="comment">%if IconWidth &lt; .1 % meters</span>
+0396         <span class="comment">%    set(h, 'EdgeColor', IconColor);</span>
+0397         <span class="comment">%end</span>
+0398 
+0399     <span class="keyword">elseif</span> isfield(THERING{i},<span class="string">'Frequency'</span>) &amp; isfield(THERING{i},<span class="string">'Voltage'</span>)
+0400         <span class="comment">% RF cavity</span>
+0401         IconColor = [1 0.5 0];
+0402         plot(SPos, 0+Offset, <span class="string">'o'</span>, <span class="string">'MarkerFaceColor'</span>, IconColor, <span class="string">'Color'</span>, IconColor, <span class="string">'MarkerSize'</span>, 4)
+0403 
+0404     <span class="keyword">elseif</span> strcmpi(THERING{i}.FamName,<span class="string">'BPM'</span>)
+0405         <span class="comment">% BPM</span>
+0406         IconColor = <span class="string">'k'</span>;
+0407         plot(SPos, 0+Offset, <span class="string">'.-'</span>, <span class="string">'Color'</span>, IconColor)
+0408         <span class="comment">%plot(SPos, 0, 'o', 'MarkerFaceColor', IconColor, 'Color', IconColor, 'MarkerSize', 1.5)</span>
+0409 
+0410     <span class="keyword">elseif</span> any(strcmpi(THERING{i}.FamName,{<span class="string">'COR'</span>,<span class="string">'XCOR'</span>,<span class="string">'YCOR'</span>,<span class="string">'HCOR'</span>,<span class="string">'VCOR'</span>})) | isfield(THERING{i},<span class="string">'KickAngle'</span>)
+0411         <span class="comment">% Corrector</span>
+0412         IconHeight = .8;
+0413         IconColor = [0 0 0];
+0414         vx = [SPos   SPos];
+0415         vy = [-IconHeight IconHeight];
+0416         <span class="comment">%plot(vx, Scaling*vy+Offset, 'Color', IconColor);</span>
+0417         IconWidth = THERING{i}.Length;
+0418         vx = [SPos SPos+IconWidth SPos+IconWidth SPos];
+0419         vy = [IconHeight IconHeight -IconHeight -IconHeight];
+0420         h = patch(vx, Scaling*vy+Offset, IconColor,<span class="string">'LineStyle'</span>, <span class="string">'-'</span>,<span class="string">'parent'</span>,hParent.betaAxe);
+0421         <span class="keyword">if</span> IconWidth &lt; .1 <span class="comment">% meters</span>
+0422             set(h, <span class="string">'EdgeColor'</span>, IconColor);
+0423         <span class="keyword">end</span>
+0424     <span class="keyword">end</span>
+0425 <span class="keyword">end</span>
+0426 
+0427 
+0428 <span class="comment">% Leave the hold state as it was at the start</span>
+0429 <span class="keyword">if</span> ~HoldState
+0430     hold off
+0431 <span class="keyword">end</span>
+0432 <span class="comment">%yaxis([-3 3]);</span>
+0433 
+0434 
+0435 <span class="comment">% --------------------------------------------------------------------</span>
+0436 <a name="_sub18" href="#_subfunctions" class="code">function [name, val] = quad_getsetpoint()</a>
+0437 quadlist = findmemberof(<span class="string">'QUAD'</span>);
+0438 imax=size(quadlist,1);
+0439 [data] = getsp(quadlist,<span class="string">'Model'</span>);
+0440 <span class="keyword">for</span> i=1:imax,
+0441     tmp=data{i};
+0442     name(i)=quadlist(i);
+0443     val(i) = tmp(1);
+0444 <span class="keyword">end</span>
+0445 val=num2cell(val);
+0446 
+0447 
+0448 <span class="comment">% --------------------------------------------------------------------</span>
+0449 <a name="_sub19" href="#_subfunctions" class="code">function [handle] = quad_table(title, name, value, position)</a>
+0450 <span class="comment">% [handle, b] =  quad_table(title, name, value) title is a string name is a</span>
+0451 <span class="comment">% column of strings with the names of the quads value is a column of</span>
+0452 <span class="comment">% strings with the values of the quads handle is handle to the mathworks</span>
+0453 <span class="comment">% MWFrame b is a handle to mathworks MWListbox b.getSelectedRows =&gt; gets</span>
+0454 <span class="comment">% you the index of the row currently selected by mouse, beginning with</span>
+0455 <span class="comment">% zero!!! -- example: [handle, b] = gui_sheet('nice table', qualist,</span>
+0456 <span class="comment">% vallist)</span>
+0457 <span class="comment">%</span>
+0458 <span class="comment">% requires Java runtime environment installed and mathworks components ver. 0.5</span>
+0459 
+0460 ncol=2;
+0461 nrows=size(name,2);
+0462 data = cell(nrows,2);
+0463 
+0464 <span class="keyword">for</span> i=1:nrows,
+0465     data(i,:) = [name(i) value(i)] ;
+0466 <span class="keyword">end</span>;
+0467 t = uitable(data, [{<span class="string">'Name'</span>} {<span class="string">'k'</span>}]);
+0468 set(t,<span class="string">'Editable'</span>,false);
+0469 set(t,<span class="string">'Units'</span>,<span class="string">'normalized'</span>)
+0470 set(t,<span class="string">'Position'</span>,position);
+0471 handle = t;
+0472 
+0473</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

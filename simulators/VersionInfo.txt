@@ -1,0 +1,13 @@
+AT Releases
+
+at1.3    -> Used at ALS for many years.  Compiled for pre-Matlab2016b releases.
+at1.3mod -> at1.3 with Xiaobiao changes so it compiles using Matlab2017b.
+
+at1.4.1  -> Jul 31, 2017 from https://github.com/atcollab/at/tags).
+
+at2.0    -> Aug 25, 2017 from https://github.com/atcollab/at/tags). 
+            Compiled using Matlab2017b on Windows and MacOS
+            I had trouble compiling on Linux with Matlab2017b & Matlab2016b.
+            I appears to be a link issue with AperturePass not being in the global scope.
+            However, if I compile in Matlab2015b it appears to run ok in Matlab2017b. 
+

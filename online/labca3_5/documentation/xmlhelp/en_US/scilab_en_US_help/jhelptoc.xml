@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE toc PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 1.0//EN" "http://java.sun.com/products/javahelp/toc_1_0.dtd">
+<toc version="1.0">
+<tocitem target="index" text="labCA">
+<tocitem target="section_9d122bd15b55cf8b15c18b6ec34a52fb" text="labCA">
+<tocitem target="lca_common" text="Common Arguments and Return Values"/>
+<tocitem target="Error" text="Error Handling"/>
+<tocitem target="lcaClear" text="lcaClear"/>
+<tocitem target="lcaDebugOff" text="lcaDebugOff"/>
+<tocitem target="lcaDebugOn" text="lcaDebugOn"/>
+<tocitem target="lcaDelay" text="lcaDelay"/>
+<tocitem target="lcaGet" text="lcaGet"/>
+<tocitem target="lcaGetAlarmLimits" text="lcaGetAlarmLimits"/>
+<tocitem target="lcaGetControlLimits" text="lcaGetControlLimits"/>
+<tocitem target="lcaGetEnumStrings" text="lcaGetEnumStrings"/>
+<tocitem target="lcaGetGraphicLimits" text="lcaGetGraphicLimits"/>
+<tocitem target="lcaGetNelem" text="lcaGetNelem"/>
+<tocitem target="lcaGetPrecision" text="lcaGetPrecision"/>
+<tocitem target="lcaGetRetryCount" text="lcaGetRetryCount"/>
+<tocitem target="lcaGetStatus" text="lcaGetStatus"/>
+<tocitem target="lcaGetTimeout" text="lcaGetTimeout"/>
+<tocitem target="lcaGetUnits" text="lcaGetUnits"/>
+<tocitem target="lcaGetWarnLimits" text="lcaGetWarnLimits"/>
+<tocitem target="lcaLastError" text="lcaLastError"/>
+<tocitem target="lcaNewMonitorValue" text="lcaNewMonitorValue"/>
+<tocitem target="lcaNewMonitorWait" text="lcaNewMonitorWait"/>
+<tocitem target="lcaPut" text="lcaPut"/>
+<tocitem target="lcaPutNoWait" text="lcaPutNoWait"/>
+<tocitem target="lcaSetMonitor" text="lcaSetMonitor"/>
+<tocitem target="lcaSetSeverityWarnLevel" text="lcaSetSeverityWarnLevel"/>
+</tocitem>
+</tocitem>
+</toc>

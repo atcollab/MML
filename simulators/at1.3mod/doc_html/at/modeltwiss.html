@@ -1,0 +1,717 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of modeltwiss</title>
+  <meta name="keywords" content="modeltwiss">
+  <meta name="description" content="MODELTWISS - Returns a twiss function of the model">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; modeltwiss.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>modeltwiss
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>MODELTWISS - Returns a twiss function of the model</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">MODELTWISS - Returns a twiss function of the model
+  [TwissX, TwissY, Sx, Sy, Tune] = modeltwiss(TwissData {opt.}, TwissString, Family1, DeviceList1, Family2, DeviceList2)
+  [TwissX, TwissY, Sx, Sy, Tune] = modeltwiss(TwissData {opt.}, TwissString, Family1, Family2)
+  [TwissX, TwissY, Sx, Sy, Tune] = modeltwiss(TwissData {opt.}, TwissString, Family1, DeviceList1)
+  [TwissX, TwissY, Sx, Sy, Tune] = modeltwiss(TwissData {opt.}, TwissString)
+
+  INPUTS
+  1. TwissData - Structure with the twiss parameters {Default: get from THERING{1}.TwissData}
+  2. TwissString - 'beta'           for beta function [meters]
+                   'mu' or 'Phase'  for betatron phase advance (NOT 2*PI normalized)
+                   'alpha'          Derivative of the beta function
+                   'Orbit', 'ClosedOrbit' or 'x'             ('y' reverses output  [ y,  x, Sy, Sx, Tune] = modeltwiss('y')) 
+                   'OrbitPrime', 'ClosedOrbitPrime' or 'Px' ('Py' reverses output  [Py, Px, Sy, Sx, Tune] = modeltwiss('Py')) (momentum, NOT angle)
+                   'Eta' for dispersion
+                   'EtaPrime' for the derivative of dispersion
+  3. Family1 and Family2 are the family names for where to measure the horizontal/vertical twiss parameter.
+     A family name can be a middlelayer family or an AT family (FamName). 
+     'All' returns the value at every element in the model plus the end of the ring.
+     {Default or []: 'All'}
+  4. DeviceList1 and DeviceList2 are the device list corresponding to Family1 and Family2.
+     {Default or []: the entire list}
+  5. Optional flags:
+     'Display'   - Plot the dispersion {Default if no outputs exist}
+     'NoDisplay' - Dispersion will not be plotted {Default if outputs exist}
+     'DrawLattice' -  Include the lattice drawing on the plot
+     'NoDrawLattice' or 'NoLattice' - Don't include the lattice on the plot {Default}
+     'Hold On'  - Hold the present plot
+     'Hold Off' - Reset the plot {Default}
+
+  OUTPUTS
+  1. TwissX and TwissY - Horizontal and vertical twiss parameter
+  2. Sx and Sy are longitudinal locations in the ring [meters]
+  3. Tune - Fractional tune
+
+  NOTES
+  1. This function use twissline which uses the linear model.  See twissline 
+     for all the assumption that it uses.
+  2. This function uses the model coordinate system in physics units. 
+     Ie., no BPM or CM gain or rolls errors are applied.
+  3. Family1 and DeviceList1 can be any family.  For instance, if Family1='VCM'
+     and DeviceList1=[], then TwissX is the horizontal beta function at the 
+     vertical corrector magnets (similarly for Family2 and DeviceList2).
+  4. If no output exists, the function will be plotted to the screen.
+  5. Phase is in radians.
+  6. Whenever using the MML and AT together the AT indexes must be matched to what
+     is in the MML.  Whenever changing THERING use updateatindex to sync the MML.
+
+  See also <a href="modelbeta.html" class="code" title="function [BetaX, BetaY, Sx, Sy, Tune, Chrom] = modelbeta(varargin)">modelbeta</a>, <a href="modeltune.html" class="code" title="function [FractionalTune, IntegerTune] = modeltune">modeltune</a>, <a href="modelchro.html" class="code" title="function [Chro, Tune] = modelchro(varargin)">modelchro</a>, <a href="modeldisp.html" class="code" title="function [Dx, Dy, Sx, Sy, h] = modeldisp(varargin)">modeldisp</a>, <a href="getpvmodel.html" class="code" title="function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)">getpvmodel</a>, <a href="setpvmodel.html" class="code" title="function ErrorFlag = setpvmodel(varargin)">setpvmodel</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="drawlattice.html" class="code" title="function h = drawlattice(Offset, Scaling, hAxes, Ldraw)">drawlattice</a>	DRAWLATTICE - Draws the AT lattice to a figure</li><li><a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>	FAMILY2ATINDEX - Returns the AT index for a given family</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="modelbeta.html" class="code" title="function [BetaX, BetaY, Sx, Sy, Tune, Chrom] = modelbeta(varargin)">modelbeta</a>	MODELBETA - Returns the beta function of the model</li><li><a href="modelchrosensitivity.html" class="code" title="function [DSx DSz] = modelchrosensitivity(varargin)">modelchrosensitivity</a>	TUNESENSITIVITY - Computes sextupole change for a given dxi</li><li><a href="modelcurlh.html" class="code" title="function [hx, hy] = modelcurlh">modelcurlh</a>	MODELCURLH - Computes and plots the H-curl functions</li><li><a href="modeldisp.html" class="code" title="function [Dx, Dy, Sx, Sy, h] = modeldisp(varargin)">modeldisp</a>	MODELDISP - Returns the dispersion function of the model</li><li><a href="modelphase.html" class="code" title="function [PhaseX, PhaseZ, Sx, Sz, Tune] = modelphase(varargin)">modelphase</a>	MODELBETA - Returns the Phase function of the model</li><li><a href="modeltunesensitivity.html" class="code" title="function [DKx DKz]=modeltunesensitivity(varargin)">modeltunesensitivity</a>	TUNESENSITIVITY - Computes quadrupole change for a given dnu</li><li><a href="plotmodelorbit.html" class="code" title="function varargout = plotmodelorbit">plotmodelorbit</a>	PLOTMODELORBIT - Plot closed orbit distortion</li><li><a href="plottwiss.html" class="code" title="function [ax, h1, h2] = plottwiss(varargin)">plottwiss</a>	PLOTTWISS - Plot the optical functions and tune of the present lattice</li><li><a href="plottwiss_old.html" class="code" title="function plottwiss(varargin)">plottwiss_old</a>	PLOTTWISS - Plot the optical functions and tune of the present lattice</li></ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)</a>
+0002 <span class="comment">%MODELTWISS - Returns a twiss function of the model</span>
+0003 <span class="comment">%  [TwissX, TwissY, Sx, Sy, Tune] = modeltwiss(TwissData {opt.}, TwissString, Family1, DeviceList1, Family2, DeviceList2)</span>
+0004 <span class="comment">%  [TwissX, TwissY, Sx, Sy, Tune] = modeltwiss(TwissData {opt.}, TwissString, Family1, Family2)</span>
+0005 <span class="comment">%  [TwissX, TwissY, Sx, Sy, Tune] = modeltwiss(TwissData {opt.}, TwissString, Family1, DeviceList1)</span>
+0006 <span class="comment">%  [TwissX, TwissY, Sx, Sy, Tune] = modeltwiss(TwissData {opt.}, TwissString)</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">%  INPUTS</span>
+0009 <span class="comment">%  1. TwissData - Structure with the twiss parameters {Default: get from THERING{1}.TwissData}</span>
+0010 <span class="comment">%  2. TwissString - 'beta'           for beta function [meters]</span>
+0011 <span class="comment">%                   'mu' or 'Phase'  for betatron phase advance (NOT 2*PI normalized)</span>
+0012 <span class="comment">%                   'alpha'          Derivative of the beta function</span>
+0013 <span class="comment">%                   'Orbit', 'ClosedOrbit' or 'x'             ('y' reverses output  [ y,  x, Sy, Sx, Tune] = modeltwiss('y'))</span>
+0014 <span class="comment">%                   'OrbitPrime', 'ClosedOrbitPrime' or 'Px' ('Py' reverses output  [Py, Px, Sy, Sx, Tune] = modeltwiss('Py')) (momentum, NOT angle)</span>
+0015 <span class="comment">%                   'Eta' for dispersion</span>
+0016 <span class="comment">%                   'EtaPrime' for the derivative of dispersion</span>
+0017 <span class="comment">%  3. Family1 and Family2 are the family names for where to measure the horizontal/vertical twiss parameter.</span>
+0018 <span class="comment">%     A family name can be a middlelayer family or an AT family (FamName).</span>
+0019 <span class="comment">%     'All' returns the value at every element in the model plus the end of the ring.</span>
+0020 <span class="comment">%     {Default or []: 'All'}</span>
+0021 <span class="comment">%  4. DeviceList1 and DeviceList2 are the device list corresponding to Family1 and Family2.</span>
+0022 <span class="comment">%     {Default or []: the entire list}</span>
+0023 <span class="comment">%  5. Optional flags:</span>
+0024 <span class="comment">%     'Display'   - Plot the dispersion {Default if no outputs exist}</span>
+0025 <span class="comment">%     'NoDisplay' - Dispersion will not be plotted {Default if outputs exist}</span>
+0026 <span class="comment">%     'DrawLattice' -  Include the lattice drawing on the plot</span>
+0027 <span class="comment">%     'NoDrawLattice' or 'NoLattice' - Don't include the lattice on the plot {Default}</span>
+0028 <span class="comment">%     'Hold On'  - Hold the present plot</span>
+0029 <span class="comment">%     'Hold Off' - Reset the plot {Default}</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">%  OUTPUTS</span>
+0032 <span class="comment">%  1. TwissX and TwissY - Horizontal and vertical twiss parameter</span>
+0033 <span class="comment">%  2. Sx and Sy are longitudinal locations in the ring [meters]</span>
+0034 <span class="comment">%  3. Tune - Fractional tune</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">%  NOTES</span>
+0037 <span class="comment">%  1. This function use twissline which uses the linear model.  See twissline</span>
+0038 <span class="comment">%     for all the assumption that it uses.</span>
+0039 <span class="comment">%  2. This function uses the model coordinate system in physics units.</span>
+0040 <span class="comment">%     Ie., no BPM or CM gain or rolls errors are applied.</span>
+0041 <span class="comment">%  3. Family1 and DeviceList1 can be any family.  For instance, if Family1='VCM'</span>
+0042 <span class="comment">%     and DeviceList1=[], then TwissX is the horizontal beta function at the</span>
+0043 <span class="comment">%     vertical corrector magnets (similarly for Family2 and DeviceList2).</span>
+0044 <span class="comment">%  4. If no output exists, the function will be plotted to the screen.</span>
+0045 <span class="comment">%  5. Phase is in radians.</span>
+0046 <span class="comment">%  6. Whenever using the MML and AT together the AT indexes must be matched to what</span>
+0047 <span class="comment">%     is in the MML.  Whenever changing THERING use updateatindex to sync the MML.</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">%  See also modelbeta, modeltune, modelchro, modeldisp, getpvmodel, setpvmodel</span>
+0050 
+0051 <span class="comment">%  Written by Greg Portmann</span>
+0052 
+0053 
+0054 <span class="keyword">global</span> THERING
+0055 <span class="keyword">if</span> isempty(THERING)
+0056     error(<span class="string">'Simulator variable is not setup properly.'</span>);
+0057 <span class="keyword">end</span>
+0058 
+0059 <span class="comment">% Default parameters if not overwritten</span>
+0060 TwissString = <span class="string">'Beta'</span>;
+0061 Family1 = <span class="string">'ALL'</span>;
+0062 Family2 = <span class="string">'ALL'</span>;
+0063 <span class="comment">%Family1 = 'BPMx';</span>
+0064 <span class="comment">%Family2 = 'BPMy';</span>
+0065 DeviceList1 = [];   
+0066 DeviceList2 = [];   
+0067 <span class="keyword">if</span> nargout == 0
+0068     DisplayFlag = 1;
+0069 <span class="keyword">else</span>
+0070     DisplayFlag = 0;
+0071 <span class="keyword">end</span>
+0072 DrawLatticeFlag = 1;
+0073 HoldFlag = 0;
+0074 Chrom = [];
+0075 LineColor = <span class="string">''</span>;
+0076 
+0077 <span class="comment">% Look for flags</span>
+0078 <span class="keyword">for</span> i = length(varargin):-1:1
+0079     <span class="keyword">if</span> ischar(varargin{i})
+0080         <span class="keyword">if</span> any(strcmpi(varargin{i}, {<span class="string">'DrawLattice'</span>,<span class="string">'Draw Lattice'</span>,<span class="string">'Lattice'</span>}))
+0081             DrawLatticeFlag = 1;
+0082             varargin(i) = [];
+0083         <span class="keyword">elseif</span> any(strcmpi(varargin{i}, {<span class="string">'NoDrawLattice'</span>,<span class="string">'No Draw Lattice'</span>, <span class="string">'NoLattice'</span>, <span class="string">'No Lattice'</span>}))
+0084             DrawLatticeFlag = 0;
+0085             varargin(i) = [];
+0086         <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'Display'</span>)
+0087             DisplayFlag = 1;
+0088             varargin(i) = [];
+0089         <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'NoDisplay'</span>)
+0090             DisplayFlag = 0;
+0091             varargin(i) = [];
+0092         <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'hold on'</span>)
+0093             HoldFlag = 1;
+0094             varargin(i) = [];
+0095         <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'hold off'</span>)
+0096             HoldFlag = 0;
+0097             varargin(i) = [];
+0098         <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'color'</span>)
+0099             LineColor = varargin{i+1};
+0100             varargin(i+1) = [];
+0101             varargin(i)   = [];
+0102         <span class="keyword">end</span>
+0103     <span class="keyword">end</span>
+0104 <span class="keyword">end</span>
+0105 
+0106 <span class="comment">%if HoldFlag == 1</span>
+0107 <span class="comment">%    DrawLatticeFlag = 0;</span>
+0108 <span class="comment">%end</span>
+0109 
+0110 
+0111 <span class="comment">% Look for TwissString</span>
+0112 <span class="keyword">if</span> length(varargin) &gt;= 1
+0113     <span class="keyword">if</span> ischar(varargin{1})
+0114         TwissString = varargin{1};
+0115         varargin(1) = [];
+0116     <span class="keyword">end</span>
+0117 <span class="keyword">end</span>
+0118 
+0119 <span class="comment">% Look for BPMx family info</span>
+0120 <span class="keyword">if</span> length(varargin) &gt;= 1
+0121     <span class="keyword">if</span> ischar(varargin{1})
+0122         Family1 = varargin{1};
+0123         varargin(1) = [];
+0124         <span class="keyword">if</span> length(varargin) &gt;= 1
+0125             <span class="keyword">if</span> isnumeric(varargin{1})
+0126                 DeviceList1 = varargin{1};
+0127                 varargin(1) = [];
+0128             <span class="keyword">end</span>
+0129         <span class="keyword">end</span>
+0130     <span class="keyword">else</span>
+0131         <span class="keyword">if</span> isnumeric(varargin{1})
+0132             DeviceList1 = varargin{1};
+0133             varargin(1) = [];
+0134         <span class="keyword">end</span>
+0135     <span class="keyword">end</span>
+0136 <span class="keyword">end</span>
+0137 
+0138 <span class="comment">% Look for BPMy family info</span>
+0139 <span class="keyword">if</span> length(varargin) &gt;= 1
+0140     <span class="keyword">if</span> ischar(varargin{1})
+0141         Family2 = varargin{1};
+0142         varargin(1) = [];
+0143         <span class="keyword">if</span> length(varargin) &gt;= 1
+0144             <span class="keyword">if</span> isnumeric(varargin{1})
+0145                 DeviceList2 = varargin{1};
+0146                 varargin(1) = [];
+0147             <span class="keyword">end</span>
+0148         <span class="keyword">end</span>
+0149     <span class="keyword">else</span>
+0150         <span class="keyword">if</span> isnumeric(varargin{1})
+0151             DeviceList2 = varargin{1};
+0152             varargin(1) = [];
+0153         <span class="keyword">end</span>
+0154     <span class="keyword">end</span>
+0155 <span class="keyword">else</span>
+0156     Family2 = Family1;
+0157     DeviceList2 = DeviceList1;
+0158 <span class="keyword">end</span>
+0159 
+0160 
+0161 <span class="comment">% Horizontal plane</span>
+0162 <span class="keyword">if</span> strcmpi(Family1,<span class="string">'All'</span>) 
+0163     Index1 = 1:length(THERING)+1;
+0164 <span class="keyword">elseif</span> isfamily(Family1)
+0165     Index1 = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(Family1, DeviceList1);
+0166 <span class="keyword">else</span>
+0167     Index1 = findcells(THERING, <span class="string">'FamName'</span>, Family1);
+0168 <span class="keyword">end</span>
+0169 <span class="keyword">if</span> isempty(Index1)
+0170     error(<span class="string">'Family1 could not be found in the AO or AT deck'</span>);
+0171 <span class="keyword">else</span>
+0172     Index1 = Index1(:)';    <span class="comment">% Row vector</span>
+0173 <span class="keyword">end</span>
+0174 
+0175 <span class="comment">% Vertical plane</span>
+0176 <span class="keyword">if</span> strcmpi(Family2,<span class="string">'All'</span>) 
+0177     Index2 = 1:length(THERING)+1;
+0178 <span class="keyword">elseif</span> isfamily(Family2)
+0179     Index2 = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(Family2, DeviceList2);
+0180 <span class="keyword">else</span>
+0181     Index2 = findcells(THERING, <span class="string">'FamName'</span>, Family2);
+0182 <span class="keyword">end</span>
+0183 <span class="keyword">if</span> isempty(Index2)
+0184     error(<span class="string">'Family2 could not be found in the AO or AT deck'</span>);
+0185 <span class="keyword">else</span>
+0186     Index2 = Index2(:)';    <span class="comment">% Row vector</span>
+0187 <span class="keyword">end</span>
+0188 
+0189 MachineType = getfamilydata(<span class="string">'MachineType'</span>);
+0190 <span class="keyword">if</span> any(strcmpi(MachineType, {<span class="string">'Transport'</span>,<span class="string">'Transportline'</span>,<span class="string">'Linac'</span>}))
+0191     <span class="comment">% Transport line</span>
+0192 
+0193     <span class="comment">% Look for TWISSDATAIN</span>
+0194     TWISSDATAIN = [];
+0195     <span class="keyword">if</span> length(varargin) &gt;= 1
+0196         <span class="keyword">if</span> isstruct(varargin{1})
+0197             TWISSDATAIN = varargin{1};
+0198             varargin(1) = [];
+0199         <span class="keyword">end</span>
+0200     <span class="keyword">end</span>
+0201     <span class="keyword">if</span> isempty(TWISSDATAIN)
+0202         <span class="keyword">if</span> isfield(THERING{1}, <span class="string">'TwissData'</span>)
+0203             TWISSDATAIN = THERING{1}.TwissData;
+0204         <span class="keyword">else</span>
+0205             TWISSDATAIN = getfamilydata(<span class="string">'TwissData'</span>);
+0206             <span class="keyword">if</span> isempty(TWISSDATAIN)
+0207                 error(<span class="string">'TWISSDATAIN must be an input, located in THERING{1}.TwissData, or accessible to getfamilydata.'</span>);
+0208             <span class="keyword">end</span>
+0209         <span class="keyword">end</span>
+0210     <span class="keyword">end</span>
+0211 
+0212     <span class="keyword">if</span> strcmpi(TwissString, <span class="string">'Eta'</span>) || strcmpi(TwissString, <span class="string">'Dispersion'</span>)  || strcmpi(TwissString, <span class="string">'Disp'</span>)
+0213         TD = twissline(THERING, 0, TWISSDATAIN, 1:(length(THERING)+1), <span class="string">'Chrom'</span>);
+0214     <span class="keyword">elseif</span> strcmpi(TwissString, <span class="string">'etaprime'</span>)
+0215         TD = twissline(THERING, 0, TWISSDATAIN, 1:(length(THERING)+1), <span class="string">'Chrom'</span>);
+0216     <span class="keyword">else</span>
+0217         TD = twissline(THERING, 0, TWISSDATAIN, 1:(length(THERING)+1));
+0218     <span class="keyword">end</span>
+0219     
+0220     <span class="comment">% Tune</span>
+0221     Tune = TD(end).mu/2/pi;
+0222     Tune = Tune(:);
+0223     
+0224 <span class="keyword">else</span>
+0225     <span class="comment">% Storage ring</span>
+0226     <span class="keyword">if</span> nargout &gt;= 6 || any(strcmpi(TwissString, {<span class="string">'Eta'</span>,<span class="string">'Dispersion'</span>,<span class="string">'etaprime'</span>}))
+0227         [TD, Tune, Chrom] = twissring(THERING, 0, 1:(length(THERING)+1), <span class="string">'Chrom'</span>);
+0228     <span class="keyword">else</span>
+0229         [TD, Tune]        = twissring(THERING, 0, 1:(length(THERING)+1));
+0230     <span class="keyword">end</span>
+0231 <span class="comment">%     if any(strcmpi(TwissString, {'Eta','Dispersion','etaprime'}))</span>
+0232 <span class="comment">%         % if nargout == 0</span>
+0233 <span class="comment">%         %     % To get the default plot</span>
+0234 <span class="comment">%         %     modeldisp(Family1, DeviceList1, Family2, DeviceList2, 'Physics');</span>
+0235 <span class="comment">%         % else</span>
+0236 <span class="comment">%         %     [TwissX, TwissY, Sx, Sy] = modeldisp(Family1, DeviceList1, Family2, DeviceList2, 'Physics');</span>
+0237 <span class="comment">%         % end</span>
+0238 <span class="comment">%         % if nargout &gt;= 5</span>
+0239 <span class="comment">%         %     Tune = modeltune;</span>
+0240 <span class="comment">%         % end</span>
+0241 <span class="comment">%         % return;</span>
+0242 <span class="comment">%         [TD, Tune, Chrom] = twissring(THERING, 0, 1:(length(THERING)+1), 'Chrom');</span>
+0243 <span class="comment">%     else</span>
+0244 <span class="comment">%         [TD, Tune]        = twissring(THERING, 0, 1:(length(THERING)+1));</span>
+0245 <span class="comment">%     end</span>
+0246     
+0247     Tune = Tune(:);
+0248 <span class="keyword">end</span>
+0249 
+0250 
+0251 <span class="keyword">if</span> strcmpi(TwissString, <span class="string">'Phase'</span>)
+0252     TwissString = <span class="string">'mu'</span>;
+0253 <span class="keyword">end</span>
+0254 
+0255 
+0256 <span class="keyword">if</span> strcmpi(TwissString, <span class="string">'beta'</span>)
+0257     Twiss = cat(1,TD.beta);
+0258     TwissXAll = Twiss(:,1);
+0259     TwissYAll = Twiss(:,2);
+0260     TwissX = Twiss(Index1,1);
+0261     TwissY = Twiss(Index2,2);
+0262 
+0263     <span class="comment">% Average of beginning and end of magnet</span>
+0264     <span class="comment">%TwissXAll = [(Twiss(1:end-1,1)+Twiss(2:end,1))/2; Twiss(end,1)];</span>
+0265     <span class="comment">%TwissYAll = [(Twiss(1:end-1,2)+Twiss(2:end,2))/2; Twiss(end,2)];</span>
+0266     <span class="comment">%TwissX = (Twiss(Index1,1)+Twiss(Index1+1,1))/2;</span>
+0267     <span class="comment">%TwissY = (Twiss(Index2,2)+Twiss(Index2+1,2))/2;</span>
+0268 
+0269     YLabel1 = sprintf(<span class="string">'\\beta_x [meters]'</span>);
+0270     YLabel2 = sprintf(<span class="string">'\\beta_y [meters]'</span>);
+0271     
+0272     <span class="keyword">if</span> HoldFlag
+0273         Title1 = sprintf(<span class="string">'\\beta-function'</span>);
+0274     <span class="keyword">else</span>
+0275         Title1 = sprintf(<span class="string">'\\beta-function (Tune = %.3f / %.3f)'</span>, Tune);
+0276     <span class="keyword">end</span>
+0277 <span class="keyword">elseif</span> strcmpi(TwissString, <span class="string">'mu'</span>)
+0278     Twiss = cat(1,TD.mu);
+0279     TwissXAll = Twiss(:,1);
+0280     TwissYAll = Twiss(:,2);
+0281     TwissX = Twiss(Index1,1);
+0282     TwissY = Twiss(Index2,2);
+0283 
+0284     <span class="comment">%TwissXAll = [(Twiss(1:end-1,1)+Twiss(2:end,1))/2; Twiss(end,1)];</span>
+0285     <span class="comment">%TwissYAll = [(Twiss(1:end-1,2)+Twiss(2:end,2))/2; Twiss(end,2)];</span>
+0286     <span class="comment">%TwissX = (Twiss(Index1,1)+Twiss(Index1+1,1))/2;</span>
+0287     <span class="comment">%TwissY = (Twiss(Index2,2)+Twiss(Index2+1,2))/2;</span>
+0288 
+0289     YLabel1 = sprintf(<span class="string">'\\%s_x [radians]'</span>, <span class="string">'phi'</span>);
+0290     YLabel2 = sprintf(<span class="string">'\\%s_y [radians]'</span>, <span class="string">'phi'</span>);
+0291     
+0292     <span class="keyword">if</span> HoldFlag
+0293         Title1  = sprintf(<span class="string">'Phase Advance'</span>);
+0294     <span class="keyword">else</span>
+0295         Title1  = sprintf(<span class="string">'Phase Advance (Tune = %.3f / %.3f)'</span>, Tune);
+0296     <span class="keyword">end</span>
+0297 <span class="keyword">elseif</span> strcmpi(TwissString, <span class="string">'dispersion'</span>) || strcmpi(TwissString, <span class="string">'disp'</span>) || strcmpi(TwissString, <span class="string">'eta'</span>)
+0298     <span class="comment">%error('Use modeldisp');</span>
+0299     Twiss = cat(2,TD.Dispersion)';
+0300     TwissXAll = Twiss(:,1);
+0301     TwissYAll = Twiss(:,3);
+0302     TwissX = Twiss(Index1,1);
+0303     TwissY = Twiss(Index2,3);
+0304     YLabel1 = sprintf(<span class="string">'\\eta_x [m/(dp/p)]'</span>);
+0305     YLabel2 = sprintf(<span class="string">'\\eta_y [m/(dp/p)]'</span>);
+0306     Title1  = sprintf(<span class="string">'Dispersion'</span>);
+0307 <span class="keyword">elseif</span> strcmpi(TwissString, <span class="string">'etaprime'</span>)
+0308     Twiss = cat(2,TD.Dispersion)';
+0309     TwissXAll = Twiss(:,2);
+0310     TwissYAll = Twiss(:,4);
+0311     TwissX = Twiss(Index1,2);
+0312     TwissY = Twiss(Index2,4);
+0313     YLabel1 = <span class="string">'\partial\eta_x / \partial \its'</span>;
+0314     YLabel2 = <span class="string">'\partial\eta_y / \partial \its'</span>;
+0315     Title1  = sprintf(<span class="string">'Derivative of the Dispersion'</span>);
+0316 <span class="keyword">elseif</span> any(strcmpi(TwissString, {<span class="string">'Orbit'</span>,<span class="string">'ClosedOrbit'</span>,<span class="string">'x'</span>}))
+0317     iCavity = findcells(THERING,<span class="string">'Frequency'</span>);
+0318              
+0319     <span class="keyword">if</span> isempty(iCavity)  <span class="comment">%no cavity in AT model</span>
+0320         Twiss = cat(2,TD.ClosedOrbit)';
+0321         <span class="comment">%Twiss = findsyncorbit(THERING, 0, ATIndexList);</span>
+0322     <span class="keyword">else</span>
+0323         <span class="comment">% Cavity in AT model</span>
+0324         PassMethod = THERING{iCavity(1)}.PassMethod;
+0325         <span class="keyword">for</span> kk = 1:length(iCavity)
+0326             THERING{iCavity(kk)}.PassMethod = <span class="string">'IdentityPass'</span>;    <span class="comment">% Off</span>
+0327         <span class="keyword">end</span>               
+0328         
+0329         C = 2.99792458e8;
+0330         CavityFrequency  = THERING{iCavity(1)}.Frequency;
+0331         CavityHarmNumber = THERING{iCavity(1)}.HarmNumber;
+0332         L = findspos(THERING,length(THERING)+1); 
+0333         f0 = C * CavityHarmNumber / L;
+0334         DeltaRF = CavityFrequency - f0;   <span class="comment">% Hz</span>
+0335         Twiss = findsyncorbit(THERING, -C*DeltaRF*CavityHarmNumber/CavityFrequency^2, 1:length(THERING)+1);
+0336                 
+0337         <span class="comment">% Reset PassMethod</span>
+0338         <span class="keyword">for</span> kk = 1:length(iCavity)
+0339             <span class="comment">%THERING{iCavity(kk)}.PassMethod = 'ThinCavityPass';  % On</span>
+0340             THERING{iCavity(kk)}.PassMethod = PassMethod;
+0341         <span class="keyword">end</span>
+0342 
+0343         Twiss = Twiss';
+0344     <span class="keyword">end</span>
+0345     TwissXAll = Twiss(:,1);
+0346     TwissYAll = Twiss(:,3);
+0347     TwissX = Twiss(Index1, 1);
+0348     TwissY = Twiss(Index2, 3);
+0349     YLabel1 = sprintf(<span class="string">'x [meter]'</span>);
+0350     YLabel2 = sprintf(<span class="string">'y [meter]'</span>);
+0351     Title1  = sprintf(<span class="string">'Closed Orbit'</span>);
+0352 <span class="keyword">elseif</span> any(strcmpi(TwissString, {<span class="string">'y'</span>,<span class="string">'z'</span>}))
+0353     iCavity = findcells(THERING,<span class="string">'Frequency'</span>);
+0354     <span class="keyword">if</span> isempty(iCavity)  <span class="comment">%no cavity in AT model</span>
+0355         Twiss = cat(2,TD.ClosedOrbit)';
+0356         <span class="comment">%Twiss = findsyncorbit(THERING, 0, ATIndexList);</span>
+0357     <span class="keyword">else</span>
+0358         <span class="comment">% Cavity in AT model</span>
+0359         PassMethod = THERING{iCavity}.PassMethod;
+0360         THERING{iCavity}.PassMethod = <span class="string">'IdentityPass'</span>;    <span class="comment">% Off</span>
+0361         
+0362         C = 2.99792458e8;
+0363         CavityFrequency  = THERING{iCavity}.Frequency;
+0364         CavityHarmNumber = THERING{iCavity}.HarmNumber;
+0365         L = findspos(THERING,length(THERING)+1); 
+0366         f0 = C * CavityHarmNumber / L;
+0367         DeltaRF = CavityFrequency - f0;   <span class="comment">% Hz</span>
+0368         Twiss = findsyncorbit(THERING, -C*DeltaRF*CavityHarmNumber/CavityFrequency^2, 1:length(THERING)+1);
+0369         
+0370         <span class="comment">% Reset PassMethod</span>
+0371         <span class="comment">%THERING{iCavity}.PassMethod = 'ThinCavityPass';  % On</span>
+0372         THERING{iCavity}.PassMethod = PassMethod;
+0373 
+0374         Twiss = Twiss';
+0375     <span class="keyword">end</span> 
+0376     TwissXAll = Twiss(:,3);
+0377     TwissYAll = Twiss(:,1);
+0378     TwissX = Twiss(Index1, 3);
+0379     TwissY = Twiss(Index2, 1);
+0380     YLabel1 = sprintf(<span class="string">'y [meter]'</span>);
+0381     YLabel2 = sprintf(<span class="string">'x [meter]'</span>);
+0382     Title1  = sprintf(<span class="string">'Closed Orbit'</span>);
+0383 <span class="keyword">elseif</span> any(strcmpi(TwissString, {<span class="string">'OrbitPrime'</span>,<span class="string">'ClosedOrbitPrime'</span>,<span class="string">'Px'</span>}))
+0384     Twiss = cat(2,TD.ClosedOrbit)';
+0385     TwissXAll = Twiss(:,2);
+0386     TwissYAll = Twiss(:,4);
+0387     TwissX = Twiss(Index1, 2);
+0388     TwissY = Twiss(Index2, 4);
+0389     YLabel1 = <span class="string">'P_x'</span>;
+0390     YLabel2 = <span class="string">'P_y'</span>;
+0391     Title1  = <span class="string">'Derivative of the Closed Orbit'</span>;
+0392 <span class="keyword">elseif</span> strcmpi(TwissString, <span class="string">'Py'</span>)
+0393     Twiss = cat(2,TD.ClosedOrbit)';
+0394     TwissXAll = Twiss(:,4);
+0395     TwissYAll = Twiss(:,2);
+0396     TwissX = Twiss(Index1, 4);
+0397     TwissY = Twiss(Index2, 2);
+0398     YLabel1 = <span class="string">'P_y'</span>;
+0399     YLabel2 = <span class="string">'P_x'</span>;
+0400     Title1  = <span class="string">'Derivative of the Closed Orbit'</span>;
+0401 <span class="keyword">else</span>
+0402     Twiss = cat(1,TD.(TwissString));
+0403     TwissXAll = Twiss(:,1);
+0404     TwissYAll = Twiss(:,2);
+0405     TwissX = Twiss(Index1, 1);
+0406     TwissY = Twiss(Index2, 2);
+0407     YLabel1 = sprintf(<span class="string">'\\%s_x'</span>, TwissString);
+0408     YLabel2 = sprintf(<span class="string">'\\%s_y'</span>, TwissString);
+0409     Title1  = sprintf(<span class="string">'\\%s-functions'</span>, TwissString);
+0410 <span class="keyword">end</span>
+0411 
+0412 
+0413 <span class="comment">% Longitudinal position</span>
+0414 SAll = cat(1,TD.SPos);
+0415 Sx = SAll(Index1);
+0416 Sy = SAll(Index2);
+0417 
+0418 Sx = Sx(:);
+0419 Sy = Sy(:);
+0420 SAll = SAll(:);
+0421 
+0422 <span class="comment">% Twiss = Twiss;</span>
+0423 <span class="comment">% TwissX = TwissX;</span>
+0424 <span class="comment">% TwissY = TwissY;</span>
+0425 <span class="comment">% TwissXAll = TwissXAll;</span>
+0426 <span class="comment">% TwissYAll = TwissYAll;</span>
+0427 
+0428 
+0429 <span class="comment">% Output</span>
+0430 <span class="keyword">if</span> DisplayFlag
+0431     <span class="comment">% Plot</span>
+0432     <span class="keyword">if</span> HoldFlag
+0433         <span class="keyword">if</span> isempty(LineColor)
+0434             LineColor = nxtcolor;
+0435         <span class="keyword">end</span>
+0436     <span class="keyword">else</span>
+0437         <span class="keyword">if</span> isempty(LineColor)
+0438             LineColor = <span class="string">'b'</span>;
+0439         <span class="keyword">end</span>
+0440         clf reset
+0441         <span class="comment">%set(gcf,'NumberTitle','On','Name',TwissString);</span>
+0442     <span class="keyword">end</span>
+0443     LineType = <span class="string">'-'</span>;
+0444 
+0445     
+0446     <span class="keyword">if</span> strcmpi(TwissString, <span class="string">'mu'</span>)
+0447         <span class="comment">% Keep phase plot between -pi and pi</span>
+0448         xall = [];
+0449         sxall= [];
+0450         <span class="keyword">for</span> i = 1:length(TwissXAll)
+0451             <span class="keyword">if</span> TwissXAll(i) &gt; 2*pi
+0452                 TwissXAll(i:end) = TwissXAll(i:end) - 2*pi;
+0453                 xall = [xall; 2*pi; 0];    
+0454                 sxall = [sxall; mean(SAll(i-1:i)); mean(SAll(i-1:i))];
+0455                 xall = [xall; TwissXAll(i)];
+0456                 sxall = [sxall; SAll(i)];
+0457             <span class="keyword">else</span>
+0458                 xall = [xall; TwissXAll(i)];
+0459                 sxall = [sxall; SAll(i)];
+0460             <span class="keyword">end</span>
+0461         <span class="keyword">end</span>
+0462         TwissX = rem(TwissX,2*pi);
+0463         
+0464         yall = [];
+0465         syall= [];
+0466         <span class="keyword">for</span> i = 1:length(TwissYAll)
+0467             <span class="keyword">if</span> TwissYAll(i) &gt; 2*pi
+0468                 TwissYAll(i:end) = TwissYAll(i:end) - 2*pi;
+0469                 yall = [yall; 2*pi; 0];    
+0470                 syall = [syall; mean(SAll(i-1:i)); mean(SAll(i-1:i))];
+0471                 yall = [yall; TwissYAll(i)];
+0472                 syall = [syall; SAll(i)];
+0473             <span class="keyword">else</span>
+0474                 yall = [yall; TwissYAll(i)];
+0475                 syall = [syall; SAll(i)];
+0476             <span class="keyword">end</span>
+0477         <span class="keyword">end</span>
+0478         TwissY = rem(TwissY,2*pi);
+0479                 
+0480         h(1,1) = subplot(2,1,1);
+0481         <span class="comment">%h(1,1) = subplot(5,1,[1 2]);</span>
+0482         <span class="keyword">if</span> HoldFlag
+0483             hold on;
+0484         <span class="keyword">end</span>
+0485         plot(sxall, xall, LineType, <span class="string">'Color'</span>, LineColor);
+0486         <span class="keyword">if</span> strcmpi(Family1,<span class="string">'All'</span>)
+0487             <span class="comment">%xlabel('Position [meters]');</span>
+0488         <span class="keyword">else</span>
+0489             hold on;
+0490             plot(Sx, TwissX, <span class="string">'.b'</span>);
+0491             hold off;
+0492             <span class="keyword">if</span> ~strcmpi(Family1, Family2)
+0493                 xlabel(sprintf(<span class="string">'%s Position [meters]'</span>, Family1));
+0494             <span class="keyword">end</span>
+0495         <span class="keyword">end</span>
+0496         ylabel(YLabel1);
+0497         title(Title1, <span class="string">'Fontsize'</span>, 12);
+0498         yaxis([0 2*pi]);
+0499         grid on;
+0500         hold off;
+0501         
+0502         <span class="comment">% plot lattice</span>
+0503         <span class="comment">%h(3,1) = subplot(5,1,3);</span>
+0504         <span class="comment">%drawlattice;</span>
+0505 
+0506         h(2,1) = subplot(2,1,2);
+0507         <span class="comment">%h(2,1) = subplot(5,1,[4 5]);</span>
+0508         <span class="keyword">if</span> HoldFlag
+0509             hold on;
+0510         <span class="keyword">end</span>
+0511         plot(syall, yall, LineType, <span class="string">'Color'</span>, LineColor);
+0512         <span class="keyword">if</span> strcmpi(Family2,<span class="string">'All'</span>)
+0513             xlabel(<span class="string">'Position [meters]'</span>);
+0514         <span class="keyword">else</span>
+0515             hold on;
+0516             plot(Sy, TwissY, <span class="string">'.b'</span>);
+0517             hold off;
+0518             xlabel(sprintf(<span class="string">'%s Position [meters]'</span>, Family2));
+0519         <span class="keyword">end</span>
+0520         ylabel(YLabel2);
+0521         yaxis([0 2*pi]);
+0522         grid on;
+0523         hold off;
+0524     <span class="keyword">else</span>        
+0525         h(1,1) = subplot(2,1,1);
+0526         <span class="comment">%h(1,1) = subplot(5,1,[1 2]);</span>
+0527         <span class="keyword">if</span> HoldFlag
+0528             hold on;
+0529         <span class="keyword">end</span>
+0530         plot(SAll, TwissXAll, LineType, <span class="string">'Color'</span>, LineColor);
+0531         <span class="keyword">if</span> strcmpi(Family1,<span class="string">'All'</span>)
+0532             <span class="comment">%xlabel('Position [meters]');</span>
+0533         <span class="keyword">else</span>
+0534             hold on;
+0535             plot(Sx, TwissX, <span class="string">'.b'</span>);
+0536             hold off;
+0537             <span class="keyword">if</span> ~strcmpi(Family1, Family2)
+0538                 xlabel(sprintf(<span class="string">'%s Position [meters]'</span>, Family1));
+0539             <span class="keyword">end</span>
+0540         <span class="keyword">end</span>
+0541         ylabel(YLabel1);
+0542         title(Title1, <span class="string">'Fontsize'</span>, 12);
+0543         grid on;
+0544         hold off;
+0545         
+0546         <span class="comment">% plot lattice</span>
+0547         <span class="comment">%h(3,1) = subplot(5,1,3);</span>
+0548         <span class="comment">%drawlattice;</span>
+0549 
+0550         h(2,1) = subplot(2,1,2);
+0551         <span class="comment">%h(2,1) = subplot(5,1,[4 5]);</span>
+0552         <span class="keyword">if</span> HoldFlag
+0553             hold on;
+0554         <span class="keyword">end</span>
+0555         plot(SAll, TwissYAll, LineType, <span class="string">'Color'</span>, LineColor);
+0556         <span class="keyword">if</span> strcmpi(Family2,<span class="string">'All'</span>)
+0557             xlabel(<span class="string">'Position [meters]'</span>);
+0558         <span class="keyword">else</span>
+0559             hold on;
+0560             plot(Sy, TwissY, <span class="string">'.b'</span>);
+0561             hold off;
+0562             xlabel(sprintf(<span class="string">'%s Position [meters]'</span>, Family2));
+0563         <span class="keyword">end</span>
+0564         ylabel(YLabel2);
+0565         grid on;
+0566         hold off;
+0567     <span class="keyword">end</span>
+0568     
+0569     <span class="comment">% Scale the x-axis to the length of the lattice</span>
+0570     L = getfamilydata(<span class="string">'Circumference'</span>);
+0571     <span class="keyword">if</span> ~isempty(L)
+0572         subplot(2,1,1);
+0573         xaxis([0 L]);
+0574         subplot(2,1,2);
+0575         xaxis([0 L]);
+0576     <span class="keyword">end</span>
+0577     
+0578     <span class="keyword">if</span> DrawLatticeFlag
+0579         <span class="comment">% Reduce the axes height a little but keep the axis</span>
+0580         a1 = axis(h(1));
+0581         a2 = axis(h(2));
+0582         yaxesposition(.95);
+0583         axis(h(1), a1);
+0584         axis(h(2), a2);
+0585         
+0586         h(3) = subplot(9,1,5);
+0587         <a href="drawlattice.html" class="code" title="function h = drawlattice(Offset, Scaling, hAxes, Ldraw)">drawlattice</a>(0,1);
+0588         set(h(3),<span class="string">'YTick'</span>,[]);
+0589         set(h(3),<span class="string">'XTickLabel'</span>,<span class="string">''</span>);
+0590         set(h(3),<span class="string">'YTickLabel'</span>,<span class="string">''</span>);
+0591         set(h(3),<span class="string">'Visible'</span>,<span class="string">'Off'</span>);
+0592         yaxis([-1.25 1.75]);
+0593      
+0594         <span class="comment">%hold((h(1)),'on');</span>
+0595         <span class="comment">%a = axis(h(1));</span>
+0596         <span class="comment">%drawlattice(a(4)-.08*(a(4)-a(3)),.05*(a(4)-a(3)),h(1));</span>
+0597         <span class="comment">%axis(h(1), a);</span>
+0598         <span class="comment">%hold((h(1)),'off');</span>
+0599         <span class="comment">%</span>
+0600         <span class="comment">%hold((h(2)),'on');</span>
+0601         <span class="comment">%a = axis(h(2));</span>
+0602         <span class="comment">%drawlattice(a(4)-.08*(a(4)-a(3)),.05*(a(4)-a(3)),h(2));</span>
+0603         <span class="comment">%axis(h(2), a);</span>
+0604         <span class="comment">%hold((h(2)),'off');</span>
+0605        
+0606         <span class="comment">% h = subplot(17,1,9);</span>
+0607         <span class="comment">% drawlattice(0, 1, h);</span>
+0608         <span class="comment">% %set(h,'Visible','Off');</span>
+0609         <span class="comment">% set(h,'Color','None');</span>
+0610         <span class="comment">% set(h,'XMinorTick','Off');</span>
+0611         <span class="comment">% set(h,'XMinorGrid','Off');</span>
+0612         <span class="comment">% set(h,'YMinorTick','Off');</span>
+0613         <span class="comment">% set(h,'YMinorGrid','Off');</span>
+0614         <span class="comment">% set(h,'XTickLabel',[]);</span>
+0615         <span class="comment">% set(h,'YTickLabel',[]);</span>
+0616         <span class="comment">% set(h,'XLim', [0 L]);</span>
+0617         <span class="comment">% set(h,'YLim', [-1.5 1.5]);</span>
+0618     <span class="keyword">end</span>
+0619 
+0620     <span class="comment">% Link the x-axes</span>
+0621     linkaxes(h, <span class="string">'x'</span>);
+0622     
+0623     orient tall
+0624 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

@@ -1,0 +1,4 @@
+OS-class: WIN32 
+Target-arch: windows-x64 
+Tests: arrayOpTest.t analogMonitorTest.t regressTest.t 
+Files: ../O.Common/recTestIoc.dbd ../arrayOpTest.db ../O.Common/analogMonitorTest.dbd ../analogMonitorTest.db ../O.Common/regressTest.dbd ../regressArray1.db 

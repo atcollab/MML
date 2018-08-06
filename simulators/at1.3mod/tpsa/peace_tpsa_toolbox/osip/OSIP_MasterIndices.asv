@@ -1,0 +1,44 @@
+function Tno = OSIP_MasterIndices(n,o)
+% function Tno = OSIP_MasterIndices(n,o)
+% Let ==
+% Get the MasterIndices Tno of o-order and (n to OSIP.NumberOfVariables) variables.
+%-------------------------------------------------------------------------------
+% Author:
+%  Chang, Ho-Ping (also written as Ho-Ping Chang or known as Peace Chang)
+%  National Synchrotron Radiation Research Center
+%  No. 101, Hsin-ann Road, Hsinchu Science-Based Industrial Park
+%  Hsinchu 30077, Taiwan
+%  E-mail: peace@srrc.gov.tw
+% Date:
+%  May-12-2003
+% Source Files:
+%  OSIP_MasterIndices.m
+% Category:
+%  Truncated Power Series Algebra (TPSA)
+%  One-Step Index Pointer (OSIP)
+%  Truncated Power Series (TPS)
+% Description:
+%  OSIP is the nerves of TPSA and TPS is the basic class of TPSA.
+%  Declare the OSIP data structure and use it as "global OSIP".
+%  And then, build up the Nerve of TPSA, i.e. the database of OSIP.
+%  Which is unique in one's program/package/project using TPSA.
+%  In MATLAB, the index of array works FORTRAN-like.
+%------------------------------------------------------------------------------
+% OSIP.IndexByOrderOfVariables(1:OSIP.MaximumOrder,1:OSIP.NumberOfVariables)
+% == the BeginIndex of A(o,i:n) for i = 1:n.
+% N = OSIP.NumberOfVariables
+% O = OSIP.MaximumOrder
+% OSIP.MasterIndices{n=1:N,o=1:O}(1:OSIP_NumberOfMonomials(N-n,o))
+% == Tno(1:OSIP_NumberOfMonomials(N-n,o))
+%------------------------------------------------------------------------------
+% Reference: ICFA Beam Dynamics Newsletter, No. 13, P.8, April, 1997.
+%------------------------------------------------------------------------------
+global OSIP
+
+if n < 0 | o < 0
+   error('Arguments n and o in Tno = OSIP_MasterIndices(n,o) must >= 0.')
+elseif (n == 0) | (o == 0)
+   Tno = 1; % return the index of constant term
+else
+   Tno = OSIP.MasterIndices{n,o};
+end

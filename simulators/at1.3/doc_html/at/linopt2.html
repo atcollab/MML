@@ -1,0 +1,238 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of linopt2</title>
+  <meta name="keywords" content="linopt2">
+  <meta name="description" content="LINOPT2 - Performs linear analysis of the coupled lattice">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; linopt2.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>linopt2
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>LINOPT2 - Performs linear analysis of the coupled lattice</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [LinData, varargout] = linopt2(RING,DP,varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">LINOPT2 - Performs linear analysis of the coupled lattice
+   [1] D.Edwars,L.Teng IEEE Trans.Nucl.Sci. NS-20, No.3, p.885-888, 1973
+   [2] E.Courant, H.Snyder
+   [3] D.Sagan, D.Rubin Phys.Rev.Spec.Top.-Accelerators and beams, vol.2 (1999)
+   Notation is the same as in [3]
+
+ LinData = LINOPT(THERING,DP,REFPTS) is a MATLAB structure array with fields
+       .RingPos   - ordinal position in the RING 
+       .SPos      - longitudinal position [m]
+       .COPos     - closed orbit column vector with 
+                    components x, px, y, py (momentum, NOT angles)                        
+       .DOpos     - dispersion orbit position vector with 
+                    components eta_x, eta_prime_x, eta_y, eta_prime_y
+                    calculated with respect to the closed orbit with 
+                    momentum deviation DP
+       .M44       - 4x4 one-turn transfer matrix M at each element for specified DP [2]
+       .A         - 2x2 matrix A in [3]
+       .B         - 2x2 matrix B in [3]
+       .C         - 2x2 matrix C in [3]            
+       .gamma     - gamma parameter of the transformation to eigenmodes 
+   ???    .nu        - [ phasex, phasey] vector
+       .beta      - [betax, betay] vector
+       .alfa      - [alfax, alfay] vector
+       .phi       - [phix, phiy] vector
+
+ NOTE: All values are specified at the entrance of each element indexed in REFPTS array. 
+       REFPTS is an array of increasing indexes in the range 1 to length(LINE)+1. 
+       For further explanation of REFPTS use &gt;&gt; help FINDSPOS 
+
+ Calling options
+ [LinData,NU] = LINOPT() returns a vector of linear tunes
+       [nu_u , nu_v] for two normal modes of linear motion [1] 
+
+ [LinData,NU, KSI] = LINOPT() returns a vector of normalized chromaticities
+       [ksi_u , ksi_v] - derivatives of [nu_u , nu_v] w.r.t. momentum
+
+  future: include dispersion calculation
+          include chromaticity calculation
+          linear stability check of Tr(M44)
+===============================================================================
+Twiss calculation from one-turn transfer matrix at location 's' (AIP 184 p. 50)
+                  M(s) =      (M11 M12)
+                              (M21 M22)
+  M = A (horizontal) or B (vertical)
+  M11: cos(2*pi*nu) + alfa*sin(2*pi*nu)
+  M12: beta*sin(2*pi*nu)
+  M21: -(1+alfa^2)*sin(2*pi*nu)/beta
+  M22: cos(2*pi*nu)-alfa*sin(2*pi*nu)
+  beta=M12/sin(2*pi*nu);
+  alfa=(M11-M22)/(2*sin(2*pi*nu));
+  gamma=-M21/sin(2*pi*nu);</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="linopt2.html" class="code" title="function [LinData, varargout] = linopt2(RING,DP,varargin)">linopt2</a>	LINOPT2 - Performs linear analysis of the coupled lattice</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="gettwiss.html" class="code" title="function [Optics] = gettwiss(THERING, DP)">gettwiss</a>	GETWISS - Calculate the twiss parameters</li><li><a href="linopt2.html" class="code" title="function [LinData, varargout] = linopt2(RING,DP,varargin)">linopt2</a>	LINOPT2 - Performs linear analysis of the coupled lattice</li></ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [LinData, varargout] = linopt2(RING,DP,varargin)</a>
+0002 <span class="comment">%LINOPT2 - Performs linear analysis of the coupled lattice</span>
+0003 <span class="comment">%   [1] D.Edwars,L.Teng IEEE Trans.Nucl.Sci. NS-20, No.3, p.885-888, 1973</span>
+0004 <span class="comment">%   [2] E.Courant, H.Snyder</span>
+0005 <span class="comment">%   [3] D.Sagan, D.Rubin Phys.Rev.Spec.Top.-Accelerators and beams, vol.2 (1999)</span>
+0006 <span class="comment">%   Notation is the same as in [3]</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">% LinData = LINOPT(THERING,DP,REFPTS) is a MATLAB structure array with fields</span>
+0009 <span class="comment">%       .RingPos   - ordinal position in the RING</span>
+0010 <span class="comment">%       .SPos      - longitudinal position [m]</span>
+0011 <span class="comment">%       .COPos     - closed orbit column vector with</span>
+0012 <span class="comment">%                    components x, px, y, py (momentum, NOT angles)</span>
+0013 <span class="comment">%       .DOpos     - dispersion orbit position vector with</span>
+0014 <span class="comment">%                    components eta_x, eta_prime_x, eta_y, eta_prime_y</span>
+0015 <span class="comment">%                    calculated with respect to the closed orbit with</span>
+0016 <span class="comment">%                    momentum deviation DP</span>
+0017 <span class="comment">%       .M44       - 4x4 one-turn transfer matrix M at each element for specified DP [2]</span>
+0018 <span class="comment">%       .A         - 2x2 matrix A in [3]</span>
+0019 <span class="comment">%       .B         - 2x2 matrix B in [3]</span>
+0020 <span class="comment">%       .C         - 2x2 matrix C in [3]</span>
+0021 <span class="comment">%       .gamma     - gamma parameter of the transformation to eigenmodes</span>
+0022 <span class="comment">%   ???    .nu        - [ phasex, phasey] vector</span>
+0023 <span class="comment">%       .beta      - [betax, betay] vector</span>
+0024 <span class="comment">%       .alfa      - [alfax, alfay] vector</span>
+0025 <span class="comment">%       .phi       - [phix, phiy] vector</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">% NOTE: All values are specified at the entrance of each element indexed in REFPTS array.</span>
+0028 <span class="comment">%       REFPTS is an array of increasing indexes in the range 1 to length(LINE)+1.</span>
+0029 <span class="comment">%       For further explanation of REFPTS use &gt;&gt; help FINDSPOS</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">% Calling options</span>
+0032 <span class="comment">% [LinData,NU] = LINOPT() returns a vector of linear tunes</span>
+0033 <span class="comment">%       [nu_u , nu_v] for two normal modes of linear motion [1]</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">% [LinData,NU, KSI] = LINOPT() returns a vector of normalized chromaticities</span>
+0036 <span class="comment">%       [ksi_u , ksi_v] - derivatives of [nu_u , nu_v] w.r.t. momentum</span>
+0037 <span class="comment">%</span>
+0038 <span class="comment">%  future: include dispersion calculation</span>
+0039 <span class="comment">%          include chromaticity calculation</span>
+0040 <span class="comment">%          linear stability check of Tr(M44)</span>
+0041 <span class="comment">%===============================================================================</span>
+0042 <span class="comment">%Twiss calculation from one-turn transfer matrix at location 's' (AIP 184 p. 50)</span>
+0043 <span class="comment">%                  M(s) =      (M11 M12)</span>
+0044 <span class="comment">%                              (M21 M22)</span>
+0045 <span class="comment">%  M = A (horizontal) or B (vertical)</span>
+0046 <span class="comment">%  M11: cos(2*pi*nu) + alfa*sin(2*pi*nu)</span>
+0047 <span class="comment">%  M12: beta*sin(2*pi*nu)</span>
+0048 <span class="comment">%  M21: -(1+alfa^2)*sin(2*pi*nu)/beta</span>
+0049 <span class="comment">%  M22: cos(2*pi*nu)-alfa*sin(2*pi*nu)</span>
+0050 <span class="comment">%  beta=M12/sin(2*pi*nu);</span>
+0051 <span class="comment">%  alfa=(M11-M22)/(2*sin(2*pi*nu));</span>
+0052 <span class="comment">%  gamma=-M21/sin(2*pi*nu);</span>
+0053 
+0054 <span class="keyword">if</span>(nargin==2)                  <span class="comment">%...ring and momentum deviation (no REFPTS)</span>
+0055    REFPTS= 1;
+0056 <span class="keyword">else</span>
+0057    REFPTS=varargin{1};
+0058 <span class="keyword">end</span>
+0059 
+0060 NR = length(REFPTS);
+0061 spos = findspos(RING,REFPTS);
+0062 
+0063 <span class="comment">%M44=one-turn 4x4 matrix at each element</span>
+0064 <span class="comment">%MS =4x4 transfer matrix from start to each element</span>
+0065 <span class="comment">%orb=6-d closed orbit (findorbit4)</span>
+0066 [M44, MS, orb] = findm44(RING,DP,REFPTS);
+0067 
+0068 LinData = struct(<span class="string">'RingPos'</span>,num2cell(REFPTS),<span class="string">'SPos'</span>,num2cell(spos),<span class="keyword">...</span>
+0069     <span class="string">'COPos'</span>,num2cell(orb,1),<span class="string">'M44'</span>,squeeze(num2cell(MS,[1 2]))');
+0070 
+0071 <span class="comment">% Calculate A,B,C, gamma at the first element</span>
+0072 M = M44(1:2,1:2);
+0073 N = M44(3:4,3:4);
+0074 m = M44(1:2,3:4);
+0075 n = M44(3:4,1:2);
+0076 
+0077 <span class="comment">% 2-by-2 symplectic matrix</span>
+0078 S = [0 1; -1 0];
+0079 H = m + S*n'*S';
+0080 t = trace(M-N);
+0081 
+0082 g = sqrt(1 + sqrt(t*t/(t*t+4*det(H))))/sqrt(2);
+0083 G = diag([g g]);
+0084 C = -H*sign(t)/(g*sqrt(t*t+4*det(H)));
+0085 A = G*G*M  -  G*(m*S*C'*S' + C*n) + C*N*S*C'*S';
+0086 B = G*G*N  +  G*(S*C'*S'*m + n*C) + S*C'*S'*M*C;
+0087 
+0088 <span class="comment">%compute A,B,C,g,beta,alfa at first element</span>
+0089 <span class="keyword">if</span> REFPTS(1)==1 &amp;&amp; NR&gt;1
+0090     START = 2;
+0091     LinData(1).A=A;
+0092     LinData(1).B=B;
+0093     LinData(1).C=C;
+0094     LinData(1).gamma=g;
+0095     LinData(1).beta(1) = A(1,2)/sin(acos(trace(A/2)));
+0096     LinData(1).beta(2) = B(1,2)/sin(acos(trace(B/2)));
+0097     LinData(1).alfa(1) = (A(1,1)-A(2,2))/(2*sin(acos(trace(A/2))));
+0098     LinData(1).alfa(2) = (B(1,1)-B(2,2))/(2*sin(acos(trace(B/2))));
+0099 <span class="keyword">else</span>
+0100     START = 1;
+0101 <span class="keyword">end</span>
+0102 
+0103 <span class="comment">%compute matrixes in all elements indexed by REFPTS</span>
+0104 <span class="keyword">for</span> i=START:NR
+0105     M12 =LinData(i).M44(1:2,1:2);    <span class="comment">%...one turn maps</span>
+0106     N12 =LinData(i).M44(3:4,3:4);
+0107     m12 =LinData(i).M44(1:2,3:4);
+0108     n12 =LinData(i).M44(3:4,1:2);
+0109    
+0110     g2 = sqrt(det(n12*C+G*N12));     <span class="comment">%...coupling matrices</span>
+0111     E12 = (G*M12-m12*S*C'*S')/g2;
+0112     F12 = (n12*C+G*N12)/g2;
+0113     LinData(i).gamma=g2;
+0114     LinData(i).C=(M12*C+G*m12)*S*F12'*S';
+0115     
+0116     LinData(i).A=E12*A*S*E12'*S';    <span class="comment">%...coupled transfer matrices</span>
+0117     LinData(i).B=F12*B*S*F12'*S';
+0118     
+0119                                      <span class="comment">%...Twiss parameters</span>
+0120     LinData(i).beta(1) = LinData(i).A(1,2)/sin(acos(trace(A/2)));
+0121     LinData(i).beta(2) = LinData(i).B(1,2)/sin(acos(trace(B/2)));
+0122     LinData(i).alfa(1) = (LinData(i).A(1,1)-LinData(i).A(2,2))/(2*sin(acos(trace(A/2))));
+0123     LinData(i).alfa(2) = (LinData(i).B(1,1)-LinData(i).B(2,2))/(2*sin(acos(trace(B/2))));
+0124                                      <span class="comment">%...Phase</span>
+0125 <span class="keyword">end</span>
+0126 
+0127 <span class="keyword">if</span> nargout &gt; 1            <span class="comment">%...output tunes</span>
+0128    varargout{1} = acos([trace(A/2); trace(B/2)])/(2*pi);
+0129 <span class="keyword">end</span>
+0130 
+0131 <span class="keyword">if</span> nargout == 3           <span class="comment">%...output chromaticity</span>
+0132     <span class="keyword">global</span> NUMDIFPARAMS
+0133 
+0134     <span class="keyword">if</span> isfield(NUMDIFPARAMS,<span class="string">'DPStep'</span>)
+0135         dDP = NUMDIFPARAMS.DPStep';
+0136     <span class="keyword">else</span>
+0137         dDP =  1e-9;
+0138     <span class="keyword">end</span>
+0139     <span class="comment">% Calculate tunes for DP+dDP</span>
+0140     [LD, TUNES] = <a href="linopt2.html" class="code" title="function [LinData, varargout] = linopt2(RING,DP,varargin)">linopt2</a>(RING,DP+dDP,1);
+0141     varargout{2} = (TUNES - varargout{1}) ./ (varargout{1})/dDP;
+0142 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

@@ -1,0 +1,74 @@
+# CONFIG
+include $(TOP)/configure/CONFIG_APP
+
+ifeq ($(EPICS_HOST_ARCH),solaris-sparc-gnu)
+EPICS_HOST_ARCH=solaris-sparc
+LABCA_BIN=$(LABCA)/bin/solaris-sparc-gnu
+endif
+
+MATLABDIR_linux-x86=/afs/slac/package/matlab/linux/2009a
+#MATLABDIR_linux-x86_64=/prod/matlab/R2016b
+MATLABDIR_linux-x86_64=$(MATLAB_ROOT)
+MATLABDIR_solaris-sparc=/afs/slac/package/matlab/2006b
+MATLABDIR=$(MATLABDIR_$(EPICS_HOST_ARCH))
+MLM_LICENSE_FILE = /prod/matlab/licenses
+
+MBUILDOPTS_linux-x86=mbuildopts_2009a.sh
+MBUILDOPTS_linux-x86_64=mbuildopts.sh
+MBUILDOPTS_solaris-sparc=mbuildopts_2006b.sh
+MBUILDOPTS=$(MBUILDOPTS_$(EPICS_HOST_ARCH))
+
+LABCA_INSTALL_HOST_BIN=$(LABCA_BIN)/labca
+INSTALL_MATLAB = $(INSTALL_LOCATION)/docs
+
+# No need to change anything below here
+# (except for adding more matlab extensions for
+# other platforms...)
+MEXEXT_hpux-parisc=.mexhpux
+MLBARCH_hpux-parisc=hpux
+
+MEXEXT_linux-x86=.mexglx
+MLBARCH_linux-x86=glnx86
+
+MEXEXT_linux-x86_64=.mexa64
+MLBARCH_linux-x86_64=glnxa64
+
+MEXEXT_solaris-sparc=.mexsol
+MLBARCH_solaris-sparc=sol2
+
+MEXEXT_solaris-sparc64=.mexs64
+MLBARCH_solaris-sparc64=sol64
+
+MEXEXT_Darwin-ppc=.mexmac
+MLBARCH_Darwin-ppc=mac
+
+# Matlab at least >= 2006b uses mexw32
+# this should be caught by the mexext script
+# which will define MEXEXT eventually.
+# MEXEXT_DFLT will be used for older versions
+# of matlab only...
+MEXEXT_win32-x86=.dll
+MLBARCH_win32-x86=win32
+
+EPICSARCH=$(word 1,$(subst -, ,$(EPICS_HOST_ARCH)))-$(word 2,$(subst -, ,$(EPICS_HOST_ARCH)))
+MEXEXT=$(MEXEXT_$(EPICSARCH))
+MLBARCH=$(MLBARCH_$(EPICSARCH))
+
+ifeq ($(OS_CLASS),WIN32)
+MEX=win32/mex.bat
+MEXEXT_SH=mexext.bat
+MEXCXXFLAGS=
+else
+MEX=mex
+MEXEXT_SH=mexext
+MEXCXXFLAGS=-cxx
+# Needed to support matlab 2016b as it specifies std=c++11 and our RHEL6
+# and RHEL7 gcc version do not support std=c++11
+MEX_CXXFLAGS="-ansi -fexceptions -fPIC -fno-omit-frame-pointer -pthread -std=c++0x"
+CXXFLAGS=$(MEX_CXXFLAGS)
+endif
+
+UNZIP=$(MATLABDIR)/bin/$(MLBARCH)/extractCTF
+
+CROSS_COMPILER_TARGET_ARCHS =
+STATIC_BUILD = NO

@@ -1,0 +1,39 @@
+# ALS Simple Channel Access Makefile
+
+RELEASE = /home/als2/devel/als_std_epics/
+BASE = $(RELEASE)/base
+INCLUDES = $(BASE)/include
+DBG =
+CFLAGS = -Xa
+CFLAGS_SO = -Xa -Kpic
+SUNOS_DIST = /home/als2/www/docs/alscg/epics_collaboration/sca/sunos
+
+all: info sca2test sca3test sca23test
+
+sca2test : Makefile ./sca2test.c ./scalib.h ./scalib_shared.h ./scalib.o
+	rm -f core
+	rm -f sca2test
+	acc $(DBG) $(CFLAGS)  -I.  -DDO_PUT -o sca2test ./sca2test.c \
+		scalib.o -L$(BASE)/lib/sun4 -lca -lCom
+
+sca3test : Makefile ./sca3test.c ./scalib.h ./scalib_shared.h ./scalib.o
+	rm -f core
+	rm -f sca3test
+	acc $(DBG)  $(CFLAGS)  -I. -o sca3test ./sca3test.c \
+		scalib.o -L$(BASE)/lib/sun4 -lca -lCom
+
+sca23test : Makefile ./sca23test.c ./scalib.h ./scalib_shared.h ./scalib.o
+	rm -f core
+	rm -f sca23test
+	acc $(DBG)  $(CFLAGS) -I. -o sca23test ./sca23test.c \
+		scalib.o -L$(BASE)/lib/sun4 -lca -lCom
+info:
+	@echo "make DBG=-g    #for debug  mode"
+
+clean:
+	rm -f core
+	rm -f sca2test
+	rm -f sca3test
+	rm -f sca23test
+
+#include ../include/makelib

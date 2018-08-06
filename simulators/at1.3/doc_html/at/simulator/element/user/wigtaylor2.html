@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of wigtaylor2</title>
+  <meta name="keywords" content="wigtaylor2">
+  <meta name="description" content="WIGGLER('FAMILYNAME',Length [m], Order, NumOfVar, MapX, NumOfMonoX, MapPx, NumOfMonoPx,">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../index.html">Home</a> &gt;  <a href="../../../index.html">at</a> &gt; <a href="#">simulator</a> &gt; <a href="../index.html">element</a> &gt; <a href="index.html">user</a> &gt; wigtaylor2.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../index.html"><img alt="<" border="0" src="../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at\simulator\element\user&nbsp;<img alt=">" border="0" src="../../../../right.png"></a></td></tr></table>-->
+
+<h1>wigtaylor2
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="box"><strong>WIGGLER('FAMILYNAME',Length [m], Order, NumOfVar, MapX, NumOfMonoX, MapPx, NumOfMonoPx,</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="box"><strong>function z=wigtaylor2(fname,L,no,nv,x,nx,px,npx,y,ny,py,npy,delta,ndelta,t,nt,t1,t2,method) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">WIGGLER('FAMILYNAME',Length [m], Order, NumOfVar, MapX, NumOfMonoX, MapPx, NumOfMonoPx,
+MapY, NumOfMonoY, MapPy, NumOfMonoPy, MapT, NumOfMonoT, MapDelta, NumOfMonoDelta, 'METHOD')
+   creates a new family in the FAMLIST - a structure with fields
+   FamName         family name
+   Length          length [m]
+   Order           Order of the Taylor map
+   NumOfVar        Number of initial variables
+   MapX            Taylor map of final X
+   NumOfMonoX      number of monomials in MapX
+   MapPx           Taylor map of final Px
+   NumOfMonoPx     number of monomials in MapPx
+   MapY            Taylor map of final Y
+   NumOfMonoY      number of monomials in MapY
+   MapPy           Taylor map of final Py
+   NumOfMonoPy     number of monomials in MapPy
+   MapDelta        Taylor map of final Delta E
+   NumOfMonoDelta  number of monomials in MapDelta
+   MapT            Taylor map of final T
+   NumOfMonoT      number of monomials in MapT
+   PassMethod      name of the function to use for tracking
+                   returns assigned address in the FAMLIST that is uniquely
+                   identifies the family
+
+ Weishi Wan, November 2002</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function z=wigtaylor2(fname,L,no,nv,x,nx,px,npx,y,ny,py,npy,delta,ndelta,t,nt,t1,t2,method)</a>
+0002 
+0003 <span class="comment">%WIGGLER('FAMILYNAME',Length [m], Order, NumOfVar, MapX, NumOfMonoX, MapPx, NumOfMonoPx,</span>
+0004 <span class="comment">%MapY, NumOfMonoY, MapPy, NumOfMonoPy, MapT, NumOfMonoT, MapDelta, NumOfMonoDelta, 'METHOD')</span>
+0005 <span class="comment">%   creates a new family in the FAMLIST - a structure with fields</span>
+0006 <span class="comment">%   FamName         family name</span>
+0007 <span class="comment">%   Length          length [m]</span>
+0008 <span class="comment">%   Order           Order of the Taylor map</span>
+0009 <span class="comment">%   NumOfVar        Number of initial variables</span>
+0010 <span class="comment">%   MapX            Taylor map of final X</span>
+0011 <span class="comment">%   NumOfMonoX      number of monomials in MapX</span>
+0012 <span class="comment">%   MapPx           Taylor map of final Px</span>
+0013 <span class="comment">%   NumOfMonoPx     number of monomials in MapPx</span>
+0014 <span class="comment">%   MapY            Taylor map of final Y</span>
+0015 <span class="comment">%   NumOfMonoY      number of monomials in MapY</span>
+0016 <span class="comment">%   MapPy           Taylor map of final Py</span>
+0017 <span class="comment">%   NumOfMonoPy     number of monomials in MapPy</span>
+0018 <span class="comment">%   MapDelta        Taylor map of final Delta E</span>
+0019 <span class="comment">%   NumOfMonoDelta  number of monomials in MapDelta</span>
+0020 <span class="comment">%   MapT            Taylor map of final T</span>
+0021 <span class="comment">%   NumOfMonoT      number of monomials in MapT</span>
+0022 <span class="comment">%   PassMethod      name of the function to use for tracking</span>
+0023 <span class="comment">%                   returns assigned address in the FAMLIST that is uniquely</span>
+0024 <span class="comment">%                   identifies the family</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">% Weishi Wan, November 2002</span>
+0027 
+0028 NumOfColumns = 9;
+0029 
+0030 ElemData.FamName     = fname;  <span class="comment">% add check for existing identical family names</span>
+0031 ElemData.Length      = L;
+0032 ElemData.Order       = no;
+0033 ElemData.NumOfVar    = nv;
+0034 
+0035 <span class="keyword">for</span> i=1:nx
+0036  <span class="keyword">for</span> j=1:NumOfColumns
+0037   ElemData.MapX(i,j) = x(i,j);
+0038  <span class="keyword">end</span>
+0039 <span class="keyword">end</span>
+0040 ElemData.NumOfMonoX = nx;
+0041 
+0042 <span class="keyword">for</span> i=1:npx
+0043  <span class="keyword">for</span> j=1:NumOfColumns
+0044   ElemData.MapPx(i,j) = px(i,j);
+0045  <span class="keyword">end</span>
+0046 <span class="keyword">end</span>
+0047 ElemData.NumOfMonoPx = npx;
+0048 
+0049 <span class="keyword">for</span> i=1:ny
+0050  <span class="keyword">for</span> j=1:NumOfColumns
+0051   ElemData.MapY(i,j) = y(i,j);
+0052  <span class="keyword">end</span>
+0053 <span class="keyword">end</span>
+0054 ElemData.NumOfMonoY = ny;
+0055 
+0056 <span class="keyword">for</span> i=1:npy
+0057  <span class="keyword">for</span> j=1:NumOfColumns
+0058   ElemData.MapPy(i,j) = py(i,j);
+0059  <span class="keyword">end</span>
+0060 <span class="keyword">end</span>
+0061 ElemData.NumOfMonoPy = npy;
+0062 
+0063 <span class="keyword">for</span> i=1:ndelta
+0064  <span class="keyword">for</span> j=1:NumOfColumns
+0065   ElemData.MapDelta(i,j) = delta(i,j);
+0066  <span class="keyword">end</span>
+0067 <span class="keyword">end</span>
+0068 ElemData.NumOfMonoDelta = ndelta;
+0069 
+0070 <span class="keyword">for</span> i=1:nt
+0071  <span class="keyword">for</span> j=1:NumOfColumns
+0072   ElemData.MapT(i,j) = t(i,j);
+0073  <span class="keyword">end</span>
+0074 <span class="keyword">end</span>
+0075 ElemData.NumOfMonoT = nt;
+0076 
+0077 ElemData.R1          = diag(ones(6,1));
+0078 ElemData.R2          = diag(ones(6,1));
+0079 ElemData.T1          = t1;
+0080 ElemData.T2          = t2;
+0081 ElemData.PassMethod  = method;
+0082 
+0083 <span class="keyword">global</span> FAMLIST
+0084 z = length(FAMLIST)+1; <span class="comment">% number of declare families including this one</span>
+0085 FAMLIST{z}.FamName = fname;
+0086 FAMLIST{z}.NumKids = 0;
+0087 FAMLIST{z}.KidsList= [];
+0088 FAMLIST{z}.ElemData= ElemData;</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

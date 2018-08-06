@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of calcemittance</title>
+  <meta name="keywords" content="calcemittance">
+  <meta name="description" content="CALCEMITTANCE - Calculates the natural emittance of the AT model">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; calcemittance.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>calcemittance
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>CALCEMITTANCE - Calculates the natural emittance of the AT model</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [NaturalEmittance] = calcemittance </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">CALCEMITTANCE - Calculates the natural emittance of the AT model
+  NaturalEmittance = calcemittance</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="TuneMovePanel.html" class="code" title="function varargout = TuneMovePanel(varargin)">TuneMovePanel</a>	TUNEMOVEPANEL M-file for TuneMovePanel.fig</li></ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [NaturalEmittance] = calcemittance</a>
+0002 <span class="comment">%CALCEMITTANCE - Calculates the natural emittance of the AT model</span>
+0003 <span class="comment">%  NaturalEmittance = calcemittance</span>
+0004 <span class="comment">%</span>
+0005 
+0006 <span class="keyword">global</span> THERING
+0007 
+0008 sum.e0 = getenergy(<span class="string">'Model'</span>);
+0009 sum.circumference = findspos(THERING, length(THERING)+1);
+0010 sum.revTime = sum.circumference / 2.99792458e8;
+0011 sum.revFreq = 2.99792458e8 / sum.circumference;
+0012 sum.gamma = sum.e0 / 0.51099906e-3;
+0013 sum.beta = sqrt(1 - 1/sum.gamma);
+0014 
+0015 [TD, sum.tunes, sum.chromaticity] = twissring(THERING, 0, 1:length(THERING)+1, <span class="string">'chrom'</span>, 1e-8);
+0016 
+0017 <span class="comment">% For calculating the synchrotron integrals</span>
+0018 temp  = cat(2,TD.Dispersion);
+0019 D_x   = temp(1,:)';
+0020 D_x_  = temp(2,:)';
+0021 beta  = cat(1, TD.beta);
+0022 alpha = cat(1, TD.alpha);
+0023 gamma = (1 + alpha.^2) ./ beta;
+0024 circ  = TD(length(THERING)+1).SPos;
+0025 
+0026 
+0027 <span class="comment">% Synchrotron integral calculation</span>
+0028 sum.integrals = [0.0 0.0 0.0 0.0 0.0 0.0];
+0029 
+0030 <span class="keyword">for</span> i = 1:length(THERING),
+0031     <span class="keyword">if</span> isfield(THERING{i}, <span class="string">'BendingAngle'</span>) &amp;&amp; isfield(THERING{i}, <span class="string">'EntranceAngle'</span>)
+0032         rho = THERING{i}.Length/THERING{i}.BendingAngle;
+0033         dispersion = 0.5*(D_x(i)+D_x(i+1));
+0034         sum.integrals(1) = sum.integrals(1) + dispersion*THERING{i}.Length/rho;
+0035         sum.integrals(2) = sum.integrals(2) + THERING{i}.Length/(rho^2);
+0036         sum.integrals(3) = sum.integrals(3) + THERING{i}.Length/(rho^3);
+0037         <span class="comment">% For general wedge magnets</span>
+0038         sum.integrals(4) = sum.integrals(4) + <span class="keyword">...</span>
+0039             D_x(i)*tan(THERING{i}.EntranceAngle)/rho^2 + <span class="keyword">...</span>
+0040             (1 + 2*rho^2*THERING{i}.PolynomB(2))*(D_x(i)+D_x(i+1))*THERING{i}.Length/(2*rho^3) + <span class="keyword">...</span>
+0041             D_x(i+1)*tan(THERING{i}.ExitAngle)/rho^2;
+0042         <span class="comment">%         sum.integrals(4) = sum.integrals(4) + 2*0.5*(D_x(i)+D_x(i+1))*THERING{i}.Length/rho^3;</span>
+0043         H1 = beta(i,1)*D_x_(i)*D_x_(i)+2*alpha(i)*D_x(i)*D_x_(i)+gamma(i)*D_x(i)*D_x(i);
+0044         H0 = beta(i+1,1)*D_x_(i+1)*D_x_(i+1)+2*alpha(i+1)*D_x(i+1)*D_x_(i+1)+gamma(i+1)*D_x(i+1)*D_x(i+1);
+0045         sum.integrals(5) = sum.integrals(5) + THERING{i}.Length*(H1+H0)*0.5/(rho^3);
+0046         <span class="comment">%         if H1+H0 &lt; 0</span>
+0047         <span class="comment">%             fprintf('%f %i %s\n', H1+H0, i, THERING{i}.FamName)</span>
+0048         <span class="comment">%         end</span>
+0049         sum.integrals(6) = sum.integrals(6) + THERING{i}.PolynomB(2)^2*dispersion^2*THERING{i}.Length;
+0050     <span class="keyword">end</span>
+0051 <span class="keyword">end</span>
+0052 
+0053 <span class="comment">% Damping numbers</span>
+0054 <span class="comment">% Use Robinson's Theorem</span>
+0055 sum.damping(1) = 1 - sum.integrals(4)/sum.integrals(2);
+0056 sum.damping(2) = 1;
+0057 sum.damping(3) = 2 + sum.integrals(4)/sum.integrals(2);
+0058 
+0059 sum.radiation = 8.846e-5*sum.e0.^4*sum.integrals(2)/(2*pi);
+0060 sum.naturalEnergySpread = sqrt(3.8319e-13*sum.gamma.^2*sum.integrals(3)/(2*sum.integrals(2) + sum.integrals(4)));
+0061 sum.naturalEmittance = 3.8319e-13*(sum.e0*1e3/0.510999).^2*sum.integrals(5)/(sum.damping(1)*sum.integrals(2));
+0062 
+0063 <span class="comment">% Damping times</span>
+0064 sum.radiationDamping(1) = 1/(2113.1*sum.e0.^3*sum.integrals(2)*sum.damping(1)/circ);
+0065 sum.radiationDamping(2) = 1/(2113.1*sum.e0.^3*sum.integrals(2)*sum.damping(2)/circ);
+0066 sum.radiationDamping(3) = 1/(2113.1*sum.e0.^3*sum.integrals(2)*sum.damping(3)/circ);
+0067 
+0068 
+0069 NaturalEmittance = sum.naturalEmittance;
+0070</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

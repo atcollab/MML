@@ -1,0 +1,299 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of tracy2at</title>
+  <meta name="keywords" content="tracy2at">
+  <meta name="description" content="TRACY2AT - Reads at Tracy lattice file and converts it to AT">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; tracy2at.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>tracy2at
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>TRACY2AT - Reads at Tracy lattice file and converts it to AT</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function FileNameOutput = tracy2at(FileNameInput) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">TRACY2AT - Reads at Tracy lattice file and converts it to AT</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function OutLine = LocalReadLine(fid)</a></li></ul>
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function FileNameOutput = tracy2at(FileNameInput)</a>
+0002 <span class="comment">%TRACY2AT - Reads at Tracy lattice file and converts it to AT</span>
+0003 
+0004 <span class="keyword">if</span> nargin &lt; 1
+0005     FileNameInput = uigetfile(<span class="string">'*.lat'</span>, <span class="string">'Tracy input file'</span>);
+0006 <span class="keyword">end</span>
+0007 
+0008 [fidinput, errmsg]  = fopen(FileNameInput,<span class="string">'r'</span>);
+0009 <span class="keyword">if</span> fidinput==-1
+0010     error(<span class="string">'Could not open input file'</span>);
+0011 <span class="keyword">end</span>
+0012 
+0013 FileNameOutput = FileNameInput;
+0014 i = findstr(FileNameInput,<span class="string">'.'</span>);
+0015 <span class="keyword">if</span> isempty(i)
+0016     i = length(FileNameInput);
+0017 <span class="keyword">else</span>
+0018     FileNameOutput(i:end) = [];
+0019 <span class="keyword">end</span>
+0020 FileNameOutput = lower([FileNameOutput, <span class="string">'.m'</span>]);
+0021 [fidout, errmsg]  = fopen(FileNameOutput,<span class="string">'w'</span>);
+0022 <span class="keyword">if</span> fidout==-1
+0023     error(<span class="string">'Could not open output file'</span>);
+0024 <span class="keyword">end</span>
+0025 
+0026 <span class="comment">% Header info</span>
+0027 fprintf(fidout, <span class="string">'function %s\n'</span>, FileNameOutput(1:end-2));
+0028 fprintf(fidout, <span class="string">'% AT lattice converted from Tracy file %s\n'</span>, FileNameInput);
+0029 fprintf(fidout, <span class="string">'fprintf(''   Loading AT lattice (%%s)\\n'', mfilename);\n'</span>);
+0030 fprintf(fidout, <span class="string">'\n'</span>);
+0031 fprintf(fidout, <span class="string">'global FAMLIST THERING\n'</span>);
+0032 
+0033 
+0034 fprintf(fidout, <span class="string">'FAMLIST=cell(0);\n'</span>);
+0035 
+0036 fprintf(fidout, <span class="string">'AP = aperture(''AP'',[-0.035, 0.035, -0.017, 0.017],''AperturePass'');\n'</span>);
+0037 
+0038 
+0039 
+0040 tline = <a href="#_sub1" class="code" title="subfunction OutLine = LocalReadLine(fid)">LocalReadLine</a>(fidinput);
+0041 
+0042 <span class="keyword">while</span> ischar(tline)
+0043 
+0044     <span class="keyword">if</span> any(strcmpi(tline,{<span class="string">''</span>, <span class="string">' '</span>, <span class="string">'-1'</span>, <span class="string">'FileNameInput'</span>}))
+0045         <span class="comment">%fprintf('IGNORING:  %s\n', tline);</span>
+0046     
+0047     <span class="keyword">elseif</span> ~isempty(findstr(tline, <span class="string">'define lattice'</span>))
+0048         <span class="comment">%fprintf('IGNORING:  %s\n', tline);</span>
+0049     
+0050     <span class="keyword">elseif</span> ~isempty(findstr(tline, <span class="string">'ring type'</span>))
+0051         <span class="comment">%fprintf('IGNORING:  %s\n', tline);</span>
+0052 
+0053     <span class="keyword">elseif</span> ~isempty(findstr(tline, <span class="string">'{'</span>))
+0054         <span class="comment">% Need to ignor until the closing '}'  % ???</span>
+0055 
+0056     <span class="keyword">elseif</span> ~isempty(findstr(tline, <span class="string">'Energy'</span>))
+0057         fprintf(fidout, <span class="string">'%s\n'</span>,tline);
+0058 
+0059     <span class="keyword">elseif</span> ~isempty(findstr(tline, <span class="string">'Marker'</span>))
+0060         <span class="comment">% MP: Marker;</span>
+0061         i1 = findstr(tline, <span class="string">':'</span>);
+0062         Family = tline(1:i1(1)-1);
+0063         fprintf(fidout, <span class="string">'%s = monitor(''%s'',''IdentityPass'');\n'</span>, deblank(Family), deblank(Family));
+0064 
+0065     <span class="keyword">elseif</span> ~isempty(findstr(tline, <span class="string">'Beam Position Monitor'</span>))
+0066         i1 = findstr(tline, <span class="string">':'</span>);
+0067         Family = tline(1:i1(1)-1);
+0068         fprintf(fidout, <span class="string">'%s = monitor(''%s'',''IdentityPass'');\n'</span>, deblank(Family), deblank(Family));
+0069 
+0070     <span class="keyword">elseif</span> ~isempty(findstr(tline, <span class="string">'Drift'</span>))
+0071         <span class="comment">%D0:    Drift, L = 4.27863333;</span>
+0072         i1 = findstr(tline, <span class="string">':'</span>);
+0073         i2 = findstr(tline, <span class="string">','</span>);
+0074         i3 = findstr(tline, <span class="string">'='</span>);
+0075         i4 = findstr(tline, <span class="string">';'</span>);
+0076 
+0077         Family = tline(1:i1(1)-1);
+0078         L = str2double(tline(i3(1)+1:i4-1));
+0079         
+0080         fprintf(fidout, <span class="string">'%s=drift(''%s'', %f, ''DriftPass'');\n'</span>, deblank(Family), deblank(Family), L);
+0081 
+0082     <span class="keyword">elseif</span> ~isempty(findstr(tline, <span class="string">'Corrector'</span>))
+0083         <span class="comment">%HCM: Corrector, Horizontal, Method= Meth;</span>
+0084         <span class="comment">%VCM: Corrector, Vertical, Method= Meth;</span>
+0085         <span class="comment">%HCM=corrector('HCM',0,[0,0],'CorrectorPass');</span>
+0086         i1 = findstr(tline, <span class="string">':'</span>);
+0087         i2 = findstr(tline, <span class="string">','</span>);
+0088         i3 = findstr(tline, <span class="string">'='</span>);
+0089         i4 = findstr(tline, <span class="string">';'</span>);
+0090 
+0091         Family = tline(1:i1(1)-1);
+0092         <span class="comment">%L = str2double(tline(i3(1)+1:i2(2)-1));  % No thick correctors???</span>
+0093         fprintf(fidout, <span class="string">'%s=corrector(''%s'', 0, [0 0], ''CorrectorPass'');\n'</span>, deblank(Family), deblank(Family));
+0094 
+0095     <span class="keyword">elseif</span> ~isempty(findstr(tline, <span class="string">'Quadrupole'</span>))
+0096         <span class="comment">%QF: Quadrupole, L = 0.3, K = 1.579687874666792,  N = Nquad, Method = Meth;</span>
+0097         <span class="comment">%QF=quadrupole('QF',0.3,1.579687874666792,'StrMPoleSymplectic4Pass');</span>
+0098         i1 = findstr(tline, <span class="string">':'</span>);
+0099         i2 = findstr(tline, <span class="string">','</span>);
+0100         i3 = findstr(tline, <span class="string">'='</span>);
+0101         i4 = findstr(tline, <span class="string">';'</span>);
+0102 
+0103         Family = tline(1:i1(1)-1);
+0104         L = str2double(tline(i3(1)+1:i2(2)-1));
+0105         K = str2double(tline(i3(2)+1:i2(3)-1));
+0106 
+0107         fprintf(fidout, <span class="string">'%s=quadrupole(''%s'', %f, %f, ''StrMPoleSymplectic4Pass'');\n'</span>, deblank(Family), deblank(Family), L, K);
+0108 
+0109     <span class="keyword">elseif</span> ~isempty(findstr(tline, <span class="string">'Sextupole'</span>))
+0110         <span class="comment">%S1:  Sextupole, L = 0.000000, K = -1.972553, N = 1, Method = Meth;</span>
+0111         <span class="comment">%S1 = sextupole('S1',0.000000, -1.972553,'StrMPoleSymplectic4Pass');</span>
+0112         i1 = findstr(tline, <span class="string">':'</span>);
+0113         i2 = findstr(tline, <span class="string">','</span>);
+0114         i3 = findstr(tline, <span class="string">'='</span>);
+0115         i4 = findstr(tline, <span class="string">';'</span>);
+0116 
+0117         Family = tline(1:i1(1)-1);
+0118         L = str2double(tline(i3(1)+1:i2(2)-1));
+0119         K2 = str2double(tline(i3(2)+1:i2(3)-1));
+0120         delL = 1e-8;
+0121         <span class="keyword">if</span> L == 0
+0122             fprintf(fidout, <span class="string">'%s=sextupole(''%s'', %f, %f, ''StrMPoleSymplectic4Pass'');\n'</span>, deblank(Family), deblank(Family), delL, K2/delL);
+0123         <span class="keyword">else</span>
+0124             fprintf(fidout, <span class="string">'%s=sextupole(''%s'', %f, %f, ''StrMPoleSymplectic4Pass'');\n'</span>, deblank(Family), deblank(Family), L, K2);
+0125         <span class="keyword">end</span>
+0126         
+0127     <span class="keyword">elseif</span> ~isempty(findstr(tline, <span class="string">'Bending'</span>))
+0128         <span class="comment">%B1: Bending, L = 2.62, T =  6.0000,    T1 =  3.000, T2 =  3.0000, N = Nbend, Method = Meth;</span>
+0129         <span class="comment">%B1 = rbend('B1',2.1794796,0.392699081,0.19634954,0.19634954,0,'BndMPoleSymplectic4Pass');</span>
+0130         i1 = findstr(tline, <span class="string">':'</span>);
+0131         i2 = findstr(tline, <span class="string">','</span>);
+0132         i3 = findstr(tline, <span class="string">'='</span>);
+0133         i4 = findstr(tline, <span class="string">';'</span>);
+0134 
+0135         Family = tline(1:i1(1)-1);
+0136         L = str2double(tline(i3(1)+1:i2(2)-1));
+0137         BendingAngle = str2double(tline(i3(2)+1:i2(3)-1));   <span class="comment">% Tracy-&gt;Degrees   AT-&gt;Radian</span>
+0138         EntranceAngle = str2double(tline(i3(3)+1:i2(4)-1));  <span class="comment">% Tracy-&gt;Degrees   AT-&gt;Radian</span>
+0139         ExitAngle = EntranceAngle;
+0140         K = 0;
+0141         fprintf(fidout, <span class="string">'%s=rbend(''%s'', %f, %f*pi/180, %f*pi/180, %f*pi/180, %f, ''BndMPoleSymplectic4Pass'');\n'</span>, deblank(Family), deblank(Family), L, BendingAngle, EntranceAngle, ExitAngle, K);
+0142         
+0143     <span class="keyword">elseif</span> ~isempty(findstr(tline, <span class="string">'Multipole'</span>))
+0144         <span class="comment">% TPW: Multipole, N = 1, Method = Meth, HOM = (2, 0.0, 0.0, 3, 0.0, 0.0);</span>
+0145         i1 = findstr(tline, <span class="string">':'</span>);
+0146         i2 = findstr(tline, <span class="string">','</span>);
+0147         i3 = findstr(tline, <span class="string">'='</span>);
+0148         i4 = findstr(tline, <span class="string">';'</span>);
+0149 
+0150         <span class="comment">%         % MULTIPOLE('FAMILYNAME',Length [m],PolynomA,PolynomB,'METHOD')</span>
+0151         <span class="comment">%         fprintf(fidout, '%s=multipole(''%s'', %f, %f, %f, ''StrMPoleSymplectic4Pass'');\n', tline(1:i1(1)-1), tline(1:i1(1)-1), ...</span>
+0152         <span class="comment">%             str2double(tline(i3(1)+1:i2(2)-1)), str2double(tline(i3(2)+1:i2(3)-1)), str2double(tline(i3(3)+1:i2(4)-1)) );</span>
+0153 
+0154         <span class="comment">% Multipole needs work, use Marker for now???</span>
+0155         fprintf(fidout, <span class="string">'%s = monitor(''%s'',''IdentityPass'');\n'</span>, tline(1:i1(1)-1), tline(1:i1(1)-1));
+0156 
+0157     <span class="keyword">elseif</span> ~isempty(findstr(tline, <span class="string">'Cavity'</span>))
+0158         <span class="comment">% CAV: Cavity, Frequency = c0/C*h_rf, Voltage = 5.00e6, Harnum = h_rf;</span>
+0159         i1 = findstr(tline, <span class="string">':'</span>);
+0160         i2 = findstr(tline, <span class="string">','</span>);
+0161         i3 = findstr(tline, <span class="string">'='</span>);
+0162         i4 = findstr(tline, <span class="string">';'</span>);
+0163 
+0164         Family = tline(1:i1(1)-1);
+0165         L = 0; <span class="comment">% ???</span>
+0166         MVolts = str2double(tline(i3(2)+1:i2(3)-1));
+0167 
+0168         <span class="comment">% Hopefully c0, C, h_rf are defined (this looks Johan specific, not Tracy)</span>
+0169         fprintf(fidout, <span class="string">'%s=rfcavity(''%s'', 0, %f, %f, %f, ''CavityPass'');\n'</span>, deblank(Family), deblank(Family), MVolts, c0/C*h_rf, h_rf);
+0170 
+0171     <span class="keyword">elseif</span> ~isempty(findstr(tline, <span class="string">'CELL'</span>))
+0172         <span class="comment">% ???</span>
+0173 
+0174     <span class="keyword">elseif</span> ~isempty(findstr(tline, <span class="string">':'</span>))
+0175         i1 = findstr(tline, <span class="string">':'</span>);
+0176         tline(i1)=<span class="string">'='</span>;
+0177         tline = [tline(1:i1) <span class="string">'['</span> tline(i1+1:end)];
+0178         tline(end:end+1)=<span class="string">'];'</span>;
+0179 
+0180         <span class="keyword">if</span> ~isempty(findstr(tline, <span class="string">'INV'</span>))
+0181             i = findstr(tline, <span class="string">'INV'</span>);
+0182             <span class="keyword">for</span> j = length(i):-1:1
+0183                 tline(i(j):i(j)+2) = [];
+0184                 tline = [tline(1:i(j)-1) <span class="string">'reverse'</span> tline(i(j):end)];
+0185             <span class="keyword">end</span>
+0186         <span class="keyword">end</span>
+0187         
+0188         <span class="comment">% Need to look for '*' and expand???</span>
+0189 
+0190         fprintf(fidout, <span class="string">'%s\n\n'</span>,tline);
+0191         
+0192     <span class="keyword">else</span>
+0193         <span class="comment">% try to evaluate the line to pick up any constants that may be present</span>
+0194         <span class="keyword">try</span>
+0195             <span class="comment">%fprintf(fidout, '%s\n',tline);</span>
+0196             eval(tline);
+0197         <span class="keyword">catch</span>
+0198         <span class="keyword">end</span>
+0199     <span class="keyword">end</span>
+0200 
+0201 
+0202     tline = <a href="#_sub1" class="code" title="subfunction OutLine = LocalReadLine(fid)">LocalReadLine</a>(fidinput);
+0203 <span class="keyword">end</span>
+0204 
+0205 
+0206 fprintf(fidout, <span class="string">'buildlat(RING);\n'</span>);  <span class="comment">% Hopefully it's called RING in all Tracy input files</span>
+0207 fprintf(fidout, <span class="string">'evalin(''caller'',''global THERING FAMLIST GLOBVAL'');\n'</span>);
+0208 fprintf(fidout, <span class="string">'THERING = setcellstruct(THERING, ''Energy'', 1:length(THERING), Energy*1e9);\n'</span>);
+0209 <span class="comment">%fprintf(fidout, 'setcavity off;\n');</span>
+0210 <span class="comment">%fprintf(fidout, 'setradiation off;\n');</span>
+0211 fprintf(fidout, <span class="string">'clear global FAMLIST\n'</span>);
+0212 fprintf(fidout, <span class="string">'evalin(''base'',''clear LOSSFLAG'');\n'</span>);
+0213 
+0214 
+0215 <span class="comment">% Compute total length and RF frequency</span>
+0216 fprintf(fidout, <span class="string">'L0_tot = findspos(THERING, length(THERING)+1);\n'</span>);
+0217 fprintf(fidout, <span class="string">'fprintf(''   L0 = %%.6f\\n'', L0_tot);\n'</span>);
+0218 
+0219 
+0220 
+0221 fclose(fidinput);
+0222 fclose(fidout);
+0223 
+0224 
+0225 
+0226 <a name="_sub1" href="#_subfunctions" class="code">function OutLine = LocalReadLine(fid)</a>
+0227 LastChar = <span class="string">''</span>;
+0228 OutLine = <span class="string">''</span>;
+0229 
+0230 <span class="keyword">while</span> isempty(LastChar) || (LastChar~=<span class="string">';'</span> &amp;&amp; LastChar~=<span class="string">'}'</span>)
+0231     tline = fgetl(fid);
+0232 
+0233     <span class="comment">% Remove blanks at the end</span>
+0234     <span class="keyword">for</span> i = length(tline):-1:1
+0235         <span class="keyword">if</span> tline(i) == <span class="string">' '</span>;
+0236             tline(i) = [];
+0237         <span class="keyword">else</span>
+0238             <span class="keyword">break</span>;
+0239         <span class="keyword">end</span>
+0240     <span class="keyword">end</span>
+0241 
+0242     <span class="keyword">if</span> ~ischar(tline)
+0243         OutLine = tline;
+0244         <span class="keyword">break</span>;
+0245     <span class="keyword">end</span>
+0246     OutLine = [OutLine tline];
+0247     <span class="keyword">if</span> ~isempty(OutLine)
+0248         LastChar = OutLine(end);
+0249     <span class="keyword">end</span>
+0250 <span class="keyword">end</span>
+0251</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

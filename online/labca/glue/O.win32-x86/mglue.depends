@@ -1,0 +1,11 @@
+# DO NOT EDIT: This file created by mkmf.pl,v 1.5 2002/03/25 21:33:24 jba Exp $ 
+
+mglue.obj : ../../ezca/ezca.h ../multiEzca.h ../mglue.h ../lcaError.h \
+  ../multiEzcaCtrlC.h
+
+#Depend files must be targets to avoid 'No rule to make target ...' errors
+../../ezca/ezca.h :
+../multiEzca.h :
+../mglue.h :
+../lcaError.h :
+../multiEzcaCtrlC.h :

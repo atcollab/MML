@@ -1,0 +1,53 @@
+# DO NOT EDIT: This file created by mkmf.pl
+
+outBuf.obj : ../../../../../../include/errlog.h
+outBuf.obj : ../../../../../../include/epicsTime.h
+outBuf.obj : ../../../../../../src/ca/legacy/pcas/generic/outBuf.h
+outBuf.obj : ../../../../../../include/osiWireFormat.h
+outBuf.obj : ../../../../../../include/shareLib.h
+outBuf.obj : ../../../../../../include/compilerDependencies.h
+outBuf.obj : ../../../../../../include/epicsTypes.h
+outBuf.obj : ../../../../../../include/os/WIN32/osdTime.h
+outBuf.obj : ../../../../../../src/ca/client/caProto.h
+outBuf.obj : ../../../../../../src/ca/legacy/pcas/generic/casdef.h
+outBuf.obj : ../../../../../../src/ca/legacy/pcas/generic/clientBufMemoryManager.h
+outBuf.obj : ../../../../../../include/os/WIN32/osdWireFormat.h
+outBuf.obj : ../../../../../../include/compiler/msvc/compilerSpecific.h
+outBuf.obj : ../../../../../../include/errMdef.h
+outBuf.obj : ../../../../../../include/gdd.h
+outBuf.obj : ../../../../../../include/alarm.h
+outBuf.obj : ../../../../../../src/ca/legacy/pcas/generic/caNetAddr.h
+outBuf.obj : ../../../../../../src/ca/legacy/pcas/generic/casEventMask.h
+outBuf.obj : ../../../../../../include/epicsEndian.h
+outBuf.obj : ../../../../../../include/gddNewDel.h
+outBuf.obj : ../../../../../../include/gddUtils.h
+outBuf.obj : ../../../../../../include/gddErrorCodes.h
+outBuf.obj : ../../../../../../include/aitTypes.h
+outBuf.obj : ../../../../../../include/aitConvert.h
+outBuf.obj : ../../../../../../include/gddArray.h
+outBuf.obj : ../../../../../../include/gddScalar.h
+outBuf.obj : ../../../../../../include/gddContainer.h
+outBuf.obj : ../../../../../../include/gddI.h
+outBuf.obj : ../../../../../../include/gddArrayI.h
+outBuf.obj : ../../../../../../include/gddScalarI.h
+outBuf.obj : ../../../../../../include/gddContainerI.h
+outBuf.obj : ../../../../../../include/osiSock.h
+outBuf.obj : ../../../../../../include/resourceLib.h
+outBuf.obj : ../../../../../../include/os/WIN32/osdWireConfig.h
+outBuf.obj : ../../../../../../include/epicsMutex.h
+outBuf.obj : ../../../../../../include/epicsGuard.h
+outBuf.obj : ../../../../../../include/epicsThread.h
+outBuf.obj : ../../../../../../include/gddUtilsI.h
+outBuf.obj : ../../../../../../include/aitHelpers.h
+outBuf.obj : ../../../../../../include/gddEnumStringTable.h
+outBuf.obj : ../../../../../../include/os/WIN32/osdSock.h
+outBuf.obj : ../../../../../../include/ellLib.h
+outBuf.obj : ../../../../../../include/tsSLList.h
+outBuf.obj : ../../../../../../include/epicsString.h
+outBuf.obj : ../../../../../../include/epicsAssert.h
+outBuf.obj : ../../../../../../include/os/WIN32/osdMutex.h
+outBuf.obj : ../../../../../../include/epicsEvent.h
+outBuf.obj : ../../../../../../include/os/WIN32/osdThread.h
+outBuf.obj : ../../../../../../include/os/WIN32/osdEvent.h
+
+

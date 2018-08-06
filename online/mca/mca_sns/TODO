@@ -1,0 +1,56 @@
+
+- More/different semaphores for monitor data structures,
+  comments in Channel.cpp
+  
+- When running the put-callback test against a 3.14.8.2 softIoc
+on Mac OS X, the IOC will sometimes crash:
+
+p1 = mcaopen('set1'); p2 = mcaopen('set1.DESC');
+mcaput({p1, p2}, {42, 'Description'});
+% The immediate follow-up of 'close' does it
+mcaclose(p2, p1);
+
+This is highly dependent on the exact timing of things.
+Symptom on the IOC:
+
+epicsEvent pthread_mutex_lock failed: error Invalid argument
+fatal error: epicsEventSignal
+filename="../../../src/libCom/taskwd/taskwd.c" line number=174
+task 0x646c00 suspended
+
+GDB backtrace:
+...
+#4  0x00469e10 in epicsThreadSuspendSelf () at ../../../src/libCom/osi/os/posix/osdThread.c:473
+#5  0x0045b0f4 in cantProceed (errorMessage=0x47e29c "epicsEventSignal") at ../../../src/libCom/misc/cantProceed.c:53
+#6  0x0046bd04 in epicsEventSignal (pevent=0x646ba0) at ../../../src/libCom/osi/os/posix/osdEvent.c:118
+#7  0x002b4998 in write_notify_reply (pArg=0x1816ff0) at ../camessage.c:1490
+#8  0x0031606c in event_task (pParm=0x5df614) at ../dbEvent.c:972
+
+Instrumented code shows this order:
+1) put callback runs
+2) write_notify_reply starts, informs the client (Matlab)
+   that the put-callback completed  
+3) Matlab runs mcaclose, which invokes destroy_client
+   on the IOC, which deletes the blockSem
+3) write_notify_reply crashes in its final 
+    epicsEventSignal ( pClient->blockSem );
+
+Fix:
+
+in base/src/rsrv/camessage.c, towards the end of write_notify_reply:
+
+    /* wait with this unlock...
+    SEND_UNLOCK ( pClient );
+    */
+
+    /*
+     * wakeup the TCP thread if it is waiting for a cb to complete
+     */
+    epicsEventSignal ( pClient->blockSem );
+
+    /* ... until we're really done: */
+    SEND_UNLOCK ( pClient );
+}
+
+Now the destroy_client is locked out until the end of write_notify_reply,
+and all is fine.

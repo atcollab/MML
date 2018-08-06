@@ -1,0 +1,7 @@
+# DO NOT EDIT: This file created by mkmf.pl,v 1.5 2002/03/25 21:33:24 jba Exp $ 
+
+ctrlC-polled.obj : ../multiEzcaCtrlC.h ../../ezca/ezca.h
+
+#Depend files must be targets to avoid 'No rule to make target ...' errors
+../multiEzcaCtrlC.h :
+../../ezca/ezca.h :

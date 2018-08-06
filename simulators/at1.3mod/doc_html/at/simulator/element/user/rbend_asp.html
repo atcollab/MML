@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of rbend_asp</title>
+  <meta name="keywords" content="rbend_asp">
+  <meta name="description" content="BEND('FAMILYNAME',  Length[m], BendingAngle[rad], EntranceAngle[rad],">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../../index.html">Home</a> &gt;  <a href="../../../index.html">at</a> &gt; <a href="#">simulator</a> &gt; <a href="../index.html">element</a> &gt; <a href="index.html">user</a> &gt; rbend_asp.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../../index.html"><img alt="<" border="0" src="../../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at\simulator\element\user&nbsp;<img alt=">" border="0" src="../../../../right.png"></a></td></tr></table>-->
+
+<h1>rbend_asp
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="box"><strong>BEND('FAMILYNAME',  Length[m], BendingAngle[rad], EntranceAngle[rad],</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="box"><strong>function z=rbend(fname,L,A,A1,A2,K,method, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">BEND('FAMILYNAME',  Length[m], BendingAngle[rad], EntranceAngle[rad],
+    ExitAngle[rad], K, 'METHOD')
+    creates a new family in the FAMLIST - a structure with fields
+        FamName            family name
+        Length             length of the arc for an on-energy particle [m]
+        BendingAngle        total bending angle [rad]
+        EntranceAngle        [rad] (0 - for sector bends)
+        ExitAngle            [rad] (0 - for sector bends)
+        ByError                error in the dipole field relative to the design value 
+        K                        quadrupole K-value for combined funtion bends
+        PassMethod        name of the function to use for tracking
+ returns assigned address in the FAMLIST that is uniquely identifies
+ the family
+ 
+ Eugene 29/08/05 modified to be able to input Polynom data.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function z=rbend(fname,L,A,A1,A2,K,method, varargin)</a>
+0002 <span class="comment">%BEND('FAMILYNAME',  Length[m], BendingAngle[rad], EntranceAngle[rad],</span>
+0003 <span class="comment">%    ExitAngle[rad], K, 'METHOD')</span>
+0004 <span class="comment">%    creates a new family in the FAMLIST - a structure with fields</span>
+0005 <span class="comment">%        FamName            family name</span>
+0006 <span class="comment">%        Length             length of the arc for an on-energy particle [m]</span>
+0007 <span class="comment">%        BendingAngle        total bending angle [rad]</span>
+0008 <span class="comment">%        EntranceAngle        [rad] (0 - for sector bends)</span>
+0009 <span class="comment">%        ExitAngle            [rad] (0 - for sector bends)</span>
+0010 <span class="comment">%        ByError                error in the dipole field relative to the design value</span>
+0011 <span class="comment">%        K                        quadrupole K-value for combined funtion bends</span>
+0012 <span class="comment">%        PassMethod        name of the function to use for tracking</span>
+0013 <span class="comment">% returns assigned address in the FAMLIST that is uniquely identifies</span>
+0014 <span class="comment">% the family</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% Eugene 29/08/05 modified to be able to input Polynom data.</span>
+0017 
+0018 
+0019 ElemData.FamName = fname;  <span class="comment">% add check for identical family names</span>
+0020 ElemData.Length            = L;
+0021 ElemData.MaxOrder            = 3;
+0022 ElemData.NumIntSteps     = 10;
+0023 ElemData.BendingAngle      = A;
+0024 ElemData.EntranceAngle     = A1;
+0025 ElemData.ExitAngle         = A2;
+0026 ElemData.ByError         = 0;
+0027 ElemData.K                  = K;
+0028 
+0029 ElemData.R1 = diag(ones(6,1));
+0030 ElemData.R2 = diag(ones(6,1));
+0031 ElemData.T1 = zeros(1,6);
+0032 ElemData.T2 = zeros(1,6);
+0033 
+0034 <span class="keyword">if</span> nargin &gt; 7
+0035     PolynomA = varargin{1};
+0036 <span class="keyword">else</span>
+0037     PolynomA = [0 0 0 0];
+0038 <span class="keyword">end</span>
+0039 <span class="keyword">if</span> nargin &gt; 8
+0040     PolynomB = varargin{2};
+0041 <span class="keyword">else</span>
+0042     PolynomB = [0 K 0 0];
+0043 <span class="keyword">end</span>
+0044 
+0045 ElemData.PolynomA            = PolynomA;     
+0046 ElemData.PolynomB            = PolynomB; 
+0047 
+0048 <span class="comment">% Eugene test s rotation method 25/08/05</span>
+0049 <span class="comment">% theta = pi/4;</span>
+0050 <span class="comment">% PolynomA            = [0 0 0 0];</span>
+0051 <span class="comment">% PolynomB            = [ElemData.BendingAngle/ElemData.Length K 0 0];</span>
+0052 <span class="comment">% ElemData.PolynomA= imag(exp(i*theta)*complex(PolynomB,PolynomA));</span>
+0053 <span class="comment">% ElemData.PolynomB= real(exp(i*theta)*complex(PolynomB,PolynomA)) - [ElemData.BendingAngle/ElemData.Length 0 0 0];</span>
+0054 
+0055 ElemData.PassMethod         = method;
+0056 
+0057 <span class="keyword">global</span> FAMLIST
+0058 z = length(FAMLIST)+1; <span class="comment">% number of declare families including this one</span>
+0059 FAMLIST{z}.FamName = fname;
+0060 FAMLIST{z}.NumKids = 0;
+0061 FAMLIST{z}.KidsList= [];
+0062 FAMLIST{z}.ElemData= ElemData;
+0063</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

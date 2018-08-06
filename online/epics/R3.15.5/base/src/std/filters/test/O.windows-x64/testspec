@@ -1,0 +1,4 @@
+OS-class: WIN32 
+Target-arch: windows-x64 
+Tests: tsTest.t dbndTest.t arrTest.t syncTest.t 
+Files: ../O.Common/tsTest.dbd ../xRecord.db ../O.Common/dbndTest.dbd ../O.Common/arrTest.dbd ../arrTest.db ../O.Common/syncTest.dbd 

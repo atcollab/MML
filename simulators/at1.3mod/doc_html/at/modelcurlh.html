@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of modelcurlh</title>
+  <meta name="keywords" content="modelcurlh">
+  <meta name="description" content="MODELCURLH - Computes and plots the H-curl functions">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; modelcurlh.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>modelcurlh
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>MODELCURLH - Computes and plots the H-curl functions</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [hx, hy] = modelcurlh </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">MODELCURLH - Computes and plots the H-curl functions
+  [hx, hy] = modelcurlh
+
+  OUTPUTS
+  1. hx - Horizontal H-curl function
+  2. hy - Vertical   H-curl function
+
+  NOTES
+  1. H-curl is plotted is no outputs exist
+
+  See also <a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>	MODELTWISS - Returns a twiss function of the model</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [hx, hy] = modelcurlh</a>
+0002 <span class="comment">%MODELCURLH - Computes and plots the H-curl functions</span>
+0003 <span class="comment">%  [hx, hy] = modelcurlh</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">%  OUTPUTS</span>
+0006 <span class="comment">%  1. hx - Horizontal H-curl function</span>
+0007 <span class="comment">%  2. hy - Vertical   H-curl function</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">%  NOTES</span>
+0010 <span class="comment">%  1. H-curl is plotted is no outputs exist</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%  See also modeltwiss</span>
+0013 
+0014 
+0015 [betx, bety, Sx, Sy] = <a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>(<span class="string">'beta'</span>);
+0016 [alfx, alfy] = <a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>(<span class="string">'alpha'</span>);
+0017 [dx, dy    ] = <a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>(<span class="string">'Eta'</span>);
+0018 [dxp,dyp   ] = <a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>(<span class="string">'EtaPrime'</span>);
+0019 
+0020 hx = (1+alfx.^2)./betx.*dx.^2 + 2*alfx.*dx.*dxp + dxp.^2.*betx;
+0021 hy = (1+alfy.^2)./bety.*dy.^2 + 2*alfy.*dy.*dyp + dyp.^2.*bety;
+0022 
+0023 <span class="keyword">if</span> nargout == 0
+0024     figure
+0025     subplot(2,1,1)
+0026     plot(Sx,hx)
+0027     title(<span class="string">'Linear &quot;Curly&quot; H'</span>)
+0028     xlabel(<span class="string">'Position [m]'</span>)
+0029     ylabel(<span class="string">'H_x [m]'</span>)
+0030 
+0031 
+0032     subplot(2,1,2)
+0033     plot(Sy,hy)
+0034     xlabel(<span class="string">'Position [m]'</span>)
+0035     ylabel(<span class="string">'H_y [m]'</span>)
+0036 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

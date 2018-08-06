@@ -1,0 +1,3 @@
+OS-class: WIN32 
+Target-arch: windows-x64 
+Tests: Breaktable.t DBD.t Device.t Driver.t Function.t macLib.t Menu.t Recfield.t Recordtype.t Registrar.t Snippets.t Variable.t 

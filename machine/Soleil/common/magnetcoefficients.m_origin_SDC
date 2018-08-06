@@ -1,0 +1,522 @@
+function [C, Leff, MagnetType, A] = magnetcoefficients(MagnetCoreType)
+%MAGNETCOEFFICIENTS - Retrieves coefficient for conversion between Physics and Hardware units
+%[C, Leff, MagnetType, A] = magnetcoefficients(MagnetCoreType)
+%
+% INPUTS
+% 1. MagnetCoreType - Family name or type of magnet
+%
+% OUTPUTS
+% 1. C vector coefficients for the polynomial expansion of the magnet field
+%    based on magnet measurements
+% 2. Leff - Effective length ie, which is used in AT
+% 3. MagnetType
+% 4. A - vector coefficients for the polynomial expansion of the curviline 
+%        integral of the magnet field based on magnet measurements
+%
+% C and A are vector coefficients for the polynomial expansion of the magnet field
+% based on magnet measurements.
+%
+% The amp2k and k2amp functions convert between the two types of units.
+%   amp2k returns BLeff, B'Leff, or B"Leff scaled by Brho if A-coefficients are used.
+%   amp2k returns B    , B'    , or B"     scaled by Brho if C-coefficients are used.
+%
+% The A coefficients are direct from magnet measurements with a DC term:
+%   a8*I^8+a7*I^7+a6*I^6+a5*I^5+a4*I^4+a3*I^3+a2*I^2+a1*I+a0 = B*Leff or B'*Leff or B"*Leff
+%   A = [a8 a7 a6 a5 a4 a3 a2 a1 a0]
+%
+% C coefficients have been scaled to field (AT units, except correctors) and includes a DC term:
+%   c8 * I^8+ c7 * I^7+ c6 * I^6 + c5 * I^5 + c4 * I^4 + c3 * I^3 + c2 * I^2 + c1*I + c0 = B or B' or B"
+%   C = A/Leff
+%
+% For dipole:      k = B / Brho      (for AT: KickAngle = BLeff / Brho)
+% For quadrupole:  k = B'/ Brho
+% For sextupole:   k = B"/ Brho / 2  (to be compatible with AT)
+%                  (all coefficients all divided by 2 for sextupoles)
+%
+% MagnetCoreType is the magnet measurements name for the magnet core (string, string matrix, or cell)
+%   For SOLEIL:   BEND
+%                 Q1 - Q10 S1 - S10,
+%                 QT, HCOR, VCOR, FHCOR, FVCOR
+%
+% Leff is the effective length of the magnet
+%
+% See Also amp2k, k2amp
+
+%
+% Written by M. Yoon 4/8/03
+% Adapted By Laurent S. Nadolski
+%
+% Add a switch on accelerator 
+
+% NOTE: Make sure the sign on the 'C' coefficients is reversed where positive current generates negative K-values
+% Or use Tango K value set to -1
+
+
+if nargin < 1
+    error('MagnetCoreType input required');
+end
+
+% For a string matrix
+if iscell(MagnetCoreType)
+    for i = 1:size(MagnetCoreType,1)
+        for j = 1:size(MagnetCoreType,2)
+            [C{i,j}, Leff{i,j}, MagnetType{i,j}, A{i,j}] = magnetcoefficients(MagnetCoreType{i});
+        end
+    end
+    return
+end
+
+% For a string matrix
+if size(MagnetCoreType,1) > 1
+    C=[]; Leff=[]; MagnetType=[]; A=[];
+    for i = 1:size(MagnetCoreType,1)
+        [C1, Leff1, MagnetType1, A1] = magnetcoefficients(MagnetCoreType(i,:));
+        C(i,:) = C1;
+        Leff(i,:) = Leff1;
+        MagnetType = strvcat(MagnetType, MagnetType1);
+        A(i,:) = A1;
+    end
+    return
+end
+
+%% get accelerator name
+AcceleratorName = getfamilydata('Machine');
+
+switch AcceleratorName
+    case 'LT1'
+        %%%%
+        switch upper(deblank(MagnetCoreType))
+
+            case 'BEND'    
+                Leff = 0.30; % 300 mm
+                % B = 1e-4 * (0.0004 I� + 16.334 I + 1.7202)
+                a8 =  0.0;
+                a7 =  0.0;
+                a6 =  0.0;
+                a5 =  0.0;
+                a4 =  0.0;
+                a3 =  0.0;
+                a2 =  0.0;
+                a1 =  4.8861e-4;
+                a0 =  1.19e-4;
+
+                A = [a8 a7 a6 a5 a4 a3 a2 a1 a0];
+                MagnetType = 'BEND';
+
+            case {'QP'}   % 150 mm quadrupole
+                % Find the current from the given polynomial for B'Leff
+                Leff=0.150; % 162 mm;
+                a8 =  0.0;
+                a7 =  0.0;
+                a6 =  0.0;
+                a5 =  0.0;
+%                 a4 =  1.49e-6;
+%                 a3 =  2.59e-5;
+%                 a2 =  1.93e-4;
+%                 a1 =  4.98e-2;
+%                 a0 =  0.0;
+                a4 =  -1.49e-6;
+                a3 =  2.59e-5;
+                a2 =  -1.93e-4;
+                a1 =  4.98e-2;
+                a0 =  8.13e-4;              
+                
+                A = [a7 a6 a5 a4 a3 a2 a1 a0];
+                MagnetType = 'QUAD';
+
+            case {'CH','CV'}    % 16 cm horizontal corrector
+                % Magnet Spec: Theta = 0.8e-3 radians @ 2.75 GeV and 10 amps
+                % Theta = BLeff / Brho    [radians]
+                % Therefore,
+                %       Theta = ((BLeff/Amp)/ Brho) * I
+                %       BLeff/Amp = 0.8e-3 * getbrho(2.75) / 10
+                %       B*Leff = a0 * I   => a0 = 0.8e-3 * getbrho(2.75) / 10
+                %
+                % The C coefficients are w.r.t B
+                %       B = c0 + c1*I = (0 + a0*I)/Leff
+                % However, AT uses Theta in radians so the A coefficients
+                % must be used for correctors with the middle layer with
+                % the addition of the DC term
+
+                % Find the current from the given polynomial for BLeff and B
+                % NOTE: AT used BLeff (A) for correctors
+                MagnetType = 'COR';
+                
+                Leff = 1e-6; % 0.1577 m
+                a8 =  0.0;
+                a7 =  0.0;
+                a6 =  0.0;
+                a5 =  0.0;
+                a4 =  0.0;
+                a3 =  0.0;
+                a2 =  0.0;
+                a1 =  4.49e-4;
+                a0 =  0;
+                A = [a7 a6 a5 a4 a3 a2 a1 a0];
+                
+            otherwise
+                error(sprintf('MagnetCoreType %s is not unknown', MagnetCoreType));
+                %k = 0;
+                %MagnetType = '';
+                %return
+        end
+
+        % compute B-field = int(Bdl)/Leff
+        C = A/ Leff;
+
+        MagnetType = upper(MagnetType);
+    
+    case 'Ring'
+        %%%%
+        switch upper(deblank(MagnetCoreType))
+
+            case 'BEND'    % 1052.43 mm
+                i0= 525.0; % 525 A <--> (1.71 T) <--> 2.75 GeV
+                Leff=1.05243;
+                a7= 0.0;
+                a6=-0.0;
+                a5= 0.0;
+                a4=-0.0;
+                a3= 0.0;
+                a2=-0.0;
+                a1= 1.71*Leff/i0;
+                a0= 0.0;
+                A = [a7 a6 a5 a4 a3 a2 a1 a0];
+
+                MagnetType = 'BEND';
+
+            case {'Q1','Q3','Q4','Q5','Q6','Q8','Q9','Q10'}   % 320 mm quadrupole
+                % Find the current from the given polynomial for B'Leff
+                Leff=0.320;
+                i0=  260;
+                a7=  0.0;
+                a6=  0.0;
+                a5=  0.0;
+                a4=  0.0;
+                a3=  0.0;
+                a2=  0.0;
+                a1=  2.15*Leff*getbrho(2.75)/i0; % K= 2.15 m-2 <--> 260 A
+                a0=  0.0;
+                A = [a7 a6 a5 a4 a3 a2 a1 a0];
+
+                MagnetType = 'quad';
+
+            case {'Q2','Q7'}   % 460 mm quadrupole
+                % Find the current from the given polynomial for B'Leff
+                Leff=0.460;
+                i0=  260.0;
+
+                a7=  0.0;
+                a6=  0.0;
+                a5= -0.0;
+                a4=  0.0;
+                a3= -0.0;
+                a2=  0.0;
+                a1=  2.15*Leff/i0*getbrho(2.75); % K= 2.15 m-2 <--> 260 A
+                a0=  0.0;
+                A = [a7 a6 a5 a4 a3 a2 a1 a0];
+                MagnetType = 'quad';
+
+
+            case {'S1','S2','S3','S4','S5','S6','S7','S8','S9','S10'}    
+                % 160 mm focusing sextupole
+                % Find the current from the given polynomial for B''Leff
+                Leff=1e-8; % modeled as thin length;
+                a7=  0.0;
+                a6=  0.0;
+                a5=  0.0;
+                a4=  0.0;
+                a3=  0.0;
+                a2=  0.0;
+                a1=  0.258294;
+                a0=  0.0;
+                A = [a7 a6 a5 a4 a3 a2 a1 a0];
+                MagnetType = 'SEXT';
+
+            case 'QT'    % 160 mm sextupole
+                % Find the currAO.(ifam).Monitor.HW2PhysicsParams{1}(1,:) = magnetcoefficients(AO.(ifam).FamilyName );
+                i0= 30; % A
+                Leff = 0.16;
+
+                % These are not correct.  They are a copy of QD
+                a7= 0.0;
+                a6= 0.0;
+                a5= 0.0;
+                a4= 0.0;
+                a3= 0.0;
+                a2= 0.0;
+                a1= 2.15*Leff/i0*getbrho(2.75);
+                a0= 0.0;
+                A = [a7 a6 a5 a4 a3 a2 a1 a0];
+
+                MagnetType = 'QT';
+
+            case {'HCOR'}    % 16 cm horizontal corrector
+                % Magnet Spec: Theta = 0.8e-3 radians @ 2.75 GeV and 10 amps
+                % Theta = BLeff / Brho    [radians]
+                % Therefore,
+                %       Theta = ((BLeff/Amp)/ Brho) * I
+                %       BLeff/Amp = 0.8e-3 * getbrho(2.75) / 10
+                %       B*Leff = a0 * I   => a0 = 0.8e-3 * getbrho(2.75) / 10
+                %
+                % The C coefficients are w.r.t B
+                %       B = c0 + c1*I = (0 + a0*I)/Leff
+                % However, AT uses Theta in radians so the A coefficients
+                % must be used for correctors with the middle layer with
+                % the addition of the DC term
+
+                % Find the current from the given polynomial for BLeff and B
+                % NOTE: AT used BLeff (A) for correctors
+                Leff = .16;
+                imax = 10;
+                cormax = 0.8e-3 ; % 0.8 mrad for imax = 10 A
+                MagnetType = 'COR';
+                A = [0 cormax*getbrho(2.75)/imax 0];
+
+            case {'FHCOR'}    % 10 cm horizontal corrector
+                % Magnet Spec: Theta = 280e-6 radians @ 2.75 GeV and 10 amps
+                % Theta = BLeff / Brho    [radians]
+                % Therefore,
+                %       Theta = ((BLeff/Amp)/ Brho) * I
+                %       BLeff/Amp = 280e-6 * getbrho(2.75) / 10
+                %       B*Leff = a0 * I   => a0 = 0.8e-3 * getbrho(2.75) / 10
+                %
+                % The C coefficients are w.r.t B
+                %       B = c0 + c1*I = (0 + a0*I)/Leff
+                % However, AT uses Theta in radians so the A coefficients
+                % must be used for correctors with the middle layer with
+                % the addition of the DC term
+
+                % Find the current from the given polynomial for BLeff and B
+                % NOTE: AT used BLeff (A) for correctors
+                Leff = .10;
+                imax = 10;
+                cormax = 28e-6 ; % 28 urad for imax = 10 A
+                MagnetType = 'COR';
+                A = [0 cormax*getbrho(2.75)/imax 0];
+
+            case {'VCOR'}    % 16 cm vertical corrector
+                % Find the current from the given polynomial for BLeff and B
+                Leff = .16;
+                imax = 10;
+                cormax = 0.8e-3 ; % 0.8 mrad for imax = 10 A
+                MagnetType = 'COR';
+                A = [0 cormax*getbrho(2.75)/imax 0];
+
+            case {'FVCOR'}    % 10 cm vertical corrector
+                % Find the current from the given polynomial for BLeff and B
+                Leff = .10;
+                imax = 10;
+                cormax = 23e-6 ; % 23 urad for imax = 10 A
+                MagnetType = 'COR';
+                A = [0 cormax*getbrho(2.75)/imax 0];
+
+            case {'K_INJ'}
+                % Kicker d'injection
+                % étalonnage provisoire
+                % attention l'element n'etant pas dans le modele,definition
+                % de A ambigue
+                Leff = .6;
+                vmax = 8000;
+                alphamax = 8e-3 ; % 8 mrad pour 8000 V
+                MagnetType = 'K_INJ';
+                A = [0 alphamax*getbrho(2.75)/vmax 0]*Leff;
+                
+             case {'K_INJ1'}
+                % Kicker d'injection
+                % étalonnage provisoire
+                Leff = .6;
+                vmax = 8000;
+                alphamax = 8e-3 ; % 8 mrad pour 8000 V
+                MagnetType = 'K_INJ1';
+                A = [0 -alphamax*getbrho(2.75)/vmax 0]*Leff;
+                
+             case {'K_INJ2'}
+                % Kicker d'injection
+                % étalonnage provisoire
+                Leff = .6;
+                vmax = 8000;
+                alphamax = 8e-3 ; % 8 mrad pour 8000 V
+                MagnetType = 'K_INJ2';
+                A = [0 -alphamax*getbrho(2.75)/vmax 0]*Leff;   
+                
+            case {'SEP_P'}
+                % Septum passif d'injection
+                % étalonnage provisoire
+                Leff = .6;
+                vmax = 5000;
+                alphamax = 23e-3 ; % 23 mrad pour 5000 V
+                MagnetType = 'SEP_P';
+                A = [0 alphamax*getbrho(2.75)/vmax 0]*Leff;
+                
+             case {'SEP_A'}
+                % Septum actif d'injection
+                % étalonnage provisoire
+                Leff = .6;
+                vmax = 8000;
+                alphamax = 110e-3 ; % 110 mrad pour 8000 V
+                MagnetType = 'SEP_A';
+                A = [0 alphamax*getbrho(2.75)/vmax 0]*Leff;   
+                
+            otherwise
+                error(sprintf('MagnetCoreType %s is not unknown', MagnetCoreType));
+                k = 0;
+                MagnetType = '';
+                return
+        end
+
+        % compute B-field = int(Bdl)/Leff
+        C = A / Leff;
+
+        MagnetType = upper(MagnetType);
+
+
+        % Power Series Denominator (Factoral) be AT compatible
+        if strcmpi(MagnetType,'SEXT')
+            C = C / 2;
+        end
+        if strcmpi(MagnetType,'OCTO')
+            C = C / 6;
+        end
+        return;
+    case 'Booster'
+        %%%%
+        switch upper(deblank(MagnetCoreType))
+
+            case 'BEND'    
+                % B[T] = 0.00020 + 0.0013516 I[A]
+                % B[T] = 0.00020 + (0.0013051 + 0.00005/540 I) I[A] Alex
+                Leff = 2.160; % 2160 mm                
+                a8 =  0.0;
+                a7 =  0.0;
+                a6 =  0.0;
+                a5 =  0.0;
+                a4 =  0.0;
+                a3 =  0.0;
+                a2 =  9.2e-8*Leff;
+                a1 =  0.0013051*Leff;
+                a0 =  2.0e-3*Leff;
+
+                A = [a8 a7 a6 a5 a4 a3 a2 a1 a0];
+                MagnetType = 'BEND';
+
+            case {'QF'}   % 400 mm quadrupole
+                % Find the current from the given polynomial for B'Leff
+                % G[T/m] = 0.0465 + 0.0516 I[A] Alex
+                Leff=0.400; 
+                a8 =  0.0;
+                a7 =  0.0;
+                a6 =  0.0;
+                a5 =  0.0;
+                a4 =  0.0;
+                a3 =  0.0;
+                a2 =  0.0;
+                a1 =  0.0516*Leff;
+                a0 =  0.0465*Leff;
+                
+                A = [a7 a6 a5 a4 a3 a2 a1 a0]; %*getbrho(0.1);
+                MagnetType = 'QUAD';
+
+            case {'QD'}   % 400 mm quadrupole
+                % Find the current from the given polynomial for B'Leff
+                % G[T/m] = 0.0485 + 0.0518 I[A] Alex
+                Leff=0.400; 
+                a8 =  0.0;
+                a7 =  0.0;
+                a6 =  0.0;
+                a5 =  0.0;
+                a4 =  0.0;
+                a3 =  0.0;
+                a2 =  0.0;
+                a1 =  -0.0518*Leff;
+                a0 =  -0.0485*Leff;
+                
+                A = [a7 a6 a5 a4 a3 a2 a1 a0]; %*getbrho(0.1);
+                MagnetType = 'QUAD';
+
+            case {'SF'}   % 150 mm sextupole
+                % Find the current from the given polynomial for B'Leff
+                % HL [T/m] = 0.2 I [A] (deja integre)
+                Leff=1.e-8; % thin lens;
+                a8 =  0.0;
+                a7 =  0.0;
+                a6 =  0.0;
+                a5 =  0.0;
+                a4 =  0.0;
+                a3 =  0.0;
+                a2 =  0.0;
+                a1 =  0.2*2;
+                a0 =  0.0;
+                
+                A = [a7 a6 a5 a4 a3 a2 a1 a0];
+                MagnetType = 'SEXT';
+                
+            case {'SD'}   % 150 mm sextupole
+                % Find the current from the given polynomial for B'Leff
+                % HL [T/m] = 0.2 I [A] (deja integre)
+                Leff=1.e-8; % thin lens;
+                a8 =  0.0;
+                a7 =  0.0;
+                a6 =  0.0;
+                a5 =  0.0;
+                a4 =  0.0;
+                a3 =  0.0;
+                a2 =  0.0;
+                a1 = -0.2*2;
+                a0 =  0.0;
+                
+                A = [a7 a6 a5 a4 a3 a2 a1 a0];
+                MagnetType = 'SEXT';
+
+            case {'HCOR','VCOR'}    % ?? cm horizontal corrector
+                % Magnet Spec: Theta = 0.8e-3 radians @ 2.75 GeV and 10 amps
+                % Theta = BLeff / Brho    [radians]
+                % Therefore,
+                %       Theta = ((BLeff/Amp)/ Brho) * I
+                %       BLeff/Amp = 0.8e-3 * getbrho(2.75) / 10
+                %       B*Leff = a0 * I   => a0 = 0.8e-3 * getbrho(2.75) / 10
+                %
+                % The C coefficients are w.r.t B
+                %       B = c0 + c1*I = (0 + a0*I)/Leff
+                % However, AT uses Theta in radians so the A coefficients
+                % must be used for correctors with the middle layer with
+                % the addition of the DC term
+
+                % Find the current from the given polynomial for BLeff and B
+                % NOTE: AT used BLeff (A) for correctors
+                MagnetType = 'COR';
+                % theta [mrad] = 1.34 I[A] @ 0.1 GeV
+                Leff = 1e-6;
+                a8 =  0.0;
+                a7 =  0.0;
+                a6 =  0.0;
+                a5 =  0.0;
+                a4 =  0.0;
+                a3 =  0.0;
+                a2 =  0.0;
+                a1 =  1.34e-3*getbrho(0.1);
+                a0 =  0;
+                A = [a7 a6 a5 a4 a3 a2 a1 a0];
+                
+            otherwise
+                error(sprintf('MagnetCoreType %s is not unknown', MagnetCoreType));
+                %k = 0;
+                %MagnetType = '';
+                %return
+        end
+
+        % compute B-field = int(Bdl)/Leff
+        C = A/ Leff;
+ 
+        % Power Series Denominator (Factoral) be AT compatible
+        if strcmpi(MagnetType,'SEXT')
+            C = C / 2;
+        end
+ 
+        MagnetType = upper(MagnetType);
+
+    case 'LT2'
+
+    otherwise
+        error('Unknown accelerator name %s', AcceleratorName);
+end

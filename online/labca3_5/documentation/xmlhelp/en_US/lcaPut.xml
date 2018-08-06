@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from lcaPut.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="lcaPut" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>lcaPut</refname>
+    <refpurpose>Write to a number of PVs which may be scalars or arrays of different    dimensions.</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   
+   lcaPut(pvs, value, type)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Description</title>
+   <para>
+   </para>
+   <para>
+Write to a number of PVs which may be scalars or arrays of different
+dimensions. It is possible to write the same value to a collection of
+PVs.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>Column vector (in matlab:</term>
+      <listitem><para> m x 1 cell- matrix) of m strings.</para></listitem></varlistentry>
+   <varlistentry><term>a (matlab:</term>
+      <listitem><para> cell-) matrix of strings (in which case the values</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+
+// write a PV
+lcaPut( 'thepv', 1.234 )
+// write as a string (server converts)
+lcaPut( 'thepv', '1.234' )
+// write/transfer as a short integer (server converts)
+lcaPut( 'thepv', 12, 'short' )
+// write multiple PVs (use { } on matlab)
+lcaPut( [ 'pvA'; 'pvB' ], [ 'a'; 'b' ] );
+// write array PV
+lcaPut( 'thepv' , [ 1, 2, 3, 4 ] )
+// write same value to a group of PVs (string
+// concatenation differs on matlab)
+lcaPut( [ 'pvA'; 'pvB' ] + '.SCAN', '1 second' )
+// write array and scalar PV (using NaN as a delimiter)
+tab = [ 1, 2, 3, 4 ;   5, %nan, 0, 0 ]
+lcaPut( [ 'arrayPV'; 'scalarPV' ], tab )
+__________________________________________________________________
+
+
+till 2017-08-08
+   ]]></programlisting>
+</refsection>
+</refentry>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<refentry version="5.0-subset Scilab" xml:id="Error" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <info>
+    <pubdate>$LastChangedDate: 02-Jun-2010 $</pubdate>
+  </info>
+
+  <refnamediv>
+    <refname>Error Handling</refname><refpurpose>labCA's error reporting mechanism</refpurpose>
+  </refnamediv>
+  <refsection>
+  <title>Error Handling</title>
+  <para>
+   All errors encountered during execution of labCA calls result in
+   the call being aborted, a message being printed to the console and an
+   error status being recorded which can be retrieved using scilab's
+   lasterror command. The recommended method for handling errors is
+   scilab's try - catch - end construct:
+  </para>
+  <programlisting role="example"><![CDATA[
+        try
+                val = lcaGet(pvvector)
+        catch
+                err   = lasterror()
+                // additional information is provided
+                // by the 'lcaLastError' routine
+                stats = lcaLastError()
+                // handle error here
+        end
+  ]]></programlisting>
+   <note>
+   <para>
+          This describes version 3 behavior;
+          earlier versions didn't consistently ``throw''
+          all errors so that they could be caught by the try-catch-end
+          mechanism but would merely print messages when encountering some
+          minor errors. Also, versions earlier than 3 would not report
+          error IDs/messages to lasterror nor implement the
+          <link linkend='lcaLastError'>lcaLastError</link> routine.
+   </para>
+   </note>
+   <para>
+   Many labCA calls can handle multiple PVs at once and underlying CA
+   operations may fail for a subset of PVs only. However, lasterror only
+   supports reporting a single error status. Therefore the 
+   <link linkend='lcaLastError'>lcaLastError</link>
+   routine was implemented: if a labCA call fails for a subset of PVs then
+   a subsequent call to lcaLastError returns a column vector of status
+   values for the individual PVs. The error codes are shown in
+   <xref linkend='lca_errorcodes'/>.
+   </para>
+
+   <table xml:id='lca_errorcodes'>
+   <caption>
+   labCA Error Codes.
+   <para>
+   Numerical codes (scilab lasterror
+   and lcaLastError()) and corresponding matlab error ``ID''s (as returned
+   by matlab lasterror).
+   </para>
+   </caption>
+   <th>
+     <tr>
+       <td>#</td><td>Matlab Error ID</td><td>Comment</td>
+     </tr>
+   </th>
+   <tbody>
+     <tr> <td>0</td><td>labca:unexpectedOK     </td><td>No error</td></tr>
+     <tr> <td>1</td><td>labca:invalidArg       </td><td>Invalid argument</td></tr>
+     <tr> <td>2</td><td>labca:noMemory         </td><td>Not enough memory</td></tr>
+     <tr> <td>3</td><td>labca:channelAccessFail</td><td>Underlying CA operation failed</td></tr>
+     <tr> <td>4</td><td>labca:udfCaReq         </td><td>Item(s) requested undefined for its/their native data type</td></tr>
+     <tr> <td>5</td><td>labca:notConnected     </td><td>Channel currently disconnected</td></tr>
+     <tr> <td>6</td><td>labca:timedOut         </td><td>No response in time</td></tr>
+     <tr> <td>7</td><td>labca:inGroup          </td><td>Currently in a EZCA group</td></tr>
+     <tr> <td>8</td><td>labca:notInGroup       </td><td>Currently not in a EZCA group</td></tr>
+     <tr> <td>9</td><td>labca:usrAbort         </td><td>EZCA call aborted by user (Ctrl-C)</td></tr>
+     <tr> <td>20</td><td>labca:noMonitor       </td><td>No monitor for PV/type found</td></tr>
+     <tr> <td>21</td><td>labca:noChannel       </td><td>No channel for PV name found</td></tr>
+   </tbody>
+   </table>
+   </refsection>
+
+   <refsection>
+   <title>See also</title>
+   <simplelist type='inline'>
+   <member><link linkend='lcaLastError'>lcaLastError</link></member>
+   </simplelist>
+   </refsection>
+</refentry>

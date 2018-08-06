@@ -1,0 +1,40 @@
+Orbit PV names
+
+spr:zc1/xx1 - Horizontal
+spr:zc2/xx1 - Vertical
+
+***********************************************************************
+    Folks,
+
+In response to the overwhelming demand (hi Jeff!) to create some "safe"
+process variables for testing channel access routines, I have created the
+following PVs
+
+spr:v4g11/am      spr:t4c12/ac
+spr:v4g12/am      spr:t4c23/ac
+spr:v4g13/am      spr:t4c24/ac
+spr:v4g14/am      spr:t4e1/ac
+spr:v4g15/am      spr:t4e5/ac
+spr:v4g16/am      spr:t4q1e5/ac
+spr:v4g17/am      spr:t4q1e6/ac
+spr:v4g18/am      spr:t4q2e6/ac
+spr:v4g19/am      spr:t4q2e9/ac
+spr:v4g20/am      spr:t4q2e10/ac
+
+
+I apologize for the ugly names, but I didn't invent the SPEAR realtime
+database.  The left column PVs are "inputs".  They are 10 channels from the
+same type of CAMAC module (a SAM or "smart analog module") that reads the
+SPEAR trim power supplies.  The right column PVs are "outputs".  They are
+10 channels from the same type of CAMAC module (a Transiac DAC) that drives
+the SPEAR trim supplies.  The output of each row is looped back to the
+corresponding input.  The data acquisition is handled by the standard SPEAR
+control system process XCAMAC and so using these variables is a realistic test
+of channel access control of SPEAR.  Please note that the SAMs take ~800ms to
+digitize an input because they do a lot of averaging to eliminate common mode
+interference.
+
+Have fun and as usual let me know what breaks.  
+
+                                   --Harvey
+

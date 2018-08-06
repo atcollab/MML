@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of family2atindex</title>
+  <meta name="keywords" content="family2atindex">
+  <meta name="description" content="FAMILY2ATINDEX - Returns the AT index for a given family">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; family2atindex.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>family2atindex
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>FAMILY2ATINDEX - Returns the AT index for a given family</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">FAMILY2ATINDEX - Returns the AT index for a given family
+  ATIndexList = family2atindex(Family, DeviceList)
+
+  INPUTS
+  1. Family - Family Name 
+              Accelerator Object
+              Cell Array of Accelerator Objects or Family Names
+              AT FamName (or 'All' every AT index)
+  2. DeviceList - Device list {Default: the entire family (familydev('Family',0))}
+ 
+  OUTPUTS
+  1. ATIndexList - List of AT indexes referenced to THERING
+                   If the family a split magnet, then muliply columns will be output
+
+  NOTES
+  1. If Family is a cell array, then DeviceList must also be a cell array
+  2. If using AT FamName, then DeviceList is index vector, ie,
+              Length = THERING{ATIndexList}.Length(DeviceList)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="atindex2family.html" class="code" title="function [Family, DeviceList, FamilyCell, DeviceListCell, ErrorFlag] = atindex2family(ATIndex, varargin);">atindex2family</a>	ATINDEX2FAMILY - Returns the AT index for a given family</li><li><a href="calccoupling.html" class="code" title="function [Tilt, Eta, EpsX, EpsY, Ratio, ENV, DP, DL, sigmas] = calccoupling">calccoupling</a>	CALCCOUPLING - Calculates the coupling and tilt of the AT model</li><li><a href="drawlattice.html" class="code" title="function h = drawlattice(Offset, Scaling, hAxes, Ldraw)">drawlattice</a>	DRAWLATTICE - Draws the AT lattice to a figure</li><li><a href="drawlattice2d.html" class="code" title="function h = drawlattice2d(Offset, Scaling, hAxes, Ldraw)">drawlattice2d</a>	DRAWLATTICE2D - Draws the AT lattice to a figure</li><li><a href="getatfield.html" class="code" title="function [FieldValue, ATIndexList] = getatfield(Family, Field, varargin)">getatfield</a>	GETATFIELD - Returns the contents of an AT model field</li><li><a href="getpassmethod.html" class="code" title="function [PassMethod, ATIndex, FamName] = getpassmethod(ATIndex, DeviceList)">getpassmethod</a>	GETPASSMETHOD - Gets the PassMethod field</li><li><a href="getpvmodel.html" class="code" title="function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)">getpvmodel</a>	GETPVMODEL - Get the model value</li><li><a href="getturns.html" class="code" title="function [xAllBPMs, ATindex, LostBeam] = getturns(x0, N, Family, DeviceList)">getturns</a>	GETTURNS - Single particle tracking for multiple turns</li><li><a href="linepass1turn.html" class="code" title="function [x, ATindex, LostBeam] = linepass1turn(x0, Family0, DeviceList0, Family, DeviceList)">linepass1turn</a>	LINEPASS1TURN - Track particle forward or backwards in one turn of the ring</li><li><a href="modeldisp.html" class="code" title="function [Dx, Dy, Sx, Sy, h] = modeldisp(varargin)">modeldisp</a>	MODELDISP - Returns the dispersion function of the model</li><li><a href="modelsextu_off.html" class="code" title="function modelsextu_off">modelsextu_off</a>	MODELSEXTU_OFF - Turns on sextupoles in the AT model</li><li><a href="modelsextu_on.html" class="code" title="function modelsextu_on">modelsextu_on</a>	MODELSEXTU_ON - Turns on sextupoles in the AT model</li><li><a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>	MODELTWISS - Returns a twiss function of the model</li><li><a href="quadroll.html" class="code" title="function quadroll(sr)">quadroll</a>	locate quadrupoles in AO and apply random roll about s-axis</li><li><a href="setatfield.html" class="code" title="function ATIndexList = setatfield(Family, Field, Value, varargin)">setatfield</a>	SETATFIELD - Returns the contents of an AT model field</li><li><a href="setpassmethod.html" class="code" title="function setpassmethod(ATIndex, PassMethod, DeviceList)">setpassmethod</a>	SETPASSMETHOD - Sets the PassMethod</li><li><a href="setpvmodel.html" class="code" title="function ErrorFlag = setpvmodel(varargin)">setpvmodel</a>	SETPVMODEL - Sets the model</li></ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)</a>
+0002 <span class="comment">%FAMILY2ATINDEX - Returns the AT index for a given family</span>
+0003 <span class="comment">%  ATIndexList = family2atindex(Family, DeviceList)</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">%  INPUTS</span>
+0006 <span class="comment">%  1. Family - Family Name</span>
+0007 <span class="comment">%              Accelerator Object</span>
+0008 <span class="comment">%              Cell Array of Accelerator Objects or Family Names</span>
+0009 <span class="comment">%              AT FamName (or 'All' every AT index)</span>
+0010 <span class="comment">%  2. DeviceList - Device list {Default: the entire family (familydev('Family',0))}</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%  OUTPUTS</span>
+0013 <span class="comment">%  1. ATIndexList - List of AT indexes referenced to THERING</span>
+0014 <span class="comment">%                   If the family a split magnet, then muliply columns will be output</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%  NOTES</span>
+0017 <span class="comment">%  1. If Family is a cell array, then DeviceList must also be a cell array</span>
+0018 <span class="comment">%  2. If using AT FamName, then DeviceList is index vector, ie,</span>
+0019 <span class="comment">%              Length = THERING{ATIndexList}.Length(DeviceList)</span>
+0020 
+0021 <span class="comment">%  Written by Greg Portmann</span>
+0022 
+0023 ErrorFlag = 0;
+0024 
+0025 <span class="keyword">if</span> nargin == 0,
+0026     error(<span class="string">'Must have at least one input (Family or Channel Name).'</span>);
+0027 <span class="keyword">end</span>
+0028 
+0029 
+0030 [ATIndexList, ErrorFlag] = getfamilydata(Family, <span class="string">'AT'</span>, <span class="string">'ATIndex'</span>, varargin{:});
+0031 
+0032 <span class="keyword">if</span> isempty(ATIndexList)
+0033     <span class="comment">% Try an AT family</span>
+0034     <span class="keyword">global</span> THERING
+0035     
+0036     <span class="keyword">if</span> strcmpi(Family, <span class="string">'All'</span>)
+0037         ATIndexList = (1:length(THERING))';
+0038     <span class="keyword">else</span>
+0039         ATIndexList = findcells(THERING, <span class="string">'FamName'</span>, Family);
+0040         ATIndexList = ATIndexList(:);
+0041     <span class="keyword">end</span>
+0042     
+0043     <span class="keyword">if</span> nargin &gt;= 2
+0044         <span class="keyword">if</span> ~isempty(varargin{1})
+0045             <span class="keyword">if</span> size(varargin{1},2) == 2
+0046                 varargin{1} = varargin{1}(:,2);
+0047             <span class="keyword">end</span>
+0048             ATIndexList = ATIndexList(varargin{1});
+0049         <span class="keyword">end</span>
+0050     <span class="keyword">end</span>
+0051 <span class="keyword">end</span>
+0052</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

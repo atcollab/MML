@@ -1,0 +1,29 @@
+# standard variables
+prefix=C:/epics/base_3_15_5
+exec_prefix=${prefix}
+bindir=${prefix}/bin/windows-x64
+libdir=${prefix}/lib/windows-x64
+
+# non-standard variables
+
+# EPICS Base install location
+FINAL_LOCATION=${prefix}
+ARCH=windows-x64
+OS_CLASS=WIN32
+CMPLR_CLASS=msvc
+
+# Directories
+
+includedir_osi=${prefix}/include
+includedir_osd=${prefix}/include/os/WIN32
+includedir_comp=${prefix}/include/compiler/msvc
+
+includedirs=${includedir_osi} ${includedir_osd} ${includedir_comp}
+
+dbddir=${prefix}/dbd
+dbdir=${prefix}/db
+
+Name: epics-base
+Version: 3.15.5.0
+Description: EPICS Base for the host arch
+Requires: epics-base-windows-x64 = 3.15.5.0

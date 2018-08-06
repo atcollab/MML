@@ -1,0 +1,10 @@
+#CONFIG
+include $(EPICS_BASE)/configure/RULES
+
+# Library should be rebuilt because LIBOBJS may have changed.
+$(LIBNAME): ../Makefile
+
+
+MATLAB_CONFIG_INCLUDE: $(TOP)/configure/CONFIG $(TOP)/configure/RELEASE
+	@$(RM) $@
+	echo MEXEXT=.$(or $(shell $(MATLABDIR)/bin/$(MEXEXT_SH)),$(MEXEXT_DFLT)) >>$@

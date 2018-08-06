@@ -1,0 +1,13 @@
+#CONFIG
+include $(EPICS_BASE)/configure/RULES
+
+# Library should be rebuilt because LIBOBJS may have changed.
+$(LIBNAME): ../Makefile
+
+MATLAB_CONFIG_INCLUDE: $(TOP)/configure/CONFIG $(TOP)/configure/RELEASE
+	@$(RM) $@
+	@if [ -x $(MATLABDIR)/bin/$(MEXEXT_SH) ] ; then \
+		echo "MEXEXT=.`$(MATLABDIR)/bin/$(MEXEXT_SH)`" >>$@ ; \
+	else \
+		echo "MEXEXT=$(MEXEXT_DFLT)" >>$@ ; \
+	fi

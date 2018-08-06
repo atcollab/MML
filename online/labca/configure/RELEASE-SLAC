@@ -1,0 +1,26 @@
+#EPICS_BASE_win32-x86=/cygdrive/m/slac.stanford.edu/g/lcls/users/strauman/base-3.14.9
+#EPICS_BASE_DEFAULT=/afs/slac.stanford.edu/g/lcls/users/strauman/base-3.14.9
+EPICS_BASE=/home/als1/acct/alsbase/epics_release/R3.14.9/base
+
+#MATLABDIR_WIN32=C:/Program\ Files/MATLAB704
+#MATLABDIR_Linux=/afs/slac/package/matlab/linux/14/
+#MATLABDIR_solaris=/afs/slac/package/matlab/14/
+#MATLABDIR=$(MATLABDIR_$(OS_CLASS))
+
+#SCILABDIR_Linux=/usr/lib/scilab-3.0
+#SCILABDIR=$(SCILABDIR_$(OS_CLASS))
+
+#NOTE: 2006b/sol2 uses Cstd, 2007a/sol64 uses stlport4!!!
+MATLABDIR_solaris-sparc   = /home/als/alsbase/matlab_2007a
+MATLABDIR_solaris-sparc64 = /home/als/alsbase/matlab_2007a
+MATLABDIR_linux-x86       = /home/als/alsbase/matlab_2007a
+MATLABDIR_linux-x86_64    = /home/als/alsbase/matlab_2007a
+MATLABDIR_win32-x86       = p:\Matlab_2007a
+
+SCILABDIR_linux-x86       = /afs/slac/g/lcls/tools/scilab/scilab-4.0
+SCILABDIR_linux-x86_64    = /usr/lib/scilab-4.0-b4-20060515/
+SCILABDIR_solaris-sparc   = /afs/slac/u/qb/strauman/vol3/scilab-solaris/scilab-3.1.1
+SCILABDIR_win32-x86       = C:/scilab-4.0
+
+#MATLIB_SUBDIR=win32/microsoft/msvc70
+MATLIB_SUBDIR=win32/microsoft

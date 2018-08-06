@@ -1,0 +1,434 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of drawlattice</title>
+  <meta name="keywords" content="drawlattice">
+  <meta name="description" content="DRAWLATTICE - Draws the AT lattice to a figure">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; drawlattice.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>drawlattice
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>DRAWLATTICE - Draws the AT lattice to a figure</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function h = drawlattice(Offset, Scaling, hAxes, Ldraw) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">DRAWLATTICE - Draws the AT lattice to a figure
+  h = drawlattice(Offset {0}, Scaling {1}, hAxes {gca}, Ldraw)
+
+  h - handle to each element drawn
+
+  Programmers Notes
+  1. The AT index is stored in the Userdata of each symbol.
+     get(h(i),'Userdata')
+  2. To set a callback on an element use:
+     set(h(i),'ButtonDownFcn', FunctionName);
+  3. To set a context menu (right mouse menu) on an element use:
+     hcmenu = uicontextmenu;
+     set(h(i),'UIContextMenu', hcmenu);
+     cb = 'locogui(''ContextMenuPlot_Callback'',gcbo,[],[])';
+     h1 = uimenu(hcmenu, 'Label', 'Run #1', 'Callback', 'disp(''Run #1'');');
+     h2 = uimenu(hcmenu, 'Label', 'Run #2', 'Callback', 'disp(''Run #2'');');
+     h3 = uimenu(hcmenu, 'Label', 'Run #3', 'Callback', 'disp(''Run #3'');');
+
+  See also <a href="drawlattice2d.html" class="code" title="function h = drawlattice2d(Offset, Scaling, hAxes, Ldraw)">drawlattice2d</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>	FAMILY2ATINDEX - Returns the AT index for a given family</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="modeldisp.html" class="code" title="function [Dx, Dy, Sx, Sy, h] = modeldisp(varargin)">modeldisp</a>	MODELDISP - Returns the dispersion function of the model</li><li><a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>	MODELTWISS - Returns a twiss function of the model</li><li><a href="plottwiss.html" class="code" title="function [ax, h1, h2] = plottwiss(varargin)">plottwiss</a>	PLOTTWISS - Plot the optical functions and tune of the present lattice</li><li><a href="plottwiss_old.html" class="code" title="function plottwiss(varargin)">plottwiss_old</a>	PLOTTWISS - Plot the optical functions and tune of the present lattice</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function h = drawquadrupole_local(hAxes, QuadType, SPos, L, Offset, Scaling)</a></li></ul>
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function h = drawlattice(Offset, Scaling, hAxes, Ldraw)</a>
+0002 <span class="comment">%DRAWLATTICE - Draws the AT lattice to a figure</span>
+0003 <span class="comment">%  h = drawlattice(Offset {0}, Scaling {1}, hAxes {gca}, Ldraw)</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">%  h - handle to each element drawn</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%  Programmers Notes</span>
+0008 <span class="comment">%  1. The AT index is stored in the Userdata of each symbol.</span>
+0009 <span class="comment">%     get(h(i),'Userdata')</span>
+0010 <span class="comment">%  2. To set a callback on an element use:</span>
+0011 <span class="comment">%     set(h(i),'ButtonDownFcn', FunctionName);</span>
+0012 <span class="comment">%  3. To set a context menu (right mouse menu) on an element use:</span>
+0013 <span class="comment">%     hcmenu = uicontextmenu;</span>
+0014 <span class="comment">%     set(h(i),'UIContextMenu', hcmenu);</span>
+0015 <span class="comment">%     cb = 'locogui(''ContextMenuPlot_Callback'',gcbo,[],[])';</span>
+0016 <span class="comment">%     h1 = uimenu(hcmenu, 'Label', 'Run #1', 'Callback', 'disp(''Run #1'');');</span>
+0017 <span class="comment">%     h2 = uimenu(hcmenu, 'Label', 'Run #2', 'Callback', 'disp(''Run #2'');');</span>
+0018 <span class="comment">%     h3 = uimenu(hcmenu, 'Label', 'Run #3', 'Callback', 'disp(''Run #3'');');</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">%  See also drawlattice2d</span>
+0021 
+0022 <span class="comment">%  Written by Greg Portmann</span>
+0023 
+0024 
+0025 <span class="keyword">global</span> THERING
+0026 
+0027 
+0028 <span class="comment">% Minimum icon width in meters (also in drawquadrupolelocal)</span>
+0029 MinIconWidth = .03;
+0030 
+0031 <span class="keyword">if</span> nargin &lt; 1
+0032     Offset = 0;
+0033 <span class="keyword">end</span>
+0034 Offset = Offset(1);
+0035 <span class="keyword">if</span> nargin &lt; 2
+0036     Scaling = 1;
+0037 <span class="keyword">end</span>
+0038 Scaling = Scaling(1);
+0039 
+0040 <span class="keyword">if</span> nargin &lt; 3
+0041     hAxes = gca;
+0042 <span class="keyword">end</span>
+0043 
+0044 
+0045 
+0046 SPositions = findspos(THERING, 1:length(THERING)+1);
+0047 L = SPositions(end);
+0048 
+0049 <span class="keyword">if</span> nargin &lt; 4
+0050     Ldraw = L;
+0051 <span class="keyword">end</span>
+0052 
+0053 plot(hAxes, [0 L], [0 0]+Offset, <span class="string">'k'</span>);
+0054 
+0055 <span class="comment">% Remember the hold state then turn hold on</span>
+0056 HoldState = ishold(hAxes);
+0057 hold(hAxes, <span class="string">'on'</span>);
+0058 
+0059 <span class="keyword">try</span>
+0060     ATIndexHCM = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(gethcmfamily);
+0061 <span class="keyword">catch</span>
+0062     ATIndexHCM = [];
+0063 <span class="keyword">end</span>
+0064 
+0065 <span class="keyword">try</span>
+0066     ATIndexVCM = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(getvcmfamily);
+0067 <span class="keyword">catch</span>
+0068     ATIndexVCM = [];
+0069 <span class="keyword">end</span>
+0070 
+0071 
+0072 <span class="comment">% Make default icons for elements of different physical types</span>
+0073 h = [];
+0074 <span class="keyword">for</span> i = 1:length(THERING)
+0075     NumberOfFinds = 0;
+0076     
+0077     SPos = SPositions(i);
+0078 
+0079     <span class="keyword">if</span> SPos &gt; Ldraw
+0080         <span class="keyword">break</span>
+0081     <span class="keyword">end</span>
+0082 
+0083     <span class="comment">%if (isfield(THERING{i},'BendingAngle') &amp;&amp; THERING{i}.BendingAngle) || strcmpi(THERING{i}.FamName,'BEND')</span>
+0084     <span class="keyword">if</span> isfield(THERING{i},<span class="string">'BendingAngle'</span>) || strcmpi(THERING{i}.FamName,<span class="string">'BEND'</span>)
+0085         <span class="comment">% make icons for bending magnets</span>
+0086         NumberOfFinds = NumberOfFinds + 1;
+0087         IconHeight = .3;
+0088         IconColor = [1 1 0];
+0089         IconWidth = THERING{i}.Length;
+0090         <span class="keyword">if</span> IconWidth &lt; MinIconWidth    <span class="comment">% meters</span>
+0091             IconWidth = MinIconWidth;
+0092             SPos = SPos - IconWidth/2 + THERING{i}.Length/2;
+0093         <span class="keyword">end</span>
+0094         vx = [SPos SPos+IconWidth SPos+IconWidth SPos];
+0095         vy = [IconHeight IconHeight -IconHeight -IconHeight];
+0096         h(length(h)+1) = patch(vx, Scaling*vy+Offset, IconColor,<span class="string">'LineStyle'</span>,<span class="string">'-'</span>, <span class="string">'Parent'</span>,hAxes);
+0097         set(h(end), <span class="string">'UserData'</span>, i);
+0098 
+0099         <span class="comment">%if IconWidth &lt; .1 % meters</span>
+0100         <span class="comment">%    set(h(end), 'EdgeColor', IconColor);</span>
+0101         <span class="comment">%end</span>
+0102         <span class="comment">%set(h(end), 'EdgeColor', IconColor);</span>
+0103 
+0104     <span class="keyword">elseif</span> isfield(THERING{i},<span class="string">'K'</span>) <span class="comment">%&amp;&amp; THERING{i}.K</span>
+0105         <span class="comment">% Quadrupole</span>
+0106         NumberOfFinds = NumberOfFinds + 1;
+0107         <span class="keyword">if</span> THERING{i}.K == 0
+0108             <span class="comment">% Is it a skew quad?</span>
+0109             <span class="comment">%if THERING{i}.PolynomA(2) ~= 0</span>
+0110                 h(length(h)+1) = <a href="#_sub1" class="code" title="subfunction h = drawquadrupole_local(hAxes, QuadType, SPos, L, Offset, Scaling)">drawquadrupole_local</a>(hAxes, <span class="string">'SkewQuad'</span>, SPos, THERING{i}.Length, Offset, Scaling);
+0111             <span class="comment">%else</span>
+0112                 <span class="comment">% Call it a QF</span>
+0113             <span class="comment">%    h(length(h)+1) = drawquadrupole_local(hAxes, 'QF', SPos, THERING{i}.Length, Offset, Scaling);</span>
+0114             <span class="comment">%end</span>
+0115         <span class="keyword">elseif</span> THERING{i}.K &gt;= 0
+0116             h(length(h)+1) = <a href="#_sub1" class="code" title="subfunction h = drawquadrupole_local(hAxes, QuadType, SPos, L, Offset, Scaling)">drawquadrupole_local</a>(hAxes, <span class="string">'QF'</span>, SPos, THERING{i}.Length, Offset, Scaling);
+0117         <span class="keyword">else</span>
+0118             h(length(h)+1) = <a href="#_sub1" class="code" title="subfunction h = drawquadrupole_local(hAxes, QuadType, SPos, L, Offset, Scaling)">drawquadrupole_local</a>(hAxes, <span class="string">'QD'</span>, SPos, THERING{i}.Length, Offset, Scaling);
+0119         <span class="keyword">end</span>
+0120         set(h(end), <span class="string">'UserData'</span>, i);
+0121 
+0122     <span class="keyword">elseif</span> isfield(THERING{i},<span class="string">'M66'</span>) &amp;&amp; any(strcmpi(THERING{i}.FamName,{<span class="string">'QUAD'</span>,<span class="string">'Q'</span>,<span class="string">'QF'</span>,<span class="string">'QD'</span>}))
+0123         <span class="comment">% Quadrupole</span>
+0124         NumberOfFinds = NumberOfFinds + 1;
+0125         <span class="keyword">if</span> THERING{i}.M66(1,1) &lt;= 0
+0126             h(length(h)+1) = <a href="#_sub1" class="code" title="subfunction h = drawquadrupole_local(hAxes, QuadType, SPos, L, Offset, Scaling)">drawquadrupole_local</a>(hAxes, <span class="string">'QF'</span>, SPos, THERING{i}.Length, Offset, Scaling);
+0127         <span class="keyword">else</span>
+0128             h(length(h)+1) = <a href="#_sub1" class="code" title="subfunction h = drawquadrupole_local(hAxes, QuadType, SPos, L, Offset, Scaling)">drawquadrupole_local</a>(hAxes, <span class="string">'QD'</span>, SPos, THERING{i}.Length, Offset, Scaling);
+0129         <span class="keyword">end</span>
+0130         set(h(end), <span class="string">'UserData'</span>, i);
+0131 
+0132     <span class="keyword">elseif</span> isfield(THERING{i},<span class="string">'PolynomB'</span>) &amp;&amp; length(THERING{i}.PolynomB)&gt;2 &amp;&amp; (THERING{i}.PolynomB(3) || any(strcmpi(THERING{i}.FamName,{<span class="string">'SF'</span>,<span class="string">'SFF'</span>,<span class="string">'SD'</span>,<span class="string">'SDD'</span>,<span class="string">'HSF'</span>,<span class="string">'HSD'</span>})))
+0133         <span class="comment">% Sextupole</span>
+0134         <span class="comment">%Shrinkage = .05;</span>
+0135         NumberOfFinds = NumberOfFinds + 1;
+0136         <span class="keyword">if</span> THERING{i}.PolynomB(3)&gt;0 || any(strcmpi(THERING{i}.FamName,{<span class="string">'SF'</span>,<span class="string">'SFF'</span>,<span class="string">'HSF'</span>}))
+0137             <span class="comment">% Focusing sextupole</span>
+0138             IconHeight = .7;
+0139             IconColor = [1 0 1];
+0140             IconWidth = THERING{i}.Length;
+0141             <span class="keyword">if</span> IconWidth &lt; MinIconWidth <span class="comment">% meters</span>
+0142                 IconWidth = MinIconWidth;
+0143                 SPos = SPos - IconWidth/2 + THERING{i}.Length/2;
+0144             <span class="keyword">end</span>
+0145             <span class="comment">%LShrinkage = Shrinkage * IconWidth;</span>
+0146             <span class="comment">%vx = [SPos+LShrinkage          SPos+.33*IconWidth+LShrinkage  SPos+.66*IconWidth-LShrinkage  SPos+IconWidth-LShrinkage  SPos+IconWidth-LShrinkage  SPos+.66*IconWidth-LShrinkage   SPos+.33*IconWidth+LShrinkage  SPos+LShrinkage  SPos+LShrinkage];</span>
+0147             <span class="comment">%vy = [IconHeight/3                      IconHeight                     IconHeight                   IconHeight/3               -IconHeight/3                -IconHeight                      -IconHeight           -IconHeight/3     IconHeight/3 ];</span>
+0148             vx = [SPos          SPos+.33*IconWidth  SPos+.66*IconWidth  SPos+IconWidth   SPos+IconWidth   SPos+.66*IconWidth  SPos+.33*IconWidth      SPos          SPos];
+0149             vy = [IconHeight/3      IconHeight          IconHeight        IconHeight/3    -IconHeight/3      -IconHeight          -IconHeight     -IconHeight/3  IconHeight/3];
+0150         <span class="keyword">else</span>
+0151             <span class="comment">% Defocusing sextupole</span>
+0152             IconHeight = .7;
+0153             IconColor = [0 1 0];
+0154             IconWidth = THERING{i}.Length;
+0155             <span class="keyword">if</span> IconWidth &lt; MinIconWidth <span class="comment">% meters</span>
+0156                 IconWidth = MinIconWidth;
+0157                 SPos = SPos - IconWidth/2 + THERING{i}.Length/2;
+0158             <span class="keyword">end</span>
+0159             vx = [SPos          SPos+.33*IconWidth  SPos+.66*IconWidth  SPos+IconWidth   SPos+IconWidth   SPos+.66*IconWidth  SPos+.33*IconWidth      SPos          SPos];
+0160             vy = [IconHeight/3      IconHeight          IconHeight        IconHeight/3    -IconHeight/3      -IconHeight          -IconHeight     -IconHeight/3  IconHeight/3];
+0161             <span class="comment">%vx = [SPos          SPos+.33*IconWidth  SPos+.66*IconWidth  SPos+IconWidth   SPos+IconWidth   SPos+.66*IconWidth  SPos+.33*IconWidth      SPos          SPos];</span>
+0162             <span class="comment">%vy = [IconHeight/3      IconHeight          IconHeight        IconHeight/3    -IconHeight/3      -IconHeight          -IconHeight     -IconHeight/3  IconHeight/3];</span>
+0163         <span class="keyword">end</span>
+0164         h(length(h)+1) = patch(vx, Scaling*vy+Offset, IconColor,<span class="string">'LineStyle'</span>,<span class="string">'-'</span>, <span class="string">'Parent'</span>,hAxes);
+0165         set(h(end), <span class="string">'UserData'</span>, i);
+0166         <span class="comment">%if IconWidth &lt; .1 % meters</span>
+0167         <span class="comment">%    set(h(end), 'EdgeColor', IconColor);</span>
+0168         <span class="comment">%end</span>
+0169         <span class="comment">%set(h(end), 'EdgeColor', IconColor);</span>
+0170 
+0171     <span class="keyword">elseif</span> isfield(THERING{i},<span class="string">'PolynomB'</span>) &amp;&amp; length(THERING{i}.PolynomB)&gt;3 &amp;&amp; (THERING{i}.PolynomB(4) || any(strcmpi(THERING{i}.FamName,{<span class="string">'Octupole'</span>,<span class="string">'OCTU'</span>})))
+0172         <span class="comment">% Octupole</span>
+0173         NumberOfFinds = NumberOfFinds + 1;
+0174         <span class="keyword">if</span> THERING{i}.PolynomB(4)&gt;0
+0175             <span class="comment">% Focusing octupole</span>
+0176             IconHeight = .6;
+0177             IconColor = [0 .5 .5];
+0178             IconWidth = THERING{i}.Length;
+0179             <span class="keyword">if</span> IconWidth &lt; MinIconWidth <span class="comment">% meters</span>
+0180                 IconWidth = MinIconWidth;
+0181                 SPos = SPos - IconWidth/2 + THERING{i}.Length/2;
+0182             <span class="keyword">end</span>
+0183             vx = [SPos          SPos+.33*IconWidth  SPos+.66*IconWidth  SPos+IconWidth   SPos+IconWidth   SPos+.66*IconWidth  SPos+.33*IconWidth      SPos          SPos];
+0184             vy = [IconHeight/3      IconHeight          IconHeight        IconHeight/3    -IconHeight/3      -IconHeight          -IconHeight     -IconHeight/3  IconHeight/3];
+0185         <span class="keyword">else</span>
+0186             <span class="comment">% Defocusing octupole</span>
+0187             IconHeight = .6;
+0188             IconColor = [.5 .5 0];
+0189             IconWidth = THERING{i}.Length;
+0190             <span class="keyword">if</span> IconWidth &lt; MinIconWidth <span class="comment">% meters</span>
+0191                 IconWidth = MinIconWidth;
+0192                 SPos = SPos - IconWidth/2 + THERING{i}.Length/2;
+0193             <span class="keyword">end</span>
+0194             vx = [SPos          SPos+.33*IconWidth  SPos+.66*IconWidth  SPos+IconWidth   SPos+IconWidth   SPos+.66*IconWidth  SPos+.33*IconWidth      SPos          SPos];
+0195             vy = [IconHeight/3      IconHeight          IconHeight        IconHeight/3    -IconHeight/3      -IconHeight          -IconHeight     -IconHeight/3  IconHeight/3];
+0196         <span class="keyword">end</span>
+0197         h(length(h)+1) = patch(vx, Scaling*vy+Offset, IconColor,<span class="string">'LineStyle'</span>,<span class="string">'-'</span>, <span class="string">'Parent'</span>,hAxes);
+0198         set(h(end), <span class="string">'UserData'</span>, i);
+0199         <span class="comment">%if IconWidth &lt; .1 % meters</span>
+0200         <span class="comment">%    set(h(end), 'EdgeColor', IconColor);</span>
+0201         <span class="comment">%end</span>
+0202         <span class="comment">%set(h(end), 'EdgeColor', IconColor);</span>
+0203 
+0204     <span class="keyword">elseif</span> (isfield(THERING{i},<span class="string">'Frequency'</span>) &amp;&amp; isfield(THERING{i},<span class="string">'Voltage'</span>)) || any(strcmpi(THERING{i}.FamName,{<span class="string">'Cavity'</span>,<span class="string">'RFCavity'</span>}))
+0205         <span class="comment">% RF cavity</span>
+0206         NumberOfFinds = NumberOfFinds + 1;
+0207         IconColor = [1 0.5 0];
+0208         <span class="keyword">if</span> THERING{i}.Length == 0
+0209             h(length(h)+1) = plot(hAxes, SPos, 0+Offset, <span class="string">'o'</span>, <span class="string">'MarkerFaceColor'</span>, IconColor, <span class="string">'Color'</span>, IconColor, <span class="string">'MarkerSize'</span>, 4);
+0210         <span class="keyword">else</span>
+0211             IconHeight = .15;
+0212             IconWidth = THERING{i}.Length;
+0213             <span class="keyword">if</span> IconWidth &lt; MinIconWidth    <span class="comment">% meters</span>
+0214                 IconWidth = MinIconWidth;
+0215                 SPos = SPos - IconWidth/2 + THERING{i}.Length/2;
+0216             <span class="keyword">end</span>
+0217             vx = [SPos SPos+IconWidth SPos+IconWidth SPos];
+0218             vy = [IconHeight IconHeight -IconHeight -IconHeight];
+0219             h(length(h)+1) = patch(vx, Scaling*vy+Offset, IconColor,<span class="string">'LineStyle'</span>,<span class="string">'-'</span>, <span class="string">'Parent'</span>,hAxes);
+0220             set(h(end), <span class="string">'EdgeColor'</span>, IconColor);
+0221         <span class="keyword">end</span>
+0222         set(h(end), <span class="string">'UserData'</span>, i);
+0223 
+0224     <span class="keyword">elseif</span> strcmpi(THERING{i}.FamName,<span class="string">'BPM'</span>)
+0225         <span class="comment">% BPM</span>
+0226         NumberOfFinds = NumberOfFinds + 1;
+0227         IconColor = <span class="string">'k'</span>;
+0228         h(length(h)+1) = plot(hAxes, SPos, 0+Offset, <span class="string">'.'</span>, <span class="string">'Color'</span>, IconColor);
+0229         <span class="comment">%h(length(h)+1) = plot(hAxes, SPos, 0, 'o', 'MarkerFaceColor', IconColor, 'Color', IconColor, 'MarkerSize', 1.5)</span>
+0230         set(h(end), <span class="string">'UserData'</span>, i);
+0231         
+0232     <span class="keyword">elseif</span> strcmpi(THERING{i}.FamName,<span class="string">'TV'</span>)
+0233         <span class="comment">% TV screen</span>
+0234         NumberOfFinds = NumberOfFinds + 1;
+0235         IconHeight = .7;
+0236         IconColor = [.5 0 0];  <span class="comment">%'k';</span>
+0237         <span class="comment">%h(length(h)+1) = plot(hAxes, SPos, 0+Offset, 'x', 'Color', IconColor);</span>
+0238         h(length(h)+1) = plot(hAxes, SPos, Scaling*IconHeight+Offset, <span class="string">'Marker'</span>,<span class="string">'Square'</span>, <span class="string">'MarkerFaceColor'</span>, IconColor, <span class="string">'Color'</span>, IconColor, <span class="string">'MarkerSize'</span>, 3.5);
+0239         set(h(end), <span class="string">'UserData'</span>, i);
+0240     <span class="keyword">end</span>
+0241     
+0242     <span class="comment">% Since correctors could be a combined function magnet, test separately</span>
+0243     <span class="keyword">if</span> any(strcmpi(THERING{i}.FamName,{<span class="string">'COR'</span>,<span class="string">'XCOR'</span>,<span class="string">'YCOR'</span>,<span class="string">'HCOR'</span>,<span class="string">'VCOR'</span>,<span class="string">'HCM'</span>,<span class="string">'VCM'</span>})) || isfield(THERING{i},<span class="string">'KickAngle'</span>)
+0244         <span class="comment">% Corrector</span>
+0245         NumberOfFinds = NumberOfFinds + 1;
+0246         
+0247         <span class="keyword">if</span> NumberOfFinds &gt; 1
+0248             IconWidth = 0;
+0249         <span class="keyword">else</span>
+0250             IconWidth = THERING{i}.Length;
+0251         <span class="keyword">end</span>
+0252         IconHeight = 1.1;  <span class="comment">% was .8</span>
+0253         vx = [SPos   SPos];
+0254 
+0255         <span class="comment">% Draw a line above for a HCM and below for a VCM</span>
+0256         <span class="comment">% If it's not in the ML, then draw a line above and below</span>
+0257         CMFound = 1;
+0258         <span class="keyword">if</span> any(i == ATIndexVCM)
+0259             IconColor = [0 0 0];
+0260             vy = [-IconHeight 0];
+0261             <span class="keyword">if</span> IconWidth &lt; MinIconWidth
+0262                 h(length(h)+1) = plot(hAxes, vx, Scaling*vy+Offset, <span class="string">'Color'</span>, IconColor, <span class="string">'LineWidth'</span>, 1.5);
+0263             <span class="keyword">else</span>
+0264                 IconWidth = THERING{i}.Length;
+0265                 vx = [SPos SPos+IconWidth SPos+IconWidth SPos];
+0266                 vy = [0 0 -IconHeight -IconHeight];
+0267                 <span class="comment">%vy = [IconHeight IconHeight -IconHeight -IconHeight];</span>
+0268                 h(length(h)+1) = patch(vx, Scaling*vy+Offset, IconColor, <span class="string">'LineStyle'</span>, <span class="string">'-'</span>, <span class="string">'Parent'</span>,hAxes);
+0269                 <span class="keyword">if</span> IconWidth &lt; MinIconWidth*2 <span class="comment">% meters</span>
+0270                     set(h(end), <span class="string">'EdgeColor'</span>, IconColor);
+0271                 <span class="keyword">end</span>
+0272             <span class="keyword">end</span>
+0273             set(h(end), <span class="string">'UserData'</span>, i);
+0274             CMFound = 0;
+0275         <span class="keyword">end</span>
+0276 
+0277         <span class="keyword">if</span> any(i == ATIndexHCM)
+0278             IconColor = [0 0 0];
+0279             vy = [0 IconHeight];
+0280             <span class="keyword">if</span> IconWidth &lt; MinIconWidth
+0281                 h(length(h)+1) = plot(hAxes, vx, Scaling*vy+Offset, <span class="string">'Color'</span>, IconColor, <span class="string">'LineWidth'</span>, 1.5);
+0282             <span class="keyword">else</span>
+0283                 IconWidth = THERING{i}.Length;
+0284                 vx = [SPos SPos+IconWidth SPos+IconWidth SPos];
+0285                 vy = [IconHeight IconHeight 0 0];
+0286                 <span class="comment">%vy = [IconHeight IconHeight -IconHeight -IconHeight];</span>
+0287                 h(length(h)+1) = patch(vx, Scaling*vy+Offset, IconColor, <span class="string">'LineStyle'</span>, <span class="string">'-'</span>, <span class="string">'Parent'</span>,hAxes);
+0288                 <span class="keyword">if</span> IconWidth &lt; MinIconWidth*2 <span class="comment">% meters</span>
+0289                     set(h(end), <span class="string">'EdgeColor'</span>, IconColor);
+0290                 <span class="keyword">end</span>
+0291             <span class="keyword">end</span>
+0292             set(h(end), <span class="string">'UserData'</span>, i);
+0293             CMFound = 0;
+0294         <span class="keyword">end</span>
+0295         
+0296         <span class="keyword">if</span> CMFound
+0297             IconColor = [0 0 0];
+0298             vy = [-IconHeight IconHeight];
+0299             <span class="keyword">if</span> IconWidth &lt; MinIconWidth
+0300                 h(length(h)+1) = plot(hAxes, vx, Scaling*vy+Offset, <span class="string">'Color'</span>, IconColor, <span class="string">'LineWidth'</span>, 1.5);
+0301             <span class="keyword">else</span>
+0302                 IconWidth = THERING{i}.Length;
+0303                 vx = [SPos SPos+IconWidth SPos+IconWidth SPos];
+0304                 vy = [IconHeight IconHeight -IconHeight -IconHeight];
+0305                 h(length(h)+1) = patch(vx, Scaling*vy+Offset, IconColor, <span class="string">'LineStyle'</span>, <span class="string">'-'</span>, <span class="string">'Parent'</span>,hAxes);
+0306                 <span class="keyword">if</span> IconWidth &lt; MinIconWidth*2 <span class="comment">% meters</span>
+0307                     set(h(end), <span class="string">'EdgeColor'</span>, IconColor);
+0308                 <span class="keyword">end</span>
+0309             <span class="keyword">end</span>
+0310             set(h(end), <span class="string">'UserData'</span>, i);
+0311             CMFound = 0;
+0312         <span class="keyword">end</span>
+0313     <span class="keyword">end</span>
+0314 <span class="keyword">end</span>
+0315 
+0316 
+0317 <span class="comment">% Leave the hold state as it was at the start</span>
+0318 <span class="keyword">if</span> ~HoldState
+0319     hold(hAxes, <span class="string">'off'</span>);
+0320 <span class="keyword">end</span>
+0321 
+0322 a = axis(hAxes);
+0323 axis(hAxes, [0 L a(3:4)]);
+0324 
+0325 
+0326 
+0327 <a name="_sub1" href="#_subfunctions" class="code">function h = drawquadrupole_local(hAxes, QuadType, SPos, L, Offset, Scaling)</a>
+0328 
+0329 <span class="comment">% Minimum icon width in meters</span>
+0330 MinIconWidth = .03;
+0331 
+0332 <span class="keyword">if</span> strcmpi(QuadType, <span class="string">'SkewQuad'</span>)
+0333     <span class="comment">% Focusing quadrupole</span>
+0334     IconHeight = .55;
+0335     IconColor = [1 0 0];
+0336     IconWidth = L;
+0337     <span class="keyword">if</span> IconWidth &lt; MinIconWidth <span class="comment">% meters</span>
+0338         IconWidth = MinIconWidth;
+0339         SPos = SPos - IconWidth/2 + L/2;
+0340     <span class="keyword">end</span>
+0341     vx = [SPos SPos+IconWidth/2  SPos+IconWidth SPos+IconWidth/2 SPos];
+0342     vy = [0          IconHeight               0      -IconHeight    0];
+0343 <span class="keyword">elseif</span> strcmpi(QuadType, <span class="string">'QF'</span>)
+0344     <span class="comment">% Focusing quadrupole</span>
+0345     IconHeight = .8;
+0346     IconColor = [1 0 0];
+0347     IconWidth = L;
+0348     <span class="keyword">if</span> IconWidth &lt; MinIconWidth <span class="comment">% meters</span>
+0349         IconWidth = MinIconWidth;
+0350         SPos = SPos - IconWidth/2 + L/2;
+0351     <span class="keyword">end</span>
+0352     vx = [SPos SPos+IconWidth/2  SPos+IconWidth SPos+IconWidth/2 SPos];
+0353     vy = [0          IconHeight               0      -IconHeight    0];
+0354 <span class="keyword">else</span>
+0355     <span class="comment">% Defocusing quadrupole</span>
+0356     IconHeight = .7;
+0357     IconColor = [0 0 1];
+0358     IconWidth = L;
+0359     <span class="keyword">if</span> IconWidth &lt; MinIconWidth <span class="comment">% meters</span>
+0360         <span class="comment">% Center about starting point</span>
+0361         IconWidth = MinIconWidth;
+0362         SPos = SPos - IconWidth/2 + L/2;
+0363     <span class="keyword">end</span>
+0364     vx = [SPos+.4*IconWidth    SPos    SPos+IconWidth  SPos+.6*IconWidth  SPos+IconWidth    SPos      SPos+.4*IconWidth];
+0365     vy = [     0            IconHeight   IconHeight          0              -IconHeight  -IconHeight    0];
+0366 <span class="keyword">end</span>
+0367 h = patch(vx, Scaling*vy+Offset, IconColor,<span class="string">'LineStyle'</span>,<span class="string">'-'</span>, <span class="string">'Parent'</span>,hAxes);
+0368 <span class="comment">%set(h, 'EdgeColor', IconColor);</span></pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

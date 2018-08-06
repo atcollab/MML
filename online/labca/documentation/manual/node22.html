@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>lcaSetSeverityWarnLevel</TITLE>
+<META NAME="description" CONTENT="lcaSetSeverityWarnLevel">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="manual.css">
+
+<LINK REL="next" HREF="node23.html">
+<LINK REL="previous" HREF="node21.html">
+<LINK REL="up" HREF="node2.html">
+<LINK REL="next" HREF="node23.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html316"
+  HREF="node23.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html314"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html308"
+  HREF="node21.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html317"
+  HREF="node23.html">lcaDelay</A>
+<B> Up:</B> <A NAME="tex2html315"
+  HREF="node2.html">Supported EZCA Calls</A>
+<B> Previous:</B> <A NAME="tex2html309"
+  HREF="node21.html">lcaDebugOn, lcaDebugOff</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html318"
+  HREF="node22.html#SECTION000220100000000000000">Calling Syntax</A>
+<LI><A NAME="tex2html319"
+  HREF="node22.html#SECTION000220200000000000000">Description</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H2><A NAME="SECTION000220000000000000000"></A>
+<A NAME="swarnlevel"></A>
+<BR>
+lcaSetSeverityWarnLevel
+</H2>
+
+<H3><A NAME="SECTION000220100000000000000">
+Calling Syntax</A>
+</H3>
+<PRE>
+lcaSetSeverityWarnLevel(newlevel)
+</PRE>
+<H3><A NAME="SECTION000220200000000000000">
+Description</A>
+</H3>
+Set the warning threshold for <TT>lcaGet()</TT> operations.
+A warning message is printed when retrieving a PV with a severity bigger
+or equal to the warning level. Supported values are 0..3 (No alarm,
+minor alarm, major alarm, invalid alarm). The initial/default value is 3.
+
+<P>
+If a value <SPAN CLASS="MATH"><IMG
+ WIDTH="50" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$&gt;=10$"></SPAN> is passed, the threshold for refusing to read the <TT>.VAL</TT>
+field of PVs with an <SPAN  CLASS="textbf">INVALID</SPAN> severity can be changed. The rejection
+can be switched off completely by passing 14 (<!-- MATH
+ $= 10 + INVALID\_ALARM + 1$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="234" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$= 10 + INVALID\_ALARM + 1$"></SPAN>)
+or made more sensitive by passing a value of less than 13 (<!-- MATH
+ $=10 + INVALID\_ALARM$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="207" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$=10 + INVALID\_ALARM$"></SPAN>),
+the default.
+
+<P>
+<BR>
+<BR><HR>
+<ADDRESS>
+till
+2007-10-13
+</ADDRESS>
+</BODY>
+</HTML>

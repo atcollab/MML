@@ -1,0 +1,54 @@
+VPATH = ./src
+
+.SUFFIXES:
+
+SRC        = ./src
+LIB        = ./lib
+
+INC   =  -I../usr/include -I/usr/lib/g++-include \
+              -I./inc \
+              -I../usr/local 
+
+CFLAGS = -c -O3 $(INC)
+CXX    = g++ 
+
+OBJS =           \
+	ZlibInc.o   \
+	Zlib.o   \
+        Eigen.o  \
+	Tps.o    \
+	TpsData.o    \
+	doubleMatrix.o \
+	Vec.o    \
+	Vps.o    \
+	DepritLie.o  \
+	DepritLieLn.o  \
+	DepritLie45.o  \
+	DepritLieLn45.o  \
+	DepritTaylor.o  \
+	DepritTaylorLn.o  \
+	DragtLie.o  \
+	DragtLieLn.o  \
+	DragtLie45.o  \
+	DragtLieLn45.o \
+	ResMap.o \
+	mxVps.o \
+	mxVpsLn.o \
+	NonlinearNorm45.o
+
+
+$(LIB)/libZlib.a : $(OBJS)
+	ar cru  $(LIB)/libZlib.a $(OBJS)
+	ranlib  $(LIB)/libZlib.a
+
+%.o : $(VPATH)/%.cpp inc/%.hpp
+	$(CXX) $(CFLAGS) $(INC) $< -o $@ 
+
+Eigen.o : $(VPATH)/Eigen.cpp 
+	$(CXX) $(CFLAGS) $(INC) $< -o $@ 
+
+id:
+	@echo CXX: $(CXX)
+	@echo CFLAGS: $(CFLAGS)
+	@echo INC: $(INC)
+

@@ -1,0 +1,233 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of getharmonicnumber</title>
+  <meta name="keywords" content="getharmonicnumber">
+  <meta name="description" content="GETHARMONICNUMBER - Returns the harmonic number from the AT model">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; getharmonicnumber.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>getharmonicnumber
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>GETHARMONICNUMBER - Returns the harmonic number from the AT model</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [HarmonicNumber, RF] = getharmonicnumber </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">GETHARMONICNUMBER - Returns the harmonic number from the AT model
+  [HarmonicNumber, RF] = getharmonicnumber
+
+  If there is not a cavity in the model, getharmonicnumber returns
+  HarmonicNumber = getfamilydata('HarmonicNumber')
+  If that is isempty it goes to a table lookup (below).
+  RF frequencies are not exact.
+
+                      HarmonicNumber
+  Machine    Energy      SR /  BR     RF Freq [MHz]
+   ALS        1.9       328 / 125     499.640349
+   ALBA       3.0       448           499.653487
+   ASP        3.0       360 / 217     499.666695
+   Bessy II   1.7       400           499.65
+   CAMD       3.0        92           499.6541
+   CLS        3.0       285           500.004977
+   Diamond    3.0       936           499.654097
+   DSR        0.274      64           178.55
+   ELSA       2.3       274           499.6658
+   Indus2     2.5       191           505.808
+   MLS        0.105      80           499.65
+   LNLS VUV   1.37      148           476.004
+   NSLS II    3.0      1320           499.68
+   TLS        1.5       200           499.65
+   TPS              
+   PLS        2.5       468           500.0008
+   SESAME     2.5       222 /  64      499.654
+   SNS        1.78        1           1.098
+   Spear3     3.0       372           476.300006
+   Soleil     2.7391    416 / 184     352.2
+   SPS        1.2        32           118.0006
+   SSRF       3.5       720           499.650967
+   VUV        0.808       9            52.88
+   X-Ray Ring 2.8        30            52.88
+
+  See also <a href="getcavity.html" class="code" title="function [CavityState, PassMethod, ATCavityIndex, RF, HarmonicNumber] = getcavity(THERING)">getcavity</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="getcavity.html" class="code" title="function [CavityState, PassMethod, ATCavityIndex, RF, HarmonicNumber] = getcavity(THERING)">getcavity</a>	GETCAVITY - Returns the RF cavity state ('On' / 'Off')</li><li><a href="getpvmodel.html" class="code" title="function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)">getpvmodel</a>	GETPVMODEL - Get the model value</li></ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [HarmonicNumber, RF] = getharmonicnumber</a>
+0002 <span class="comment">%GETHARMONICNUMBER - Returns the harmonic number from the AT model</span>
+0003 <span class="comment">%  [HarmonicNumber, RF] = getharmonicnumber</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">%  If there is not a cavity in the model, getharmonicnumber returns</span>
+0006 <span class="comment">%  HarmonicNumber = getfamilydata('HarmonicNumber')</span>
+0007 <span class="comment">%  If that is isempty it goes to a table lookup (below).</span>
+0008 <span class="comment">%  RF frequencies are not exact.</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">%                      HarmonicNumber</span>
+0011 <span class="comment">%  Machine    Energy      SR /  BR     RF Freq [MHz]</span>
+0012 <span class="comment">%   ALS        1.9       328 / 125     499.640349</span>
+0013 <span class="comment">%   ALBA       3.0       448           499.653487</span>
+0014 <span class="comment">%   ASP        3.0       360 / 217     499.666695</span>
+0015 <span class="comment">%   Bessy II   1.7       400           499.65</span>
+0016 <span class="comment">%   CAMD       3.0        92           499.6541</span>
+0017 <span class="comment">%   CLS        3.0       285           500.004977</span>
+0018 <span class="comment">%   Diamond    3.0       936           499.654097</span>
+0019 <span class="comment">%   DSR        0.274      64           178.55</span>
+0020 <span class="comment">%   ELSA       2.3       274           499.6658</span>
+0021 <span class="comment">%   Indus2     2.5       191           505.808</span>
+0022 <span class="comment">%   MLS        0.105      80           499.65</span>
+0023 <span class="comment">%   LNLS VUV   1.37      148           476.004</span>
+0024 <span class="comment">%   NSLS II    3.0      1320           499.68</span>
+0025 <span class="comment">%   TLS        1.5       200           499.65</span>
+0026 <span class="comment">%   TPS</span>
+0027 <span class="comment">%   PLS        2.5       468           500.0008</span>
+0028 <span class="comment">%   SESAME     2.5       222 /  64      499.654</span>
+0029 <span class="comment">%   SNS        1.78        1           1.098</span>
+0030 <span class="comment">%   Spear3     3.0       372           476.300006</span>
+0031 <span class="comment">%   Soleil     2.7391    416 / 184     352.2</span>
+0032 <span class="comment">%   SPS        1.2        32           118.0006</span>
+0033 <span class="comment">%   SSRF       3.5       720           499.650967</span>
+0034 <span class="comment">%   VUV        0.808       9            52.88</span>
+0035 <span class="comment">%   X-Ray Ring 2.8        30            52.88</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">%  See also getcavity</span>
+0038 
+0039 <span class="comment">%  Written by Greg Portmann</span>
+0040 
+0041 <span class="keyword">global</span> THERING
+0042 
+0043 ATCavityIndex = findcells(THERING, <span class="string">'Frequency'</span>);
+0044 
+0045 HarmonicNumber = [];
+0046 RF = [];
+0047 
+0048 <span class="keyword">if</span> ~isempty(ATCavityIndex) &amp;&amp; isfield(THERING{ATCavityIndex(1)}, <span class="string">'HarmonicNumber'</span>) &amp;&amp; isfield(THERING{ATCavityIndex(1)}, <span class="string">'Frequency'</span>)
+0049     HarmonicNumber = THERING{ATCavityIndex(1)}.HarmonicNumber;
+0050     RF = THERING{ATCavityIndex(1)}.Frequency;
+0051 <span class="keyword">else</span>
+0052     MachineName = getfamilydata(<span class="string">'Machine'</span>);
+0053     <span class="keyword">if</span> strcmpi(MachineName, <span class="string">'ALS'</span>)
+0054         <span class="keyword">if</span> isstoragering
+0055             HarmonicNumber = 328;
+0056         <span class="keyword">else</span>
+0057             HarmonicNumber = 125;
+0058         <span class="keyword">end</span>
+0059         RF = 499.6403489;
+0060     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'ALBA'</span>)
+0061         HarmonicNumber = 448;
+0062         RF = 499.653487;
+0063     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'ASP'</span>)
+0064         <span class="keyword">if</span> isstoragering
+0065             HarmonicNumber = 360;
+0066         <span class="keyword">else</span>
+0067             HarmonicNumber = 217;
+0068         <span class="keyword">end</span>
+0069         RF = 499.666694585;
+0070     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'CAMD'</span>)
+0071         HarmonicNumber = 92;
+0072         RF = 499.6541;
+0073     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'CLS'</span>)
+0074         HarmonicNumber = 285;
+0075         RF = 500.004977352;
+0076     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'Diamond'</span>)
+0077         HarmonicNumber = 936;
+0078         RF = 499.6540967;
+0079     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'DSR'</span>)
+0080         HarmonicNumber = 72;
+0081         RF = 178.55;
+0082     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'ELSA'</span>)
+0083         HarmonicNumber = 274;
+0084         RF = 499.6658;
+0085     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'Indus2'</span>)
+0086         HarmonicNumber = 291;
+0087         RF = 505.808;
+0088     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'LNLS'</span>)
+0089         HarmonicNumber = 148;
+0090         RF = 476.004;
+0091     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'MLS'</span>)
+0092         HarmonicNumber = 80;
+0093         RF = 499.65;
+0094     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'NSLS2'</span>)
+0095         HarmonicNumber = 1320;
+0096         RF = 499.68;
+0097     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'TLS'</span>)
+0098         HarmonicNumber = 200;
+0099         RF = 499.65;
+0100     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'TPS'</span>)
+0101         HarmonicNumber = [];
+0102         RF = [];
+0103     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'PLS'</span>)
+0104         HarmonicNumber = 468;
+0105         RF = 500.0008;
+0106     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'SESAME'</span>)
+0107         <span class="keyword">if</span> isstoragering
+0108             HarmonicNumber = 222;
+0109         <span class="keyword">else</span>
+0110             HarmonicNumber = 64;
+0111         <span class="keyword">end</span>
+0112         RF = 499.654;
+0113     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'SNS'</span>)
+0114         HarmonicNumber = 1;
+0115         RF = 1.098;
+0116         <span class="comment">%GeV = 1.783272; % GeV</span>
+0117     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'Spear3'</span>)
+0118         HarmonicNumber = 372;
+0119         RF = 476.300005749;
+0120     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'Soleil'</span>)
+0121         <span class="keyword">if</span> isstoragering
+0122             HarmonicNumber = 416;
+0123         <span class="keyword">else</span>
+0124             HarmonicNumber = 184;
+0125         <span class="keyword">end</span>
+0126         RF = 352.2;
+0127     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'SPS'</span>)
+0128         HarmonicNumber = 32;
+0129         RF = 118.0006;
+0130     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'SSRF'</span>)
+0131         HarmonicNumber = 720;
+0132         RF = 499.650966666;
+0133     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'VUV'</span>)
+0134         HarmonicNumber = 9;
+0135         RF = 52.88;
+0136     <span class="keyword">elseif</span> strcmpi(MachineName, <span class="string">'XRAY'</span>)
+0137         HarmonicNumber = 30;
+0138         RF = 52.88;
+0139     <span class="keyword">end</span>
+0140 
+0141     <span class="comment">% Use the AD harmonic number over this number</span>
+0142     HarmonicNumberAD = getfamilydata(<span class="string">'HarmonicNumber'</span>);
+0143     <span class="keyword">if</span> ~isempty(HarmonicNumberAD)
+0144         HarmonicNumber = HarmonicNumberAD;
+0145     <span class="keyword">end</span>
+0146 <span class="keyword">end</span>
+0147 
+0148 <span class="keyword">if</span> isempty(HarmonicNumber)
+0149     error(<span class="string">'Harmonic number unknown.  Either add an RF cavity to the AT model or add AD.HarmonicNumber to the Middle Layer.'</span>);
+0150 <span class="keyword">end</span>
+0151 
+0152</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

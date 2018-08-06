@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Build</TITLE>
+<META NAME="description" CONTENT="Build">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="manual.css">
+
+<LINK REL="next" HREF="node26.html">
+<LINK REL="previous" HREF="node24.html">
+<LINK REL="up" HREF="node24.html">
+<LINK REL="next" HREF="node26.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html351"
+  HREF="node26.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html349"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html343"
+  HREF="node24.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html352"
+  HREF="node26.html">Using labCA</A>
+<B> Up:</B> <A NAME="tex2html350"
+  HREF="node24.html">Building and Using labCA</A>
+<B> Previous:</B> <A NAME="tex2html344"
+  HREF="node24.html">Building and Using labCA</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html353"
+  HREF="node25.html#SECTION00031100000000000000">Prerequisites</A>
+<LI><A NAME="tex2html354"
+  HREF="node25.html#SECTION00031200000000000000">Configuration</A>
+<LI><A NAME="tex2html355"
+  HREF="node25.html#SECTION00031300000000000000">Building <SPAN  CLASS="textbf">labCA</SPAN></A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H2><A NAME="SECTION00031000000000000000">
+Build</A>
+</H2>
+<EM>NOTE: If the binaries distributed with <SPAN  CLASS="textbf">labCA</SPAN> work for you then there is
+no need to build anything. If you want/need to build your own version then read on
+otherwise proceed to <A HREF="node26.html#usingsca">Using <SPAN  CLASS="textbf">labCA</SPAN></A>.</EM>
+
+<P>
+<SPAN  CLASS="textbf">labCA</SPAN> comes with a `<TT>configure</TT>' subdirectory and Makefiles conforming to the
+EPICS build system. Following a configuration step which involves editing
+two small files, '<TT>make</TT>' is executed to install the generated libraries
+and scripts.
+
+<P>
+Prior to invoking the <SPAN  CLASS="textbf">scilab</SPAN> or <SPAN  CLASS="textbf">matlab</SPAN> application, the system
+must be properly set up in order for the applications to locate the
+<SPAN  CLASS="textbf">labCA</SPAN> and channel access libraries.
+
+<P>
+
+<H3><A NAME="SECTION00031100000000000000">
+Prerequisites</A>
+</H3>
+<SPAN  CLASS="textbf">labCA</SPAN> needs an EPICS BASE installation that was built <SPAN  CLASS="textbf">with shared
+libraries enabled</SPAN><A NAME="tex2html10"
+  HREF="#foot808"><SUP><SPAN CLASS="arabic">9</SPAN></SUP></A>.
+The main reason being that <SPAN  CLASS="textbf">matlab</SPAN>'s <SPAN  CLASS="textbf">mex</SPAN> files cannot
+have multiple entry points. Hence, when statically linking multiple <SPAN  CLASS="textbf">mex</SPAN>
+files against <SPAN  CLASS="textbf">ezca, ca, Com</SPAN> etc. multiple copies of those libraries
+would end up in the running <SPAN  CLASS="textbf">matlab</SPAN> application with possible adverse
+effects. It should be possible to build and use the <SPAN  CLASS="textbf">scilab</SPAN> interface
+with static libraries -- minor tweaks to the Makefiles might be necessary.
+
+<P>
+<SPAN  CLASS="textbf">labCA</SPAN> has been tested with <SPAN  CLASS="textbf">matlab</SPAN>-6.5, <SPAN  CLASS="textbf">matlab</SPAN>-7.0 and <SPAN  CLASS="textbf">scilab</SPAN>-2.7 .. <SPAN  CLASS="textbf">scilab</SPAN>-4.1
+under a variety of EPICS releases up to 3.14.9 on <SPAN  CLASS="textbf">linux-x86</SPAN>,
+<SPAN  CLASS="textbf">linux-ppc</SPAN>, <SPAN  CLASS="textbf">solaris-sparc-gnu</SPAN>,
+<SPAN  CLASS="textbf">linux-x86_64</SPAN>, <SPAN  CLASS="textbf">solaris-sparc</SPAN>, <SPAN  CLASS="textbf">solaris-sparc64</SPAN>
+and <SPAN  CLASS="textbf">win32</SPAN><A NAME="tex2html11"
+  HREF="#foot809"><SUP><SPAN CLASS="arabic">10</SPAN></SUP></A>.
+
+<P>
+Note that the binary distribution of <SPAN  CLASS="textbf">labCA</SPAN> usually ships with the
+necessary EPICS base libraries so there is no need to download anything
+besides <SPAN  CLASS="textbf">labCA</SPAN>.
+
+<P>
+
+<H3><A NAME="SECTION00031200000000000000">
+Configuration</A>
+</H3>
+Two files, `<TT>configure/CONFIG</TT>' and `<TT>configure/RELEASE</TT>' need to
+be adapted to the user's installation:
+<DL>
+<DT><STRONG><TT>CONFIG:</TT></STRONG></DT>
+<DD>A handful of configuration parameters must be defined
+in this file.
+<DL>
+<DT><STRONG><TT>MAKEFOR:</TT></STRONG></DT>
+<DD>Setting the <TT>MAKEFOR</TT> variable
+determines the target application program the interface library is
+built for. Valid settings are <TT>MAKEFOR=SCILAB</TT> or <TT>MAKEFOR=MATLAB</TT>.
+Any setting other than <TT>MATLAB</TT> is treated like <TT>SCILAB</TT>.
+
+<P>
+</DD>
+<DT><STRONG><TT>CONFIG_USE_CTRLC:</TT></STRONG></DT>
+<DD>Set this to <TT>YES</TT> or <TT>NO</TT> to enable
+or disable, respectively, code for handling ``Ctrl-C'' keystroke sequences.
+When enabled, <SPAN  CLASS="textbf">labCA</SPAN> operations (<EM>except for</EM> <TT>lcaDelay</TT>) may be aborted
+by hitting ``Ctrl-C''.
+Note that <SPAN  CLASS="textbf">labCA</SPAN> polls for an ``abort condition'' with a granularity of the
+<A HREF="node20.html#timeout"><SPAN  CLASS="textbf">ezca</SPAN> timeout parameter</A>.
+Unfortunately, neither <SPAN  CLASS="textbf">matlab</SPAN> nor <SPAN  CLASS="textbf">scilab</SPAN> feature a documented API for handling
+Ctrl-C events and therefore Ctrl-C support -- the implementation using undocumented
+features of <SPAN  CLASS="textbf">scilab</SPAN> and <SPAN  CLASS="textbf">matlab</SPAN> -- must be considered ``experimental''
+i.e., it might cause problems on certain operating system and/or <SPAN  CLASS="textbf">scilab</SPAN>/<SPAN  CLASS="textbf">matlab</SPAN>
+versions.
+
+<P>
+</DD>
+<DT><STRONG><TT>INSTALL_LOCATION:</TT></STRONG></DT>
+<DD>Set this variable to install in a location
+different from the <SPAN  CLASS="textbf">labCA</SPAN> top directory.
+
+<P>
+<EM>NOTE: This method has been
+deprecated. Use <TT>INSTALL_LOCATION_APP</TT> in the <TT>RELEASE</TT> file
+instead.</EM>
+</DD>
+</DL>
+</DD>
+<DT><STRONG><TT>RELEASE:</TT></STRONG></DT>
+<DD>In this file, paths to the EPICS base (`<TT>EPICS_BASE</TT>'
+variable) and <SPAN  CLASS="textbf">scilab</SPAN> (`<TT>SCILABDIR</TT>' variable) or <SPAN  CLASS="textbf">matlab</SPAN> (`<TT>MATLABDIR</TT>'
+variable) installations must be specified.
+
+<P>
+Under <SPAN  CLASS="textbf">win32</SPAN>, an additional variable
+`<TT>MATLIB_SUBDIR</TT>' must be set directing the build process to select the correct
+<TT>libmx.lib</TT> and <TT>libmex.lib</TT> library variants. The setting of this variable
+is compiler dependent.
+<DL>
+<DT><STRONG><TT>INSTALL_LOCATION_APP=&lt;path&gt;</TT></STRONG></DT>
+<DD><TT>&lt;path&gt;</TT> defining the
+install location of the <SPAN  CLASS="textbf">labCA</SPAN> package. If unset, the <SPAN  CLASS="textbf">labCA</SPAN> <TT>TOP</TT>
+directory will be used.
+</DD>
+<DT><STRONG><TT>MATLABDIR=&lt;path&gt;</TT></STRONG></DT>
+<DD><TT>&lt;path&gt;</TT> defining the <SPAN  CLASS="textbf">matlab</SPAN> installation
+directory where the `<TT>extern</TT>' subdirectory can be found (e.g.
+<TT>/opt/matlabR14beta2</TT>).
+</DD>
+<DT><STRONG><TT>SCILABDIR=&lt;path&gt;</TT></STRONG></DT>
+<DD><TT>&lt;path&gt;</TT> defining the <SPAN  CLASS="textbf">scilab</SPAN> installation
+directory where the `<TT>routines</TT>' subdirectory can be found (e.g.
+<TT>/usr/lib/scilab-2.7</TT>).
+</DD>
+<DT><STRONG><TT>MATLIB_SUBDIR=&lt;pathelem&gt;</TT></STRONG></DT>
+<DD><TT>&lt;pathelem&gt;</TT> chosing the subdirectory
+corresponding to the C-compiler that is used for the build. (e.g. 
+<TT>win32/microsoft/msvc60</TT> for the microsoft visual c++ 6.0 compiler).
+The <TT>libmex.lib</TT> and <TT>libmx.lib</TT> files for the applicable compiler
+are found there.
+</DD>
+</DL>
+</DD>
+</DL>
+Any irrelevant variables (such as <TT>MATLABDIR</TT> if <TT>MAKEFOR=SCILAB</TT>)
+are ignored.
+
+<P>
+Note that the EPICS build system has problems with path names containing
+white space as they are commonly used on <SPAN  CLASS="textbf">win32</SPAN>. Although I have
+tried to work around this, you still might encounter problems. I found
+that setting the environment variable <TT>MATLAB</TT> to point to the <SPAN  CLASS="textbf">matlab</SPAN>
+directory helped (<SPAN  CLASS="textbf">cygwin</SPAN>). It is best to avoid white space in path
+names, however.
+
+<P>
+
+<H3><A NAME="SECTION00031300000000000000">
+Building <SPAN  CLASS="textbf">labCA</SPAN></A>
+</H3>
+After setting the
+`<TT>EPICS_HOST_ARCH</TT>' environment variable, <SPAN  CLASS="textbf">GNU</SPAN> make is invoked from the <SPAN  CLASS="textbf">labCA</SPAN> top 
+directory. Note that the compiler toolchain must be found in the system
+<TT>PATH</TT><A NAME="tex2html12"
+  HREF="#foot812"><SUP><SPAN CLASS="arabic">11</SPAN></SUP></A>.
+
+<P>
+<BR><HR><H4>Footnotes</H4>
+<DL>
+<DT><A NAME="foot808">... enabled</A><A
+ HREF="node25.html#tex2html10"><SUP><SPAN CLASS="arabic">9</SPAN></SUP></A></DT>
+<DD>
+To be precise: only <SPAN  CLASS="textbf">labCA</SPAN> needs to be a shared library (but must then have
+EPICS BASE linked in); we recommend an EPICS BASE installation with
+shared libraries enabled because modifications to the EPICS Makefiles
+are required to build a shared <SPAN  CLASS="textbf">labCA</SPAN> library that is linked against
+static versions of EPICS BASE.
+
+</DD>
+<DT><A NAME="foot809">...win32</A><A
+ HREF="node25.html#tex2html11"><SUP><SPAN CLASS="arabic">10</SPAN></SUP></A></DT>
+<DD>
+Note that not all possible combinations have been tested with the latest <SPAN  CLASS="textbf">labCA</SPAN> release
+but rather the latest versions of the respective components on the platforms
+that are in the distribution.
+
+</DD>
+<DT><A NAME="foot812">...<TT>PATH</TT></A><A
+ HREF="node25.html#tex2html12"><SUP><SPAN CLASS="arabic">11</SPAN></SUP></A></DT>
+<DD>
+Under <SPAN  CLASS="textbf">win32</SPAN>, the <SPAN  CLASS="textbf">msvc</SPAN> compiler features a <TT>.BAT</TT> file for
+setting up the necessary environment.
+
+
+</DD>
+</DL>
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html351"
+  HREF="node26.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html349"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html343"
+  HREF="node24.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html352"
+  HREF="node26.html">Using labCA</A>
+<B> Up:</B> <A NAME="tex2html350"
+  HREF="node24.html">Building and Using labCA</A>
+<B> Previous:</B> <A NAME="tex2html344"
+  HREF="node24.html">Building and Using labCA</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+till
+2007-10-13
+</ADDRESS>
+</BODY>
+</HTML>

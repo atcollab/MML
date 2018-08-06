@@ -1,0 +1,9 @@
+program cmd_findwindow;
+{$APPTYPE CONSOLE}
+
+uses
+  SysUtils;
+
+begin
+
+end.

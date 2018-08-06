@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from lcaSetMonitor.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="lcaSetMonitor" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>lcaSetMonitor</refname>
+    <refpurpose>Set a ``monitor'' on a set of PVs.</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   
+   lcaSetMonitor(pvs, nmax, type)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Description</title>
+   <para>
+   </para>
+   <para>
+Set a ``monitor'' on a set of PVs. Monitored PVs are automatically
+retrieved every time their value or status changes. Monitors are
+especially useful under EPICS-3.14 which supports multiple threads.
+EPICS-3.14 transparently reads monitored PVs as needed. Older, single
+threaded versions of EPICS require periodic calls to labCA e.g., to
+[1]lcaDelay, in order to allow labCA to handle monitors.
+   </para>
+   <para>
+Use the [2]lcaNewMonitorValue call to check monitor status (local flag)
+or [3]lcaNewMonitorWait to wait for new data to become available (since
+last lcaGet or lcaSetMonitor). If new data are available, they are
+retrieved using the ordinary [4]lcaGet call.
+   </para>
+   <para>
+Note the difference between polling and monitoring a PV in combination
+with polling the local monitor status flag ([5]lcaNewMonitorValue). In
+the first case, remote data are fetched on every polling cycle whereas
+in the second case, data are transferred only when they change. Also,
+in the monitored case, lcaGet reads from a local buffer rather than
+from the network. It is most convenient however to wait for monitored
+data to arrive using [6]lcaNewMonitorWait rather than polling.
+   </para>
+   <para>
+There is currently no possibility to selectively remove a monitor. Use
+the [7]lcaClear call to disconnect a channel and as a side-effect,
+remove all monitors on that channel. Future access to a cleared channel
+simply reestablishes a connection (but no monitors).
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>Column vector (in matlab:</term>
+      <listitem><para> m x 1 cell- matrix) of m strings.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+
+lcaSetMonitor('PV')
+// monitor 'PV'. Reduce network traffic by just have the
+// library retrieve the first 20 elements. Use DBR_SHORT
+// for transfer.
+lcaSetMonitor('PV', 20, 's')
+__________________________________________________________________
+
+
+till 2017-08-08
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>See also</title>
+   <simplelist type="inline">
+   <member><link linkend="lcaDelay">1. lcaDelay</link></member>
+   <member><link linkend="lcaNewMonitorValue">2. lcaNewMonitorValue</link></member>
+   <member><link linkend="lcaNewMonitorWait">3. lcaNewMonitorWait</link></member>
+   <member><link linkend="lcaGet">4. lcaGet</link></member>
+   <member><link linkend="lcaNewMonitorValue">5. lcaNewMonitorValue</link></member>
+   <member><link linkend="lcaNewMonitorWait">6. lcaNewMonitorWait</link></member>
+   <member><link linkend="lcaClear">7. lcaClear</link></member>
+   <member><link linkend="lcaGet">8. lcaGet</link></member>
+   <member><link linkend="lcaGet">9. lcaGet</link></member>
+   <member><link linkend="lcaGet">10. lcaGet</link></member>
+   </simplelist>
+</refsection>
+</refentry>

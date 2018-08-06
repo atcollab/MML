@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>lcaLastError</TITLE>
+<META NAME="description" CONTENT="lcaLastError">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="manual.css">
+
+<LINK REL="next" HREF="node14.html">
+<LINK REL="previous" HREF="node12.html">
+<LINK REL="up" HREF="node2.html">
+<LINK REL="next" HREF="node14.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html201"
+  HREF="node14.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html199"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html193"
+  HREF="node12.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html202"
+  HREF="node14.html">lcaGetControlLimits</A>
+<B> Up:</B> <A NAME="tex2html200"
+  HREF="node2.html">Supported EZCA Calls</A>
+<B> Previous:</B> <A NAME="tex2html194"
+  HREF="node12.html">lcaClear</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html203"
+  HREF="node13.html#SECTION000211100000000000000">Calling Syntax</A>
+<LI><A NAME="tex2html204"
+  HREF="node13.html#SECTION000211200000000000000">Description</A>
+<LI><A NAME="tex2html205"
+  HREF="node13.html#SECTION000211300000000000000">Parameters</A>
+<LI><A NAME="tex2html206"
+  HREF="node13.html#SECTION000211400000000000000">Examples</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H2><A NAME="SECTION000211000000000000000"></A>
+<A NAME="lcalasterror"></A>
+<BR>
+lcaLastError
+</H2>
+
+<H3><A NAME="SECTION000211100000000000000">
+Calling Syntax</A>
+</H3>
+<PRE>
+[err_status] = lcaLastError()
+</PRE>
+<H3><A NAME="SECTION000211200000000000000">
+Description</A>
+</H3>
+This routine is a simple extension to <SPAN  CLASS="textbf">scilab</SPAN>'s <TT>lasterror</TT>
+which only allows a single error to be reported. If <SPAN  CLASS="textbf">labCA</SPAN> encounters
+an error of general nature then <TT>lasterror</TT> is sufficient
+and <TT>lcaLastError()</TT> reports redundant/identical information.
+However, if a <SPAN  CLASS="textbf">labCA</SPAN> operation only fails on a subset of a vector
+of PVs then <TT>lcaLastError()</TT> returns an error code for each individual
+PV (as a <SPAN  CLASS="textit">m x 1</SPAN> vector) so that failing channels can be identified.
+
+<P>
+The error reported by <TT>lasterror</TT> corresponds to the first error
+found in the <TT>err_status</TT> vector.
+
+<P>
+Note that (matching <TT>lasterror</TT>'s semantics) the recorded
+errors are <I>not cleared by a successful <SPAN  CLASS="textbf">labCA</SPAN> operation</I>.
+Hence, the status returned by <TT>lcaLastError()</TT> is only defined
+after an error occurred and the routine is intended to be used
+from the <TT>catch</TT> section of a <TT>try - catch - end</TT>
+construct.
+
+<P>
+
+<H3><A NAME="SECTION000211300000000000000">
+Parameters</A>
+</H3>
+<DL>
+<DT><STRONG>err_status</STRONG></DT>
+<DD><SPAN  CLASS="textbf">m x 1</SPAN> column vector of
+<A HREF="node4.html#errorhandling">status codes</A>
+for each PV of the last failing <SPAN  CLASS="textbf">labCA</SPAN> call or a scalar.
+Note that this routine can return a scalar even if
+the last operation involved multiple PVs if the
+error was of general nature (e.g., ``invalid argument'').
+In this case the scalar is identical to the error reported
+by <SPAN  CLASS="textbf">scilab</SPAN>'s <TT>lasterror</TT>.
+</DD>
+</DL>
+<H3><A NAME="SECTION000211400000000000000">
+Examples</A>
+</H3>
+<PRE>
+try
+  // lcaXXX command goes here
+catch
+  errors = lcaLastError()
+  // errors holds status vector or single status code
+  // depending on command, error cause and number of PVs.
+end
+</PRE>
+
+<P>
+<BR>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html201"
+  HREF="node14.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html199"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html193"
+  HREF="node12.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html202"
+  HREF="node14.html">lcaGetControlLimits</A>
+<B> Up:</B> <A NAME="tex2html200"
+  HREF="node2.html">Supported EZCA Calls</A>
+<B> Previous:</B> <A NAME="tex2html194"
+  HREF="node12.html">lcaClear</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+till
+2007-10-13
+</ADDRESS>
+</BODY>
+</HTML>

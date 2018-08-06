@@ -1,0 +1,38 @@
+# CONFIG_APP
+
+include $(TOP)/configure/RELEASE
+-include $(TOP)/configure/RELEASE.$(EPICS_HOST_ARCH)
+-include $(TOP)/configure/RELEASE.Common.$(T_A)
+-include $(TOP)/configure/RELEASE.$(EPICS_HOST_ARCH).$(T_A)
+
+# Handle Arch-dependent definitions of EPICS_BASE here
+# because it's needed already.
+# OTOH we can't check SCILABDIR/MATLABDIR yet because
+# MAKEFOR is only defined later (in CONFIG which includes
+# this file at the top).
+ifndef EPICS_BASE
+  ifneq ($(strip $(EPICS_BASE_$(EPICS_HOST_ARCH))),)
+    EPICS_BASE=$(EPICS_BASE_$(EPICS_HOST_ARCH))
+  else
+    ifdef EPICS_BASE_DEFAULT
+      EPICS_BASE=$(EPICS_BASE_DEFAULT)
+    else
+      $(error no definition of EPICS_BASE -- please provide in configure/RELEASE)
+    endif
+  endif
+endif
+ 
+CONFIG=$(EPICS_BASE)/configure
+include $(CONFIG)/CONFIG
+
+INSTALL_LOCATION = $(TOP)
+ifdef INSTALL_LOCATION_APP
+INSTALL_LOCATION = $(INSTALL_LOCATION_APP)
+endif
+
+ifdef T_A
+-include $(TOP)/configure/O.$(T_A)/CONFIG_APP_INCLUDE
+endif
+
+# dbst based database optimization (default: NO)
+DB_OPT = NO

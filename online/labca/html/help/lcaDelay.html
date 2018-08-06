@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>lcaDelay</TITLE>
+<META NAME="description" CONTENT="lcaDelay">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="manual.css">
+
+</HEAD>
+
+<BODY >
+
+<H2><A NAME="SECTION000221000000000000000"></A>
+<A NAME="lcadelay"></A>
+<BR>
+lcaDelay
+</H2>
+
+<H3><A NAME="SECTION000221100000000000000">
+Calling Syntax</A>
+</H3>
+<PRE>
+lcaDelay(timeout)
+</PRE>
+<H3><A NAME="SECTION000221200000000000000">
+Description</A>
+</H3>
+Delay execution of <SPAN  CLASS="textbf">scilab</SPAN> or <SPAN  CLASS="textbf">matlab</SPAN> for the specified time
+to handle channel access activity (monitors). 
+<EM>Using this call is not needed under EPICS-3.14</EM> since monitors
+are transparently handled by separate threads. These ``worker threads''
+receive data from CA on monitored channels ``in the background'' while
+<SPAN  CLASS="textbf">scilab</SPAN>/<SPAN  CLASS="textbf">matlab</SPAN> are processing arbitrary calculations.
+You only need to either poll the library for the data being ready using the
+<A HREF="lcaNewMonitorValue.html#lcanewmonitorvalue"><TT>lcaNewMonitorValue()</TT></A>) routine
+or block for data becoming available using
+<A HREF="lcaNewMonitorWait.html#lcanewmonitorwait"><TT>lcaNewMonitorWait</TT></A>.
+
+<P>
+
+<H3><A NAME="SECTION000221300000000000000">
+Parameters</A>
+</H3>
+<DL>
+<DT><STRONG>timeout</STRONG></DT>
+<DD>A timeout value in seconds.
+</DD>
+</DL>
+
+<P>
+<BR><HR>
+<ADDRESS>
+till
+2007-10-13
+</ADDRESS>
+</BODY>
+</HTML>

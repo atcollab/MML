@@ -1,0 +1,76 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>lcaSetSeverityWarnLevel</title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	<span class="previous"><a href="lcaSetMonitor.html">&lt;&lt; lcaSetMonitor</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path"><a href="index.html">labCA</a> &gt;&gt; <a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a> &gt; lcaSetSeverityWarnLevel</span>
+
+    <br /><br />
+    <div class="refnamediv"><h1 class="refname">lcaSetSeverityWarnLevel</h1>
+    <p class="refpurpose">Set the warning threshold for lcaGet() operations.</p></div>
+
+
+<div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3>
+   <div class="synopsis"><pre><span class="functionid">lcaSetSeverityWarnLevel</span><span class="default">(</span><span class="default">newlevel</span><span class="default">)</span></pre></div></div>
+
+<div class="refsection"><h3 class="title">Description</h3>
+   <p class="para"></p>
+   <p class="para">Set the warning threshold for lcaGet() operations. A warning message is
+printed when retrieving a PV with a severity bigger or equal to the
+warning level. Supported values are 0..3 (No alarm, minor alarm, major
+alarm, invalid alarm). The initial/default value is 3.</p>
+   <p class="para">If a value $&gt;=10$ is passed, the threshold for refusing to read the
+.VAL field of PVs with an INVALID severity can be changed. The
+rejection can be switched off completely by passing 14 ( $= 10 +
+INVALID\_ALARM + 1$ ) or made more sensitive by passing a value of less
+than 13 ( $=10 + INVALID\_ALARM$ ), the default.
+__________________________________________________________________</p>
+   <p class="para"></p>
+   <p class="para">till 2017-08-08</p></div>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	<span class="previous"><a href="lcaSetMonitor.html">&lt;&lt; lcaSetMonitor</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

@@ -1,0 +1,197 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title></title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="index.html">labCA</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path"><a href="index.html">labCA</a> &gt;&gt; labCA</span>
+
+    <br /><br />
+    <h3 class="title-part">labCA</h3>
+<ul class="list-chapter"><li><a href="lca_common.html" class="refentry">Common Arguments and Return Values</a> &#8212; <span class="refentry-description">Used by several labCA functions</span></li>
+
+
+
+<li><a href="Error.html" class="refentry">Error Handling</a> &#8212; <span class="refentry-description">labCA&#0039;s error reporting mechanism</span></li>
+
+
+
+
+
+<li><a href="lcaClear.html" class="refentry">lcaClear</a> &#8212; <span class="refentry-description">Clear / release (disconnect) channels.</span></li>
+
+
+
+
+
+<li><a href="lcaDebugOff.html" class="refentry">lcaDebugOff</a> &#8212; <span class="refentry-description">Switch the ezca library&#0039;s debugging facility off.</span></li>
+
+
+
+
+
+<li><a href="lcaDebugOn.html" class="refentry">lcaDebugOn</a> &#8212; <span class="refentry-description">Switch the ezca library&#0039;s debugging facility on.</span></li>
+
+
+
+
+
+<li><a href="lcaDelay.html" class="refentry">lcaDelay</a> &#8212; <span class="refentry-description">Delay execution of scilab or matlab for the specified time to handle    channel access activity (monitors).</span></li>
+
+
+
+
+
+<li><a href="lcaGet.html" class="refentry">lcaGet</a> &#8212; <span class="refentry-description">Read a number of m PVs, which may be scalars or arrays of different    dimensions.</span></li>
+
+
+
+
+
+<li><a href="lcaGetAlarmLimits.html" class="refentry">lcaGetAlarmLimits</a> &#8212; <span class="refentry-description">Retrieve the alarm limits associated with a number of PVs.</span></li>
+
+
+
+
+
+<li><a href="lcaGetControlLimits.html" class="refentry">lcaGetControlLimits</a> &#8212; <span class="refentry-description">Retrieve the control limits associated with a number of PVs.</span></li>
+
+
+
+
+
+<li><a href="lcaGetEnumStrings.html" class="refentry">lcaGetEnumStrings</a> &#8212; <span class="refentry-description">Retrieve the symbolic values of all ENUM states of a number of PVs.</span></li>
+
+
+
+
+
+<li><a href="lcaGetGraphicLimits.html" class="refentry">lcaGetGraphicLimits</a> &#8212; <span class="refentry-description">Retrieve the graphic limits associated with a number of PVs.</span></li>
+
+
+
+
+
+<li><a href="lcaGetNelem.html" class="refentry">lcaGetNelem</a> &#8212; <span class="refentry-description">Retrieve the element count of a number of PVs.</span></li>
+
+
+
+
+
+<li><a href="lcaGetPrecision.html" class="refentry">lcaGetPrecision</a> &#8212; <span class="refentry-description">Retrieve the precision associated with a number of PVs.</span></li>
+
+
+
+
+
+<li><a href="lcaGetRetryCount.html" class="refentry">lcaGetRetryCount</a> &#8212; <span class="refentry-description">Retrieve / set the ezca library retryCount parameter (consult the ezca    documentation for more information).</span></li>
+
+
+
+
+
+<li><a href="lcaGetStatus.html" class="refentry">lcaGetStatus</a> &#8212; <span class="refentry-description">Retrieve the alarm severity and status of a number of PVs along with    their timestamp.</span></li>
+
+
+
+
+
+<li><a href="lcaGetTimeout.html" class="refentry">lcaGetTimeout</a> &#8212; <span class="refentry-description">Retrieve / set the ezca library timeout parameter (consult the ezca    documentation for more information).</span></li>
+
+
+
+
+
+<li><a href="lcaGetUnits.html" class="refentry">lcaGetUnits</a> &#8212; <span class="refentry-description">Retrieve the engineering units of a number of PVs.</span></li>
+
+
+
+
+
+<li><a href="lcaGetWarnLimits.html" class="refentry">lcaGetWarnLimits</a> &#8212; <span class="refentry-description">Retrieve the warning limits associated with a number of PVs.</span></li>
+
+
+
+
+
+<li><a href="lcaLastError.html" class="refentry">lcaLastError</a> &#8212; <span class="refentry-description">This routine is a simple extension to scilab&#0039;s lasterror which only    allows a single error to be reported.</span></li>
+
+
+
+
+
+<li><a href="lcaNewMonitorValue.html" class="refentry">lcaNewMonitorValue</a> &#8212; <span class="refentry-description">Check if monitored PVs need to be read, i.</span></li>
+
+
+
+
+
+<li><a href="lcaNewMonitorWait.html" class="refentry">lcaNewMonitorWait</a> &#8212; <span class="refentry-description">Similar to [1]lcaNewMonitorValue but instead of returning the status of    monitored PVs this routine blocks until all PVs have fresh data    available (e.</span></li>
+
+
+
+
+
+<li><a href="lcaPut.html" class="refentry">lcaPut</a> &#8212; <span class="refentry-description">Write to a number of PVs which may be scalars or arrays of different    dimensions.</span></li>
+
+
+
+
+
+<li><a href="lcaPutNoWait.html" class="refentry">lcaPutNoWait</a> &#8212; <span class="refentry-description">lcaPutNoWait is a variant of lcaPut that does not wait for the channel    access put request to complete on the server prior to returning control    to the command line.</span></li>
+
+
+
+
+
+<li><a href="lcaSetMonitor.html" class="refentry">lcaSetMonitor</a> &#8212; <span class="refentry-description">Set a ``monitor&#0039;&#0039; on a set of PVs.</span></li>
+
+
+
+
+
+<li><a href="lcaSetSeverityWarnLevel.html" class="refentry">lcaSetSeverityWarnLevel</a> &#8212; <span class="refentry-description">Set the warning threshold for lcaGet() operations.</span></li></ul>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="index.html">labCA</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

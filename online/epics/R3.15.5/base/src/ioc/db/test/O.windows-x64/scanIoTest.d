@@ -1,0 +1,55 @@
+# DO NOT EDIT: This file created by mkmf.pl
+
+scanIoTest.obj : ../../../../../include/epicsEvent.h
+scanIoTest.obj : ../../../../../include/epicsMessageQueue.h
+scanIoTest.obj : ../../../../../include/epicsPrint.h
+scanIoTest.obj : ../../../../../include/os/WIN32/epicsMath.h
+scanIoTest.obj : ../../../../../include/alarm.h
+scanIoTest.obj : ../../../../../include/menuPriority.h
+scanIoTest.obj : ../../../../../include/dbChannel.h
+scanIoTest.obj : ../../../../../include/dbStaticLib.h
+scanIoTest.obj : ../../../../../include/dbAccessDefs.h
+scanIoTest.obj : ../../../../../include/dbScan.h
+scanIoTest.obj : ../../../../../include/dbLock.h
+scanIoTest.obj : ../../../../../include/dbUnitTest.h
+scanIoTest.obj : ../../../../../include/dbCommon.h
+scanIoTest.obj : ../../../../../include/registry.h
+scanIoTest.obj : ../../../../../include/registryRecordType.h
+scanIoTest.obj : ../../../../../include/registryDeviceSupport.h
+scanIoTest.obj : ../../../../../include/recSup.h
+scanIoTest.obj : ../../../../../include/devSup.h
+scanIoTest.obj : ../../../../../include/iocInit.h
+scanIoTest.obj : ../../../../../include/callback.h
+scanIoTest.obj : ../../../../../include/ellLib.h
+scanIoTest.obj : ../../../../../include/epicsUnitTest.h
+scanIoTest.obj : ../../../../../include/testMain.h
+scanIoTest.obj : ../../../../../include/os/WIN32/osiFileName.h
+scanIoTest.obj : ../O.Common/yRecord.h
+scanIoTest.obj : ../../../../../include/epicsExport.h
+scanIoTest.obj : ../../../../../include/shareLib.h
+scanIoTest.obj : ../../../../../include/os/WIN32/osdEvent.h
+scanIoTest.obj : ../../../../../include/epicsAssert.h
+scanIoTest.obj : ../../../../../include/locationException.h
+scanIoTest.obj : ../../../../../include/os/WIN32/osdMessageQueue.h
+scanIoTest.obj : ../../../../../include/errlog.h
+scanIoTest.obj : ../../../../../include/dbDefs.h
+scanIoTest.obj : ../../../../../include/dbAddr.h
+scanIoTest.obj : ../../../../../include/epicsTypes.h
+scanIoTest.obj : ../../../../../include/errMdef.h
+scanIoTest.obj : ../../../../../include/db_field_log.h
+scanIoTest.obj : ../../../../../include/dbEvent.h
+scanIoTest.obj : ../../../../../include/dbFldTypes.h
+scanIoTest.obj : ../../../../../include/dbBase.h
+scanIoTest.obj : ../../../../../include/link.h
+scanIoTest.obj : ../../../../../include/cantProceed.h
+scanIoTest.obj : ../../../../../include/epicsTime.h
+scanIoTest.obj : ../../../../../include/menuScan.h
+scanIoTest.obj : ../../../../../include/compilerDependencies.h
+scanIoTest.obj : ../../../../../include/epicsMutex.h
+scanIoTest.obj : ../../../../../include/epicsThread.h
+scanIoTest.obj : ../../../../../include/os/WIN32/osdTime.h
+scanIoTest.obj : ../../../../../include/compiler/msvc/compilerSpecific.h
+scanIoTest.obj : ../../../../../include/os/WIN32/osdMutex.h
+scanIoTest.obj : ../../../../../include/os/WIN32/osdThread.h
+
+

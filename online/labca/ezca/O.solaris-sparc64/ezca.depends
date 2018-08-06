@@ -1,0 +1,26 @@
+# DO NOT EDIT: This file created by mkmf.pl,v 1.5 2002/03/25 21:33:24 jba Exp $ 
+
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/cadef.h
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/caerr.h
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/dbDefs.h
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/db_access.h
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/shareLib.h
+ezca.o : ../ezca.h
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsMutex.h
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsEvent.h
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsThread.h
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/caeventmask.h
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsTypes.h
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/errMdef.h
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsTime.h
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsVersion.h
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/epicsAssert.h
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/compilerDependencies.h
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/os/solaris/osdMutex.h
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/os/solaris/osdEvent.h
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/os/solaris/osdThread.h
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/ellLib.h
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/errlog.h
+ezca.o : /home/als1/acct/alsbase/epics_release/R3.14.9/base/include/os/solaris/osdTime.h
+
+

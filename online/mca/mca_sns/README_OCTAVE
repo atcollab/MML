@@ -1,0 +1,32 @@
+===============================================================================
+The most up-to-date version of octave at time of writing (3.0.1) does not
+provide the 'timer' function required by mcamontimer.  To use channel access
+monitor callbacks you must invoke the polling routine yourself.  Here is a
+short example showing how this can be  done:
+
+function callbackFunction
+    global pvHandle;
+    rawWaveforms = mcacache(pvHandle);
+    ...do something with rawWaveforms here...
+endfunction
+
+global pvHandle = mcaopen('fftAvg:gtr:waveform1');
+mcamon(pvHandle, 'callbackFunction');
+
+while(1)
+    mca(600);
+   sleep(0.25);
+endwhile
+===============================================================================
+
+
+
+===============================================================================
+Octave needs to be able to find the MCA support.  Here's what I have in my
+~/.octaverc to arrange for this:
+
+path(path(), [getenv("HOME") "/src/EPICS/extensions/lib/" getenv("EPICS_HOST_ARCH")]);
+path(path(), [getenv("HOME") "/src/EPICS/extensions/src/mca/matlab"]);
+===============================================================================
+
+

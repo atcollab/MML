@@ -1,0 +1,129 @@
+MATLAB Channel Access Toolbox (MCA) consists of
+one main mex-file (mcamain.dll compiled from mcamain.cpp)
+and a number of m-file aliases to it
+
+You can learn about each of these aliases using 
+>> help mca_function_name
+
+
+1. Synchronous
+MCAOPEN
+MCACHECK
+MCACHECKOPEN
+MCAISOPEN
+MCAINFO
+MCAGET
+MCAPUT
+MCACLOSE
+MCAEXIT
+
+2. Local 
+MCAINFO
+MCAALARM
+MCATIME
+MCACACHE
+MCAISOPEN
+MCATIMEOUT
+MCAUNLOCK
+
+3. Asynchronous
+MCAMON
+MCAMONEVENTS
+MCAMONTIMER
+MCACLEARMON
+
+4. Build
+MCACOMPILE
+----------------------------------------------------------------------------------
+CONFIGURATION
+
+Add the location of CA DLL's (Ca.dll, Com.dll) to the system path
+For example
+... ;Q:\Groups\Accel\Controls\Epics\R3.13.4\base\bin\Win32; ...
+
+
+Add the MCA directory to the MATLAB path (Menu-File-Set Path)
+-----------------------------------------------------------------------------------
+Recomiling mex-files
+
+MCA mex-files (mca.dll and timereval.dll) are compiled from
+mca.cpp and timereval.cpp. I use MSVC++ 6.0 compiler.
+
+If you need to recompile them, the best way is to use MATLAB 'mex' command
+You will need to 'cd' to the MCA root directory.
+Examine the 'mexcommand' script included with MCA - it has all the right options.
+
+-----------------------------------------------------------------------------------
+The use of Windows System Timers extends the asynchronous
+capabilities of MATLAB and MCA. It is done with another
+mex-file (timereval.dll compiled from timereval.cpp)
+You could write your own m-file aliases with self-explanatory names
+
+The matlab syntax is:
+
+timereval(switch,delay,callbackstring)
+When 'switch' is 1 or 2, timereval sets the windows system timer to execute 
+a callback in MATLAB
+1 - single shot
+2 - periodic
+
+delay: 
+delay or period in ms
+
+callbackstring: MATLAB command string that will be executed 
+                as if typed at the MATLAB prompt 
+
+
+When 'switch' is 4, 
+timereval prints in MATLAB command window the information about all running timers:
+handles and callback strings
+timereval(4);
+
+When 'switch' is 5 - timereval(5,TimerHandle) kills a specific timer 
+given by its handle 
+
+
+EXAMPLES:
+
+1. Schedule a command to execute in 3 seconds
+>> TimerHandle1 = timereval(1,3000,'disp Hello');
+
+
+2. Display current time every second
+>> TimerHandle2 = timereval(2,1000,'disp(datestr(now))'); 
+
+Notice that you still have a working command prompt.
+Try, what happens when you call a MATLAB function that 
+takes longer than 1 second, for example:
+M = rand(200);
+E = eig(M);  
+
+3. Print info.
+>> timereval(4);
+
+4. To stop a particular timer:
+>> timereval(5,TimerHandle2);
+
+
+5. when you clear the timereval mex-file from memory with
+>> clear timereval
+it first clears all timers. 
+
+
+6. Use of timereval inside CA monitor callbacks:
+CA monitor callbacks run one at a time to completion.
+It implies that a monitor callback function itself may 
+contain other CA library calls. For example you can not install
+a monitor on PV A with a callback that writes a value to
+another PV B.
+
+THIS WOULD NOT WORK: mcamon(HandleA,'mcaput(HandleB,0)')
+
+timereval allows you to schedule the desired CA call to
+execute after the monitor callback is finished:
+
+>> mcamon(HandleA,'timereval(1,10,''mcaput(HandleB,0)'')')
+
+In this example the put operation will occur 10 ms after the monitor event
+
+--------------------------------------------------------------------------------

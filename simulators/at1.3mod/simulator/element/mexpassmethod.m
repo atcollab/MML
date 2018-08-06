@@ -1,0 +1,107 @@
+function mexpassmethod(PASSMETHODS, varargin)
+%MEXPASSMETHOD builds pass-method mex-files from C files
+%
+% PASSMETHODS argument can be:
+%  Single pass-method name - the same as the C file name without '.c'
+%  Cell array of strings containing pass-method names
+%  'all' - option automatically detects all C files matching *Pass.c pattern
+%
+% The second argument is a list of options passed to the 'mex' script
+% 
+% Examples: mexpassmethod('DriftPass','-v')
+%           mexpassmethod('all','-argcheck')
+%           mexpassmethod({'DriftPass','BendLinearPass'})
+%
+% Note:  MEXPASSMETHOD automatically determines the host 
+% platform and costructs -D<PLATFORM> option to feed to the 
+% mex script. All pass-methods #incude elempass.h header file
+% which uses #if defined(PLATFORM) directive to select
+% between platform-specific branches
+%
+% See also: file:elempass.h
+
+PLATFORMOPTION = ['-D',computer,' '];
+CURRENTDIR = pwd;
+cd(fileparts(which('DriftPass.c')));
+
+tmpfile = 0;
+%Additional platform-specific options for mex
+switch computer
+case 'SOL2'
+    PLATFORMOPTION = [PLATFORMOPTION,'LDFLAGS=''-shared -W1,-M,',atroot,'/simulator/element/mexFunctionSOL2.map''',' '];
+case 'SOL64'
+    % Just take the defaults (passFunction is in the default), with the shared library flag
+    %PLATFORMOPTION = [PLATFORMOPTION,'LDFLAGS=''-G'' '];
+    PLATFORMOPTION = [PLATFORMOPTION,'LDFLAGS=''-G -m64'' '];  %  -xarch=sparvis
+case 'GLNX86'
+    PLATFORMOPTION = [PLATFORMOPTION,'LDFLAGS=''-pthread -shared -m32 -Wl,--version-script,',atroot,'/simulator/element/mexFunctionGLNX86.map''',' '];    
+case 'GLNXA64'
+       PLATFORMOPTION = [PLATFORMOPTION,'LDFLAGS=''-pthread -shared -m64 -Wl,--version-script,',atroot,'/simulator/element/mexFunctionGLNXA64.map''',' '];  
+%    PLATFORMOPTION = [PLATFORMOPTION,'LDFLAGS=''-pthread -shared -m64 -W''' ' '];  
+
+case 'MACI64'
+    PLATFORMOPTION = [PLATFORMOPTION,'LDFLAGS=''-pthread -shared -m64 -Wl,-twolevel_namespace,--version-script,',atroot,'/simulator/element/mexFunctionMACI64.map''',' '];  
+%	PLATFORMOPTION = [PLATFORMOPTION,'LDFLAGS=''-arch x86_64 -twolevel_namespace -Wl,',atroot,'/simulator/element/mexFunctionMACI64.map''',' '];  
+%	PLATFORMOPTION = [PLATFORMOPTION,'LDFLAGS=''-bundle -Wl -arch x86_64,',atroot,'/simulator/element/mexFunctionMACI64.map''',' '];  
+
+    % Starting from R2016b, Matlab introduced a new entry point in MEX-files
+    % The "*.mapext" files define this new entry point
+    pdir=fileparts(mfilename('fullpath'));
+    if ~exist('verLessThan') || verLessThan('matlab','9.1') %#ok<EXIST>
+        mapformat=fullfile(pdir,'%s');
+    else
+        mapformat=fullfile(pdir,'%sext');
+    end
+    exportarg='-Wl,-exported_symbols_list,';
+    map1='trackFunctionMAC.map';
+    map2='passFunctionMAC.map';
+    
+    if ismac()  % Correct a bug in Mac setup which uses both LINKEXPORT and LINKEXPORTVER
+        PLATFORMOPTION=[PLATFORMOPTION ...
+            'LDFLAGS=''-Wl,-twolevel_namespace -undefined error -arch x86_64 -mmacosx-version-min=$MACOSX_DEPLOYMENT_TARGET -Wl,-syslibroot,$ISYSROOT'' ' ...
+                'CMDLINE200=''$LD $LDFLAGS $LDBUNDLE $LINKOPTIM $LINKEXPORTVER $OBJS $CLIBS $LINKLIBS -o $EXE'' '...
+                ];
+        end
+        EXPORT=[' LINKEXPORTVER=''',exportarg,mapformat,''' '];
+end
+
+
+if ischar(PASSMETHODS) % one file name - convert to a cell array
+    if strcmpi(PASSMETHODS,'all')
+        % Find all files matching '*Pass.c' wildcard   
+        D = dir('*Pass.c');
+        PASSMETHODS = cell(size(D));
+        for i = 1:length(D)
+            PASSMETHODS{i} = strrep(D(i).name,'.c','');
+        end
+    else % Mex a single specifie pass-method
+        PASSMETHODS={PASSMETHODS};
+    end
+end
+
+for i = 1:length(PASSMETHODS)
+
+        PM = PASSMETHODS{i};
+        evalin('base',['clear ',PM]);
+        MEXSTRING = ['mex ',PLATFORMOPTION];
+        if nargin==2
+            MEXSTRING = [MEXSTRING,varargin{1},' '];
+        end
+        MEXSTRING = [MEXSTRING, PM,'.c '];
+        
+        %message = sprintf('%s\n',MEXSTRING);
+        %disp(message);
+        
+        if exist([pwd,'\',PM,'.c'],'file') || exist ([pwd,'/',PM,'.c'],'file') 
+            disp(MEXSTRING);
+            evalin('base',MEXSTRING);
+        else 
+            disp([PM,'.c',' - NOT FOUND! SKIP']); 
+        end
+        
+end
+
+cd(CURRENTDIR);
+
+
+

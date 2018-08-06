@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from lcaSetSeverityWarnLevel.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="lcaSetSeverityWarnLevel" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>lcaSetSeverityWarnLevel</refname>
+    <refpurpose>Set the warning threshold for lcaGet() operations.</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   
+   lcaSetSeverityWarnLevel(newlevel)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Description</title>
+   <para>
+   </para>
+   <para>
+Set the warning threshold for lcaGet() operations. A warning message is
+printed when retrieving a PV with a severity bigger or equal to the
+warning level. Supported values are 0..3 (No alarm, minor alarm, major
+alarm, invalid alarm). The initial/default value is 3.
+   </para>
+   <para>
+If a value $&gt;=10$ is passed, the threshold for refusing to read the
+.VAL field of PVs with an INVALID severity can be changed. The
+rejection can be switched off completely by passing 14 ( $= 10 +
+INVALID\_ALARM + 1$ ) or made more sensitive by passing a value of less
+than 13 ( $=10 + INVALID\_ALARM$ ), the default.
+__________________________________________________________________
+   </para>
+   <para>
+   </para>
+   <para>
+till 2017-08-08
+</para>
+</refsection>
+</refentry>

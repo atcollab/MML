@@ -1,0 +1,114 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>lcaSetMonitor</title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	<span class="previous"><a href="lcaPutNoWait.html">&lt;&lt; lcaPutNoWait</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="lcaSetSeverityWarnLevel.html">lcaSetSeverityWarnLevel &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path"><a href="index.html">labCA</a> &gt;&gt; <a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a> &gt; lcaSetMonitor</span>
+
+    <br /><br />
+    <div class="refnamediv"><h1 class="refname">lcaSetMonitor</h1>
+    <p class="refpurpose">Set a ``monitor&#0039;&#0039; on a set of PVs.</p></div>
+
+
+<div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3>
+   <div class="synopsis"><pre><span class="functionid">lcaSetMonitor</span><span class="default">(</span><span class="default">pvs</span><span class="default">, </span><span class="default">nmax</span><span class="default">, </span><span class="default">type</span><span class="default">)</span></pre></div></div>
+
+<div class="refsection"><h3 class="title">Description</h3>
+   <p class="para"></p>
+   <p class="para">Set a ``monitor&#0039;&#0039; on a set of PVs. Monitored PVs are automatically
+retrieved every time their value or status changes. Monitors are
+especially useful under EPICS-3.14 which supports multiple threads.
+EPICS-3.14 transparently reads monitored PVs as needed. Older, single
+threaded versions of EPICS require periodic calls to labCA e.g., to
+[1]lcaDelay, in order to allow labCA to handle monitors.</p>
+   <p class="para">Use the [2]lcaNewMonitorValue call to check monitor status (local flag)
+or [3]lcaNewMonitorWait to wait for new data to become available (since
+last lcaGet or lcaSetMonitor). If new data are available, they are
+retrieved using the ordinary [4]lcaGet call.</p>
+   <p class="para">Note the difference between polling and monitoring a PV in combination
+with polling the local monitor status flag ([5]lcaNewMonitorValue). In
+the first case, remote data are fetched on every polling cycle whereas
+in the second case, data are transferred only when they change. Also,
+in the monitored case, lcaGet reads from a local buffer rather than
+from the network. It is most convenient however to wait for monitored
+data to arrive using [6]lcaNewMonitorWait rather than polling.</p>
+   <p class="para">There is currently no possibility to selectively remove a monitor. Use
+the [7]lcaClear call to disconnect a channel and as a side-effect,
+remove all monitors on that channel. Future access to a cleared channel
+simply reestablishes a connection (but no monitors).</p>
+   <p class="para"></p></div>
+
+<div class="refsection"><h3 class="title">Parameters</h3>
+   <dl><dt><span class="term">Column vector (in matlab:</span>
+      <dd><p class="para">m x 1 cell- matrix) of m strings.</p></dd></dt></dl></div>
+
+<div class="refsection"><h3 class="title">Examples</h3>
+   <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabid">lcaSetMonitor</span><span class="scilabopenclose">(</span><span class="scilabstring">&#0039;</span><span class="scilabstring">PV</span><span class="scilabstring">&#0039;</span><span class="scilabopenclose">)</span>
+<span class="scilabcomment">// monitor </span><span class="scilabcomment">&#0039;</span><span class="scilabcomment">PV</span><span class="scilabcomment">&#0039;</span><span class="scilabcomment">. Reduce network traffic by just have the</span>
+<span class="scilabcomment">// library retrieve the first 20 elements. Use DBR_SHORT</span>
+<span class="scilabcomment">// for transfer.</span>
+<span class="scilabid">lcaSetMonitor</span><span class="scilabopenclose">(</span><span class="scilabstring">&#0039;</span><span class="scilabstring">PV</span><span class="scilabstring">&#0039;</span><span class="scilabdefault">,</span> <span class="scilabnumber">20</span><span class="scilabdefault">,</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">s</span><span class="scilabstring">&#0039;</span><span class="scilabopenclose">)</span>
+<span class="scilabid">__________________________________________________________________</span>
+
+<span class="scilabid">till</span> <span class="scilabnumber">2017</span><span class="scilaboperator">-</span><span class="scilabnumber">08</span><span class="scilaboperator">-</span><span class="scilabnumber">08</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
+
+<div class="refsection"><h3 class="title">See also</h3>
+   <ul class="itemizedlist"><li class="member"><a href="lcaDelay.html" class="link">1. lcaDelay</a></li>
+   <li class="member"><a href="lcaNewMonitorValue.html" class="link">2. lcaNewMonitorValue</a></li>
+   <li class="member"><a href="lcaNewMonitorWait.html" class="link">3. lcaNewMonitorWait</a></li>
+   <li class="member"><a href="lcaGet.html" class="link">4. lcaGet</a></li>
+   <li class="member"><a href="lcaNewMonitorValue.html" class="link">5. lcaNewMonitorValue</a></li>
+   <li class="member"><a href="lcaNewMonitorWait.html" class="link">6. lcaNewMonitorWait</a></li>
+   <li class="member"><a href="lcaClear.html" class="link">7. lcaClear</a></li>
+   <li class="member"><a href="lcaGet.html" class="link">8. lcaGet</a></li>
+   <li class="member"><a href="lcaGet.html" class="link">9. lcaGet</a></li>
+   <li class="member"><a href="lcaGet.html" class="link">10. lcaGet</a></li></ul></div>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	<span class="previous"><a href="lcaPutNoWait.html">&lt;&lt; lcaPutNoWait</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="lcaSetSeverityWarnLevel.html">lcaSetSeverityWarnLevel &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

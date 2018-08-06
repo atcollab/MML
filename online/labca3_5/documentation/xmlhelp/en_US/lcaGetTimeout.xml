@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from lcaGetTimeout.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="lcaGetTimeout" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>lcaGetTimeout</refname>
+    <refpurpose>Retrieve / set the ezca library timeout parameter (consult the ezca    documentation for more information).</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   
+   currentTimeout = lcaGetTimeout()
+   lcaSetTimeout(newTimeout)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Description</title>
+   <para>
+   </para>
+   <para>
+Retrieve / set the ezca library timeout parameter (consult the ezca
+documentation for more information). Note that the semantics of the
+timeout parameter has changed with labCA version 3. The library no
+longer pends for CA activity in multiples of this timeout value but
+returns control to scilab as soon as the underlying CA request
+completes.
+   </para>
+   <para>
+However, labCA checks for ``Ctrl-C'' key events every time (and only
+when) the timeout expires. Hence, it is convenient to choose a value
+$&lt;1$ s.
+   </para>
+   <para>
+The maximal time spent waiting for connections and/or data equals the
+timeout multiplied by the [1]retry count.
+__________________________________________________________________
+   </para>
+   <para>
+   </para>
+   <para>
+till 2017-08-08
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>See also</title>
+   <simplelist type="inline">
+   <member><link linkend="lcaGetRetryCount">1. lcaGetRetryCount</link></member>
+   </simplelist>
+</refsection>
+</refentry>

@@ -1,0 +1,796 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of setpvmodel</title>
+  <meta name="keywords" content="setpvmodel">
+  <meta name="description" content="SETPVMODEL - Sets the model">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; setpvmodel.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>setpvmodel
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>SETPVMODEL - Sets the model</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function ErrorFlag = setpvmodel(varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">SETPVMODEL - Sets the model
+  ErrorFlag = setpvmodel(Family, Field, NewSP, DeviceList)
+  ErrorFlag = setpvmodel(Family, NewSP, DeviceList)
+  ErrorFlag = setpvmodel(Family, NewSP)
+  ErrorFlag = setpvmodel(Family)
+
+  INPUTS
+  1. Family - Family Name
+              Data Structure
+              Accelerator Object
+  2. Field - Middle layer field name ('Monitor', 'Setpoint', etc) {'Monitor'}
+             AT field name
+             or
+             'K','Quad','Quadrupole'
+             'K2','Sext','Sextupole'
+             'K3','Octupole'
+             'KS1','SkewQuad','Skew'
+             'Roll' or 'Tilt'  [radian] (for a magnet, uses mksrollmat)
+             'RollX' or 'TiltX' and 'RollY' or 'TiltY'  (for a corrector magnet)
+             Note: setpvmodel('TwissData', 'ClosedOrbit') - Sets the start condition at the first AT element
+                   setpvmodel('TwissData', Field) - Sets the TwissData.(Field) twiss parameters at the first AT element
+                                                    See twissline for the definition of TwissData.
+                                                   'dP' and 'dL' are also stored in TwissData for 6-Dim tracking.
+
+  3. NewSP - Desired values {Default: getgolden}
+  4. DeviceList ([Sector Device #] or [element #]) {Default: whole family}
+  5. 'Physics'  - Use physics  units (optional override of units)
+     'Hardware' - Use hardware units (optional override of units)
+
+  OUTPUTS
+  1. NewSP - The actual values set
+  2. ErrorFlag
+
+  NOTES
+  1. If Family is a cell array, then DeviceList and Field can also be a cell arrays
+
+  See also setpv, getpv, <a href="getpvmodel.html" class="code" title="function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)">getpvmodel</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>	FAMILY2ATINDEX - Returns the AT index for a given family</li><li><a href="getenergymodel.html" class="code" title="function GeV = getenergymodel(iATIndex)">getenergymodel</a>	GETENERGYMODEL - Returns the model energy in GeV</li><li><a href="mksrollmat.html" class="code" title="function R = mksrollmat(PSI)">mksrollmat</a>	MKSROLLMAT - Rotation matrix around s-axis</li><li><a href="setenergymodel.html" class="code" title="function setenergymodel(GeV)">setenergymodel</a>	SETENERGYMODEL - Set the energy of the model</li><li><a href="setpvmodel.html" class="code" title="function ErrorFlag = setpvmodel(varargin)">setpvmodel</a>	SETPVMODEL - Sets the model</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="setpvmodel.html" class="code" title="function ErrorFlag = setpvmodel(varargin)">setpvmodel</a>	SETPVMODEL - Sets the model</li></ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function ErrorFlag = setpvmodel(varargin)</a>
+0002 <span class="comment">%SETPVMODEL - Sets the model</span>
+0003 <span class="comment">%  ErrorFlag = setpvmodel(Family, Field, NewSP, DeviceList)</span>
+0004 <span class="comment">%  ErrorFlag = setpvmodel(Family, NewSP, DeviceList)</span>
+0005 <span class="comment">%  ErrorFlag = setpvmodel(Family, NewSP)</span>
+0006 <span class="comment">%  ErrorFlag = setpvmodel(Family)</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">%  INPUTS</span>
+0009 <span class="comment">%  1. Family - Family Name</span>
+0010 <span class="comment">%              Data Structure</span>
+0011 <span class="comment">%              Accelerator Object</span>
+0012 <span class="comment">%  2. Field - Middle layer field name ('Monitor', 'Setpoint', etc) {'Monitor'}</span>
+0013 <span class="comment">%             AT field name</span>
+0014 <span class="comment">%             or</span>
+0015 <span class="comment">%             'K','Quad','Quadrupole'</span>
+0016 <span class="comment">%             'K2','Sext','Sextupole'</span>
+0017 <span class="comment">%             'K3','Octupole'</span>
+0018 <span class="comment">%             'KS1','SkewQuad','Skew'</span>
+0019 <span class="comment">%             'Roll' or 'Tilt'  [radian] (for a magnet, uses mksrollmat)</span>
+0020 <span class="comment">%             'RollX' or 'TiltX' and 'RollY' or 'TiltY'  (for a corrector magnet)</span>
+0021 <span class="comment">%             Note: setpvmodel('TwissData', 'ClosedOrbit') - Sets the start condition at the first AT element</span>
+0022 <span class="comment">%                   setpvmodel('TwissData', Field) - Sets the TwissData.(Field) twiss parameters at the first AT element</span>
+0023 <span class="comment">%                                                    See twissline for the definition of TwissData.</span>
+0024 <span class="comment">%                                                   'dP' and 'dL' are also stored in TwissData for 6-Dim tracking.</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%  3. NewSP - Desired values {Default: getgolden}</span>
+0027 <span class="comment">%  4. DeviceList ([Sector Device #] or [element #]) {Default: whole family}</span>
+0028 <span class="comment">%  5. 'Physics'  - Use physics  units (optional override of units)</span>
+0029 <span class="comment">%     'Hardware' - Use hardware units (optional override of units)</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">%  OUTPUTS</span>
+0032 <span class="comment">%  1. NewSP - The actual values set</span>
+0033 <span class="comment">%  2. ErrorFlag</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">%  NOTES</span>
+0036 <span class="comment">%  1. If Family is a cell array, then DeviceList and Field can also be a cell arrays</span>
+0037 <span class="comment">%</span>
+0038 <span class="comment">%  See also setpv, getpv, getpvmodel</span>
+0039 
+0040 <span class="comment">%  Written by Greg Portmann</span>
+0041 
+0042 
+0043 <span class="keyword">global</span> THERING THERINGCELL
+0044 
+0045 
+0046 ErrorFlag = 0;
+0047 
+0048 <span class="comment">%%%%%%%%%%%%%%%%%</span>
+0049 <span class="comment">% Input parsing %</span>
+0050 <span class="comment">%%%%%%%%%%%%%%%%%</span>
+0051 UnitsFlag = {};
+0052 <span class="keyword">for</span> i = length(varargin):-1:1
+0053     <span class="keyword">if</span> isstruct(varargin{i})
+0054         <span class="comment">% Ignor structures</span>
+0055     <span class="keyword">elseif</span> iscell(varargin{i})
+0056         <span class="comment">% Ignor cells</span>
+0057     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'struct'</span>) || strcmpi(varargin{i},<span class="string">'numeric'</span>)
+0058         <span class="comment">% Remove and ignor</span>
+0059         varargin(i) = [];
+0060     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'simulator'</span>) || strcmpi(varargin{i},<span class="string">'model'</span>) || strcmpi(varargin{i},<span class="string">'Online'</span>) || strcmpi(varargin{i},<span class="string">'Manual'</span>)
+0061         <span class="comment">% Remove and ignor</span>
+0062         varargin(i) = [];
+0063     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'physics'</span>)
+0064         UnitsFlag = {<span class="string">'Physics'</span>};
+0065         varargin(i) = [];
+0066     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'hardware'</span>)
+0067         UnitsFlag = {<span class="string">'Hardware'</span>};
+0068         varargin(i) = [];
+0069     <span class="keyword">end</span>
+0070 <span class="keyword">end</span>
+0071 
+0072 <span class="keyword">if</span> isempty(varargin)
+0073     error(<span class="string">'Must have at least a family name input'</span>);
+0074 <span class="keyword">else</span>
+0075     Family = varargin{1};
+0076     <span class="keyword">if</span> length(varargin) &gt;= 2
+0077         Field = varargin{2};
+0078     <span class="keyword">end</span>
+0079     <span class="keyword">if</span> length(varargin) &gt;= 3
+0080         NewSP = varargin{3};
+0081     <span class="keyword">end</span>
+0082     <span class="keyword">if</span> length(varargin) &gt;= 4
+0083         DeviceList = varargin{4};
+0084     <span class="keyword">end</span>
+0085 <span class="keyword">end</span>
+0086 
+0087 
+0088 <span class="comment">%%%%%%%%%%%%%%</span>
+0089 <span class="comment">% Cell input %</span>
+0090 <span class="comment">%%%%%%%%%%%%%%</span>
+0091 <span class="keyword">if</span> iscell(Family)
+0092     <span class="keyword">for</span> i = 1:length(Family)
+0093         <span class="keyword">if</span> length(varargin) &lt; 2
+0094             ErrorFlag{i} = <a href="setpvmodel.html" class="code" title="function ErrorFlag = setpvmodel(varargin)">setpvmodel</a>(Family{i}, UnitsFlag{:});
+0095         <span class="keyword">elseif</span> length(varargin) &lt; 3
+0096             <span class="keyword">if</span> iscell(Field)
+0097                 ErrorFlag{i} = <a href="setpvmodel.html" class="code" title="function ErrorFlag = setpvmodel(varargin)">setpvmodel</a>(Family{i}, Field{i}, UnitsFlag{:});
+0098             <span class="keyword">else</span>
+0099                 ErrorFlag{i} = <a href="setpvmodel.html" class="code" title="function ErrorFlag = setpvmodel(varargin)">setpvmodel</a>(Family{i}, Field, UnitsFlag{:});
+0100             <span class="keyword">end</span>
+0101         <span class="keyword">elseif</span> length(varargin) &lt; 4
+0102             <span class="keyword">if</span> iscell(Field)
+0103                 <span class="keyword">if</span> iscell(NewSP)
+0104                     ErrorFlag{i} = <a href="setpvmodel.html" class="code" title="function ErrorFlag = setpvmodel(varargin)">setpvmodel</a>(Family{i}, Field{i}, NewSP{i}, UnitsFlag{:});
+0105                 <span class="keyword">else</span>
+0106                     ErrorFlag{i} = <a href="setpvmodel.html" class="code" title="function ErrorFlag = setpvmodel(varargin)">setpvmodel</a>(Family{i}, Field{i}, NewSP, UnitsFlag{:});
+0107                 <span class="keyword">end</span>
+0108             <span class="keyword">else</span>
+0109                 <span class="keyword">if</span> iscell(NewSP)
+0110                     ErrorFlag{i} = <a href="setpvmodel.html" class="code" title="function ErrorFlag = setpvmodel(varargin)">setpvmodel</a>(Family{i}, Field, NewSP{i}, UnitsFlag{:});
+0111                 <span class="keyword">else</span>
+0112                     ErrorFlag{i} = <a href="setpvmodel.html" class="code" title="function ErrorFlag = setpvmodel(varargin)">setpvmodel</a>(Family{i}, Field, NewSP, UnitsFlag{:});
+0113                 <span class="keyword">end</span>
+0114             <span class="keyword">end</span>
+0115         <span class="keyword">else</span>
+0116             <span class="keyword">if</span> iscell(Field)
+0117                 <span class="keyword">if</span> iscell(NewSP)
+0118                     <span class="keyword">if</span> iscell(DeviceList)
+0119                         ErrorFlag{i} = <a href="setpvmodel.html" class="code" title="function ErrorFlag = setpvmodel(varargin)">setpvmodel</a>(Family{i}, Field{i}, NewSP{i}, DeviceList{i}, UnitsFlag{:});
+0120                     <span class="keyword">else</span>
+0121                         ErrorFlag{i} = <a href="setpvmodel.html" class="code" title="function ErrorFlag = setpvmodel(varargin)">setpvmodel</a>(Family{i}, Field{i}, NewSP{i}, DeviceList, UnitsFlag{:});
+0122                     <span class="keyword">end</span>
+0123                 <span class="keyword">else</span>
+0124                     <span class="keyword">if</span> iscell(DeviceList)
+0125                         ErrorFlag{i} = <a href="setpvmodel.html" class="code" title="function ErrorFlag = setpvmodel(varargin)">setpvmodel</a>(Family{i}, Field{i}, NewSP, DeviceList{i}, UnitsFlag{:});
+0126                     <span class="keyword">else</span>
+0127                         ErrorFlag{i} = <a href="setpvmodel.html" class="code" title="function ErrorFlag = setpvmodel(varargin)">setpvmodel</a>(Family{i}, Field{i}, NewSP, DeviceList, UnitsFlag{:});
+0128                     <span class="keyword">end</span>
+0129                 <span class="keyword">end</span>
+0130             <span class="keyword">else</span>
+0131                 <span class="keyword">if</span> iscell(NewSP)
+0132                     <span class="keyword">if</span> iscell(DeviceList)
+0133                         ErrorFlag{i} = <a href="setpvmodel.html" class="code" title="function ErrorFlag = setpvmodel(varargin)">setpvmodel</a>(Family{i}, Field, NewSP{i}, DeviceList{i}, UnitsFlag{:});
+0134                     <span class="keyword">else</span>
+0135                         ErrorFlag{i} = <a href="setpvmodel.html" class="code" title="function ErrorFlag = setpvmodel(varargin)">setpvmodel</a>(Family{i}, Field, NewSP{i}, DeviceList, UnitsFlag{:});
+0136                     <span class="keyword">end</span>
+0137                 <span class="keyword">else</span>
+0138                     <span class="keyword">if</span> iscell(DeviceList)
+0139                         ErrorFlag{i} = <a href="setpvmodel.html" class="code" title="function ErrorFlag = setpvmodel(varargin)">setpvmodel</a>(Family{i}, Field, NewSP, DeviceList{i}, UnitsFlag{:});
+0140                     <span class="keyword">else</span>
+0141                         ErrorFlag{i} = <a href="setpvmodel.html" class="code" title="function ErrorFlag = setpvmodel(varargin)">setpvmodel</a>(Family{i}, Field, NewSP, DeviceList, UnitsFlag{:});
+0142                     <span class="keyword">end</span>
+0143                 <span class="keyword">end</span>
+0144             <span class="keyword">end</span>
+0145         <span class="keyword">end</span>
+0146     <span class="keyword">end</span>
+0147     <span class="keyword">return</span>
+0148 <span class="keyword">end</span>
+0149 
+0150 
+0151 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0152 <span class="comment">% Family or data structure inputs beyond this point %</span>
+0153 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0154 <span class="comment">% Only change StructOutputFlag if 'numeric' is not on the input line</span>
+0155 <span class="keyword">if</span> isstruct(Family)
+0156     <span class="comment">% Data structure inputs</span>
+0157     <span class="keyword">if</span> length(varargin) &lt; 2
+0158         <span class="keyword">if</span> isfield(Family,<span class="string">'Field'</span>)
+0159             Field = Family.Field;
+0160         <span class="keyword">else</span>
+0161             Field = <span class="string">''</span>;
+0162         <span class="keyword">end</span>
+0163     <span class="keyword">end</span>
+0164     <span class="keyword">if</span> length(varargin) &lt; 3
+0165         <span class="keyword">if</span> isfield(Family,<span class="string">'Data'</span>)
+0166             NewSP = Family.Data;
+0167         <span class="keyword">else</span>
+0168             error(<span class="string">'NewSP input required (or a .Data field must exist for data structure inputs)'</span>);
+0169         <span class="keyword">end</span>
+0170     <span class="keyword">end</span>
+0171     <span class="keyword">if</span> length(varargin) &lt; 4
+0172         <span class="keyword">if</span> isfield(Family,<span class="string">'DeviceList'</span>)
+0173             DeviceList = Family.DeviceList;
+0174         <span class="keyword">else</span>
+0175             DeviceList = [];
+0176         <span class="keyword">end</span>
+0177     <span class="keyword">end</span>
+0178     <span class="keyword">if</span> isempty(UnitsFlag)
+0179         <span class="keyword">if</span> isfield(Family,<span class="string">'Units'</span>)
+0180             UnitsFlag{1} = Family.Units;
+0181         <span class="keyword">end</span>
+0182     <span class="keyword">end</span>
+0183     <span class="keyword">if</span> isfield(Family,<span class="string">'FamilyName'</span>)
+0184         Family = Family.FamilyName;
+0185     <span class="keyword">else</span>
+0186         error(<span class="string">'For data structure inputs FamilyName field must exist'</span>)
+0187     <span class="keyword">end</span>
+0188 <span class="keyword">else</span>
+0189     <span class="comment">% Family string input</span>
+0190     <span class="keyword">if</span> length(varargin) &lt; 2
+0191         Field = <span class="string">''</span>;
+0192     <span class="keyword">end</span>
+0193     <span class="keyword">if</span> length(varargin) &lt; 3
+0194         NewSP = [];
+0195     <span class="keyword">end</span>
+0196     <span class="keyword">if</span> length(varargin) &lt; 4
+0197         DeviceList = [];
+0198     <span class="keyword">end</span>
+0199 <span class="keyword">end</span>
+0200 
+0201 <span class="keyword">if</span> isnumeric(Field)
+0202     DeviceList = NewSP;
+0203     NewSP = Field;
+0204     Field = <span class="string">''</span>;
+0205 <span class="keyword">end</span>
+0206 <span class="keyword">if</span> isempty(Field)
+0207     Field = <span class="string">'Setpoint'</span>;
+0208 <span class="keyword">end</span>
+0209 
+0210 <span class="keyword">if</span> isempty(NewSP)
+0211     NewSP = getgolden(Family, Field, DeviceList, <span class="string">'numeric'</span>, UnitsFlag{:});
+0212 <span class="keyword">end</span>
+0213 
+0214 <span class="keyword">if</span> isempty(DeviceList)
+0215     <span class="keyword">if</span> isfamily(Family)
+0216         DeviceList = family2dev(Family);
+0217     <span class="keyword">end</span>
+0218 <span class="keyword">end</span>
+0219 <span class="keyword">if</span> isfamily(Family)
+0220     <span class="keyword">if</span> (size(DeviceList,2) == 1)
+0221         DeviceList = elem2dev(Family, DeviceList);
+0222     <span class="keyword">end</span>
+0223 <span class="keyword">end</span>
+0224 
+0225 <span class="keyword">if</span> isempty(UnitsFlag)
+0226     UnitsFlag = <span class="string">'Hardware'</span>;
+0227 <span class="keyword">else</span>
+0228     UnitsFlag = UnitsFlag{1};
+0229 <span class="keyword">end</span>
+0230 
+0231 
+0232 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0233 <span class="comment">% Change to physics units if requested %</span>
+0234 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0235 NewSP_HW = [];
+0236 <span class="keyword">if</span> strcmpi(UnitsFlag,<span class="string">'Hardware'</span>) &amp;&amp; isfamily(Family, Field)
+0237     NewSP_HW = NewSP;
+0238     NewSP = hw2physics(Family, Field, NewSP, DeviceList, <a href="getenergymodel.html" class="code" title="function GeV = getenergymodel(iATIndex)">getenergymodel</a>);
+0239 <span class="keyword">end</span>
+0240 
+0241 <span class="keyword">if</span> ~isstruct(NewSP) &amp;&amp; ~iscell(NewSP) &amp;&amp; size(NewSP,1)~=size(DeviceList,1)
+0242     <span class="keyword">if</span> size(NewSP,1) == 1
+0243         NewSP = ones(size(DeviceList,1),1) * NewSP;
+0244     <span class="keyword">else</span>
+0245         error(<span class="string">'Setpoint size must equal the device list or be a scalar.'</span>);
+0246     <span class="keyword">end</span>
+0247 <span class="keyword">end</span>
+0248 
+0249 <span class="comment">% Look to see it the AT model needs to be changed for this family</span>
+0250 ATModelNumber = getfamilydata(Family, <span class="string">'AT'</span>, <span class="string">'ATModel'</span>);
+0251 <span class="keyword">if</span> ~isempty(ATModelNumber)
+0252     <span class="comment">% Change THERING</span>
+0253     THERING = THERINGCELL{ATModelNumber};
+0254 
+0255     <span class="comment">% Set AD.Circumference</span>
+0256     setfamilydata(findspos(THERING, length(THERING)+1), <span class="string">'Circumference'</span>);
+0257 
+0258     <span class="keyword">if</span> isfield(THERING{1}, <span class="string">'MachineType'</span>)
+0259         setfamilydata(THERING{1}.MachineType, <span class="string">'MachineType'</span>);
+0260     <span class="keyword">end</span>
+0261     <span class="keyword">if</span> isfield(THERING{1}, <span class="string">'Energy'</span>)
+0262         setfamilydata(THERING{1}.Energy, <span class="string">'Energy'</span>);
+0263     <span class="keyword">end</span>
+0264     <span class="keyword">if</span> isfield(THERING{1}, <span class="string">'InjectionEnergy'</span>)
+0265         setfamilydata(THERING{1}.InjectionEnergy, <span class="string">'InjectionEnergy'</span>);
+0266     <span class="keyword">end</span>
+0267     <span class="keyword">if</span> isfield(THERING{1}, <span class="string">'MCF'</span>)
+0268         setfamilydata(THERING{1}.MCF, <span class="string">'MCF'</span>);
+0269     <span class="keyword">else</span>
+0270         <span class="comment">% Recompute the MCF if it's likely if a new accelerator</span>
+0271         <span class="comment">%try</span>
+0272         <span class="comment">%    setfamilydata(getmcf('Model'), 'MCF');</span>
+0273         <span class="comment">%catch</span>
+0274         <span class="comment">%end</span>
+0275     <span class="keyword">end</span>
+0276 <span class="keyword">end</span>
+0277 
+0278 
+0279 <span class="comment">% Simulator (AT)</span>
+0280 <span class="keyword">if</span> isempty(THERING)
+0281     error(<span class="string">'Simulator variable is not setup properly.'</span>);
+0282 <span class="keyword">end</span>
+0283 
+0284 
+0285 <span class="comment">%%%%%%%%%%%%</span>
+0286 <span class="comment">% Set Data %</span>
+0287 <span class="comment">%%%%%%%%%%%%</span>
+0288 
+0289 <span class="comment">% Do families that do not require at AT field first</span>
+0290 <span class="keyword">if</span> strcmp(Family, <span class="string">'RF'</span>)
+0291     <span class="comment">% RF</span>
+0292     iCavity = findcells(THERING,<span class="string">'Frequency'</span>);
+0293     <span class="keyword">for</span> i = 1:length(iCavity)
+0294         THERING{iCavity(i)}.Frequency = NewSP(1);
+0295     <span class="keyword">end</span>
+0296 
+0297 <span class="keyword">elseif</span> any(strcmpi(Family,{<span class="string">'Energy'</span>,<span class="string">'GeV'</span>}))
+0298 
+0299     <span class="comment">% Set energy in AT</span>
+0300     <span class="comment">% Noter: Changing the energy of the model is only a variable change</span>
+0301     <a href="setenergymodel.html" class="code" title="function setenergymodel(GeV)">setenergymodel</a>(NewSP(1));
+0302 
+0303 <span class="keyword">elseif</span> strcmp(Family, <span class="string">'TwissData'</span>)
+0304 
+0305     <span class="keyword">if</span> isfield(THERING{1}, <span class="string">'TwissData'</span>)
+0306         InATFlag = 1;
+0307         TwissData = THERING{1}.TwissData;
+0308     <span class="keyword">else</span>
+0309         InATFlag = 0;
+0310         TwissData = getfamilydata(<span class="string">'TwissData'</span>);
+0311         <span class="keyword">if</span> isempty(TwissData)
+0312             <span class="comment">% Store in AT</span>
+0313             InATFlag = 1;
+0314         <span class="keyword">end</span>
+0315     <span class="keyword">end</span>
+0316 
+0317     <span class="keyword">if</span> any(strcmpi(Field, {<span class="string">'ClosedOrbit'</span>,<span class="string">'dP'</span>,<span class="string">'dL'</span>}))
+0318         <span class="keyword">if</span> ~isfield(TwissData, <span class="string">'ClosedOrbit'</span>)
+0319             TwissData.ClosedOrbit = [0 0 0 0]';
+0320         <span class="keyword">end</span>
+0321         <span class="keyword">if</span> ~isfield(TwissData, <span class="string">'dP'</span>)
+0322             TwissData.dP = 0;
+0323         <span class="keyword">end</span>
+0324         <span class="keyword">if</span> ~isfield(TwissData, <span class="string">'dL'</span>)
+0325             TwissData.dL = 0;
+0326         <span class="keyword">end</span>
+0327         <span class="keyword">if</span> strcmpi(Field, <span class="string">'ClosedOrbit'</span>)
+0328             <span class="keyword">if</span> length(NewSP) &lt; 4 || length(NewSP) == 5 || length(NewSP) &gt; 6
+0329                 error(<span class="string">'Closed orbit input must be length 4 or 6'</span>);
+0330             <span class="keyword">elseif</span> length(NewSP) == 4
+0331                 TwissData.ClosedOrbit = NewSP(1:4);
+0332             <span class="keyword">else</span>
+0333                 TwissData.ClosedOrbit = NewSP(1:4);
+0334                 TwissData.dP = NewSP(5);
+0335                 TwissData.dL = NewSP(6);
+0336             <span class="keyword">end</span>
+0337         <span class="keyword">elseif</span> strcmpi(Field, <span class="string">'dP'</span>)
+0338             TwissData.dP = NewSP(1);
+0339         <span class="keyword">elseif</span> strcmpi(Field, <span class="string">'dL'</span>)
+0340             TwissData.dL = NewSP(1);
+0341         <span class="keyword">end</span>
+0342     <span class="keyword">else</span>
+0343         <span class="keyword">if</span> any(strcmpi(Field, {<span class="string">'Setpoint'</span>,<span class="string">'Monitor'</span>}))
+0344             TwissData = NewSP;
+0345         <span class="keyword">else</span>
+0346             TwissData.(Field) = NewSP;
+0347         <span class="keyword">end</span>
+0348     <span class="keyword">end</span>
+0349 
+0350     <span class="comment">% Store TwissData where it was found</span>
+0351     <span class="keyword">if</span> InATFlag
+0352         THERING{1}.TwissData = TwissData;
+0353     <span class="keyword">else</span>
+0354         setfamilydata(TwissData, <span class="string">'TwissData'</span>);
+0355     <span class="keyword">end</span>
+0356 <span class="keyword">else</span>
+0357 
+0358     <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0359     <span class="comment">% Families that require an AT field %</span>
+0360     <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0361 
+0362     <span class="comment">% Find the index for where the desired data is in the total device list</span>
+0363     <span class="keyword">if</span> isfamily(Family)
+0364         DeviceListTotal = family2dev(Family, 0);
+0365         [DeviceIndex, iNotFound] = findrowindex(DeviceList, DeviceListTotal);
+0366         <span class="keyword">if</span> ~isempty(iNotFound)
+0367             <span class="comment">% Device not found</span>
+0368             <span class="keyword">for</span> i = 1:length(iNotFound)
+0369                 fprintf(<span class="string">'   No devices to set for Family %s(%d,%d)\n'</span>, Family, DeviceList(i,1), DeviceList(i,2));
+0370             <span class="keyword">end</span>
+0371             error(sprintf(<span class="string">'%d Devices not found'</span>, length(iNotFound)));
+0372         <span class="keyword">end</span>
+0373 
+0374         <span class="comment">% Find the AT structure if it exists</span>
+0375         AT = getfamilydata(Family, Field, <span class="string">'AT'</span>);
+0376         <span class="keyword">if</span> isempty(AT)
+0377             <span class="keyword">if</span> any(strcmpi(Field,{<span class="string">'Setpoint'</span>,<span class="string">'Monitor'</span>,<span class="string">'Sum'</span>,<span class="string">'Set'</span>,<span class="string">'Read'</span>,<span class="string">'Readback'</span>}))
+0378                 <span class="comment">% Try to defer the setpoint and monitor field to main family AT field</span>
+0379                 AT = getfamilydata(Family, <span class="string">'AT'</span>);
+0380             <span class="keyword">end</span>
+0381             <span class="keyword">if</span> isempty(AT)
+0382                 <span class="comment">% Look for Family in the AT-model</span>
+0383                 ATIndex = findcells(THERING, <span class="string">'FamName'</span>, Family);
+0384                 <span class="keyword">if</span> ~isempty(ATIndex)
+0385                     <span class="comment">% Field becomes the sub-structure of the AT-model</span>
+0386                     AT.ATType = Field;
+0387                 <span class="keyword">else</span>
+0388                     <span class="comment">% Make a new field</span>
+0389                     <span class="keyword">if</span> any(strcmpi(Field,{<span class="string">'Setpoint'</span>,<span class="string">'Monitor'</span>,<span class="string">'Sum'</span>,<span class="string">'Set'</span>,<span class="string">'Read'</span>,<span class="string">'Readback'</span>}))
+0390                         Field = <span class="string">'Setpoint'</span>;
+0391                     <span class="keyword">end</span>
+0392                     <span class="comment">% Look for a model field</span>
+0393                     Model = getfamilydata(Family, Field, <span class="string">'Model'</span>);
+0394                     <span class="keyword">if</span> isempty(Model)
+0395                         Model.Data = NaN * ones(size(DeviceListTotal,1),1);
+0396                     <span class="keyword">end</span>
+0397                     Model.Data(DeviceIndex) = NewSP;  <span class="comment">% Physics units</span>
+0398                     setfamilydata(Model, Family, Field, <span class="string">'Model'</span>);  <span class="comment">% Store the data in .Model field</span>
+0399 
+0400                     <span class="comment">% AT.ATType must be defined</span>
+0401                     <span class="comment">%warning('Simulator not setup for %s.%s family\n', Family, Field);</span>
+0402                     <span class="comment">%fprintf('WARNING: Simulator not setup for %s.%s family\n', Family, Field);</span>
+0403                     <span class="comment">%ErrorFlag = 1;</span>
+0404                     <span class="comment">%DataTime = 0+0*sqrt(-1);</span>
+0405                     ErrorFlag = 0;
+0406                     DataTime = 0+0*sqrt(-1);
+0407                     <span class="keyword">return</span>
+0408                 <span class="keyword">end</span>
+0409             <span class="keyword">end</span>
+0410         <span class="keyword">else</span>
+0411             <span class="comment">% Set methods</span>
+0412             <span class="keyword">if</span> isfield(AT, <span class="string">'SpecialFunctionSet'</span>)
+0413                 ErrorFlag = feval(AT.SpecialFunctionSet, Family, Field, NewSP, DeviceList);
+0414                 <span class="keyword">return</span>
+0415             <span class="keyword">end</span>
+0416         <span class="keyword">end</span>
+0417 
+0418         <span class="comment">% Make sure AT.Index exists</span>
+0419         <span class="keyword">if</span> ~isfield(AT,<span class="string">'ATIndex'</span>)
+0420             AT.ATIndex = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(Family, DeviceListTotal);
+0421         <span class="keyword">end</span>
+0422     <span class="keyword">else</span>
+0423         <span class="comment">% Look for an AT family</span>
+0424         <span class="keyword">if</span> strcmpi(Family, <span class="string">'All'</span>)
+0425             AT.ATIndex = (1:length(THERING))';
+0426         <span class="keyword">else</span>
+0427             AT.ATIndex = findcells(THERING, <span class="string">'FamName'</span>, Family);
+0428         <span class="keyword">end</span>
+0429         DeviceIndex = 1:length(AT.ATIndex);
+0430         <span class="keyword">if</span> isempty(DeviceList)
+0431             DeviceList = [ones(length(DeviceIndex),1) DeviceIndex(:)];
+0432         <span class="keyword">end</span>
+0433         AT.ATType = Field;
+0434     <span class="keyword">end</span>
+0435 
+0436 
+0437     <span class="comment">% Check for a split magnet</span>
+0438     Nsplit = size(AT.ATIndex,2);
+0439     <span class="keyword">if</span> Nsplit &gt; 1
+0440         <span class="comment">% Make a large column out of the split magnets</span>
+0441         NewSP = NewSP*ones(1,Nsplit);
+0442         NewSP = NewSP';
+0443         NewSP = NewSP(:);
+0444 
+0445         <span class="keyword">if</span> strcmpi(AT.ATType, <span class="string">'HCM'</span>) || strcmpi(AT.ATType, <span class="string">'VCM'</span>)
+0446             <span class="comment">% Correctors are in radians so the kick needs to be divided amoung the splits</span>
+0447             <span class="comment">% Note: NaN's in the ATIndex are not splits for instance [45 46; 67 NaN] means</span>
+0448             <span class="comment">%       the first magnet is split but the second is not.</span>
+0449             Nsplits = ones(size(AT.ATIndex));
+0450             Nsplits(find(isnan(AT.ATIndex))) = 0;
+0451             Nsplits = sum(Nsplits')';
+0452             NewSP = NewSP ./ Nsplits;
+0453             <span class="comment">%for i = 1:size(NewSP,1)</span>
+0454             <span class="comment">%    NewSP(i,:) = NewSP(i,:) / (Nsplit - sum(isnan(AT.ATIndex(i,:))));</span>
+0455             <span class="comment">%end</span>
+0456         <span class="keyword">else</span>
+0457             ATIndexList = AT.ATIndex(DeviceIndex,:)';
+0458             ATIndexList = ATIndexList(:);
+0459 
+0460             iNaN = find(isnan(ATIndexList));
+0461             ATIndexList(iNaN) = [];
+0462             NewSP(iNaN) = [];
+0463         <span class="keyword">end</span>
+0464     <span class="keyword">else</span>
+0465         ATIndexList = AT.ATIndex(DeviceIndex);
+0466     <span class="keyword">end</span>
+0467 
+0468 
+0469     <span class="comment">% Make the setpoint changes</span>
+0470     <span class="keyword">if</span> isfield(AT, <span class="string">'ATParameterGroup'</span>)
+0471         <span class="keyword">for</span> i = 1:size(NewSP,1)
+0472             <span class="keyword">if</span> iscell(AT.ATParameterGroup)
+0473                 <span class="comment">% If cell, set the parameter group</span>
+0474                 ParameterGroup = AT.ATParameterGroup{DeviceIndex(i)};
+0475                 THERING = setparamgroup(THERING, ParameterGroup, NewSP(i));
+0476             <span class="keyword">elseif</span> ischar(AT.ATParameterGroup)
+0477                 <span class="comment">% Set the field</span>
+0478                 ATField = AT.ATParameterGroup;
+0479                 THERING{ATIndexList(i)}.(ATField) = NewSP(i);
+0480             <span class="keyword">end</span>
+0481         <span class="keyword">end</span>
+0482     <span class="keyword">else</span>
+0483         <span class="keyword">if</span> any(strcmpi(AT.ATType, {<span class="string">'HCM'</span>,<span class="string">'Kicker'</span>}))
+0484             <span class="comment">% HCM</span>
+0485             <span class="keyword">for</span> i = 1:size(NewSP,1)
+0486                 <span class="comment">% Coupling: Magnet roll is part of the AT model</span>
+0487                 <span class="comment">%           The gain is part of hw2physics/physics2hw</span>
+0488                 <span class="keyword">if</span> isfield(THERING{ATIndexList(i)}, <span class="string">'Roll'</span>)
+0489                     Roll = THERING{ATIndexList(i)}.Roll;
+0490                 <span class="keyword">else</span>
+0491                     <span class="comment">% Knowing the cross-plane family name can be a problem</span>
+0492                     <span class="comment">% If the VCM family has the same AT index, then use it.</span>
+0493                     Roll = [getroll(Family, Field, DeviceList(i,:))  0];
+0494                     VCMDevList = family2dev(<span class="string">'VCM'</span>);
+0495                     iVCM = findrowindex(DeviceList(i,:), VCMDevList);
+0496                     <span class="keyword">if</span> ~isempty(iVCM)
+0497                         <span class="keyword">try</span>
+0498                             ATIndexVCM = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(<span class="string">'VCM'</span>, DeviceList(i,:));
+0499                             <span class="keyword">if</span> ATIndexVCM == ATIndexList(i)
+0500                                 Roll = [Roll(1) getroll(<span class="string">'VCM'</span>, Field, DeviceList(i,:))];
+0501                             <span class="keyword">else</span>
+0502                                 Roll = [0 0];
+0503                             <span class="keyword">end</span>
+0504                         <span class="keyword">catch</span>
+0505                         <span class="keyword">end</span>
+0506                     <span class="keyword">end</span>
+0507                 <span class="keyword">end</span>
+0508 
+0509                 <span class="comment">% New X-Kick, but the Y-Kick needs to be maintained (middle layer coordinates)</span>
+0510                 XKick = NewSP(i);
+0511                 YKick = [-sin(Roll(1)) cos(Roll(1))] * THERING{ATIndexList(i)}.KickAngle(:) / (cos(Roll(1)-Roll(2)));
+0512 
+0513                 <span class="comment">% Superimpose the X and Y kicks</span>
+0514                 THERING{ATIndexList(i)}.KickAngle(1) = XKick * cos(Roll(1)) - YKick * sin(Roll(2));
+0515                 THERING{ATIndexList(i)}.KickAngle(2) = XKick * sin(Roll(1)) + YKick * cos(Roll(2));
+0516                 <span class="comment">%fprintf('kick(%d,%d)=%g %g  AT=%g %g  Roll=%g  %g\n',DeviceList(i,:), XKick, YKick, THERING{ATIndexList(i)}.KickAngle, Roll);</span>
+0517 
+0518                 <span class="comment">%% X only kick</span>
+0519                 <span class="comment">%THERING{ATIndexList(i)}.KickAngle(1) = NewSP(i) * cos(Roll(1));</span>
+0520                 <span class="comment">%THERING{ATIndexList(i)}.KickAngle(2) = NewSP(i) * sin(Roll(1));</span>
+0521             <span class="keyword">end</span>
+0522 
+0523         <span class="keyword">elseif</span> strcmpi(AT.ATType, <span class="string">'VCM'</span>)
+0524             <span class="comment">% VCM</span>
+0525             <span class="keyword">for</span> i = 1:size(NewSP,1)
+0526                 <span class="comment">% Coupling: Magnet roll is part of the model</span>
+0527                 <span class="comment">%           The gain is part of hw2physics/physics2hw</span>
+0528 
+0529                 <span class="comment">%if isfield(THERING{ATIndexList(i)}, 'Roll')</span>
+0530                 <span class="comment">%    Roll = THERING{ATIndexList(i)}.Roll;</span>
+0531                 <span class="comment">%else</span>
+0532                 <span class="comment">%    % Setting to zero may cause a problem.  It would be better</span>
+0533                 <span class="comment">%    % to call getroll but the cross-plane family name is not known.</span>
+0534                 <span class="comment">%    Roll = [0 0];</span>
+0535                 <span class="comment">%end</span>
+0536 
+0537                 <span class="keyword">if</span> isfield(THERING{ATIndexList(i)}, <span class="string">'Roll'</span>)
+0538                     Roll = THERING{ATIndexList(i)}.Roll;
+0539                 <span class="keyword">else</span>
+0540                     <span class="comment">% Knowing the cross-plane family name can be a problem</span>
+0541                     <span class="comment">% If the VCM family has the same AT index, then use it.</span>
+0542                     Roll = [0 getroll(Family, Field, DeviceList(i,:))];
+0543                     HCMDevList = family2dev(<span class="string">'HCM'</span>);
+0544                     iHCM = findrowindex(DeviceList(i,:), HCMDevList);
+0545                     <span class="keyword">if</span> ~isempty(iHCM)
+0546                         <span class="keyword">try</span>
+0547                             ATIndexHCM = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(<span class="string">'HCM'</span>, DeviceList(i,:));
+0548                             <span class="keyword">if</span> ATIndexHCM == ATIndexList(i)
+0549                                 Roll = [getroll(<span class="string">'HCM'</span>, Field, DeviceList(i,:)) Roll(2)];
+0550                             <span class="keyword">else</span>
+0551                                 Roll = [0 0];
+0552                             <span class="keyword">end</span>
+0553                         <span class="keyword">catch</span>
+0554                         <span class="keyword">end</span>
+0555                     <span class="keyword">end</span>
+0556                 <span class="keyword">end</span>
+0557 
+0558                 <span class="comment">% New Y-Kick, but the X-Kick needs to be maintained (middle layer coordinates)</span>
+0559                 XKick = [cos(Roll(2)) sin(Roll(2))] * THERING{ATIndexList(i)}.KickAngle(:) / (cos(Roll(1)-Roll(2)));
+0560                 YKick = NewSP(i);
+0561 
+0562                 <span class="comment">% Superimpose the X and Y kicks</span>
+0563                 THERING{ATIndexList(i)}.KickAngle(1) = XKick * cos(Roll(1)) - YKick * sin(Roll(2));
+0564                 THERING{ATIndexList(i)}.KickAngle(2) = XKick * sin(Roll(1)) + YKick * cos(Roll(2));
+0565                 <span class="comment">%fprintf('kick(%d,%d)=%g %g  AT=%g %g  Roll=%g  %g\n',DeviceList(i,:), XKick, YKick, THERING{ATIndexList(i)}.KickAngle, Roll);</span>
+0566 
+0567                 <span class="comment">%% Y only kick</span>
+0568                 <span class="comment">%THERING{ATIndexList(i)}.KickAngle(1) = -1 * NewSP(i) * sin(Roll(2));</span>
+0569                 <span class="comment">%THERING{ATIndexList(i)}.KickAngle(2) =      NewSP(i) * cos(Roll(2));</span>
+0570             <span class="keyword">end</span>
+0571 
+0572         <span class="keyword">elseif</span> any(strcmpi(AT.ATType,{<span class="string">'K'</span>,<span class="string">'Quad'</span>,<span class="string">'Quadrupole'</span>}))
+0573             <span class="comment">% K - Quadrupole</span>
+0574             <span class="keyword">for</span> i = 1:size(NewSP,1)
+0575                 <span class="keyword">if</span> isfield(THERING{ATIndexList(i)}, <span class="string">'K'</span>)
+0576                     THERING{ATIndexList(i)}.K = NewSP(i);
+0577                 <span class="keyword">end</span>
+0578                 THERING{ATIndexList(i)}.PolynomB(2) = NewSP(i);
+0579             <span class="keyword">end</span>
+0580 
+0581         <span class="keyword">elseif</span> any(strcmpi(AT.ATType,{<span class="string">'K2'</span>,<span class="string">'Sext'</span>,<span class="string">'Sextupole'</span>}))
+0582             <span class="comment">% K2 - Sextupole</span>
+0583             <span class="keyword">for</span> i = 1:size(NewSP,1)
+0584                 THERING{ATIndexList(i)}.PolynomB(3) = NewSP(i);
+0585             <span class="keyword">end</span>
+0586 
+0587         <span class="keyword">elseif</span> any(strcmpi(AT.ATType,{<span class="string">'K3'</span>,<span class="string">'OCTU'</span>,<span class="string">'Octupole'</span>}))
+0588             <span class="comment">% K3 - Octupole</span>
+0589             <span class="keyword">for</span> i = 1:size(NewSP,1)
+0590                 THERING{ATIndexList(i)}.PolynomB(4) = NewSP(i);
+0591             <span class="keyword">end</span>
+0592 
+0593         <span class="keyword">elseif</span> any(strcmpi(AT.ATType,{<span class="string">'KS'</span>,<span class="string">'KS1'</span>,<span class="string">'SkewQ'</span>,<span class="string">'SkewQuad'</span>}))
+0594             <span class="comment">% KS1 - Skew Quadrupole</span>
+0595             <span class="keyword">for</span> i = 1:size(NewSP,1)
+0596                 THERING{ATIndexList(i)}.PolynomA(2) = NewSP(i);
+0597             <span class="keyword">end</span>
+0598 
+0599         <span class="keyword">elseif</span> strcmpi(AT.ATType, <span class="string">'BEND'</span>)
+0600             <span class="comment">% BEND</span>
+0601             <span class="comment">% The BEND simulates very differently:</span>
+0602             <span class="comment">% 1. The BEND radians does not change</span>
+0603             <span class="comment">% 2. The energy comes from the hw2physics (bend2gev)</span>
+0604             <span class="comment">% 3. All the other magnets have a &quot;K&quot; change</span>
+0605             <span class="comment">% 4. The underlying assumption is that the RF cavity provides the necessary energy</span>
+0606 
+0607             <span class="comment">% Since this takes a relatively long time, only do it once.  Setting each BEND to</span>
+0608             <span class="comment">% different setpoints will not work anyways.</span>
+0609 
+0610             <span class="keyword">if</span> isempty(NewSP_HW)
+0611                 <span class="comment">%fprintf('\n   WARNING: Must set the BEND magnet in the model in hardware units\n');</span>
+0612                 <span class="comment">%fprintf('   since the BEND magnet in physics units does not usually change.\n');</span>
+0613                 <span class="comment">%fprintf('   No change made to the BEND family in the model!\n');</span>
+0614                 <span class="keyword">return</span>
+0615             <span class="keyword">end</span>
+0616 
+0617             <span class="comment">% Get the energy of the model</span>
+0618             GeVPresent = getenergy(<span class="string">'Simulator'</span>);
+0619 
+0620             <span class="comment">% Get the desired energy of the model</span>
+0621             GeVDesired = bend2gev(Family, Field, NewSP_HW(i), DeviceList(i,:));
+0622 
+0623             <span class="keyword">if</span> abs(GeVPresent - GeVDesired) &lt; 1e-9  <span class="comment">% GeV</span>
+0624                 <span class="comment">% No change needed</span>
+0625                 <span class="keyword">return</span>;
+0626             <span class="keyword">end</span>
+0627 
+0628             <span class="comment">% Get the present machine config in hardware units</span>
+0629             SP = getmachineconfig(<span class="string">'Hardware'</span>, <span class="string">'Simulator'</span>);
+0630 
+0631             <span class="comment">% Set energy in the model</span>
+0632             <a href="setenergymodel.html" class="code" title="function setenergymodel(GeV)">setenergymodel</a>(GeVDesired);            <span class="comment">% Sets the model energy which is stored in AT</span>
+0633             setfamilydata(GeVDesired, <span class="string">'Energy'</span>);   <span class="comment">% Set design energy in the middle layer</span>
+0634 
+0635             <span class="comment">% Set the new &quot;K&quot; values (physics values)</span>
+0636             <span class="comment">% The amperes does not change, but the &quot;K&quot; values do</span>
+0637             <span class="comment">% because the energy was change between hw2physics/physics2hw calls</span>
+0638             <span class="keyword">if</span> isfield(SP,<span class="string">'BEND'</span>)
+0639                 SP = rmfield(SP, <span class="string">'BEND'</span>);  <span class="comment">% or anything with a BEND ATType</span>
+0640             <span class="keyword">end</span>
+0641             <span class="keyword">if</span> isfield(SP,<span class="string">'BEND_Setpoint'</span>)
+0642                 SP = rmfield(SP, <span class="string">'BEND_Setpoint'</span>);  <span class="comment">% or anything with a BEND ATType</span>
+0643             <span class="keyword">end</span>
+0644             setmachineconfig(SP, <span class="string">'Hardware'</span>, <span class="string">'Simulator'</span>);
+0645 
+0646         <span class="keyword">elseif</span> strcmpi(AT.ATType, <span class="string">'Roll'</span>)
+0647             <span class="comment">% Roll or Tilt</span>
+0648             <span class="keyword">for</span> i = 1:size(NewSP,1)
+0649                 <span class="comment">% Roll the magnet</span>
+0650                 <span class="keyword">if</span> isfield(THERING{ATIndexList(i)}, <span class="string">'R1'</span>) &amp;&amp; isfield(THERING{ATIndexList(i)}, <span class="string">'R2'</span>)
+0651                     R1 = <a href="mksrollmat.html" class="code" title="function R = mksrollmat(PSI)">mksrollmat</a>( NewSP(i));
+0652                     R2 = <a href="mksrollmat.html" class="code" title="function R = mksrollmat(PSI)">mksrollmat</a>(-NewSP(i));
+0653                     THERING{ATIndexList(i)}.R1 = R1;
+0654                     THERING{ATIndexList(i)}.R2 = R2;
+0655                 <span class="keyword">else</span>
+0656                     error(sprintf(<span class="string">'%s(%d,%d) must have a R1 &amp; R2 field in the model to be rolled.'</span>, Family, DeviceList(i,:)));
+0657                 <span class="keyword">end</span>
+0658             <span class="keyword">end</span>
+0659 
+0660         <span class="keyword">elseif</span> strcmpi(AT.ATType, <span class="string">'RollX'</span>) || strcmpi(AT.ATType, <span class="string">'RollY'</span>)
+0661             <span class="comment">% Roll or Tilt</span>
+0662             <span class="keyword">for</span> i = 1:size(NewSP,1)
+0663                 <span class="comment">% Roll the corrector magnet</span>
+0664                 <span class="keyword">if</span> isfield(THERING{ATIndexList(i)}, <span class="string">'KickAngle'</span>)
+0665                     <span class="comment">% The .Roll field is just a middle layer way to store the roll.</span>
+0666                     <span class="comment">% Otherwise, one can not tell the difference between x/y kicks and coupling</span>
+0667                     <span class="comment">% Unroll it, then roll it to the new setpoint</span>
+0668                     <span class="keyword">if</span> isfield(THERING{ATIndexList(i)}, <span class="string">'Roll'</span>)
+0669                         Roll = THERING{ATIndexList(i)}.Roll;
+0670                     <span class="keyword">else</span>
+0671                         Roll = [0 0];
+0672                     <span class="keyword">end</span>
+0673 
+0674                     <span class="comment">% Roll it back to actual (measured) coordinates</span>
+0675                     XKick = [ cos(Roll(2)) sin(Roll(2))] * THERING{ATIndexList(i)}.KickAngle(:) / (cos(Roll(1)-Roll(2)));
+0676                     YKick = [-sin(Roll(1)) cos(Roll(1))] * THERING{ATIndexList(i)}.KickAngle(:) / (cos(Roll(1)-Roll(2)));
+0677 
+0678                     <span class="comment">% Roll it forward to the new model coordinates</span>
+0679                     <span class="keyword">if</span> strcmpi(AT.ATType, <span class="string">'RollX'</span>)
+0680                         Roll(1) = NewSP(i);
+0681                     <span class="keyword">else</span>
+0682                         Roll(2) = NewSP(i);
+0683                     <span class="keyword">end</span>
+0684 
+0685                     THERING{ATIndexList(i)}.KickAngle(1) = XKick * cos(Roll(1)) - YKick * sin(Roll(2));
+0686                     THERING{ATIndexList(i)}.KickAngle(2) = XKick * sin(Roll(1)) + YKick * cos(Roll(2));
+0687                 <span class="keyword">else</span>
+0688                     error(sprintf(<span class="string">'%s(%d,%d) must be a KickAngle field in the model to be rolled.'</span>, Family, DeviceList(i,:)));
+0689                 <span class="keyword">end</span>
+0690             <span class="keyword">end</span>
+0691 
+0692         <span class="keyword">elseif</span> strcmpi(AT.ATType, <span class="string">'Septum'</span>)
+0693 
+0694             <span class="comment">%== Septum ==</span>
+0695 
+0696         <span class="keyword">elseif</span> strcmpi(AT.ATType, <span class="string">'null'</span>)
+0697             <span class="comment">% JR - do nothing behaviour</span>
+0698 
+0699         <span class="keyword">else</span>
+0700             <span class="comment">%error(sprintf('ATType unknown for Family %s', Family));</span>
+0701             <span class="keyword">for</span> i = 1:size(NewSP,1)
+0702                 THERING{ATIndexList(i)}.(Field) = NewSP(i);
+0703             <span class="keyword">end</span>
+0704         <span class="keyword">end</span>
+0705     <span class="keyword">end</span>
+0706 <span class="keyword">end</span>
+0707 
+0708 
+0709 
+0710 <span class="comment">% Look to see if the THERINGCELL needs to be updated</span>
+0711 <span class="keyword">if</span> ~isempty(ATModelNumber)
+0712     THERINGCELL{ATModelNumber} = THERING;
+0713 <span class="keyword">end</span>
+0714</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

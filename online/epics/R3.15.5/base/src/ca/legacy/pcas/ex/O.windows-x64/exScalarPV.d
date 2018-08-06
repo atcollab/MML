@@ -1,0 +1,53 @@
+# DO NOT EDIT: This file created by mkmf.pl
+
+exScalarPV.obj : ../../../../../../src/template/base/top/caServerApp/exServer.h
+exScalarPV.obj : ../../../../../../include/gddApps.h
+exScalarPV.obj : ../../../../../../include/gddAppFuncTable.h
+exScalarPV.obj : ../../../../../../include/smartGDDPointer.h
+exScalarPV.obj : ../../../../../../include/epicsTimer.h
+exScalarPV.obj : ../../../../../../include/casdef.h
+exScalarPV.obj : ../../../../../../include/epicsAssert.h
+exScalarPV.obj : ../../../../../../include/resourceLib.h
+exScalarPV.obj : ../../../../../../include/tsMinMax.h
+exScalarPV.obj : ../../../../../../include/gdd.h
+exScalarPV.obj : ../../../../../../include/gddAppTable.h
+exScalarPV.obj : ../../../../../../include/errMdef.h
+exScalarPV.obj : ../../../../../../include/errlog.h
+exScalarPV.obj : ../../../../../../include/shareLib.h
+exScalarPV.obj : ../../../../../../include/epicsTime.h
+exScalarPV.obj : ../../../../../../include/epicsThread.h
+exScalarPV.obj : ../../../../../../include/alarm.h
+exScalarPV.obj : ../../../../../../include/caNetAddr.h
+exScalarPV.obj : ../../../../../../include/casEventMask.h
+exScalarPV.obj : ../../../../../../include/compilerDependencies.h
+exScalarPV.obj : ../../../../../../include/tsSLList.h
+exScalarPV.obj : ../../../../../../include/epicsString.h
+exScalarPV.obj : ../../../../../../include/gddNewDel.h
+exScalarPV.obj : ../../../../../../include/gddUtils.h
+exScalarPV.obj : ../../../../../../include/gddErrorCodes.h
+exScalarPV.obj : ../../../../../../include/aitTypes.h
+exScalarPV.obj : ../../../../../../include/aitConvert.h
+exScalarPV.obj : ../../../../../../include/gddArray.h
+exScalarPV.obj : ../../../../../../include/gddScalar.h
+exScalarPV.obj : ../../../../../../include/gddContainer.h
+exScalarPV.obj : ../../../../../../include/gddI.h
+exScalarPV.obj : ../../../../../../include/gddArrayI.h
+exScalarPV.obj : ../../../../../../include/gddScalarI.h
+exScalarPV.obj : ../../../../../../include/gddContainerI.h
+exScalarPV.obj : ../../../../../../include/epicsTypes.h
+exScalarPV.obj : ../../../../../../include/os/WIN32/osdTime.h
+exScalarPV.obj : ../../../../../../include/epicsEvent.h
+exScalarPV.obj : ../../../../../../include/epicsMutex.h
+exScalarPV.obj : ../../../../../../include/os/WIN32/osdThread.h
+exScalarPV.obj : ../../../../../../include/osiSock.h
+exScalarPV.obj : ../../../../../../include/compiler/msvc/compilerSpecific.h
+exScalarPV.obj : ../../../../../../include/epicsGuard.h
+exScalarPV.obj : ../../../../../../include/gddUtilsI.h
+exScalarPV.obj : ../../../../../../include/aitHelpers.h
+exScalarPV.obj : ../../../../../../include/gddEnumStringTable.h
+exScalarPV.obj : ../../../../../../include/os/WIN32/osdEvent.h
+exScalarPV.obj : ../../../../../../include/os/WIN32/osdMutex.h
+exScalarPV.obj : ../../../../../../include/os/WIN32/osdSock.h
+exScalarPV.obj : ../../../../../../include/ellLib.h
+
+

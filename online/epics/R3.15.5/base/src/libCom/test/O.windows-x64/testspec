@@ -1,0 +1,3 @@
+OS-class: WIN32 
+Target-arch: windows-x64 
+Tests: epicsUnitTestTest.t epicsTypesTest.t epicsInlineTest.t epicsCalcTest.t epicsAlgorithmTest.t epicsMathTest.t epicsMMIOTest.t epicsEllTest.t epicsEnvTest.t epicsErrlogTest.t epicsStdioTest.t epicsStdlibTest.t epicsSockResolveTest.t epicsStringTest.t epicsTimeTest.t epicsTimeZoneTest.t epicsThreadTest.t epicsThreadOnceTest.t epicsThreadPriorityTest.t epicsThreadPrivateTest.t epicsThreadHooksTest.t epicsThreadPoolTest.t epicsExitTest.t epicsTimerTest.t ringPointerTest.t ringBytesTest.t epicsEventTest.t epicsMutexTest.t epicsSpinTest.t epicsAtomicTest.t macDefExpandTest.t macLibTest.t taskwdTest.t blockingSockTest.t epicsMessageQueueTest.t epicsStackTraceTest.t 

@@ -1,0 +1,52 @@
+# DO NOT EDIT: This file created by mkmf.pl
+
+exChannel.obj : ../../../../../../src/template/base/top/caServerApp/exServer.h
+exChannel.obj : ../../../../../../include/gddAppFuncTable.h
+exChannel.obj : ../../../../../../include/smartGDDPointer.h
+exChannel.obj : ../../../../../../include/epicsTimer.h
+exChannel.obj : ../../../../../../include/casdef.h
+exChannel.obj : ../../../../../../include/epicsAssert.h
+exChannel.obj : ../../../../../../include/resourceLib.h
+exChannel.obj : ../../../../../../include/tsMinMax.h
+exChannel.obj : ../../../../../../include/gdd.h
+exChannel.obj : ../../../../../../include/gddAppTable.h
+exChannel.obj : ../../../../../../include/errMdef.h
+exChannel.obj : ../../../../../../include/errlog.h
+exChannel.obj : ../../../../../../include/shareLib.h
+exChannel.obj : ../../../../../../include/epicsTime.h
+exChannel.obj : ../../../../../../include/epicsThread.h
+exChannel.obj : ../../../../../../include/alarm.h
+exChannel.obj : ../../../../../../include/caNetAddr.h
+exChannel.obj : ../../../../../../include/casEventMask.h
+exChannel.obj : ../../../../../../include/compilerDependencies.h
+exChannel.obj : ../../../../../../include/tsSLList.h
+exChannel.obj : ../../../../../../include/epicsString.h
+exChannel.obj : ../../../../../../include/gddNewDel.h
+exChannel.obj : ../../../../../../include/gddUtils.h
+exChannel.obj : ../../../../../../include/gddErrorCodes.h
+exChannel.obj : ../../../../../../include/aitTypes.h
+exChannel.obj : ../../../../../../include/aitConvert.h
+exChannel.obj : ../../../../../../include/gddArray.h
+exChannel.obj : ../../../../../../include/gddScalar.h
+exChannel.obj : ../../../../../../include/gddContainer.h
+exChannel.obj : ../../../../../../include/gddI.h
+exChannel.obj : ../../../../../../include/gddArrayI.h
+exChannel.obj : ../../../../../../include/gddScalarI.h
+exChannel.obj : ../../../../../../include/gddContainerI.h
+exChannel.obj : ../../../../../../include/epicsTypes.h
+exChannel.obj : ../../../../../../include/os/WIN32/osdTime.h
+exChannel.obj : ../../../../../../include/epicsEvent.h
+exChannel.obj : ../../../../../../include/epicsMutex.h
+exChannel.obj : ../../../../../../include/os/WIN32/osdThread.h
+exChannel.obj : ../../../../../../include/osiSock.h
+exChannel.obj : ../../../../../../include/compiler/msvc/compilerSpecific.h
+exChannel.obj : ../../../../../../include/epicsGuard.h
+exChannel.obj : ../../../../../../include/gddUtilsI.h
+exChannel.obj : ../../../../../../include/aitHelpers.h
+exChannel.obj : ../../../../../../include/gddEnumStringTable.h
+exChannel.obj : ../../../../../../include/os/WIN32/osdEvent.h
+exChannel.obj : ../../../../../../include/os/WIN32/osdMutex.h
+exChannel.obj : ../../../../../../include/os/WIN32/osdSock.h
+exChannel.obj : ../../../../../../include/ellLib.h
+
+

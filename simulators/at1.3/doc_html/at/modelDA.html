@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of modelDA</title>
+  <meta name="keywords" content="modelDA">
+  <meta name="description" content="modelDA( r0, nsteps, nturns, dp, res)">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; modelDA.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>modelDA
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>modelDA( r0, nsteps, nturns, dp, res)</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [DA, Data] = modelDA( r0, nsteps, nturns, dp, res) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> modelDA( r0, nsteps, nturns, dp, res)
+ Evalutes the Dynamic Aperture by tracking
+ required arguments
+ r0:     Inital amplitude X to search ~ 0.015 m
+ nsteps: Number of points to find     ~ 20
+ nturns: Numbers of turns to track    ~ 256
+ dp:     Energy deviation             ~ 0.0%
+ res:    Resolution to find the DA    ~ 0.0005 m
+ Returns the Dynamic aperture in DA and the Data for the tracking</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="gettwiss.html" class="code" title="function [Optics] = gettwiss(THERING, DP)">gettwiss</a>	GETWISS - Calculate the twiss parameters</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [DA, Data] = modelDA( r0, nsteps, nturns, dp, res)</a>
+0002 <span class="comment">% modelDA( r0, nsteps, nturns, dp, res)</span>
+0003 <span class="comment">% Evalutes the Dynamic Aperture by tracking</span>
+0004 <span class="comment">% required arguments</span>
+0005 <span class="comment">% r0:     Inital amplitude X to search ~ 0.015 m</span>
+0006 <span class="comment">% nsteps: Number of points to find     ~ 20</span>
+0007 <span class="comment">% nturns: Numbers of turns to track    ~ 256</span>
+0008 <span class="comment">% dp:     Energy deviation             ~ 0.0%</span>
+0009 <span class="comment">% res:    Resolution to find the DA    ~ 0.0005 m</span>
+0010 <span class="comment">% Returns the Dynamic aperture in DA and the Data for the tracking</span>
+0011 
+0012 
+0013 <span class="comment">% Written by M. Munoz</span>
+0014 
+0015 r_stable=0;
+0016 angle_step=pi/nsteps;
+0017 
+0018 angle=0;
+0019 <span class="keyword">global</span> THERING;
+0020 r=r0;
+0021 <span class="comment">%Evaluate the Chromatic orbit</span>
+0022 twiss=  <a href="gettwiss.html" class="code" title="function [Optics] = gettwiss(THERING, DP)">gettwiss</a>(THERING, 0.0);
+0023 x0=twiss.etax(1)*dp;
+0024 <span class="comment">%Check that the chromatic orbit is stable</span>
+0025 [T, loss]=ringpass(THERING,[x0 0.0 0 0.0 dp 0.0]',nturns);
+0026 <span class="keyword">if</span> (loss)
+0027     disp(<span class="string">'The chromatic closed orbit is not stable. No DA found'</span>);
+0028     DA(1,1)=0;
+0029     DA(1,2)=0;
+0030     Data=0;
+0031 <span class="keyword">else</span>
+0032     <span class="keyword">for</span> i=1:nsteps+1,
+0033         look=true; r_stable=0;
+0034         fprintf(<span class="string">'Tracing step %ld of %ld\n'</span>, i, nsteps);
+0035         <span class="keyword">while</span> (look)
+0036 
+0037             x= x0+r*cos(angle);
+0038             y= r*sin(angle);
+0039             [T, loss]=ringpass(THERING,[x 0.0 y 0.0 dp 0.0]',nturns);
+0040             <span class="comment">%fprintf('%s %d %d   \n','Tracked',r, angle);</span>
+0041 
+0042             <span class="keyword">if</span> (loss)
+0043                 <span class="keyword">if</span> ((r-r_stable) &lt; res)
+0044                     look=false; <span class="comment">% we have found the limit of the DA</span>
+0045                     DA(i,1)=r_stable*cos(angle);
+0046                     DA(i,2)=r_stable*sin(angle);
+0047                     r=r_stable;
+0048                 <span class="keyword">else</span>
+0049                     r=(r+r_stable)/2;
+0050                 <span class="keyword">end</span>
+0051             <span class="keyword">else</span>
+0052                 r_stable=r;
+0053                 r=r*2;
+0054                 Data{i}=T;
+0055             <span class="keyword">end</span>
+0056         <span class="keyword">end</span>
+0057         angle=angle+angle_step;
+0058     <span class="keyword">end</span>
+0059 <span class="keyword">end</span>
+0060</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

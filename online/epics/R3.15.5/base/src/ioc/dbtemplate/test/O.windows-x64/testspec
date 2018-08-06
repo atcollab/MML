@@ -1,0 +1,3 @@
+OS-class: WIN32 
+Target-arch: windows-x64 
+Tests: msi.t 

@@ -1,0 +1,29 @@
+function index = OSIP_PowerVector2Monomial(PowerVector)
+%-------------------------------------------------------------------------------
+%  Author:
+%    Chang, Ho-Ping (also written as Ho-Ping Chang or Peace Chang)
+%    Synchrotron Radiation Research Center
+%  Date:
+%    Dec. 11, 2002
+%  Source Files:
+%    OSIP_MonomialIndexOfPowerVector.m
+%  Category:
+%    Truncated Power Series Algebra (TPSA)
+%    One-Step Index Pointer (OSIP)
+%  Description:
+%    OSIP_PowerVector2Monomial() == indexMonomial() ~= jpek()
+%    Input: PowerVector
+%    Output: Monomial's index
+%------------------------------------------------------------------------------
+global OSIP
+order = sum(PowerVector); % sum of the orders == js(0)
+if (order < 0) | (order > OSIP.MaximumOrder)
+   error('Sum of the input PowerVector out of [1,OSIP.MaximunOrder]');
+else
+   index = OSIP_MonomialsBeginIndex(OSIP.NumberOfVariables,order);
+   for i = 1:OSIP.NumberOfVariables
+       n = OSIP.NumberOfVariables-i;
+       order = order-PowerVector(i);
+       index = index+OSIP_MonomialsBeginIndex(n,order)-1;
+   end
+end

@@ -1,0 +1,76 @@
+-Gr vs  -Gz
+
+
+
+COMPFLAGS=-c -Zp8 -G5 -GR -W3 -DMATLAB_MEX_FILE -nologo
+
+
+Microsoft (R) Incremental Linker Version 7.10.3077 
+Copyright (C) Microsoft Corporation.  All rights reserved. 
+ 
+scalink.obj n:\matlab2004\acceleratorlink\sca\lib\win32-x86\gpfunc.obj n:\matlab2004\acceleratorlink\sca\lib\win32-x86\sca3.lib  
+   Creating library _lib2970.x and object _lib2970.exp 
+scalink.obj : error LNK2019: unresolved external symbol _sca_sleep referenced in function _mexFunction
+scalink.obj : error LNK2019: unresolved external symbol _do_get referenced in function _mexFunction
+scalink.obj : error LNK2019: unresolved external symbol _que_get referenced in function _mexFunction 
+scalink.obj : error LNK2019: unresolved external symbol _set_min_time_between_do_gets referenced in function _mexFunction 
+scalink.obj : error LNK2019: unresolved external symbol _do_put referenced in function _mexFunction 
+scalink.obj : error LNK2019: unresolved external symbol _print_sca_status referenced in function _mexFunction 
+scalink.obj : error LNK2019: unresolved external symbol _que_put referenced in function _mexFunction 
+scalink.obj : error LNK2019: unresolved external symbol _set_min_time_between_do_puts referenced in function _mexFunction 
+gpfunc.obj : error LNK2019: unresolved external symbol __imp__timeGetTime@0 referenced in function _GetTime 
+scalink.dll : fatal error LNK1120: 9 unresolved externals 
+ 
+  \\ALS-FILER\PROGRAMFILES\MATLAB_7\BIN\WIN32\MEX.PL: Error: Link of 'scalink.dll' failed. 
+ 
+??? Error using ==> mex
+Unable to complete successfully
+
+Error in ==> cc_all at 21
+    mex -In:\matlab2004\acceleratorlink\sca\include\win-x86 scalink.c ...
+
+
+
+
+
+
+
+COMPFLAGS=-c -Zp8 -Gz -W3 -DMATLAB_MEX_FILE -nologo
+
+
+
+
+    Compiling matlab-channel access link on PCWIN.
+Microsoft (R) Incremental Linker Version 7.10.3077
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+scalink.obj n:\matlab2004\acceleratorlink\sca\lib\win32-x86\gpfunc.obj n:\matlab2004\acceleratorlink\sca\lib\win32-x86\sca3.lib
+   Creating library _lib9647.x and object _lib9647.exp
+scalink.obj : error LNK2019: unresolved external symbol _mxCreateString@4 referenced in function _mexFunction@16
+scalink.obj : error LNK2019: unresolved external symbol _mxFree@4 referenced in function _mexFunction@16
+scalink.obj : error LNK2019: unresolved external symbol _mxCreateDoubleMatrix@12 referenced in function _mexFunction@16
+scalink.obj : error LNK2019: unresolved external symbol _mxIsChar@4 referenced in function _mexFunction@16
+scalink.obj : error LNK2019: unresolved external symbol _mxGetPr@4 referenced in function _mexFunction@16
+scalink.obj : error LNK2019: unresolved external symbol _mexWarnMsgTxt@4 referenced in function _mexFunction@16
+scalink.obj : error LNK2019: unresolved external symbol _mxGetString@12 referenced in function _mexFunction@16
+scalink.obj : error LNK2019: unresolved external symbol _mxCalloc@8 referenced in function _mexFunction@16
+scalink.obj : error LNK2019: unresolved external symbol _mxGetScalar@4 referenced in function _mexFunction@16
+scalink.obj : error LNK2019: unresolved external symbol _mexErrMsgTxt@4 referenced in function _mexFunction@16
+scalink.obj : error LNK2019: unresolved external symbol _mxIsDouble@4 referenced in function _mexFunction@16
+scalink.obj : error LNK2019: unresolved external symbol _mxIsComplex@4 referenced in function _mexFunction@16
+scalink.obj : error LNK2019: unresolved external symbol _mxIsNumeric@4 referenced in function _mexFunction@16
+scalink.obj : error LNK2019: unresolved external symbol _mxGetN@4 referenced in function _mexFunction@16
+scalink.obj : error LNK2019: unresolved external symbol _mxGetM@4 referenced in function _mexFunction@16
+scalink.obj : error LNK2019: unresolved external symbol _GetTime@0 referenced in function _mexFunction@16
+gpfunc.obj : error LNK2019: unresolved external symbol __imp__timeGetTime@0 referenced in function _GetTime
+scalink.dll : fatal error LNK1120: 18 unresolved externals
+
+  \\ALS-FILER\PROGRAMFILES\MATLAB_7\BIN\WIN32\MEX.PL: Error: Link of 'scalink.dll' failed.
+
+??? Error using ==> mex
+Unable to complete successfully
+
+Error in ==> cc_all at 21
+    mex -In:\matlab2004\acceleratorlink\sca\include\win-x86 scalink.c ...
+
+>>

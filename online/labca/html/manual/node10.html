@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>lcaNewMonitorWait</TITLE>
+<META NAME="description" CONTENT="lcaNewMonitorWait">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="manual.css">
+
+<LINK REL="next" HREF="node11.html">
+<LINK REL="previous" HREF="node9.html">
+<LINK REL="up" HREF="node2.html">
+<LINK REL="next" HREF="node11.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html159"
+  HREF="node11.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html157"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html151"
+  HREF="node9.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html160"
+  HREF="node11.html">lcaNewMonitorValue</A>
+<B> Up:</B> <A NAME="tex2html158"
+  HREF="node2.html">Supported EZCA Calls</A>
+<B> Previous:</B> <A NAME="tex2html152"
+  HREF="node9.html">lcaSetMonitor</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html161"
+  HREF="node10.html#SECTION00028100000000000000">Calling Syntax</A>
+<LI><A NAME="tex2html162"
+  HREF="node10.html#SECTION00028200000000000000">Description</A>
+<LI><A NAME="tex2html163"
+  HREF="node10.html#SECTION00028300000000000000">Parameters</A>
+<LI><A NAME="tex2html164"
+  HREF="node10.html#SECTION00028400000000000000">Examples</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H2><A NAME="SECTION00028000000000000000"></A>
+<A NAME="lcanewmonitorwait"></A>
+<BR>
+lcaNewMonitorWait
+</H2>
+
+<H3><A NAME="SECTION00028100000000000000">
+Calling Syntax</A>
+</H3>
+<PRE>
+lcaNewMonitorValue(pvs, type)
+</PRE>
+<H3><A NAME="SECTION00028200000000000000">
+Description</A>
+</H3>
+Similar to <A HREF="node11.html#lcanewmonitorvalue"><TT>lcaNewMonitorValue</TT></A> but instead of
+returning the status of monitored PVs this routine blocks until all PVs
+have fresh data available (e.g., due to initial connection or changes in
+value and/or severity status).
+Reading the actual data must be done using <A HREF="node5.html#lcaget"><TT>lcaGet</TT></A>.
+
+<H3><A NAME="SECTION00028300000000000000">
+Parameters</A>
+</H3>
+<DL>
+<DT><STRONG>pvs</STRONG></DT>
+<DD>Column vector (in matlab: <SPAN  CLASS="textit">m x 1</SPAN> <SPAN  CLASS="textit">cell-</SPAN> matrix)
+of <SPAN  CLASS="textit">m</SPAN> strings.
+
+</DD>
+<DT><STRONG>type</STRONG></DT>
+<DD>(<SPAN  CLASS="textit">optional argument</SPAN>) A string specifying the
+data type to be used for the channel access data transfer. The
+native type is used by default.
+See <A HREF="node5.html#typearg">here</A> for more information.
+
+<P>
+Note that monitors are specific to a particular data type and therefore
+<TT>lcaNewMonitorWait</TT> will only report the status for a monitor that had been established
+(by <A HREF="node9.html#lcasetmonitor"><TT>lcaSetMonitor</TT></A>) with a matching type.
+Using the ``native'' type, which is the default, for both calls
+satisfies this condition.
+</DD>
+</DL>
+<H3><A NAME="SECTION00028400000000000000">
+Examples</A>
+</H3>
+<PRE>
+try lcaNewMonitorWait(pvs)
+	vals = lcaGet(pvs)
+catch
+	errs = lcaLastError()
+	handleErrors(errs)
+end
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+till
+2007-10-13
+</ADDRESS>
+</BODY>
+</HTML>

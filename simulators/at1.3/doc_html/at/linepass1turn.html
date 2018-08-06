@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of linepass1turn</title>
+  <meta name="keywords" content="linepass1turn">
+  <meta name="description" content="LINEPASS1TURN - Track particle forward or backwards in one turn of the ring">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; linepass1turn.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>linepass1turn
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>LINEPASS1TURN - Track particle forward or backwards in one turn of the ring</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [x, ATindex, LostBeam] = linepass1turn(x0, Family0, DeviceList0, Family, DeviceList) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">LINEPASS1TURN - Track particle forward or backwards in one turn of the ring
+  [x, ATIndex] = linepass1turn(x0, Family, DeviceList)
+  [x, ATIndex] = linepass1turn(x0, ATIndex)
+
+  INPUTS
+  1. x0 - 6-component column vector {Default: [.001 0 .001 0 0]'}
+          Initial particle launch condition at the start of the ring (see ringpass)
+          AT units are meters &amp; radians.
+  2. Location to measure turns: Family / DeviceList  {Default: 'BPMx'}
+                                  or
+                                ATIndex
+
+     NOTE: Family can be a MiddlyLayer family or AT family.
+           If using at AT family, then DeviceList is an index array (see family2atindex).   
+
+  OUTPUTS
+  1. x - Single turn data (6 x BPM Number)
+  2. ATIndex - AT index vector 
+
+  EXAMPLES
+  1. Get the starting coordinates for a kick at HCM[7 1]
+     x = linepass1turn([.001 0 .001 0 0 0]', HCM, [7 1], 1);
+
+  See also <a href="getturns.html" class="code" title="function [xAllBPMs, ATindex, LostBeam] = getturns(x0, N, Family, DeviceList)">getturns</a>
+
+  Note: this function is still under development!!!</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>	FAMILY2ATINDEX - Returns the AT index for a given family</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [x, ATindex, LostBeam] = linepass1turn(x0, Family0, DeviceList0, Family, DeviceList)</a>
+0002 <span class="comment">%LINEPASS1TURN - Track particle forward or backwards in one turn of the ring</span>
+0003 <span class="comment">%  [x, ATIndex] = linepass1turn(x0, Family, DeviceList)</span>
+0004 <span class="comment">%  [x, ATIndex] = linepass1turn(x0, ATIndex)</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">%  INPUTS</span>
+0007 <span class="comment">%  1. x0 - 6-component column vector {Default: [.001 0 .001 0 0]'}</span>
+0008 <span class="comment">%          Initial particle launch condition at the start of the ring (see ringpass)</span>
+0009 <span class="comment">%          AT units are meters &amp; radians.</span>
+0010 <span class="comment">%  2. Location to measure turns: Family / DeviceList  {Default: 'BPMx'}</span>
+0011 <span class="comment">%                                  or</span>
+0012 <span class="comment">%                                ATIndex</span>
+0013 <span class="comment">%</span>
+0014 <span class="comment">%     NOTE: Family can be a MiddlyLayer family or AT family.</span>
+0015 <span class="comment">%           If using at AT family, then DeviceList is an index array (see family2atindex).</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">%  OUTPUTS</span>
+0018 <span class="comment">%  1. x - Single turn data (6 x BPM Number)</span>
+0019 <span class="comment">%  2. ATIndex - AT index vector</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%  EXAMPLES</span>
+0022 <span class="comment">%  1. Get the starting coordinates for a kick at HCM[7 1]</span>
+0023 <span class="comment">%     x = linepass1turn([.001 0 .001 0 0 0]', HCM, [7 1], 1);</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">%  See also getturns</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">%  Note: this function is still under development!!!</span>
+0028 
+0029 <span class="comment">%  Written by Greg Portmann</span>
+0030 
+0031 
+0032 <span class="keyword">global</span> THERING
+0033 <span class="keyword">if</span> isempty(THERING)
+0034     error(<span class="string">'THERING is not defined.'</span>);
+0035 <span class="keyword">end</span>
+0036 
+0037 
+0038 <span class="comment">% AT units meters &amp; radians</span>
+0039 <span class="keyword">if</span> nargin &lt; 1
+0040     x0 = [];
+0041 <span class="keyword">end</span>
+0042 <span class="keyword">if</span> isempty(x0)
+0043     <span class="comment">% 1 mm starting offset</span>
+0044     x0 = [.001 0, 0.001, 0, 0, 0]';
+0045 <span class="keyword">end</span>
+0046 
+0047 x0 = x0(:);
+0048 <span class="keyword">if</span> size(x0,1) == 4
+0049     x0 = [x0; 0; 0];
+0050 <span class="keyword">elseif</span> size(x0,1) ~= 6
+0051     error(<span class="string">'x0 must be a 4x1 or 6x1 vector.'</span>);
+0052 <span class="keyword">end</span>
+0053 
+0054 <span class="keyword">if</span> nargin &lt; 2
+0055     Family0 = [];
+0056 <span class="keyword">end</span>
+0057 <span class="keyword">if</span> isempty(Family0)
+0058     Family0 = <span class="string">'BPMx'</span>;
+0059 <span class="keyword">end</span>
+0060 <span class="keyword">if</span> nargin &lt; 3
+0061     DeviceList0 = [];
+0062 <span class="keyword">end</span>
+0063 
+0064 <span class="keyword">if</span> nargin &lt; 4
+0065     Family = [];
+0066 <span class="keyword">end</span>
+0067 <span class="keyword">if</span> isempty(Family)
+0068     Family = <span class="string">'BPMx'</span>;
+0069 <span class="keyword">end</span>
+0070 <span class="keyword">if</span> nargin &lt; 5
+0071     DeviceList  = [];
+0072 <span class="keyword">end</span>
+0073 
+0074 
+0075 <span class="comment">% Get AT index</span>
+0076 <span class="keyword">if</span> ischar(Family0)
+0077     ATindex0 = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(Family0, DeviceList0);
+0078     <span class="comment">% Watch for split magnets</span>
+0079     <span class="keyword">if</span> size(ATindex0,2) &gt; 1
+0080         ATindex0 = ATindex0(:,1);
+0081     <span class="keyword">end</span>
+0082     <span class="keyword">if</span> ischar(Family)
+0083         ATindex = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(Family, DeviceList);
+0084         <span class="comment">% Watch for split magnets</span>
+0085         <span class="keyword">if</span> size(ATindex,2) &gt; 1
+0086             ATindex = ATindex(:,1);
+0087         <span class="keyword">end</span>
+0088     <span class="keyword">else</span>
+0089         <span class="comment">% AT index was input directly</span>
+0090         ATindex = Family;
+0091     <span class="keyword">end</span>
+0092 <span class="keyword">else</span>
+0093     <span class="comment">% AT index was input directly</span>
+0094     ATindex0 = Family0;
+0095     ATindex = DeviceList0;
+0096 <span class="keyword">end</span>
+0097 
+0098 <span class="keyword">if</span> any(size(ATindex0) ~= [1 1])
+0099     error(<span class="string">'DeviceList0 must be one location.'</span>);
+0100 <span class="keyword">end</span>
+0101 
+0102 
+0103 ATindex = ATindex(:)';
+0104 <span class="keyword">if</span> isempty(ATindex)
+0105     error(<span class="string">'AT index empty.'</span>);
+0106 <span class="keyword">end</span>
+0107 
+0108 
+0109 <span class="comment">% Propagrate single turn data around the ring</span>
+0110 <span class="comment">% xAllBPMs (6 x BPM Number)</span>
+0111 
+0112 <span class="comment">% Find forward and backward BPMs</span>
+0113 iForward  = find(ATindex &gt;= ATindex0);
+0114 iBackward = find(ATindex &lt; ATindex0);
+0115 
+0116 x = [];
+0117 <span class="keyword">if</span> ~isempty(iForward)
+0118     Index = ATindex(iForward) - ATindex0 + 1;
+0119     x = linepass(THERING([ATindex0:ATindex(iForward(end))]), x0, Index);
+0120 <span class="keyword">end</span>
+0121 
+0122 <span class="keyword">if</span> ~isempty(iBackward)
+0123     <span class="keyword">if</span> x0(5)~=0 | x0(6)~=0
+0124         fprintf(<span class="string">'   WARNING: x0(5) &amp; x0(6) must be zero for propagating backwards in the ring to work correctly.\n'</span>);
+0125     <span class="keyword">end</span>
+0126     
+0127     x0neg = x0;
+0128     x0neg([2 4]) = -x0neg([2 4]);
+0129 
+0130     IndexBack = [ATindex(iBackward):ATindex0]-1;
+0131     IndexBack(1) = [];
+0132     
+0133     <span class="comment">%Index = ATindex0-IndexBack;</span>
+0134     ATIndexBack = ATindex(iBackward);
+0135     Index = ATindex0 - ATIndexBack + 1;
+0136     Index = Index(end:-1:1);
+0137 
+0138     xb = linepass(THERING(IndexBack(end:-1:1)), x0neg, Index);
+0139     xb([2 4],:) = -xb([2 4],:);
+0140 
+0141 
+0142     x = [xb(:,end:-1:1) x];
+0143 <span class="keyword">end</span>
+0144</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

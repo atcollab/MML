@@ -1,0 +1,26 @@
+# Provided by Vladimir Poucki (vladimir@i-tech.si), Hinko Kocevar (hinko.kocevar@i-tech.si), Instrumentation Technologies Slovenia, June 2010
+
+
+We have compiled the EPICS base on Windows following the instructions: http://www.aps.anl.gov/epics/tech-talk/2010/msg00595.php
+We have used "Microsoft Visual C++ 2005 Express Edition" instead of the "Microsoft Visual C++ 2010 Express Edition"; it worked well.
+
+=============================================================================================================
+Changes for WIN32 compilation:
+- mca.cpp
+- MCAError.h
+- timereval.cpp
+- /alt_compile/mcacompile_win32_mscc.m 
+(instead of "mcacompile.win32.mscc.m", since Matlab is not recognizinig files with multiple dots in the name)
+=============================================================================================================
+
+Matlab release used is "Matlab R2007a (7.4.0)". Operating system is Windows XP with SP3.
+Everything was successfully compiled with "Microsoft Visual C++ 2005 Express Edition" installed in "C:\Program Files\Microsoft Visual Studio 8", with Microsoft SDK 6.1 installed in "c:\Program Files\Microsoft SDKs\Windows\v6.1\".
+
+Some 'tweaking' was required for the following:
+- Include the proper above mentioned SDK to Matlab 'mex' environment. Also needs to be set as a global environment variable of Windows XP.
+Add environment variable to Windows XP: variable name is "MSSdk", variable value is "c:\Program Files\Microsoft SDKs\Windows\v6.1\"
+- Compiler options: c:\MATLAB2007a\bin\win32\mexopts\msvc80freeopts.bat
+Adding new values to PATH and INCLUDE variables in "General parameters"; proper SDK path and libs. 
+This consequently changes the: "C:\Documents and Settings\user\Application Data\MathWorks\MATLAB\R2007a\mexopts.bat"
+
+

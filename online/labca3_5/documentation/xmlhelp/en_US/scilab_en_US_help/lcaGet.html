@@ -1,0 +1,123 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>lcaGet</title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	<span class="previous"><a href="lcaDelay.html">&lt;&lt; lcaDelay</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="lcaGetAlarmLimits.html">lcaGetAlarmLimits &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path"><a href="index.html">labCA</a> &gt;&gt; <a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a> &gt; lcaGet</span>
+
+    <br /><br />
+    <div class="refnamediv"><h1 class="refname">lcaGet</h1>
+    <p class="refpurpose">Read a number of m PVs, which may be scalars or arrays of different    dimensions.</p></div>
+
+
+<div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3>
+   <div class="synopsis"><pre><span class="default">[</span><span class="default">value</span><span class="default">, </span><span class="default">timestamp</span><span class="default">] = </span><span class="functionid">lcaGet</span><span class="default">(</span><span class="default">pvs</span><span class="default">, </span><span class="default">nmax</span><span class="default">, </span><span class="default">type</span><span class="default">)</span></pre></div></div>
+
+<div class="refsection"><h3 class="title">Description</h3>
+   <p class="para"></p>
+   <p class="para">Read a number of m PVs, which may be scalars or arrays of different
+dimensions. The result is converted into a m x n matrix. The number of
+columns, n, is automatically assigned to fit the largest array among
+the m PVs. PVs with less than n elements have their excess elements in
+the result matrix filled with NaN.</p>
+   <p class="para">If all PVs are of native type DBF_STRING or DBF_ENUM, the values are
+returned as character strings; otherwise, all values are converted into
+double precision numbers. Explicit type conversion into strings can be
+enforced by submitting the `type&#0039; argument described below.</p>
+   <p class="para"></p></div>
+
+<div class="refsection"><h3 class="title">Parameters</h3>
+   <dl><dt><span class="term">Column vector (in matlab:</span>
+      <dd><p class="para">m x 1 cell- matrix) of m strings.</p></dd></dt>
+   <dt><span class="term">Occasionally, conversion to char can be useful:</span>
+      <dd><p class="para">retrieve a</p></dd></dt>
+   <dt><span class="term">The result is either a `double&#0039; or a (matlab:</span>
+      <dd><p class="para">cell-) `string&#0039;</p></dd></dt>
+   <dt><span class="term">nanoseconds (imaginary part) elapsed since 00:</span>
+      <dd><p class="para">00:00 UTC, Jan. 1,</p></dd></dt></dl></div>
+
+<div class="refsection"><h3 class="title">Examples</h3>
+   <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabcomment">// read a PV</span>
+<span class="scilabid">lcaGet</span><span class="scilabopenclose">(</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">thepv</span><span class="scilabstring">&#0039;</span> <span class="scilabopenclose">)</span>
+<span class="scilabcomment">// read multiple PVs along with their EPICS timestamps</span>
+<span class="scilabopenclose">[</span> <span class="scilabid">vals</span><span class="scilabdefault">,</span> <span class="scilabid">tstamps</span><span class="scilabopenclose">]</span> <span class="scilaboperator">=</span> <span class="scilabid">lcaGet</span><span class="scilabopenclose">(</span> <span class="scilabopenclose">[</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">aPV</span><span class="scilabstring">&#0039;</span> <span class="scilabdefault">;</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">anotherPV</span><span class="scilabstring">&#0039;</span> <span class="scilabopenclose">]</span> <span class="scilabopenclose">)</span>
+<span class="scilabcomment">// read an </span><span class="scilabcomment">&#0039;</span><span class="scilabcomment">ENUM/STRING</span><span class="scilabcomment">&#0039;</span>
+<span class="scilabid">lcaGet</span><span class="scilabopenclose">(</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">thepv.SCAN</span><span class="scilabstring">&#0039;</span> <span class="scilabopenclose">)</span>
+<span class="scilabcomment">// read an </span><span class="scilabcomment">&#0039;</span><span class="scilabcomment">ENUM/STRING</span><span class="scilabcomment">&#0039;</span><span class="scilabcomment"> as a number (server converts)</span>
+<span class="scilabid">lcaGet</span><span class="scilabopenclose">(</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">thepv.SCAN</span><span class="scilabstring">&#0039;</span><span class="scilabdefault">,</span> <span class="scilabnumber">0</span><span class="scilabdefault">,</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">float</span><span class="scilabstring">&#0039;</span> <span class="scilabopenclose">)</span>
+<span class="scilabcomment">// enforce reading all PVs as strings (server converts)</span>
+<span class="scilabcomment">// NOTE: necessary if native num/nonnum types are mixed</span>
+<span class="scilabid">lcaGet</span><span class="scilabopenclose">(</span> <span class="scilabopenclose">[</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">apv.SCAN</span><span class="scilabstring">&#0039;</span><span class="scilabdefault">;</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">numericalPV</span><span class="scilabstring">&#0039;</span> <span class="scilabopenclose">]</span> <span class="scilabdefault">,</span> <span class="scilabnumber">0</span><span class="scilabdefault">,</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">char</span><span class="scilabstring">&#0039;</span> <span class="scilabopenclose">)</span>
+<span class="scilabcomment">// limit reading a waveform to its NORD elements</span>
+<span class="scilabid">nord</span> <span class="scilaboperator">=</span> <span class="scilabid">lcaGet</span><span class="scilabopenclose">(</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">waveform.NORD</span><span class="scilabstring">&#0039;</span> <span class="scilabopenclose">)</span>
+<span class="scilabskeyword">if</span> <span class="scilabid">nord</span> <span class="scilaboperator">&#0062;</span> <span class="scilabnumber">0</span> <span class="scilabskeyword">then</span>
+<span class="scilabid">lcaGet</span><span class="scilabopenclose">(</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">waveform</span><span class="scilabstring">&#0039;</span><span class="scilabdefault">,</span> <span class="scilabid">nord</span> <span class="scilabopenclose">)</span>
+<span class="scilabskeyword">end</span>
+<span class="scilabid">__________________________________________________________________</span>
+
+<span class="scilabid">Footnotes</span>
+
+<span class="scilabspecial">...</span><span class="scilabid">NaN</span> <span class="scilabopenclose">[</span><span class="scilabnumber">3</span><span class="scilabopenclose">]</span><span class="scilaboperator">^</span><span class="scilabnumber">8</span>
+<span class="scilabid">Actually</span><span class="scilabdefault">,</span> <span class="scilabid">all</span> <span class="scilabid">fields</span> <span class="scilabid">of</span> <span class="scilabid">an</span> <span class="scilabid">EPICS</span> <span class="scilabid">database</span> <span class="scilabid">record</span> <span class="scilabid">share</span> <span class="scilabid">a</span> <span class="scilabid">common</span>
+<span class="scilabid">severity</span><span class="scilabdefault">,</span> <span class="scilabopenclose">(</span><span class="scilabid">which</span> <span class="scilabid">itself</span> <span class="scilabid">is</span> <span class="scilabid">a</span> <span class="scilabid">field</span><span class="scilaboperator">/</span><span class="scilabid">PV</span> <span class="scilaboperator">-</span><span class="scilaboperator">-</span> <span class="scilabid">the</span> <span class="scilaboperator">.</span><span class="scilabfield">SEVR</span> <span class="scilabid">field</span><span class="scilabopenclose">)</span><span class="scilaboperator">.</span>
+<span class="scilabid">However</span><span class="scilabdefault">,</span> <span class="scilabid">the</span> <span class="scilabid">INVALID</span> <span class="scilabid">status</span> <span class="scilabid">actually</span> <span class="scilabid">only</span> <span class="scilabid">applies</span> <span class="scilabid">to</span> <span class="scilabid">the</span> <span class="scilaboperator">.</span><span class="scilabfield">VAL</span>
+<span class="scilabid">field</span> <span class="scilabid">of</span> <span class="scilabid">a</span> <span class="scilabid">record</span> <span class="scilaboperator">-</span><span class="scilaboperator">-</span> <span class="scilabid">other</span> <span class="scilabid">fields</span> <span class="scilabopenclose">(</span><span class="scilabid">e</span><span class="scilaboperator">.</span><span class="scilabfield">g</span><span class="scilaboperator">.</span> <span class="scilaboperator">.</span><span class="scilabfield">EGU</span><span class="scilabopenclose">)</span> <span class="scilabid">may</span> <span class="scilabid">still</span> <span class="scilabid">hold</span>
+<span class="scilabid">meaningful</span> <span class="scilabid">data</span><span class="scilaboperator">.</span> <span class="scilabid">Consequently</span><span class="scilabdefault">,</span> <span class="scilabid">INVALID</span> <span class="scilabid">PVs</span> <span class="scilabid">are</span> <span class="scilabid">returned</span> <span class="scilabid">as</span> <span class="scilabid">NaN</span>
+<span class="scilabid">only</span> <span class="scilabskeyword">if</span> <span class="scilabid">they</span> <span class="scilabid">refer</span> <span class="scilabid">to</span> <span class="scilabid">a</span> <span class="scilabid">record</span><span class="scilaboperator">&#0039;</span><span class="scilabid">s</span> <span class="scilaboperator">.</span><span class="scilabfield">VAL</span> <span class="scilabid">field</span><span class="scilaboperator">.</span>
+<span class="scilabid">__________________________________________________________________</span>
+
+<span class="scilabid">till</span> <span class="scilabnumber">2017</span><span class="scilaboperator">-</span><span class="scilabnumber">08</span><span class="scilaboperator">-</span><span class="scilabnumber">08</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
+
+<div class="refsection"><h3 class="title">See also</h3>
+   <ul class="itemizedlist"><li class="member"><a href="lcaGet.html" class="link">1. lcaGet</a></li>
+   <li class="member"><a href="lcaSetSeverityWarnLevel.html" class="link">2. lcaSetSeverityWarnLevel</a></li>
+   <li class="member"><a href="lcaGet.html" class="link">3. lcaGet</a></li></ul></div>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	<span class="previous"><a href="lcaDelay.html">&lt;&lt; lcaDelay</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="lcaGetAlarmLimits.html">lcaGetAlarmLimits &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

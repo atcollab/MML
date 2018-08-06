@@ -1,0 +1,54 @@
+TS, 2006/4/14:
+NOTE: most of this is now obsolete. For both, scilab and matlab,
+we now use (undocumented) calls to poll a 'ctrlC' flag. The
+'ctrlC-polled.c' solution is much more stable and portable than
+the earlier 'hacks' (which probably go away with the next release).
+
+----------------------------------------------------------------------
+
+
+Would be nice to be able to abort 'lca' calls by hitting
+Ctrl-C. Unfortunately, this is non-trivial and causes
+cumbersome and obscure portability problems:
+
+A) OS dependency. On unix, Ctrl-C sends a signal to the application
+   which can be handled (call ezcaAbort) from the signal handler.
+
+   On WIN32, no signal is sent. Instead, the event loop must periodically
+   be polled and filtered for 'Ctrl-C' sequences :-(. At least,
+   on WIN32, there is no big difference between matlab and scilab.
+
+
+B) On unix, sending and handling signals is easy. HOWEVER: the devil
+   is in the details:
+     - scilab is essentially single-threaded; matlab seems to 
+       create multiple threads (in GUI mode; in console mode it
+       is more similar to scilab).
+     - signal delivery to the different threads is quite different
+       between matlab/scilab and solaris/linux/...
+
+     EXAMPLES:
+     * scilab/linux: SIGINT is delivered to multiple threads. Since
+       this is asynchronous, extra SIGINTs are possibly handled after
+       the ezca 'epilogue' returns, resulting in extra 'breaks' discovered
+       by the scilab interpreter.
+       SOLUTION: create an extra thread with the sole task of listening
+                 for SIGINT. Block SIGINT for everybody else.
+     * matlab (GUI mode): above solution doesn't work since the Ctrl-C
+       is apparently not raised in the main interpreter thread. However,
+       the more straightforward approach seems to work (just install
+       a signal handler to the application process -- epics threads 
+       apparently won't receive the signal).
+     * scilab/XAW: Ctrl-C doesn't send any signal :-( but is inaccessible:
+       scilab's internal Ctrl-C handling is deeply buried in the X event loop.
+       Although a translation could be created for invoking the Ctrl-C action 
+       this doesn't work for two reasons:
+         1) sighandler doesn't reinstall itself -> crashes after the first
+            Ctrl-C on SYSV systems. (Installing a wrapper would be a
+            workaround...)
+         2) Xterm widget fails to set/store PID -> send-signal() action has
+            no effect --> BUMMER
+
+     WHAT TO DO??
+
+T. Straumann, 2004/1

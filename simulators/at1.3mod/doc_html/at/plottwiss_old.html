@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of plottwiss_old</title>
+  <meta name="keywords" content="plottwiss_old">
+  <meta name="description" content="PLOTTWISS - Plot the optical functions and tune of the present lattice">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; plottwiss_old.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>plottwiss_old
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>PLOTTWISS - Plot the optical functions and tune of the present lattice</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function plottwiss(varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">PLOTTWISS - Plot the optical functions and tune of the present lattice</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="drawlattice.html" class="code" title="function h = drawlattice(Offset, Scaling, hAxes, Ldraw)">drawlattice</a>	DRAWLATTICE - Draws the AT lattice to a figure</li><li><a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>	MODELTWISS - Returns a twiss function of the model</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function plottwiss(varargin)</a>
+0002 <span class="comment">%PLOTTWISS - Plot the optical functions and tune of the present lattice</span>
+0003 
+0004 
+0005 <span class="comment">%[TD, Tune] = twissring(RING,0,1:(length(RING)+1),'chrom');</span>
+0006 
+0007 [BetaX, BetaY, Sx, Sy, Tune] = <a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>(<span class="string">'Beta'</span>, <span class="string">'All'</span>);
+0008 [EtaX, EtaY] = <a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>(<span class="string">'Eta'</span>, <span class="string">'All'</span>);
+0009 
+0010 
+0011 <span class="comment">%figure</span>
+0012 clf reset;
+0013 plot(Sx, BetaX, <span class="string">'-b'</span>);
+0014 hold on;
+0015 plot(Sy, BetaY, <span class="string">'-r'</span>);
+0016 plot(Sx, 100*EtaX, <span class="string">'-g'</span>);
+0017 plot(Sy, 100*EtaY, <span class="string">'-m'</span>);
+0018 
+0019 <span class="comment">% Add BPM dots</span>
+0020 <span class="keyword">try</span>
+0021     [EtaBPMX, EtaBPMY] = <a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>(<span class="string">'Eta'</span>, gethbpmfamily, getvbpmfamily);
+0022     [BetaBPMX, BetaBPMY, SBPMx, SBPMy, Tune] = <a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>(<span class="string">'Beta'</span>, gethbpmfamily, getvbpmfamily);
+0023     plot(SBPMx, BetaBPMX, <span class="string">'.b'</span>);
+0024     plot(SBPMy, BetaBPMY, <span class="string">'.r'</span>);
+0025     plot(SBPMx, 100*EtaBPMX, <span class="string">'.g'</span>);
+0026     plot(SBPMy, 100*EtaBPMY, <span class="string">'.m'</span>);
+0027 <span class="keyword">catch</span>
+0028 <span class="keyword">end</span>
+0029 
+0030 xlabel(<span class="string">'Position [meters]'</span>);
+0031 <span class="comment">%ylabel('[meters]');</span>
+0032 title(sprintf(<span class="string">'Optical Functions ({\\it \\nu_x} = %5.3f, {\\it \\nu_y} = %5.3f)'</span>, Tune(1),Tune(2)));
+0033 axis tight;
+0034 
+0035 
+0036 <span class="comment">% Plot 1 sector</span>
+0037 a = axis;
+0038 N = getnumberofsectors;
+0039 L = getfamilydata(<span class="string">'Circumference'</span>);
+0040 <span class="keyword">if</span> ~isempty(L) &amp;&amp; ~isempty(N)
+0041     a(2) = L / N;
+0042 <span class="keyword">end</span>
+0043 
+0044 <span class="comment">% Make room for the lattice</span>
+0045 DeltaY = a(4) - a(3);
+0046 a(3) = a(3) - .12 * DeltaY;
+0047 axis(a);
+0048 
+0049 
+0050 <span class="comment">% Draw the lattice</span>
+0051 a = axis;
+0052 <a href="drawlattice.html" class="code" title="function h = drawlattice(Offset, Scaling, hAxes, Ldraw)">drawlattice</a>(a(3)+.06*DeltaY, .05*DeltaY);
+0053 axis(a);
+0054 hold off;
+0055 
+0056 
+0057 legend(<span class="string">'{\it\beta_x [meters]}'</span>,<span class="string">'{\it\beta_y [meters]}'</span>,<span class="string">'{\it\eta_x [cm]}'</span>,<span class="string">'{\it\eta_y [cm]}'</span>,0);
+0058 <span class="comment">%legend('{\it\beta_x}','{\it\beta_y}','{\it\eta_x \times 100}','{\it\eta_y \times 100}',0);</span>
+0059</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

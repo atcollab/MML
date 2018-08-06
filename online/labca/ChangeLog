@@ -1,0 +1,158 @@
+Changes since labca_3_0_beta:
+	2007/9/5 (TS):
+	- wrapped all malloc/calloc/realloc/free calls into 'lcaMalloc, lcaCalloc'
+	etc. to help debugging memory issues.
+	- special scilab cleanup code because many scilab sanity tests are
+	macros which return from a subroutine w/o giving us a chance to clean up
+	(see glue/sciclean/).
+	2007/9/5 (TS):
+	- fixed memory leak (lcaPutNoWait) in ezca (copy of data made by
+	ezcaPutOldCa() was never free()ed when ezcaPutOldCa() calls were
+	grouped). Thanks to Greg Portmann for helping hunting this down.
+	2007/8/29 (TS):
+	- fixed (some) memory leaks (scilab only). Scilab macros (stack-c.h)
+	would jump out of our routines w/o giving a chance to clean things up.
+	Use the new 'sciclean' facility to register cleanups as necessary.
+	Also, C-string matrices (GetRhsVar(...,"S",...)) were never free()ed!
+	- removed redunant printing of error/warning messages. This should
+	fix a complaint that errors were still reported even from a 
+	try-catch-end block.
+	2007/6/19 (Jim Sebek)
+	- extended fix that was introduced (4/07) to work around problems with
+	mcc compilation due to .m files residing in the same directory as .mex
+	files. Now both, the labca initializer and finalizer are skipped when
+	invoked during mcc compilation. Apparently this solves the problem.
+Changes since labca_2
+	2007/6/10 (TS):
+	- call _exit() from the finalizer if called from the caRepeater fork
+	must not do any other cleanup since the forked process has no thread.
+	This fixes the 'starved caRepeater fork' problem (hanging process would
+	never die).
+	2007/6/7  (TS):
+	- completely reworked the finalizer. Good shutdown now seems to work
+	  w/o hangs or crashes for scilab and matlab on linux/solaris + win
+	  in gui and nogui mode.
+	2007/6/4  (TS):
+	- ezcaDelay() now polls the Ctrl-C flag like the other calls.
+	- added EZCA_ABORTED return code to flag user abort (CTRL-C) condition.
+	2007/6/1  (TS):
+	- Some changes to CONFIG/RELEASE/RULES for automatically finding the
+	  correct mex-file extension. Also, EPICS_HOST_ARCH-specific settings
+	  for the EPICS_BASE, MATLABDIR + SCILABDIR variables were implemented.
+	2007/6/1  (TS):
+	- stupid win32 doesn't implement c99 types :-o
+	  Resort to   'epicsTypes.h'...
+	2007/5/23 (TS):
+	- Added lcaLastError() to retrieve the last error that was recorded.
+	  The usual scilab/matlab error reporting scheme is not good enough
+	  because I cannot report a vector of errors. If a lcaXXX operation
+	  fails on a subset of PVs this routine can report the error status
+	  for individual PVs (to be used like and possibly in addition to
+	  'lasterror' in scilab/matlab).
+	- Added multi-ezca interface to lcaLastError and wrappers
+	  for scilab and matlab.
+	- Added multi-ezca interface to ezcaNewMonitorWait and wrappers
+	  for scilab and matlab.
+	- Added ezcaNewMonitorWait() which blocks until new monitor data
+	  becomes available. This routine is groupable.
+	- Changed implementation of EzcaPendEvent(). There is really no need
+	  for ca_pend_event() anymore with multithreaded CA :-). This means
+	  that we can keep a count of outstanding operations and let EzcaPendEvent
+	  simply ca_flush_io() and block on a semaphore (occasional timeout so
+	  that we can poll the X loop and check for Ctrl-C). As requests are
+	  answered a CA background task executes the callbacks which decrement
+	  the 'outstanding' counter and eventually post to 'done' semaphore.
+	  --> lcaXXX calls NO LONGER take multiples of ezcaTimeout to complete :-)
+	  but complete as soon as possible (w/o having to resort to a high CA poll
+	  rate).
+	2007/5/22 (TS):
+	- labca now 'throws' (ezca) error codes when an error occurs
+	  (via mexErrMsgIdAndTxt / Scierror) that can be picked up
+	  by the application via catch + lasterror.
+	- lcaNewMonitorValue() now 'throws' errors for all cases that
+	  in previous versions returned < 0 flag values. I.e., if
+	  lcaNewMonitorValue() completes successfully then it returns either
+	  0 or 1.
+Changes since labca_2_1_beta (T.S):
+	2007/5/9 (TS):
+	- use c99 types int8_t, int16_t, int32_t rather than char, short, int.
+	  (multiEzca.c; see also change made 2006/9/1).
+	2007/5/8 (TS):
+	- lcaPutNoWait() would not flush out commands (thanks to Greg Portman
+	  for reporting).
+	2007/4/11 (TS):
+	- scilab got stuck when initializing labca in non-windowing mode (-nw).
+	  This was because we still checked the X loop in ctrlC-polled.c.
+	  Now we use checkevts_() to find out if we have should work the X loop.
+	2007/4/10 (Jim Sebek):
+	- attempts to mcc-compile matlab scripts that use labCA had failed
+	  apparently because the help (.m) files are in the same directory
+	  as the respective mex object files.
+	  Jim found a work-around that tests if a compilation is in progress
+	  and which skips labca initialization if this is the case.
+	2006/12/19 (TS):
+	- mexLock() glue and CA libraries so that EPICS is not shut down
+	  as a result of matlab 'clear' operations [epics shutdown -> exit()].
+	2006/9/1 (TS):
+	- ezcaLong is really 32bit, i.e., I fixed multiEzca.c to use 'int'
+	  instead of 'long' which is correct on 32bit and 64bit platforms.
+
+Changes since labca_2_0_alpha (T.S):
+	2006/4/14 (TS):
+	- scilab now also uses polled 'ctrlC' handling (undocumented
+	  'isbrk() and inibrk()' routines.
+	- changed shutdown procedure. This is still a pain and I don't
+	  understand exactly what needs to be done to avoid crashing
+	  the app on exit. Current solution seems to work on all
+	  platforms for both scilab and matlab.
+	2006/4/11 (TS):
+	- upgraded to 3.14(.8.2)-style Makefiles.
+	2006/4/10 (TS):
+	- ezcaEndGroupWithReport() used to clear out unconnected channels
+	  assuming that the disconnected state was a result of a failing
+	  search_and_connect(). We now clear only channels that never were
+	  successfully connected and leave other ones alone. This allows
+	  monitors to pick up seamlessly after IOC reboots.
+	- disallow implicit mapping of native type -> FLOAT for monitors.
+	  (The old behavior let disconnected channels look for a FLOAT
+	  type monitor. We now let lcaNewMonitorValue() report -10 if
+	  asking for the native type of a disconnected channel).
+	2006/2/17 (TS):
+	- we now use (undocumented) MATLAB 'utHandlePendingInterrupt()' to poll
+	  for pending 'Ctrl-C' rather than hacking into the windows event loop.
+	  Our hack didn't work with matlab 7.2(?)/win32 anymore.
+	2005/6/7 (TS):
+	- flush output buffers (lcaPutNoWait())
+Changes since labca_1_5 (T.S):
+	2004/3/24 (TS):
+	- EZCA modifications:
+	   o try to recycle work nodes marked as 'trashme'.
+	   o assume ca_clear_channel() does real cleanup (i.e. assume
+		 it cancels scheduled callbacks) and hence recycle channel
+	     structures from push_channel(). Also, have push_channel()
+	     remove deleted channels from the hash table.
+	   o call clean_and_push_channel() if search attempts timeout:
+	     probably, the PV name is invalid and we want to prevent 3.14 
+	     background tasks to continue searching.
+	   o provide 'ezcaClearChannel()' and 'ezcaPurge()' to let the user
+		 explititely remove unneeded channels.
+	- provide 'lcaClear()'.
+	- Provided 'lcaPutNoWait()' for setting values without waiting for
+	  record processing to complete on the server.
+Changes since labca_1_5pre_beta (T.S):
+	- set shared library version numbers in anticipation of future
+	  releases.
+Changes since labca_1_4_beta (T.S):
+	2004/3/8 (TS):
+	- Have the matlab version call 'errMsgTxt()' on error to 
+	  trigger the standard way of error flagging. I finally
+	  found the reason for the linux crashes (matlab ships with outdated
+	  system libraries) ;-)
+	- Implemented a workaround in ezErr() -- Scilab's mexPrintf()
+	  [i.e. sciprint] crashed when munging long strings (multi-line
+	  errors). We now break those messages up in smaller chunks...
+	- multi_ezca_put() now returns a value to indicate error status
+	  (rval == number of successfully written PVs, -1 on error).
+Changes since labca_1_3_beta:
+	2004/2/20: T.S added matlab implementation of lcaGetStatus()
+	2004/2/20: T.S added this ChangeLog

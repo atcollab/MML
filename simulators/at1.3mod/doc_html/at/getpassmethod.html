@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of getpassmethod</title>
+  <meta name="keywords" content="getpassmethod">
+  <meta name="description" content="GETPASSMETHOD - Gets the PassMethod field">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; getpassmethod.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>getpassmethod
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>GETPASSMETHOD - Gets the PassMethod field</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [PassMethod, ATIndex, FamName] = getpassmethod(ATIndex, DeviceList) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">GETPASSMETHOD - Gets the PassMethod field
+  [PassMethod, ATIndex, FamName] = getpassmethod(Family, DeviceList)
+  [PassMethod, ATIndex, FamName] = getpassmethod(ATIndex)
+  [PassMethod, ATIndex, FamName] = getpassmethod(FamName)
+
+  INPUTS
+  1. Family, ATIndex, FamName
+  2. DeviceList (optional if using a Family name)
+
+  OUTPUTS
+  1. PassMethod - AT PassMethod field.  String or cell array if more than one.
+  2. ATIndex - AT index in THERING
+  3. FamName - AT family name
+
+  See also <a href="setpassmethod.html" class="code" title="function setpassmethod(ATIndex, PassMethod, DeviceList)">setpassmethod</a>, <a href="setradiation.html" class="code" title="function [PassMethod, ATIndex, FamName, PassMethodOld, ATIndexOld, FamNameOld] = setradiation(InputString)">setradiation</a>, <a href="getcavity.html" class="code" title="function [CavityState, PassMethod, ATCavityIndex, RF, HarmonicNumber] = getcavity(THERING)">getcavity</a>, <a href="setcavity.html" class="code" title="function ATCavityIndex = setcavity(InputString)">setcavity</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>	FAMILY2ATINDEX - Returns the AT index for a given family</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [PassMethod, ATIndex, FamName] = getpassmethod(ATIndex, DeviceList)</a>
+0002 <span class="comment">%GETPASSMETHOD - Gets the PassMethod field</span>
+0003 <span class="comment">%  [PassMethod, ATIndex, FamName] = getpassmethod(Family, DeviceList)</span>
+0004 <span class="comment">%  [PassMethod, ATIndex, FamName] = getpassmethod(ATIndex)</span>
+0005 <span class="comment">%  [PassMethod, ATIndex, FamName] = getpassmethod(FamName)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%  INPUTS</span>
+0008 <span class="comment">%  1. Family, ATIndex, FamName</span>
+0009 <span class="comment">%  2. DeviceList (optional if using a Family name)</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%  OUTPUTS</span>
+0012 <span class="comment">%  1. PassMethod - AT PassMethod field.  String or cell array if more than one.</span>
+0013 <span class="comment">%  2. ATIndex - AT index in THERING</span>
+0014 <span class="comment">%  3. FamName - AT family name</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%  See also setpassmethod, setradiation, getcavity, setcavity</span>
+0017 
+0018 <span class="comment">%  Written by Greg Portmann</span>
+0019 
+0020 
+0021 <span class="keyword">global</span> THERING
+0022 
+0023 <span class="keyword">if</span> nargin == 0
+0024     ATIndex = [];
+0025 <span class="keyword">end</span>
+0026 
+0027 <span class="keyword">if</span> isempty(ATIndex)
+0028     PassMethod = {};
+0029     FamName = {};
+0030     <span class="keyword">return</span>
+0031 <span class="keyword">end</span>
+0032 
+0033 <span class="keyword">if</span> ischar(ATIndex)
+0034     <span class="keyword">if</span> nargin &gt;= 2
+0035         ATIndex = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(ATIndex, DeviceList);
+0036     <span class="keyword">else</span>
+0037         ATIndex = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(ATIndex);
+0038     <span class="keyword">end</span>
+0039 <span class="keyword">end</span>
+0040 
+0041 
+0042 <span class="comment">% Output</span>
+0043 PassMethod = getcellstruct(THERING, <span class="string">'PassMethod'</span>, ATIndex);
+0044 FamName    = getcellstruct(THERING, <span class="string">'FamName'</span>,    ATIndex);
+0045 
+0046 <span class="keyword">if</span> length(PassMethod) == 1
+0047     PassMethod = PassMethod{1};
+0048     FamName    = FamName{1};
+0049 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

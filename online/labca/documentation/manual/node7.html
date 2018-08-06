@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>lcaPutNoWait</TITLE>
+<META NAME="description" CONTENT="lcaPutNoWait">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="manual.css">
+
+<LINK REL="next" HREF="node8.html">
+<LINK REL="previous" HREF="node6.html">
+<LINK REL="up" HREF="node2.html">
+<LINK REL="next" HREF="node8.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html119"
+  HREF="node8.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html117"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html111"
+  HREF="node6.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html120"
+  HREF="node8.html">lcaGetNelem</A>
+<B> Up:</B> <A NAME="tex2html118"
+  HREF="node2.html">Supported EZCA Calls</A>
+<B> Previous:</B> <A NAME="tex2html112"
+  HREF="node6.html">lcaPut</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html121"
+  HREF="node7.html#SECTION00025100000000000000">Calling Syntax</A>
+<LI><A NAME="tex2html122"
+  HREF="node7.html#SECTION00025200000000000000">Description</A>
+<LI><A NAME="tex2html123"
+  HREF="node7.html#SECTION00025300000000000000">Parameters</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H2><A NAME="SECTION00025000000000000000"></A>
+<A NAME="lcaputnowait"></A>
+<BR>
+lcaPutNoWait
+</H2>
+
+<H3><A NAME="SECTION00025100000000000000">
+Calling Syntax</A>
+</H3>
+<PRE>
+lcaPutNoWait(pvs, value, type)
+</PRE>
+<H3><A NAME="SECTION00025200000000000000">
+Description</A>
+</H3>
+<TT>lcaPutNoWait</TT> is a variant of <TT>lcaPut</TT> that does <EM>not wait</EM>
+for the channel access put request to complete on the server prior to
+returning control to the command line.
+This call can be useful to set PVs that are known to take a long
+or indefinite time to complete processing, e.g., arming a waveform record
+which is triggered by a hardware event in the future or starting a stepper
+motor.
+
+<P>
+
+<H3><A NAME="SECTION00025300000000000000">
+Parameters</A>
+</H3>
+See <TT>lcaPut</TT>.
+
+<P>
+<BR>
+<BR><HR>
+<ADDRESS>
+till
+2007-10-13
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,824 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of modeldisp</title>
+  <meta name="keywords" content="modeldisp">
+  <meta name="description" content="MODELDISP - Returns the dispersion function of the model">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; modeldisp.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>modeldisp
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>MODELDISP - Returns the dispersion function of the model</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [Dx, Dy, Sx, Sy, h] = modeldisp(varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">MODELDISP - Returns the dispersion function of the model
+  [Dx, Dy, Sx, Sy, h] = modeldisp(DeltaRF, Family1, DeviceList1, Family2, DeviceList2, ModulationMethod)
+  [Dx, Dy, Sx, Sy, h] = modeldisp(DeltaRF, Family1, DeviceList1)   % Uses the same information for both planes
+  [Dx, Dy, Sx, Sy, h] = modeldisp(DeltaRF, Family1, Family2)       % Assumes DeviceList1 and DeviceList2 are []
+  [Dx, Dy, Sx, Sy, h] = modeldisp(Family1, Family2)                % Assumes DeviceList1 and DeviceList2 are []
+  [Dx, Dy, Sx, Sy, h] = modeldisp(DeltaRF, Family1)                % Family2 = Family1
+  [Dx, Dy, Sx, Sy, h] = modeldisp                                  % DeltaRF, Family, DeviceList are all optional
+
+  INPUTS
+  1. DeltaRF is the change in RF frequency {Default: .2% energy change}
+  2. Family1 and Family2 are the family names for where to measure the horizontal/vertical dispersion
+     A family name can be a middlelayer family, an AT family (FamName), or 'All' for all AT elements
+     plus the end of the ring.  However, if using a non-middlelayer family, 'Physics' units must be used.
+     {Default or []: 'All'}
+  3. DeviceList1 and DeviceList2 are the device list corresponding to Family2 and Family2.
+     Or a subindex array of the AT family.
+     {Default or []: the entire list}
+  4. ModulationMethod - Method for changing the ActuatorFamily
+                       'bipolar' changes the RF by +/- DeltaRF/2 {Default}
+                       'unipolar' changes the RF from 0 to DeltaRF
+  5. Units - {Default: 'Physics'}
+     'Physics' - Forces dispersion units of meters/(dp/p) add 'Physics' with an optional input of the 
+                 momentum compaction factor (mcf will be found from the AT function mcf if empty).  
+     'Hardware' - Forces dispersion units of (Hardware BPM Units)/(Hardware RF units)
+  6. 'Struct'  will return data structures instead of vectors
+     'Numeric' will return vector outputs {Default}
+  7. Optional display and archiving inputs
+     'Display'   - Plot the dispersion {Default if no outputs exist}
+     'NoDisplay' - Dispersion will not be plotted {Default if outputs exist}
+     'DrawLattice' - Flag to include the lattice on the plot
+     'Archive'   - Save a dispersion data structure to \&lt;Directory.DispData&gt;\&lt;DispArchiveFile&gt;&lt;Date&gt;&lt;Time&gt;.mat
+                   To change the filename, included the filename after the 'Archive', '' to browse
+     'NoArchive' - No file archive {Default}
+
+  OUTPUTS
+  1. Dx and Dy - Horizontal and vertical dispersion function
+                 Note: it does not matter what the input families are
+                       Dx is always horizontal and Dy vertical 
+  2. Sx and Sy are longitudinal locations in the ring [meters].
+
+  For hardware units:
+  Dx = Delta BPMx / Delta RF and Dy = Delta BPMy / Delta RF
+       hence Dx and Dy are not quite the definition of dispersion
+
+               x2(RF0+DeltaRF/2) - x1(RF0-DeltaRF/2) 
+           D = -------------------------------------
+                              DeltaRF
+           
+           where RF0 = is the present RF frequency
+
+  For physics units: DeltaRF is converted to change in energy, dp/p,
+  hence dispersion is has units of [meters/(dp/p)]
+   
+  3. h - handles to the sub-figures if a plot was made
+
+  NOTE
+  1. This function uses the model coordinate system, ie, no BPM rolls.  If hardware
+     units are used, only a gain change will be applied. 
+  2. This function only call the AT model. 
+  3. If no output exist, the dispersion function will be plotted to the screen.
+  4. Family2 and DeviceList1 can be any family.  For instance, if Family2='VCM'
+     and DeviceList1=[], then Dx is the horizontal dispersion function at the 
+     vertical corrector magnets (similarly for Family2 and DeviceList2).
+
+  See also <a href="modelbeta.html" class="code" title="function [BetaX, BetaY, Sx, Sy, Tune, Chrom] = modelbeta(varargin)">modelbeta</a>, <a href="plottwiss.html" class="code" title="function [ax, h1, h2] = plottwiss(varargin)">plottwiss</a>, plotdisp</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="drawlattice.html" class="code" title="function h = drawlattice(Offset, Scaling, hAxes, Ldraw)">drawlattice</a>	DRAWLATTICE - Draws the AT lattice to a figure</li><li><a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>	FAMILY2ATINDEX - Returns the AT index for a given family</li><li><a href="getcavity.html" class="code" title="function [CavityState, PassMethod, ATCavityIndex, RF, HarmonicNumber] = getcavity(THERING)">getcavity</a>	GETCAVITY - Returns the RF cavity state ('On' / 'Off')</li><li><a href="isradiationon.html" class="code" title="function Answer = isradiationon">isradiationon</a>	ISRADIATIONON - 1 if a radiation passmethod is found</li><li><a href="modelmcf.html" class="code" title="function Alpha = modelmcf">modelmcf</a>	MODELMCF - Momentum compaction factor (MCF) of the model</li><li><a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>	MODELTWISS - Returns a twiss function of the model</li><li><a href="setcavity.html" class="code" title="function ATCavityIndex = setcavity(InputString)">setcavity</a>	SETCAVITY - Set the RF cavity state</li><li><a href="setradiation.html" class="code" title="function [PassMethod, ATIndex, FamName, PassMethodOld, ATIndexOld, FamNameOld] = setradiation(InputString)">setradiation</a>	SETRADIATION - Sets the model PassMethod to include or exclude radiation ('On' / 'Off' {Default})</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="modelchrosensitivity.html" class="code" title="function [DSx DSz] = modelchrosensitivity(varargin)">modelchrosensitivity</a>	TUNESENSITIVITY - Computes sextupole change for a given dxi</li><li><a href="ploteta.html" class="code" title="function varargout = ploteta(varargin)">ploteta</a>	PLOTETA plots UNCOUPLED! eta-functions</li></ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [Dx, Dy, Sx, Sy, h] = modeldisp(varargin)</a>
+0002 <span class="comment">%MODELDISP - Returns the dispersion function of the model</span>
+0003 <span class="comment">%  [Dx, Dy, Sx, Sy, h] = modeldisp(DeltaRF, Family1, DeviceList1, Family2, DeviceList2, ModulationMethod)</span>
+0004 <span class="comment">%  [Dx, Dy, Sx, Sy, h] = modeldisp(DeltaRF, Family1, DeviceList1)   % Uses the same information for both planes</span>
+0005 <span class="comment">%  [Dx, Dy, Sx, Sy, h] = modeldisp(DeltaRF, Family1, Family2)       % Assumes DeviceList1 and DeviceList2 are []</span>
+0006 <span class="comment">%  [Dx, Dy, Sx, Sy, h] = modeldisp(Family1, Family2)                % Assumes DeviceList1 and DeviceList2 are []</span>
+0007 <span class="comment">%  [Dx, Dy, Sx, Sy, h] = modeldisp(DeltaRF, Family1)                % Family2 = Family1</span>
+0008 <span class="comment">%  [Dx, Dy, Sx, Sy, h] = modeldisp                                  % DeltaRF, Family, DeviceList are all optional</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">%  INPUTS</span>
+0011 <span class="comment">%  1. DeltaRF is the change in RF frequency {Default: .2% energy change}</span>
+0012 <span class="comment">%  2. Family1 and Family2 are the family names for where to measure the horizontal/vertical dispersion</span>
+0013 <span class="comment">%     A family name can be a middlelayer family, an AT family (FamName), or 'All' for all AT elements</span>
+0014 <span class="comment">%     plus the end of the ring.  However, if using a non-middlelayer family, 'Physics' units must be used.</span>
+0015 <span class="comment">%     {Default or []: 'All'}</span>
+0016 <span class="comment">%  3. DeviceList1 and DeviceList2 are the device list corresponding to Family2 and Family2.</span>
+0017 <span class="comment">%     Or a subindex array of the AT family.</span>
+0018 <span class="comment">%     {Default or []: the entire list}</span>
+0019 <span class="comment">%  4. ModulationMethod - Method for changing the ActuatorFamily</span>
+0020 <span class="comment">%                       'bipolar' changes the RF by +/- DeltaRF/2 {Default}</span>
+0021 <span class="comment">%                       'unipolar' changes the RF from 0 to DeltaRF</span>
+0022 <span class="comment">%  5. Units - {Default: 'Physics'}</span>
+0023 <span class="comment">%     'Physics' - Forces dispersion units of meters/(dp/p) add 'Physics' with an optional input of the</span>
+0024 <span class="comment">%                 momentum compaction factor (mcf will be found from the AT function mcf if empty).</span>
+0025 <span class="comment">%     'Hardware' - Forces dispersion units of (Hardware BPM Units)/(Hardware RF units)</span>
+0026 <span class="comment">%  6. 'Struct'  will return data structures instead of vectors</span>
+0027 <span class="comment">%     'Numeric' will return vector outputs {Default}</span>
+0028 <span class="comment">%  7. Optional display and archiving inputs</span>
+0029 <span class="comment">%     'Display'   - Plot the dispersion {Default if no outputs exist}</span>
+0030 <span class="comment">%     'NoDisplay' - Dispersion will not be plotted {Default if outputs exist}</span>
+0031 <span class="comment">%     'DrawLattice' - Flag to include the lattice on the plot</span>
+0032 <span class="comment">%     'Archive'   - Save a dispersion data structure to \&lt;Directory.DispData&gt;\&lt;DispArchiveFile&gt;&lt;Date&gt;&lt;Time&gt;.mat</span>
+0033 <span class="comment">%                   To change the filename, included the filename after the 'Archive', '' to browse</span>
+0034 <span class="comment">%     'NoArchive' - No file archive {Default}</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">%  OUTPUTS</span>
+0037 <span class="comment">%  1. Dx and Dy - Horizontal and vertical dispersion function</span>
+0038 <span class="comment">%                 Note: it does not matter what the input families are</span>
+0039 <span class="comment">%                       Dx is always horizontal and Dy vertical</span>
+0040 <span class="comment">%  2. Sx and Sy are longitudinal locations in the ring [meters].</span>
+0041 <span class="comment">%</span>
+0042 <span class="comment">%  For hardware units:</span>
+0043 <span class="comment">%  Dx = Delta BPMx / Delta RF and Dy = Delta BPMy / Delta RF</span>
+0044 <span class="comment">%       hence Dx and Dy are not quite the definition of dispersion</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">%               x2(RF0+DeltaRF/2) - x1(RF0-DeltaRF/2)</span>
+0047 <span class="comment">%           D = -------------------------------------</span>
+0048 <span class="comment">%                              DeltaRF</span>
+0049 <span class="comment">%</span>
+0050 <span class="comment">%           where RF0 = is the present RF frequency</span>
+0051 <span class="comment">%</span>
+0052 <span class="comment">%  For physics units: DeltaRF is converted to change in energy, dp/p,</span>
+0053 <span class="comment">%  hence dispersion is has units of [meters/(dp/p)]</span>
+0054 <span class="comment">%</span>
+0055 <span class="comment">%  3. h - handles to the sub-figures if a plot was made</span>
+0056 <span class="comment">%</span>
+0057 <span class="comment">%  NOTE</span>
+0058 <span class="comment">%  1. This function uses the model coordinate system, ie, no BPM rolls.  If hardware</span>
+0059 <span class="comment">%     units are used, only a gain change will be applied.</span>
+0060 <span class="comment">%  2. This function only call the AT model.</span>
+0061 <span class="comment">%  3. If no output exist, the dispersion function will be plotted to the screen.</span>
+0062 <span class="comment">%  4. Family2 and DeviceList1 can be any family.  For instance, if Family2='VCM'</span>
+0063 <span class="comment">%     and DeviceList1=[], then Dx is the horizontal dispersion function at the</span>
+0064 <span class="comment">%     vertical corrector magnets (similarly for Family2 and DeviceList2).</span>
+0065 <span class="comment">%</span>
+0066 <span class="comment">%  See also modelbeta, plottwiss, plotdisp</span>
+0067 
+0068 <span class="comment">%  Written by Greg Portmann</span>
+0069 
+0070 
+0071 <span class="keyword">global</span> THERING
+0072 <span class="keyword">if</span> isempty(THERING)
+0073     error(<span class="string">'Simulator variable is not setup properly'</span>);
+0074 <span class="keyword">end</span>
+0075 
+0076 DeltaRFDefault = .1;  <span class="comment">% Hz</span>
+0077 Family1 = <span class="string">'ALL'</span>;
+0078 Family2 = <span class="string">'ALL'</span>;
+0079 <span class="comment">%Family1 = 'BPMx';</span>
+0080 <span class="comment">%Family2 = 'BPMy';</span>
+0081 DeviceList1 = [];   
+0082 DeviceList2 = [];   
+0083 ModulationMethod = <span class="string">'bipolar'</span>;
+0084 StructOutputFlag = 0;
+0085 NumericOutputFlag = 0; 
+0086 ArchiveFlag = 0;
+0087 FileName = -1;
+0088 <span class="keyword">if</span> nargout == 0
+0089     DisplayFlag = 1;
+0090 <span class="keyword">else</span>
+0091     DisplayFlag = 0;
+0092 <span class="keyword">end</span>
+0093 ModeFlag = {};  <span class="comment">% model, online, manual, or '' for default mode</span>
+0094 UnitsFlag = <span class="string">''</span>;  <span class="comment">% hardware, physics, or '' for default units</span>
+0095 MCF = [];
+0096 DrawLatticeFlag = 1;
+0097 h = [];
+0098 
+0099 InputFlags = {};
+0100 <span class="keyword">for</span> i = length(varargin):-1:1
+0101     <span class="keyword">if</span> isstruct(varargin{i})
+0102         <span class="comment">% Ignor structures</span>
+0103     <span class="keyword">elseif</span> iscell(varargin{i})
+0104         <span class="comment">% Ignor cells</span>
+0105     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'struct'</span>)
+0106         StructOutputFlag = 1;
+0107         varargin(i) = [];
+0108     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'numeric'</span>)
+0109         NumericOutputFlag = 1;
+0110         StructOutputFlag = 0;
+0111         varargin(i) = [];
+0112     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'archive'</span>)
+0113         ArchiveFlag = 1;
+0114         <span class="keyword">if</span> length(varargin) &gt; i
+0115             <span class="comment">% Look for a filename as the next input</span>
+0116             <span class="keyword">if</span> ischar(varargin{i+1})
+0117                 FileName = varargin{i+1};
+0118                 varargin(i+1) = [];
+0119             <span class="keyword">end</span>
+0120         <span class="keyword">end</span>
+0121         varargin(i) = [];
+0122     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'noarchive'</span>)
+0123         ArchiveFlag = 0;
+0124         varargin(i) = [];
+0125     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'Display'</span>)
+0126         DisplayFlag = 1;
+0127         varargin(i) = [];
+0128     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'NoDisplay'</span>)
+0129         DisplayFlag = 0;
+0130         varargin(i) = [];
+0131     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'bipolar'</span>)
+0132         ModulationMethod = <span class="string">'bipolar'</span>;
+0133         varargin(i) = [];
+0134     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'unipolar'</span>)
+0135         ModulationMethod = <span class="string">'unipolar'</span>;
+0136         varargin(i) = [];
+0137     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'eta'</span>) || strcmpi(varargin{i},<span class="string">'physics'</span>)
+0138         UnitsFlag = <span class="string">'Physics'</span>;
+0139         varargin(i) = [];
+0140         <span class="keyword">if</span> length(varargin) &gt;= i
+0141             <span class="keyword">if</span> isnumeric(varargin{i})
+0142                 MCF = varargin{i};
+0143                 varargin(i) = [];
+0144             <span class="keyword">end</span>
+0145         <span class="keyword">end</span>
+0146     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'hardware'</span>)
+0147         UnitsFlag = <span class="string">'Hardware'</span>;
+0148         varargin(i) = [];
+0149         <span class="keyword">if</span> length(varargin) &gt;= i
+0150             <span class="keyword">if</span> isnumeric(varargin{i})
+0151                 MCF = varargin{i};
+0152                 varargin(i) = [];
+0153             <span class="keyword">end</span>
+0154         <span class="keyword">end</span>
+0155     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'simulator'</span>) || strcmpi(varargin{i},<span class="string">'model'</span>)
+0156         <span class="comment">% Ignor</span>
+0157         varargin(i) = [];
+0158     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'online'</span>)
+0159         <span class="comment">% Ignor</span>
+0160         varargin(i) = [];
+0161     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'manual'</span>)
+0162         <span class="comment">% Ignor</span>
+0163         varargin(i) = [];
+0164     <span class="keyword">elseif</span> any(strcmpi(varargin{i}, {<span class="string">'DrawLattice'</span>,<span class="string">'Draw Lattice'</span>}))
+0165         DrawLatticeFlag = 1;
+0166         varargin(i) = [];
+0167     <span class="keyword">end</span>
+0168 <span class="keyword">end</span>
+0169 
+0170 
+0171 <span class="comment">% Look for DeltaRF input</span>
+0172 <span class="keyword">if</span> length(varargin) &gt;= 1
+0173     <span class="keyword">if</span> isnumeric(varargin{1})
+0174         DeltaRF = varargin{1}; 
+0175         varargin(1) = [];
+0176     <span class="keyword">else</span>
+0177         DeltaRF = [];
+0178     <span class="keyword">end</span>
+0179 <span class="keyword">else</span>
+0180     DeltaRF = [];
+0181 <span class="keyword">end</span>
+0182 
+0183 
+0184 <span class="comment">% Look for BPMx family info</span>
+0185 <span class="keyword">if</span> length(varargin) &gt;= 1
+0186     <span class="keyword">if</span> ischar(varargin{1})
+0187         Family1 = varargin{1};
+0188         varargin(1) = [];
+0189         <span class="keyword">if</span> length(varargin) &gt;= 1
+0190             <span class="keyword">if</span> isnumeric(varargin{1})
+0191                 DeviceList1 = varargin{1};
+0192                 varargin(1) = [];
+0193             <span class="keyword">end</span>
+0194         <span class="keyword">end</span>
+0195     <span class="keyword">elseif</span> isnumeric(varargin{1})
+0196         DeviceList1 = varargin{1};
+0197         varargin(1) = [];
+0198     <span class="keyword">elseif</span> isstruct(varargin{1})
+0199         Family1 = varargin{1}.FamilyName;
+0200         DeviceList1 = varargin{1}.DeviceList;
+0201         <span class="keyword">if</span> isempty(UnitsFlag)
+0202             UnitsFlag = varargin{1}.Units;
+0203         <span class="keyword">end</span>
+0204         <span class="keyword">if</span> ~NumericOutputFlag
+0205             <span class="comment">% Only change StructOutputFlag if 'numeric' is not on the input line</span>
+0206             StructOutputFlag = 1;
+0207         <span class="keyword">end</span>
+0208         varargin(1) = [];      
+0209     <span class="keyword">end</span>
+0210 <span class="keyword">end</span>
+0211 
+0212 <span class="comment">% Look for BPMy family info</span>
+0213 <span class="keyword">if</span> length(varargin) &gt;= 1
+0214     <span class="keyword">if</span> ischar(varargin{1})
+0215         Family2 = varargin{1};
+0216         varargin(1) = [];
+0217         <span class="keyword">if</span> length(varargin) &gt;= 1
+0218             <span class="keyword">if</span> isnumeric(varargin{1})
+0219                 DeviceList2 = varargin{1};
+0220                 varargin(1) = [];
+0221             <span class="keyword">end</span>
+0222         <span class="keyword">end</span>
+0223     <span class="keyword">elseif</span> isnumeric(varargin{1})
+0224         DeviceList2 = varargin{1};
+0225         varargin(1) = [];
+0226     <span class="keyword">elseif</span> isstruct(varargin{1})
+0227         Family2 = varargin{1}.FamilyName;
+0228         DeviceList2 = varargin{1}.DeviceList;
+0229         <span class="keyword">if</span> isempty(UnitsFlag)
+0230             UnitsFlag = varargin{1}.Units;
+0231         <span class="keyword">end</span>
+0232         <span class="keyword">if</span> ~NumericOutputFlag
+0233             <span class="comment">% Only change StructOutputFlag if 'numeric' is not on the input line</span>
+0234             StructOutputFlag = 1;
+0235         <span class="keyword">end</span>
+0236         varargin(1) = [];      
+0237     <span class="keyword">end</span>
+0238 <span class="keyword">else</span>
+0239     Family2 = Family1;
+0240     DeviceList2 = DeviceList1;
+0241 <span class="keyword">end</span>
+0242 
+0243 <span class="comment">% Get the input units</span>
+0244 <span class="keyword">if</span> isempty(UnitsFlag)
+0245     UnitsFlag = <span class="string">'Physics'</span>;
+0246 <span class="keyword">end</span>
+0247 <span class="comment">% End of input parsing</span>
+0248 
+0249 
+0250 <span class="comment">% Archive data structure</span>
+0251 <span class="keyword">if</span> ArchiveFlag
+0252     <span class="keyword">if</span> isempty(FileName)
+0253         FileName = appendtimestamp(getfamilydata(<span class="string">'Default'</span>, <span class="string">'DispArchiveFile'</span>));
+0254         DirectoryName = getfamilydata(<span class="string">'Directory'</span>,<span class="string">'DispData'</span>);
+0255         <span class="keyword">if</span> isempty(DirectoryName)
+0256             DirectoryName = [getfamilydata(<span class="string">'Directory'</span>,<span class="string">'DataRoot'</span>) <span class="string">'Dispersion'</span>, filesep];
+0257         <span class="keyword">else</span>
+0258             <span class="comment">% Make sure default directory exists</span>
+0259             DirStart = pwd;
+0260             [DirectoryName, ErrorFlag] = gotodirectory(DirectoryName);
+0261             cd(DirStart);
+0262         <span class="keyword">end</span>
+0263         [FileName, DirectoryName] = uiputfile(<span class="string">'*.mat'</span>, <span class="string">'Select Dispersion File'</span>, [DirectoryName FileName]);
+0264         <span class="keyword">if</span> FileName == 0
+0265             ArchiveFlag = 0;
+0266             disp(<span class="string">'   Dispersion measurement canceled.'</span>);
+0267             Dx=[]; Dy=[]; FileName=<span class="string">''</span>;
+0268             <span class="keyword">return</span>
+0269         <span class="keyword">end</span>
+0270         FileName = [DirectoryName, FileName];
+0271     <span class="keyword">elseif</span> FileName == -1
+0272         FileName = appendtimestamp(getfamilydata(<span class="string">'Default'</span>, <span class="string">'DispArchiveFile'</span>));
+0273         DirectoryName = getfamilydata(<span class="string">'Directory'</span>,<span class="string">'DispData'</span>);
+0274         <span class="keyword">if</span> isempty(DirectoryName)
+0275             DirectoryName = [getfamilydata(<span class="string">'Directory'</span>,<span class="string">'DataRoot'</span>) <span class="string">'Dispersion'</span>, filesep];
+0276         <span class="keyword">end</span>
+0277         FileName = [DirectoryName, FileName];
+0278     <span class="keyword">end</span>
+0279 <span class="keyword">end</span>
+0280 
+0281 
+0282 
+0283 <span class="comment">% Transport lines use a different algorithm (twissline)</span>
+0284 <span class="keyword">if</span> istransport
+0285     <span class="keyword">if</span> strcmpi(UnitsFlag, <span class="string">'Hardware'</span>)
+0286         fprintf(<span class="string">'   Dispersion in hardware units is not available for transport lines.\n'</span>);
+0287     <span class="keyword">end</span>
+0288     <span class="keyword">if</span> ~isempty(DeltaRF)
+0289         fprintf(<span class="string">'   Delta RF frequency input is ignored for transport lines.\n'</span>);
+0290     <span class="keyword">end</span>
+0291     <span class="keyword">if</span> ArchiveFlag
+0292         fprintf(<span class="string">'   Archiving dispersion for transport lines is not programmed yet.\n'</span>);
+0293     <span class="keyword">end</span>
+0294     <span class="keyword">if</span> StructOutputFlag
+0295         fprintf(<span class="string">'   Structure outputs for transport lines is not programmed yet.\n'</span>);
+0296     <span class="keyword">end</span>
+0297 
+0298     <span class="keyword">if</span> nargout == 0
+0299         <span class="keyword">if</span> DrawLatticeFlag
+0300             <a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>(<span class="string">'Eta'</span>, Family1, DeviceList1, Family2, DeviceList2, <span class="string">'DrawLattice'</span>);
+0301         <span class="keyword">else</span>
+0302             <a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>(<span class="string">'Eta'</span>, Family1, DeviceList1, Family2, DeviceList2);
+0303         <span class="keyword">end</span>
+0304     <span class="keyword">else</span>
+0305         <span class="keyword">if</span> DrawLatticeFlag
+0306             [Dx, Dy, Sx, Sy] = <a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>(<span class="string">'Eta'</span>, Family1, DeviceList1, Family2, DeviceList2, <span class="string">'DrawLattice'</span>);
+0307         <span class="keyword">else</span>
+0308             [Dx, Dy, Sx, Sy] = <a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>(<span class="string">'Eta'</span>, Family1, DeviceList1, Family2, DeviceList2);
+0309         <span class="keyword">end</span>
+0310     <span class="keyword">end</span>
+0311 
+0312     <span class="comment">% Add archiving and structure outputs here</span>
+0313     <span class="keyword">return</span>
+0314 <span class="keyword">end</span>
+0315 
+0316 
+0317 <span class="comment">% Make sure DeltaRF is in hardware units</span>
+0318 <span class="keyword">if</span> isempty(DeltaRF) || ~isnumeric(DeltaRF)
+0319     <span class="comment">% Get the default from the AD is in Hardware units</span>
+0320     DeltaRF = getfamilydata(<span class="string">'DeltaRFDisp'</span>);
+0321     
+0322     <span class="comment">% If the default is not in the AD</span>
+0323     <span class="keyword">if</span> isempty(DeltaRF)
+0324         <span class="comment">% Here is the second level default</span>
+0325         DeltaRF = getrf(<span class="string">'Model'</span>,<span class="string">'Hardware'</span>) * <a href="modelmcf.html" class="code" title="function Alpha = modelmcf">modelmcf</a> * .002;  <span class="comment">% .2% energy change</span>
+0326     <span class="keyword">end</span>
+0327 
+0328 <span class="keyword">else</span>
+0329     <span class="keyword">if</span> strcmpi(UnitsFlag, <span class="string">'Physics'</span>)
+0330         <span class="comment">% Change to hardware</span>
+0331         DeltaRF = physics2hw(<span class="string">'RF'</span>, <span class="string">'Setpoint'</span>, DeltaRF, [1 1]);
+0332     <span class="keyword">end</span>
+0333 <span class="keyword">end</span>
+0334 
+0335 
+0336 <span class="comment">% DeltaRF are in hardware units at this point</span>
+0337 <span class="comment">% Change to AT units</span>
+0338 DeltaRF = hw2physics(<span class="string">'RF'</span>, <span class="string">'Setpoint'</span>, DeltaRF, [1 1]);
+0339 
+0340 
+0341 <span class="comment">% Check DeltaRF for resonable values</span>
+0342 <span class="keyword">if</span> DeltaRF &gt; 15000;  <span class="comment">% Hz</span>
+0343     tmp = questdlg(sprintf(<span class="string">'%f Hz is a large RF change.  Do you want to continue?'</span>, DeltaRF),<span class="string">'Dispersion Measurement'</span>,<span class="string">'YES'</span>,<span class="string">'NO'</span>,<span class="string">'YES'</span>);
+0344     <span class="keyword">if</span> strcmp(tmp,<span class="string">'NO'</span>)
+0345         Dx=[];  Dy=[];
+0346         <span class="keyword">return</span>
+0347     <span class="keyword">end</span>
+0348 <span class="keyword">end</span>
+0349 
+0350 <span class="keyword">if</span> isempty(MCF)
+0351     MCF = <a href="modelmcf.html" class="code" title="function Alpha = modelmcf">modelmcf</a>;
+0352 <span class="keyword">end</span>
+0353 
+0354 
+0355 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0356 <span class="comment">% Get the model dispersion %</span>
+0357 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0358 
+0359 <span class="comment">% Find which orbit method to use</span>
+0360 [CavityState, PassMethod, iCavity] = <a href="getcavity.html" class="code" title="function [CavityState, PassMethod, ATCavityIndex, RF, HarmonicNumber] = getcavity(THERING)">getcavity</a>;
+0361 <span class="keyword">if</span> isempty(CavityState)
+0362     <span class="comment">% No cavity in AT model</span>
+0363     <span class="keyword">if</span> <a href="isradiationon.html" class="code" title="function Answer = isradiationon">isradiationon</a>
+0364         fprintf(<span class="string">'   Turning radiation off since there is no RF cavity.\n'</span>);
+0365         <a href="setradiation.html" class="code" title="function [PassMethod, ATIndex, FamName, PassMethodOld, ATIndexOld, FamNameOld] = setradiation(InputString)">setradiation</a> off;
+0366     <span class="keyword">end</span>
+0367     ATMethod = <span class="string">'findorbit4'</span>;
+0368 <span class="keyword">else</span>
+0369     <span class="keyword">if</span> strcmpi(deblank(CavityState(1,:)), <span class="string">'On'</span>) || <a href="isradiationon.html" class="code" title="function Answer = isradiationon">isradiationon</a>
+0370         <span class="comment">% findorbit6 recommended when cavity or radiation is on</span>
+0371         <span class="keyword">if</span> strcmpi(deblank(CavityState(1,:)), <span class="string">'Off'</span>)
+0372             <span class="comment">% Turn off cavity in AT model</span>
+0373             fprintf(<span class="string">'   Turning the RF cavity on, since radiation is on.\n'</span>);
+0374             <a href="setcavity.html" class="code" title="function ATCavityIndex = setcavity(InputString)">setcavity</a>(<span class="string">'On'</span>);
+0375         <span class="keyword">end</span>
+0376         ATMethod = <span class="string">'findorbit6'</span>;
+0377     <span class="keyword">else</span>
+0378         <span class="comment">% Cavity is off in AT model</span>
+0379         ATMethod = <span class="string">'findsyncorbit'</span>;
+0380     <span class="keyword">end</span>
+0381 <span class="keyword">end</span>
+0382 
+0383 
+0384 <span class="keyword">if</span> strcmpi(ATMethod, <span class="string">'findsyncorbit'</span>)      
+0385     C = 2.99792458e8;
+0386     CavityFrequency  = THERING{iCavity(1)}.Frequency;
+0387     CavityHarmNumber = THERING{iCavity(1)}.HarmNumber;
+0388     L = findspos(THERING,length(THERING)+1)';  <span class="comment">% getfamilydata('Circumference')</span>
+0389     f0 = C * CavityHarmNumber / L;
+0390     RFChange = CavityFrequency - f0;   <span class="comment">% To account for all the changes made to the RF [Hz]</span>
+0391     
+0392     <span class="keyword">if</span> strcmpi(ModulationMethod, <span class="string">'bipolar'</span>)
+0393         ORBITPLUS = findsyncorbit(THERING, (-C*( DeltaRF+RFChange)*CavityHarmNumber/CavityFrequency^2)/2, 1:length(THERING)+1);
+0394         ORBIT0    = findsyncorbit(THERING, (-C*(-DeltaRF+RFChange)*CavityHarmNumber/CavityFrequency^2)/2, 1:length(THERING)+1);
+0395     <span class="keyword">else</span>
+0396         ORBITPLUS = findsyncorbit(THERING, -C*(DeltaRF+RFChange)*CavityHarmNumber/CavityFrequency^2, 1:length(THERING)+1);
+0397         ORBIT0    = findsyncorbit(THERING, -C*(        RFChange)*CavityHarmNumber/CavityFrequency^2, 1:length(THERING)+1);
+0398     <span class="keyword">end</span>    
+0399 <span class="keyword">elseif</span> strcmpi(ATMethod, <span class="string">'findorbit4'</span>)
+0400     <span class="comment">% Use findorbit4</span>
+0401     <span class="comment">% CavityFrequency is needed to for convert DeltaRF to dP</span>
+0402     <span class="comment">% Since on cavity is in the model, use the frequency calculated from the harmonic number</span>
+0403     C = 2.99792458e8;
+0404     CavityHarmNumber = getfamilydata(<span class="string">'HarmonicNumber'</span>);
+0405     <span class="keyword">if</span> isempty(CavityHarmNumber)
+0406         error(<span class="string">'Add HarmonicNumber to the ML so that the RF can be inferred when no cavity is in the model'</span>);
+0407     <span class="keyword">end</span>
+0408     L = findspos(THERING,length(THERING)+1)';  <span class="comment">% getfamilydata('Circumference')</span>
+0409     CavityFrequency = C * CavityHarmNumber / L;
+0410     dP = DeltaRF / MCF/ CavityFrequency;
+0411     <span class="comment">%DeltaRF = CavityFrequency * MCF * dP;</span>
+0412     <span class="keyword">if</span> strcmpi(ModulationMethod, <span class="string">'bipolar'</span>)
+0413         ORBITPLUS = findorbit4(THERING, -dP/2, 1:length(THERING)+1);
+0414         ORBIT0    = findorbit4(THERING,  dP/2, 1:length(THERING)+1);
+0415     <span class="keyword">else</span>
+0416         ORBITPLUS = findorbit4(THERING, -dP, 1:length(THERING)+1);
+0417         ORBIT0    = findorbit4(THERING,   0, 1:length(THERING)+1);
+0418     <span class="keyword">end</span>    
+0419     
+0420 <span class="keyword">elseif</span> strcmpi(ATMethod, <span class="string">'findorbit6'</span>)
+0421     <span class="comment">% Use findorbit6</span>
+0422     CavityFrequency = THERING{iCavity(1)}.Frequency;
+0423     <span class="keyword">if</span> strcmpi(ModulationMethod, <span class="string">'bipolar'</span>)
+0424         <span class="keyword">for</span> kk = 1:length(iCavity)
+0425             THERING{iCavity(kk)}.Frequency = CavityFrequency + DeltaRF/2;
+0426         <span class="keyword">end</span>               
+0427         ORBITPLUS = findorbit6(THERING, 1:length(THERING)+1);
+0428     <span class="keyword">else</span>
+0429         <span class="keyword">for</span> kk = 1:length(iCavity)
+0430             THERING{iCavity(kk)}.Frequency = CavityFrequency + DeltaRF;
+0431         <span class="keyword">end</span>               
+0432         ORBITPLUS = findorbit6(THERING, 1:length(THERING)+1);
+0433     <span class="keyword">end</span>    
+0434     <span class="keyword">if</span> strcmpi(ModulationMethod, <span class="string">'bipolar'</span>)
+0435         <span class="keyword">for</span> kk = 1:length(iCavity)
+0436             THERING{iCavity(kk)}.Frequency = CavityFrequency - DeltaRF/2;
+0437         <span class="keyword">end</span>               
+0438         ORBIT0 = findorbit6(THERING, 1:length(THERING)+1);
+0439         <span class="keyword">for</span> kk = 1:length(iCavity)
+0440             THERING{iCavity(kk)}.Frequency = CavityFrequency;
+0441         <span class="keyword">end</span>               
+0442     <span class="keyword">else</span>
+0443         <span class="keyword">for</span> kk = 1:length(iCavity)
+0444             THERING{iCavity(kk)}.Frequency = CavityFrequency;
+0445         <span class="keyword">end</span>               
+0446         ORBIT0 = findorbit6(THERING, 1:length(THERING)+1);
+0447     <span class="keyword">end</span>    
+0448 <span class="keyword">end</span>
+0449 
+0450 
+0451 <span class="comment">% Horizontal plane</span>
+0452 <span class="keyword">if</span> strcmpi(Family1,<span class="string">'All'</span>)
+0453     Index1 = 1:length(THERING)+1;
+0454     <span class="keyword">if</span> ~isempty(DeviceList1)
+0455         Index1 = Index1(DeviceList1);
+0456     <span class="keyword">end</span>
+0457 <span class="keyword">elseif</span> isfamily(Family1)
+0458     Index1 = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(Family1, DeviceList1);
+0459 <span class="keyword">else</span>
+0460     Index1 = findcells(THERING, <span class="string">'FamName'</span>, Family1);
+0461     <span class="keyword">if</span> ~isempty(DeviceList1)
+0462         Index1 = Index1(DeviceList1);
+0463     <span class="keyword">end</span>
+0464 <span class="keyword">end</span>
+0465 <span class="keyword">if</span> isempty(Index1)
+0466     error(sprintf(<span class="string">'Family1=%s could not be found in the AO or AT deck'</span>,Family1));
+0467 <span class="keyword">else</span>
+0468     Index1 = Index1(:)';    <span class="comment">% Row vector</span>
+0469 <span class="keyword">end</span>
+0470 
+0471 D = ORBITPLUS([1 3], Index1) - ORBIT0([1 3], Index1);
+0472 Sx = findspos(THERING, Index1);
+0473 Sx = Sx(:)';
+0474 Dx = D(1,:)' / DeltaRF;
+0475 
+0476 <span class="comment">% Vertical plane</span>
+0477 <span class="keyword">if</span> strcmpi(Family2,<span class="string">'All'</span>) 
+0478     Index2 = 1:length(THERING)+1;
+0479     <span class="keyword">if</span> ~isempty(DeviceList2)
+0480         Index2 = Index2(DeviceList2);
+0481     <span class="keyword">end</span>
+0482 <span class="keyword">elseif</span> isfamily(Family2)
+0483     Index2 = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(Family2, DeviceList2);
+0484 <span class="keyword">else</span>
+0485     Index2 = findcells(THERING, <span class="string">'FamName'</span>, Family2);
+0486     <span class="keyword">if</span> ~isempty(DeviceList2)
+0487         Index2 = Index2(DeviceList2);
+0488     <span class="keyword">end</span>
+0489 <span class="keyword">end</span>
+0490 <span class="keyword">if</span> isempty(Index2)
+0491     error(sprintf(<span class="string">'Family2=%s could not be found in the AO or AT deck'</span>,Family2));
+0492 <span class="keyword">else</span>
+0493     Index2 = Index2(:)';    <span class="comment">% Row vector</span>
+0494 <span class="keyword">end</span>
+0495 
+0496 D = ORBITPLUS([1 3], Index2) - ORBIT0([1 3], Index2);
+0497 Sy = findspos(THERING, Index2);
+0498 Sy = Sy(:)';
+0499 Dy = D(2,:)' / DeltaRF;
+0500 
+0501 <span class="comment">% All elements</span>
+0502 D = ORBITPLUS([1 3], :) - ORBIT0([1 3], :);
+0503 DxAll = D(1,:)' / DeltaRF;
+0504 DyAll = D(2,:)' / DeltaRF;
+0505 SAll = findspos(THERING, 1:length(THERING)+1);
+0506 
+0507 
+0508 <span class="comment">% Dispersion has units meters/Hz at this point</span>
+0509 <span class="comment">% Change to true physics units meters/(dp/p)</span>
+0510 Dx = -CavityFrequency * MCF * Dx;
+0511 Dy = -CavityFrequency * MCF * Dy;
+0512 DxAll = -CavityFrequency * MCF * DxAll;
+0513 DyAll = -CavityFrequency * MCF * DyAll;
+0514 
+0515 <span class="comment">% Fill the dispersion structure (response matrix structure + some fields)</span>
+0516 d(1).Data = Dx;
+0517 d(2).Data = Dy;
+0518 d(1).FamilyName = <span class="string">'DispersionX'</span>;
+0519 d(2).FamilyName = <span class="string">'DispersionY'</span>;
+0520 
+0521 <span class="keyword">try</span>
+0522     d(1).Actuator = family2datastruct(<span class="string">'RF'</span>, <span class="string">'Physics'</span>);
+0523 <span class="keyword">catch</span>
+0524 <span class="keyword">end</span>
+0525 d(1).Actuator.Data = CavityFrequency;
+0526 d(2).Actuator = d(1).Actuator;
+0527 <span class="comment">% d(1).Actuator.Data = CavityFrequency;</span>
+0528 <span class="comment">% d(2).Actuator.Data = CavityFrequency;</span>
+0529 <span class="comment">% d(1).Actuator.Units = 'Physics';</span>
+0530 <span class="comment">% d(2).Actuator.Units = 'Physics';</span>
+0531 <span class="comment">% d(1).Actuator.UnitsString = 'Hz';</span>
+0532 <span class="comment">% d(2).Actuator.UnitsString = 'Hz';</span>
+0533 d(1).ActuatorDelta = DeltaRF;
+0534 d(2).ActuatorDelta = DeltaRF;
+0535 
+0536 <span class="keyword">if</span> isfamily(Family1) &amp;&amp; ismemberof(Family1, <span class="string">'BPM'</span>)
+0537     d(1).Monitor = family2datastruct(Family1, <span class="string">'Monitor'</span>, DeviceList1, <span class="string">'Physics'</span>);
+0538 <span class="keyword">else</span>
+0539     d(1).Monitor.Data = ORBIT0(1, Index1)';
+0540     d(1).Monitor.FamilyName = [<span class="string">'x@'</span>, Family1];
+0541     d(1).Monitor.Field = <span class="string">'Monitor'</span>;
+0542     d(1).Monitor.DeviceList = DeviceList1;
+0543     d(1).Monitor.Units = <span class="string">'Physics'</span>;
+0544     d(1).Monitor.UnitsString = <span class="string">'meters'</span>;
+0545     d(1).Monitor.TimeStamp = clock;
+0546     d(1).Monitor.t = 0;
+0547     d(1).Monitor.tout = 0;
+0548 <span class="keyword">end</span>
+0549 <span class="keyword">if</span> isfamily(Family2) &amp;&amp; ismemberof(Family2, <span class="string">'BPM'</span>)
+0550     d(2).Monitor = family2datastruct(Family2, <span class="string">'Monitor'</span>, DeviceList2, <span class="string">'Physics'</span>);
+0551 <span class="keyword">else</span>
+0552     d(2).Monitor.Data = ORBIT0(2, Index2)';
+0553     d(2).Monitor.FamilyName = [<span class="string">'y@'</span>, Family2];
+0554     d(2).Monitor.Field = <span class="string">'Monitor'</span>;
+0555     d(2).Monitor.DeviceList = DeviceList2;
+0556     d(2).Monitor.Units = <span class="string">'Physics'</span>;
+0557     d(2).Monitor.UnitsString = <span class="string">'meters'</span>;
+0558     d(2).Monitor.TimeStamp = clock;
+0559     d(2).Monitor.t = 0;
+0560     d(2).Monitor.tout = 0;
+0561 <span class="keyword">end</span>
+0562 
+0563 d(1).TimeStamp = clock;
+0564 d(2).TimeStamp = d(1).TimeStamp;
+0565 
+0566 <span class="keyword">for</span> i=1:2
+0567     d(i).Mode = <span class="string">'Model'</span>;
+0568     d(i).Units = <span class="string">'Physics'</span>;
+0569     d(i).UnitsString = <span class="string">'m/(dp/p)'</span>;
+0570     d(i).ModulationMethod = ModulationMethod;
+0571     d(i).OperationalMode = getfamilydata(<span class="string">'OperationalMode'</span>);
+0572     d(i).DataDescriptor = <span class="string">'Dispersion'</span>;
+0573     d(i).CreatedBy = <span class="string">'modeldisp'</span>;
+0574     d(i).GeV = getenergy(<span class="string">'Model'</span>);
+0575     d(i).WaitFlag = -2;
+0576     d(i).MCF = MCF;
+0577     d(i).dp = -DeltaRF / (CavityFrequency*MCF);
+0578 <span class="keyword">end</span>
+0579 
+0580 
+0581 <span class="comment">% Final units conversion</span>
+0582 <span class="keyword">if</span> strcmpi(UnitsFlag, <span class="string">'Hardware'</span>)
+0583     <span class="keyword">if</span> ~ismemberof(Family1, <span class="string">'BPM'</span>) || ~ismemberof(Family2, <span class="string">'BPM'</span>)
+0584         error(<span class="string">'Hardware units cannot be used when not using a BPM family'</span>);
+0585     <span class="keyword">end</span>
+0586     d = physics2hw(d);
+0587 <span class="keyword">end</span>
+0588 
+0589 
+0590 <span class="comment">% Output</span>
+0591 <span class="comment">% Plot if no output</span>
+0592 <span class="keyword">if</span> DisplayFlag
+0593     <span class="comment">% Plot dispersion</span>
+0594     <span class="comment">% plotdisp cannot handle a AT family name or 'All' so a new dispersion plot was written below</span>
+0595     <span class="comment">% plotdisp(d);</span>
+0596     
+0597     clf reset
+0598     <span class="comment">%set(gcf,'NumberTitle','on','Name','Model Dispersion');</span>
+0599 
+0600     UnitsFlag = d(1).Units;
+0601     UnitsString = d(1).UnitsString;
+0602 
+0603     <span class="keyword">if</span> strcmpi(UnitsFlag, <span class="string">'Hardware'</span>)
+0604         TitleString = sprintf(<span class="string">'Change in Orbit / Change in RF (Delta RF=%g %s)'</span>, d(1).ActuatorDelta, d(1).Actuator.UnitsString);
+0605         <span class="comment">% Change to hardware units</span>
+0606         DxAll = -1 * DxAll / d(1).Actuator.Data(1) / MCF;
+0607         DyAll = -1 * DyAll / d(2).Actuator.Data(1) / MCF;
+0608     <span class="keyword">else</span>
+0609         TitleString = sprintf(<span class="string">'Dispersion Function: %s  (\\alpha=%.5f, f=%f Hz, \\Deltaf=%g Hz)'</span>, texlabel(<span class="string">'-alpha f {Delta}Orbit / {Delta}f'</span>), MCF, CavityFrequency, DeltaRF);
+0610     <span class="keyword">end</span>
+0611     
+0612     h(1,1) = subplot(2,1,1);
+0613     plot(SAll, DxAll, <span class="string">'-b'</span>);
+0614     <span class="keyword">if</span> strcmpi(Family1,<span class="string">'All'</span>)
+0615         <span class="comment">%xlabel('Position [meters]');</span>
+0616     <span class="keyword">else</span>
+0617         hold on;
+0618         plot(Sx, d(1).Data, <span class="string">'.b'</span>);
+0619         hold off;
+0620         <span class="keyword">if</span> ~strcmpi(Family1, Family2)
+0621             xlabel(sprintf(<span class="string">'%s Position [meters]'</span>, Family1));
+0622         <span class="keyword">end</span>
+0623     <span class="keyword">end</span>
+0624     ylabel(sprintf(<span class="string">'Horizontal [%s]'</span>, UnitsString));
+0625     title(TitleString);
+0626     grid on;
+0627     axis tight;
+0628     
+0629     h(2,1) = subplot(2,1,2);
+0630     plot(SAll, DyAll, <span class="string">'-b'</span>);
+0631     <span class="keyword">if</span> strcmpi(Family2,<span class="string">'All'</span>)
+0632         xlabel(<span class="string">'Position [meters]'</span>);
+0633     <span class="keyword">else</span>
+0634         hold on; 
+0635         plot(Sy, d(2).Data, <span class="string">'.b'</span>);
+0636         hold off;
+0637         xlabel(sprintf(<span class="string">'%s Position [meters]'</span>, Family2));
+0638     <span class="keyword">end</span>
+0639     ylabel(sprintf(<span class="string">'Vertical [%s]'</span>, UnitsString));
+0640     grid on;
+0641     axis tight;
+0642     
+0643     L = getfamilydata(<span class="string">'Circumference'</span>);
+0644     <span class="keyword">if</span> ~isempty(L)
+0645         xaxis([0 L], h);
+0646     <span class="keyword">end</span>
+0647 
+0648     <span class="keyword">if</span> DrawLatticeFlag
+0649         <span class="comment">% Reduce the axes height a little but keep the axis</span>
+0650         a1 = axis(h(1));
+0651         a2 = axis(h(2));
+0652         yaxesposition(.95);
+0653         axis(h(1), a1);
+0654         axis(h(2), a2);
+0655         
+0656         h(3) = subplot(9,1,5);
+0657         <a href="drawlattice.html" class="code" title="function h = drawlattice(Offset, Scaling, hAxes, Ldraw)">drawlattice</a>(0,1);
+0658         set(h(3),<span class="string">'YTick'</span>,[]);
+0659         set(h(3),<span class="string">'XTickLabel'</span>,<span class="string">''</span>);
+0660         set(h(3),<span class="string">'YTickLabel'</span>,<span class="string">''</span>);
+0661         set(h(3),<span class="string">'Visible'</span>,<span class="string">'Off'</span>);
+0662         yaxis([-1.25 1.75]);
+0663 
+0664         <span class="comment">%hold((h(1)),'on');</span>
+0665         <span class="comment">%a = axis(h(1));</span>
+0666         <span class="comment">%drawlattice(a(4)-.08*(a(4)-a(3)),.05*(a(4)-a(3)),h(1));</span>
+0667         <span class="comment">%axis(h(1), a);</span>
+0668         <span class="comment">%hold((h(1)),'off');</span>
+0669         <span class="comment">%</span>
+0670         <span class="comment">%hold((h(2)),'on');</span>
+0671         <span class="comment">%a = axis(h(2));</span>
+0672         <span class="comment">%drawlattice(a(4)-.08*(a(4)-a(3)),.05*(a(4)-a(3)),h(2));</span>
+0673         <span class="comment">%axis(h(2), a);</span>
+0674         <span class="comment">%hold((h(2)),'off');</span>
+0675     <span class="keyword">end</span>
+0676 
+0677     <span class="comment">% Link the x-axes</span>
+0678     linkaxes(h,<span class="string">'x'</span>);
+0679 <span class="keyword">end</span>
+0680 
+0681 
+0682 <span class="comment">% Output</span>
+0683 <span class="keyword">if</span> StructOutputFlag
+0684     Dx = d(1);
+0685     Dy = d(2);
+0686 <span class="keyword">else</span>
+0687     Dx = d(1).Data;
+0688     Dy = d(2).Data;
+0689 <span class="keyword">end</span>
+0690 
+0691 
+0692 <span class="comment">% Archive data structure</span>
+0693 <span class="keyword">if</span> ArchiveFlag
+0694     <span class="comment">% If the filename contains a directory then make sure it exists</span>
+0695     [DirectoryName, FileName, Ext] = fileparts(FileName);
+0696     DirStart = pwd;
+0697     [DirectoryName, ErrorFlag] = gotodirectory(DirectoryName);
+0698     BPMxDisp = d(1);
+0699     BPMyDisp = d(2);
+0700     save(FileName, <span class="string">'BPMxDisp'</span>, <span class="string">'BPMyDisp'</span>);
+0701     <span class="keyword">if</span> DisplayFlag
+0702         fprintf(<span class="string">'   Model dispersion data saved to %s.mat\n'</span>, [DirectoryName FileName]);
+0703         <span class="keyword">if</span> ErrorFlag
+0704             fprintf(<span class="string">'   Warning: %s was not the desired directory\n'</span>, DirectoryName);
+0705         <span class="keyword">end</span>
+0706     <span class="keyword">end</span>
+0707     cd(DirStart);
+0708     FileName = [DirectoryName FileName];
+0709 <span class="keyword">end</span>
+0710 <span class="keyword">if</span> FileName == -1
+0711     FileName = <span class="string">''</span>;
+0712 <span class="keyword">end</span>
+0713 
+0714</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

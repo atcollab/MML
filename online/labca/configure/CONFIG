@@ -1,0 +1,114 @@
+# CONFIG
+include $(TOP)/configure/CONFIG_APP
+
+USR_CFLAGS_WIN32=-nil-
+USR_CFLAGS_DEFAULT=-g
+
+# Choose what interface to build. May be
+# 'MATLAB' or 'SCILAB'
+
+MAKEFOR=MATLAB
+
+# Enable Ctrl-C handling so you can interrupt
+# lcaGet/lcaPut by hitting Ctrl-C.
+#
+# Note that this is cumbersome and involves
+# using undocumented matlab/scilab features.
+# You can try it -- if you run into problems (e.g.
+# crashes/aborts) disable this feature...
+# Set the following variable to YES or NO
+CONFIG_USE_CTRLC=YES
+
+# optionally, set installation top directory
+# *** DEPRECATED *** use INSTALL_LOCATION_APP in the
+# configure/RELEASE file.
+
+#INSTALL_LOCATION=/install/everything/here
+
+# obsolete, special purpose routine for reading
+# ECDR data (only relevant for SSRL - You should
+# say 'NO' here unless you are at SSRL)
+# 
+CONFIG_ECDRGET=NO
+
+# No need to change anything below here
+# (except for adding more matlab extensions for
+# other platforms...)
+MEXEXT_hpux-parisc=.mexhpux
+MLBARCH_hpux-parisc=hpux
+
+MEXEXT_linux-x86=.mexglx
+MLBARCH_linux-x86=glnx86
+
+MEXEXT_linux-x86_64=.mexa64
+MLBARCH_linux-x86_64=glnxa64
+
+MEXEXT_solaris-sparc=.mexsol
+MLBARCH_solaris-sparc=sol2
+
+MEXEXT_solaris-sparc64=.mexs64
+MLBARCH_solaris-sparc64=sol64
+
+MEXEXT_Darwin-ppc=.mexmac
+MLBARCH_Darwin-ppc=mac
+
+# Matlab at least >= 2006b uses mexw32
+# this should be caught by the mexext script
+# which will define MEXEXT eventually.
+# MEXEXT_DFLT will be used for older versions
+# of matlab only...
+MEXEXT_win32-x86=.dll
+MLBARCH_win32-x86=win32
+
+EPICSARCH=$(word 1,$(subst -, ,$(EPICS_HOST_ARCH)))-$(word 2,$(subst -, ,$(EPICS_HOST_ARCH)))
+MEXEXT_DFLT=$(MEXEXT_$(EPICSARCH))
+MLBARCH=$(MLBARCH_$(EPICSARCH))
+
+ifeq ($(OS_CLASS),WIN32)
+MEX=win32/mex.bat
+MEXEXT_SH=mexext.bat
+MEXCXXFLAGS=
+  ifeq ($(MAKEFOR),MATLAB)
+    ifndef MATLIB_SUBDIR
+      $(error please define MATLIB_SUBDIR in configure/RELEASE)
+    endif
+  endif
+else
+MEX=mex
+MEXEXT_SH=mexext
+MEXCXXFLAGS=-cxx
+endif
+
+# create MAKEFOR-specific config includes; 
+# also verify that MAKEFOR is either MATLAB or SCILAB
+ifeq ($(MAKEFOR),MATLAB)
+  CONFIG_TARGETS+=MATLAB_CONFIG_INCLUDE
+  ifdef T_A
+    -include $(TOP)/configure/O.$(T_A)/MATLAB_CONFIG_INCLUDE
+  endif
+else
+  ifeq ($(MAKEFOR),SCILAB)
+  else
+    $(error MAKEFOR variable in configure/CONFIG must be set to MATLAB or SCILAB [currently: "$(MAKEFOR)")
+  endif
+endif
+
+ifndef $(MAKEFOR)DIR
+  ifneq ($(strip $($(MAKEFOR)DIR_$(EPICS_HOST_ARCH))),)
+    $(MAKEFOR)DIR=$($(MAKEFOR)DIR_$(EPICS_HOST_ARCH))
+  else
+    ifdef $(MAKEFOR)DIR_DEFAULT
+      $(MAKEFOR)DIR=$($(MAKEFOR)DIR_DEFAULT)
+    else
+      $(error no definition of $(MAKEFOR)DIR -- please provide in configure/RELEASE)
+    endif
+  endif
+endif
+   
+# dont hardcode searchpaths
+# NOTE: this way of removing 'rpath' doesn't work anymore for base-3.14.9
+#       seems we have to remove it for each architecture separately
+#       in base/configure/os/  :-(
+RUNTIME_LDFLAGS=
+
+CROSS_COMPILER_TARGET_ARCHS =

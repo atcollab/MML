@@ -1,0 +1,178 @@
+# ALS Simple Channel Access Makefile
+
+RELEASE = /home/als2/devel/als_std_epics/
+BASE = $(RELEASE)/base
+INCLUDES = $(BASE)/include
+DBG = -g
+CFLAGS = -Xa
+CFLAGS_SO = -Xa -Kpic
+SUNOS_DIST = /home/als2/www/docs/epics_collaboration/sca/sunos
+SCA_DIST = /home/als2/www/docs/epics_collaboration/sca
+
+all: info scalib.o sca.so.3 scaget scaput scaget_so \
+	sca3_time sca3_example index_example  indexa_example \
+	group_test alias_test connect_test test_compress
+
+scalib.o : Makefile ./scalib.c ./scalib_private.h ./scalib_shared.h \
+	./sca_release.h
+	rm -f core
+	rm -f scalib.o
+	acc $(DBG) $(CFLAGS) -c -I$(INCLUDES) -I. ./scalib.c
+
+sca.so.3 : Makefile ./scalib.c ./scalib_private.h ./scalib_shared.h \
+	./sca_release.h
+	rm -f core
+	rm -f scalib_so.o
+	rm -f sca.so.3
+	acc $(DBG) $(CFLAGS_SO) -c -I$(INCLUDES) -I. -o scalib_so.o ./scalib.c
+	ld -o sca.so.3 scalib_so.o -L$(BASE)/lib/sun4 -lca -lCom
+	rm -f scalib_so.o
+
+scaget : Makefile ./scaget.c ./scaget.h ./scalib.h ./scalib_shared.h \
+	./scalib.o ./sca_release.h
+	rm -f core
+	rm -f scaget
+	acc $(DBG)  $(CFLAGS) -I. -o scaget ./scaget.c scalib.o \
+		-L$(BASE)/lib/sun4 -lca -lCom
+
+scaput : Makefile ./scaput.c ./scaget.h ./scalib.h ./scalib_shared.h \
+	./scalib.o ./sca_release.h
+	rm -f core
+	rm -f scaput
+	acc $(DBG) $(CFLAGS) -I. -o scaput ./scaput.c scalib.o \
+		-L$(BASE)/lib/sun4 -lca -lCom
+
+scaget_so : Makefile ./scaget.c ./scaget.h ./scalib.h ./scalib_shared.h \
+	./scalib.o ./sca_release.h
+	rm -f core
+	rm -f scaget_so
+	acc $(DBG) $(CFLAGS_SO) -I. -o scaget_so ./scaget.c sca.so.3 
+
+sca3_time : Makefile ./sca3_time.c ./scalib.h ./scalib_shared.h ./scalib.o \
+	./sca_release.h
+	rm -f core
+	rm -f sca3_time
+	acc $(DBG) $(CFLAGS) -I. \
+		-o sca3_time ./sca3_time.c \
+		scalib.o -L$(BASE)/lib/sun4 -lca -lCom
+
+sca3_example : Makefile ./sca3_example.c ./scalib.h ./scalib_shared.h \
+	./scalib.o ./sca_release.h
+	rm -f core
+	rm -f sca3_example
+	acc $(DBG) $(CFLAGS) -I. \
+		-o sca3_example ./sca3_example.c \
+		scalib.o -L$(BASE)/lib/sun4 -lca -lCom
+
+index_example : Makefile ./index_example.c ./scalib.h ./scalib_shared.h \
+		./scalib.o ./sca_release.h
+	rm -f core
+	rm -f index_example
+	acc $(DBG) $(CFLAGS) -I. \
+		-o index_example ./index_example.c \
+		scalib.o -L$(BASE)/lib/sun4 -lca -lCom
+
+indexa_example : Makefile ./index_example.c ./scalib.h ./scalib_shared.h \
+		./scalib.o ./sca_release.h
+	rm -f core
+	rm -f indexa_example
+	acc $(DBG) $(CFLAGS) -DUSE_CACHE_PUT -I. \
+		-o indexa_example ./index_example.c \
+		scalib.o -L$(BASE)/lib/sun4 -lca -lCom
+
+group_test : Makefile ./group_test.c ./scalib.h ./scalib_shared.h \
+	./scalib.o ./sca_release.h
+	rm -f core
+	rm -f group_test
+	acc $(DBG) $(CFLAGS) -I. \
+		-o group_test ./group_test.c \
+		scalib.o -L$(BASE)/lib/sun4 -lca -lCom
+
+alias_test : Makefile ./alias_test.c ./scalib.h ./scalib_shared.h \
+	./scalib.o ./sca_release.h
+	rm -f core
+	rm -f alias_test
+	acc $(DBG) $(CFLAGS) -I. \
+		-o alias_test ./alias_test.c \
+		scalib.o -L$(BASE)/lib/sun4 -lca -lCom
+
+connect_test : Makefile ./connect_test.c ./scalib.h ./scalib_shared.h \
+	./scalib.o ./sca_release.h
+	rm -f core
+	rm -f connect_test
+	acc $(DBG) $(CFLAGS) -I. \
+		-o connect_test ./connect_test.c \
+		scalib.o -L$(BASE)/lib/sun4 -lca -lCom
+test_compress : Makefile ./test_compress.c ./scalib.h ./scalib_shared.h \
+	./scalib.o ./sca_release.h
+	rm -f core
+	rm -f test_compress
+	acc $(DBG) $(CFLAGS) -I. \
+		-o test_compress ./test_compress.c \
+		scalib.o -L$(BASE)/lib/sun4 -lca -lCom
+
+sunos_dist:
+	zip sca Makefile Makefile.solaris \
+		scalib.h scalib_shared.h scalib_private.h \
+		sca_release.h scalib.c \
+		scaget.c scaput.c \
+		group_test.c alias_test.c connect_test.c \
+		scalib_doc scaget_doc scaput_doc
+	rm -f $(SUNOS_DIST)/sca.zip
+	mv sca.zip $(SUNOS_DIST)
+
+	rm -f sca.tgz
+	tar cf - Makefile Makefile.solaris \
+		scalib.h scalib_shared.h scalib_private.h \
+		sca_release.h scalib.c \
+		scaget.c scaput.c sca3_example.c sca3_example.db group_test.c \
+		alias_test.c connect_test.c \
+		scalib_doc scaget_doc scaput_doc | gzip >$(SUNOS_DIST)/sca.tgz
+
+	(cd $(SCA_DIST);rm -f README)
+	cp README $(SCA_DIST)
+
+	(cd $(SUNOS_DIST);rm -f README Makefile Makefile.solaris \
+		scalib.h scalib_shared.h scalib_private.h \
+		sca_release.h scalib.c \
+		scaget.c scaput.c sca3_example.c sca3_example.db group_test.c \
+		alias_test.c connect_test.c \
+		scalib_doc scaget_doc scaput_doc)
+	cp Makefile Makefile.solaris \
+		scalib.h scalib_shared.h scalib_private.h \
+		sca_release.h scalib.c \
+		scaget.c scaput.c sca3_example.c sca3_example.db group_test.c \
+		alias_test.c connect_test.c \
+		scalib_doc scaget_doc scaput_doc $(SUNOS_DIST)
+info:
+	@echo "make DBG=-g    #for debug  mode"
+
+test_install:
+	rdist -v -w -y
+
+install:
+	rdist -b -w -y
+#	cp -p scalib.h scalib_shared.h scalib_private.h \
+#		/home/als2/prod/scaIII/include
+#	cp -p scalib.o /home/als2/prod/scaIII/lib
+#
+#	cp -p scaget /home/als2/prod/scaIII/bin
+#	cp -p scaput /home/als2/prod/scaIII/bin
+clean:
+	rm -f core
+	rm -f scalib.o
+	rm -f sca.so.3
+	rm -f scaget
+	rm -f scaput
+	rm -f scaget_so
+
+	rm -f sca3_time
+	rm -f sca3_example
+	rm -f index_example
+	rm -f indexa_example
+	rm -f group_test
+	rm -f alias_test
+	rm -f connect_test
+	rm -f test_compress
+
+#include ../include/makelib

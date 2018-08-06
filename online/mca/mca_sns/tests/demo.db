@@ -1,0 +1,41 @@
+# Looks a bit like the 'excas' data, but full records
+#
+#   softIoc -s -d demo.db
+
+record(ai, "set1")
+{
+}
+
+record(ai, "set2")
+{
+}
+
+record(calc, "ramp")
+{
+   field(DESC, "A Ramp")
+   field(SCAN, "1 second")
+   field(CALC, "A<10?A+1:0")
+   field(INPA, "ramp")
+   field(HIGH, "6")
+   field(HSV,  "MAJOR")
+}
+
+record(calc, "fred")
+{
+   field(SCAN, "1 second")
+   field(CALC, "RNDM")
+   field(FLNK, "alan")
+}
+
+record(calc, "janet")
+{
+   field(SCAN, ".1 second")
+   field(CALC, "RNDM")
+}
+
+record(compress, "alan")
+{
+   field(ALG, "Circular Buffer")
+   field(INP, "fred")
+   field(NSAM, "100")
+}

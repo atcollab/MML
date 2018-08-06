@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from lcaGetRetryCount.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="lcaGetRetryCount" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>lcaGetRetryCount</refname>
+    <refpurpose>Retrieve / set the ezca library retryCount parameter (consult the ezca    documentation for more information).</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   
+   currentRetryCount = lcaGetRetryCount()
+   lcaSetRetryCount(newRetryCount)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Description</title>
+   <para>
+   </para>
+   <para>
+Retrieve / set the ezca library retryCount parameter (consult the ezca
+documentation for more information). The retry count multiplied by the
+[1]timeout parameter determines the maximum time the interface waits
+for connections and data transfers, respectively.
+__________________________________________________________________
+   </para>
+   <para>
+   </para>
+   <para>
+till 2017-08-08
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>See also</title>
+   <simplelist type="inline">
+   <member><link linkend="lcaGetTimeout">1. lcaGetTimeout</link></member>
+   </simplelist>
+</refsection>
+</refentry>

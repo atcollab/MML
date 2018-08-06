@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of findcells</title>
+  <meta name="keywords" content="findcells">
+  <meta name="description" content="FINDCELLS performs a search on MATLAB cell arrays of structures">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../index.html">Home</a> &gt;  <a href="../index.html">at</a> &gt; <a href="index.html">lattice</a> &gt; findcells.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../index.html"><img alt="<" border="0" src="../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at\lattice&nbsp;<img alt=">" border="0" src="../../right.png"></a></td></tr></table>-->
+
+<h1>findcells
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>FINDCELLS performs a search on MATLAB cell arrays of structures</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>function index = findcells(CELLARRAY, field, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">FINDCELLS performs a search on MATLAB cell arrays of structures
+   
+ INDEX = FINDCELLS(CELLARRAY, 'field') 
+   returns indexes of elements that have a field named 'field'   
+
+ INDEX = FINDCELLS(CELLARRAY, 'field', VALUE) 
+   returns indexes of elements whose field 'field'
+   is equal to VALUE 
+
+ See also <a href="getcellstruct.html" class="code" title="function values = getcellstruct(CELLARRAY,field,index,varargin)">GETCELLSTRUCT</a>, <a href="setcellstruct.html" class="code" title="function CELLARRAY = setcellstruct(CELLARRAY,field,index,value,varargin)">SETCELLSTRUCT</a>,</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="atparamgroup.html" class="code" title="">atparamgroup</a>	PARAMETER GROUP in AT is a general way</li><li><a href="combinebypassmethod.html" class="code" title="function [NEWLATTICE, SHIFTEDKEEPINDEX, SHIFTEDREFINDEX] = combinebypassmethod(LATTICE,METHOD,KEEPINDEX,REFINDEX)">combinebypassmethod</a>	COMBINEBYPASSMETHOD combines adjacent elements that have the same specified pass method</li><li><a href="combinelinear45.html" class="code" title="function [NEWLATTICE, SHIFTEDKEEPINDEX, SHIFTEDREFINDEX] = combinelinear45(LATTICE,KEEPINDEX,REFINDEX)">combinelinear45</a>	COMBINELINEAR45 combines adjacent  elements that use 4-by-5 PassMethods</li><li><a href="findtags.html" class="code" title="function index = findtags(CELLARRAY, MATCHSTR)">findtags</a>	FINDTAGS looks for string matches in 'Tag' field of AT lattice elements</li><li><a href="mkparamgroup.html" class="code" title="function P = mkparamgroup(LATTICE,varargin)">mkparamgroup</a>	MKPARAMGROUP simplifies creation of AT parameter groups</li><li><a href="settags.html" class="code" title="function LATTICE = settags(LATTICE,INDEX,tag,varargin)">settags</a>	SETTAGS sets the 'Tag' field in AT lattice elements</li></ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function index = findcells(CELLARRAY, field, varargin)</a>
+0002 <span class="comment">%FINDCELLS performs a search on MATLAB cell arrays of structures</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% INDEX = FINDCELLS(CELLARRAY, 'field')</span>
+0005 <span class="comment">%   returns indexes of elements that have a field named 'field'</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% INDEX = FINDCELLS(CELLARRAY, 'field', VALUE)</span>
+0008 <span class="comment">%   returns indexes of elements whose field 'field'</span>
+0009 <span class="comment">%   is equal to VALUE</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">% See also GETCELLSTRUCT, SETCELLSTRUCT,</span>
+0012 
+0013 <span class="comment">% Check if the first argument is the cell arrray of tstructures</span>
+0014 <span class="keyword">if</span>(~iscell(CELLARRAY) | ~isstruct(CELLARRAY{1}) | isempty(CELLARRAY))
+0015    error(<span class="string">'The first argument must be a non-empty cell array of structures'</span>) 
+0016 <span class="keyword">end</span>
+0017 <span class="comment">% Chechk if the second argument is a string</span>
+0018 <span class="keyword">if</span>(~ischar(field))
+0019       error(<span class="string">'The second argument must be a character string'</span>)
+0020 <span class="keyword">end</span>
+0021 <span class="keyword">if</span>(nargin &gt; 3)
+0022      error(<span class="string">'Incorrect number of inputs'</span>)
+0023 <span class="keyword">end</span>
+0024 
+0025 
+0026 
+0027 NE = length(CELLARRAY);
+0028 matchesfound = 0;
+0029 index = zeros(1,NE);
+0030 <span class="keyword">for</span> I = 1:NE
+0031    <span class="keyword">if</span>(isfield(CELLARRAY{I},field))
+0032       matchesfound = matchesfound+1;
+0033       index(matchesfound) = I; 
+0034    <span class="keyword">end</span>
+0035 <span class="keyword">end</span>
+0036 
+0037 index =  index(1:matchesfound);
+0038 <span class="keyword">if</span>(nargin == 3) 
+0039    index1 = index;
+0040    matchesfound = 0;
+0041    <span class="keyword">for</span> I = index
+0042       <span class="keyword">if</span> isequal(getfield(CELLARRAY{I},field),varargin{1})
+0043          matchesfound = matchesfound+1;
+0044          <span class="comment">% since 'matchesfound' counter is &lt;= loop number,</span>
+0045          <span class="comment">% it is save to modify elements of 'index' inside the loop</span>
+0046          index(matchesfound) = I; 
+0047          
+0048       <span class="keyword">end</span>
+0049    <span class="keyword">end</span>
+0050 
+0051    index =  index(1:matchesfound); 
+0052 <span class="keyword">end</span>
+0053 
+0054</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

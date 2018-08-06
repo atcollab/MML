@@ -1,0 +1,242 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of gettwiss</title>
+  <meta name="keywords" content="gettwiss">
+  <meta name="description" content="GETWISS - Calculate the twiss parameters">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; gettwiss.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>gettwiss
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>GETWISS - Calculate the twiss parameters</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [Optics] = gettwiss(THERING, DP) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">GETWISS - Calculate the twiss parameters
+  [Optics] = gettwiss(THERING, DP)
+
+  GETTWISS calls LINOPT2 for entire ring and returns Twiss parameters
+  See LinOpt2 for description of nomenclarture and mathematics
+
+  Phase calculation from transfer matrices from '0' to location '1' (AIP 184 p. 50)
+  Only need initial alfa, beta
+  M=M44
+  M11: sqrt(beta1/beta0)*(cos(phi) + alfa0*sin(phi))
+  M12: sqrt(beta0*beta1)*sin(phi)
+  M21: (1/sqrt(beta0*beta1))*[(alfa0-alfa1)*cos(phi)-(1+alfa0*alfa1)*sin(phi))
+  M22: sqrt(beta0/beta1)*(cos(phi)-alfa1*sin(phi))
+  phi=atan2(M12,beta0*M11-alfa0*M12)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="linopt2.html" class="code" title="function [LinData, varargout] = linopt2(RING,DP,varargin)">linopt2</a>	LINOPT2 - Performs linear analysis of the coupled lattice</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="modelDA.html" class="code" title="function [DA, Data] = modelDA( r0, nsteps, nturns, dp, res)">modelDA</a>	modelDA( r0, nsteps, nturns, dp, res)</li></ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [Optics] = gettwiss(THERING, DP)</a>
+0002 <span class="comment">%GETWISS - Calculate the twiss parameters</span>
+0003 <span class="comment">%  [Optics] = gettwiss(THERING, DP)</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">%  GETTWISS calls LINOPT2 for entire ring and returns Twiss parameters</span>
+0006 <span class="comment">%  See LinOpt2 for description of nomenclarture and mathematics</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">%  Phase calculation from transfer matrices from '0' to location '1' (AIP 184 p. 50)</span>
+0009 <span class="comment">%  Only need initial alfa, beta</span>
+0010 <span class="comment">%  M=M44</span>
+0011 <span class="comment">%  M11: sqrt(beta1/beta0)*(cos(phi) + alfa0*sin(phi))</span>
+0012 <span class="comment">%  M12: sqrt(beta0*beta1)*sin(phi)</span>
+0013 <span class="comment">%  M21: (1/sqrt(beta0*beta1))*[(alfa0-alfa1)*cos(phi)-(1+alfa0*alfa1)*sin(phi))</span>
+0014 <span class="comment">%  M22: sqrt(beta0/beta1)*(cos(phi)-alfa1*sin(phi))</span>
+0015 <span class="comment">%  phi=atan2(M12,beta0*M11-alfa0*M12)</span>
+0016 
+0017 <span class="comment">%  Written by Jeff Corbett</span>
+0018 
+0019 
+0020 <span class="keyword">if</span> nargin &lt; 1
+0021     <span class="keyword">global</span> THERING
+0022 <span class="keyword">end</span>
+0023 <span class="keyword">if</span> nargin &lt; 2
+0024     DP = 1e-8;
+0025 <span class="keyword">end</span>
+0026 
+0027 
+0028 <span class="comment">%load linear optics structure for entire ring</span>
+0029 <span class="comment">%disp('   Computing Coupled Lattice Parameters ...');</span>
+0030 LinData = <a href="linopt2.html" class="code" title="function [LinData, varargout] = linopt2(RING,DP,varargin)">linopt2</a>(THERING,DP,1:length(THERING)+1);
+0031 
+0032 <span class="comment">%compute fractional tune</span>
+0033 nux=acos(trace(LinData(1).A/2))/(2*pi);
+0034 nuy=acos(trace(LinData(1).B/2))/(2*pi);
+0035 
+0036 <span class="comment">%pre-define arrays</span>
+0037 NR=length(THERING)+1;
+0038 name=cell(NR,1);        <span class="comment">%initialize cell for names</span>
+0039 s=zeros(NR,1);
+0040 len=s;
+0041 betax=s;   betay=s;
+0042 alfax=s;   alfay=s;
+0043 gammax=s;  gammay=s;
+0044 etax=s;    etay=s;
+0045 etapx=s;   etapy=s;
+0046 phix=s;    phiy=s;
+0047 curlhx=s;  curlhy=s;
+0048 ch1=s; ch2=s; ch3=s;
+0049 
+0050 <span class="comment">%compute optics for all elements</span>
+0051 <span class="keyword">for</span> ii=1:NR
+0052 
+0053     <span class="comment">%load position</span>
+0054     s(ii)=LinData(ii).SPos(1);
+0055 
+0056     <span class="comment">%horizontal Twiss parameters</span>
+0057     m22=LinData(ii).A;
+0058     a=m22(1,1);  b=m22(1,2);  c=m22(2,1);  d=m22(2,2);
+0059     betax(ii)=b/sin(2*pi*nux);
+0060     alfax(ii)=(a-d)/(2*sin(2*pi*nux));
+0061     gammax(ii)=-c/sin(2*pi*nux);
+0062 
+0063     <span class="comment">%vertical Twiss parameters</span>
+0064     m22=LinData(ii).B;
+0065     a=m22(1,1);  b=m22(1,2);  c=m22(2,1);  d=m22(2,2);
+0066     betay(ii)=b/sin(2*pi*nuy);
+0067     alfay(ii)=(a-d)/(2*sin(2*pi*nuy));
+0068     gammay(ii)=-c/sin(2*pi*nuy);
+0069 
+0070     <span class="comment">%horizontal phase</span>
+0071     num=LinData(ii).M44(1,2);
+0072     den=LinData(1).beta(1)*LinData(ii).M44(1,1)-LinData(1).alfa(1)*num;
+0073     phix(ii)=atan2(num,den);
+0074 
+0075     <span class="comment">%vertical phase</span>
+0076     num=LinData(ii).M44(3,4);
+0077     den=LinData(1).beta(2)*LinData(ii).M44(3,3)-LinData(1).alfa(2)*num;
+0078     phiy(ii)=atan2(num,den);
+0079 
+0080     <span class="comment">%load element names</span>
+0081     <span class="keyword">if</span> ii&lt;NR
+0082         <span class="keyword">if</span> isfield(THERING{ii},<span class="string">'Name'</span>)
+0083             name{ii}=THERING{ii}.Name;
+0084         <span class="keyword">else</span>
+0085             name{ii}=THERING{ii}.FamName;
+0086         <span class="keyword">end</span>
+0087 
+0088         <span class="comment">%load element lengths</span>
+0089         len(ii)=THERING{ii}.Length;
+0090     <span class="keyword">end</span>
+0091 <span class="keyword">end</span>
+0092 
+0093 <span class="keyword">if</span> ii==NR
+0094     name{NR}=<span class="string">'End'</span>;       <span class="comment">%last element has name 'End' and zero length</span>
+0095     len(NR)=0;            <span class="comment">%THERING only has NR-1 elements</span>
+0096 <span class="keyword">end</span>
+0097 
+0098 <span class="comment">%compute dispersion, derivative</span>
+0099 <span class="comment">%disp('   Computing Dispersion ...');</span>
+0100 dp=1e-6;
+0101 orb4=findorbit4(THERING,dp,1:NR);
+0102 etax =orb4(1,:)'/dp;
+0103 etapx=orb4(2,:)'/dp;
+0104 etay =orb4(3,:)'/dp;
+0105 etapy=orb4(4,:)'/dp;
+0106 
+0107 <span class="comment">%unwrap phase</span>
+0108 phix=unwrap(phix)/(2*pi);
+0109 phiy=unwrap(phiy)/(2*pi);
+0110 
+0111 <span class="comment">%compute integer tunes</span>
+0112 qx=round(phix(NR));
+0113 <span class="keyword">if</span> phix(NR)-qx &lt;=0
+0114     qx=qx-1;   <span class="comment">% Below half integer</span>
+0115 <span class="keyword">end</span> 
+0116 qx=qx+nux;
+0117 qy=round(phiy(NR));
+0118 <span class="keyword">if</span> phiy(NR)-qy &lt;=0
+0119     qy=qy-1;   <span class="comment">% Below half integer</span>
+0120 <span class="keyword">end</span> 
+0121 qy=qy+nuy;
+0122 
+0123 <span class="comment">%compute curly-H</span>
+0124 <span class="keyword">for</span> ii=1:NR;
+0125     <span class="comment">%horizontal</span>
+0126     ch1(ii)=gammax(ii)*etax(ii)*etax(ii);
+0127     ch2(ii)=2*alfax(ii)*etax(ii)*etapx(ii);
+0128     ch3(ii)=betax(ii)*etapx(ii)*etapx(ii);
+0129     curlhx(ii)= ch1(ii)+ch2(ii)+ch3(ii);
+0130     <span class="comment">%vertical</span>
+0131     ch1(ii)=gammay(ii)*etay(ii)*etay(ii);
+0132     ch2(ii)=2*alfay(ii)*etay(ii)*etapy(ii);
+0133     ch3(ii)=betay(ii)*etapy(ii)*etapy(ii);
+0134     curlhy(ii)= ch1(ii)+ch2(ii)+ch3(ii);
+0135 <span class="keyword">end</span>
+0136 
+0137 <span class="comment">%load output</span>
+0138 Optics.name  =char(name);
+0139 Optics.len   =len;
+0140 Optics.s     =s;
+0141 Optics.betax =betax;
+0142 Optics.alfax =alfax;
+0143 Optics.gammax=gammax;
+0144 Optics.phix  =phix;
+0145 <span class="comment">%Optics.qx    =qx;</span>
+0146 <span class="comment">%Optics.nux   =nux;</span>
+0147 Optics.etax  =etax;
+0148 Optics.etapx =etapx;
+0149 Optics.curlhx=curlhx;
+0150 <span class="comment">%load transport matrices 'A'</span>
+0151 <span class="keyword">for</span> ii=1:NR
+0152     Optics.r11x(ii,1)=LinData(ii).M44(1,1);
+0153     Optics.r12x(ii,1)=LinData(ii).M44(1,2);
+0154     Optics.r21x(ii,1)=LinData(ii).M44(2,1);
+0155     Optics.r22x(ii,1)=LinData(ii).M44(2,2);
+0156 <span class="keyword">end</span>
+0157 
+0158 Optics.betay =betay;
+0159 Optics.alfay =alfay;
+0160 Optics.gammay=gammay;
+0161 Optics.phiy  =phiy;
+0162 <span class="comment">%Optics.qy    =qy;</span>
+0163 <span class="comment">%Optics.nuy   =nuy;</span>
+0164 Optics.etay  =etay;
+0165 Optics.etapy =etapy;
+0166 Optics.curlhy=curlhy;
+0167 <span class="comment">%load transport matrices 'B'</span>
+0168 <span class="keyword">for</span> ii=1:NR
+0169     Optics.r11y(ii,1)=LinData(ii).M44(3,3);
+0170     Optics.r12y(ii,1)=LinData(ii).M44(3,4);
+0171     Optics.r21y(ii,1)=LinData(ii).M44(4,3);
+0172     Optics.r22y(ii,1)=LinData(ii).M44(4,4);
+0173 <span class="keyword">end</span>
+0174 
+0175 <span class="comment">% plot(s,phix); hold on; plot(s,phiy,'r');</span>
+0176 <span class="comment">% figure;</span>
+0177 <span class="comment">% ip=1:round(NR/4);</span>
+0178 <span class="comment">% plot(s(ip),betax(ip)); hold on; plot(s(ip),betay(ip),'r'); plot(s(ip),10*Optics.etax(ip),'k');</span>
+0179 <span class="comment">% figure</span>
+0180 <span class="comment">% plot(s(ip),curlhx(ip));</span>
+0181 
+0182 <span class="comment">%disp(['   Horizontal Tune: ', num2str(qx,'%6.3f')]);</span>
+0183 <span class="comment">%disp(['   Vertical Tune:   ', num2str(qy,'%6.3f')]);</span></pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

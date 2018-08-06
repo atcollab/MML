@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Using labCA</TITLE>
+<META NAME="description" CONTENT="Using labCA">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="manual.css">
+
+<LINK REL="previous" HREF="node25.html">
+<LINK REL="up" HREF="node24.html">
+<LINK REL="next" HREF="node27.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html362"
+  HREF="node27.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html360"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html356"
+  HREF="node25.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html363"
+  HREF="node27.html">About this document ...</A>
+<B> Up:</B> <A NAME="tex2html361"
+  HREF="node24.html">Building and Using labCA</A>
+<B> Previous:</B> <A NAME="tex2html357"
+  HREF="node25.html">Build</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html364"
+  HREF="node26.html#SECTION00032100000000000000">Using <SPAN  CLASS="textbf">labCA</SPAN> with <SPAN  CLASS="textbf">scilab</SPAN></A>
+<LI><A NAME="tex2html365"
+  HREF="node26.html#SECTION00032200000000000000">Using <SPAN  CLASS="textbf">labCA</SPAN> with <SPAN  CLASS="textbf">matlab</SPAN></A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H2><A NAME="SECTION00032000000000000000"></A>
+<A NAME="usingsca"></A>
+<BR>
+Using <SPAN  CLASS="textbf">labCA</SPAN>
+</H2>
+<SPAN  CLASS="textbf">labCA</SPAN> consists of a set of shared libraries which in turn reference
+other shared libraries (most notably the channel access client libraries
+from EPICS BASE). It is of <SPAN  CLASS="textbf">crucial importance</SPAN> that the operating
+system locates the correct versions at <SPAN  CLASS="textbf">run-time</SPAN> (i.e. the same versions
+<SPAN  CLASS="textbf">labCA</SPAN> was <SPAN  CLASS="textbf">linked</SPAN> against). Otherwise, the run-time linker/loader
+could fail to load the required objects -- leaving the user (expecially
+in <SPAN  CLASS="textbf">matlab</SPAN>) at the prompt with obscure error messages.
+
+<P>
+Under <SPAN  CLASS="textbf">linux</SPAN> or <SPAN  CLASS="textbf">solaris</SPAN>, the <TT>LD_LIBRARY_PATH</TT> environment
+variable or the <TT>ld.so.conf / ldconfig</TT> facility are used to point
+to the executable shared libraries (located in <TT>lib/&lt;arch&gt;</TT>).
+If using a binary distribution, the <TT>PATH</TT> variable also should point
+to <TT>bin/&lt;arch&gt;</TT> so that the <SPAN  CLASS="textbf">CA repeater</SPAN> executable is found.
+If you build from source using your own EPICS base installation then
+we assume that locating the <SPAN  CLASS="textbf">CA repeater</SPAN> has already been taken
+care of.
+
+<P>
+Under <SPAN  CLASS="textbf">win32</SPAN>, the <TT>PATH</TT> environment variable must point to the
+correct EPICS BASE and <SPAN  CLASS="textbf">labCA</SPAN> DLLs (located in <TT>bin/&lt;arch&gt;</TT>).
+
+<P>
+Note that the paths to the correct EPICS BASE and <SPAN  CLASS="textbf">labCA</SPAN> shared libraries
+must be set up <SPAN  CLASS="textbf">prior</SPAN> to starting the <SPAN  CLASS="textbf">scilab</SPAN> or <SPAN  CLASS="textbf">matlab</SPAN> application.
+It is usually not possible to change the system search
+path from within an application.
+
+<P>
+Possible problems could occur because
+
+<UL>
+<LI>third party setup scripts modify <TT>LD_LIBRARY_PATH / PATH</TT>.
+</LI>
+<LI>your EPICS BASE was not built with shared libraries but shared libraries
+of a different release are found somewhere.
+</LI>
+<LI>a ``innocent-looking'' directory present in <TT>LD_LIBRARY_PATH</TT>
+before EPICS BASE actually contains shared libraries of an older release.
+</LI>
+<LI>Note that the system search path is <SPAN  CLASS="textbf">not</SPAN> identical with the
+<SPAN  CLASS="textbf">matlab</SPAN> path -- changing the <SPAN  CLASS="textbf">matlab</SPAN> path (from withing <SPAN  CLASS="textbf">matlab</SPAN>)
+has no influence on the system search path.
+</LI>
+</UL>
+
+<P>
+
+<H3><A NAME="SECTION00032100000000000000">
+Using <SPAN  CLASS="textbf">labCA</SPAN> with <SPAN  CLASS="textbf">scilab</SPAN></A>
+</H3>
+Set up the shared library search path (as described above) and start
+<SPAN  CLASS="textbf">scilab</SPAN>. Run the <TT><SPAN  CLASS="textbf">labCA</SPAN>.sce</TT> script which was generated by the build process
+(<TT>&lt;<SPAN  CLASS="textbf">labCA</SPAN>-top&gt;/bin/&lt;arch&gt;/<SPAN  CLASS="textbf">labCA</SPAN>.sce</TT>) to load the <SPAN  CLASS="textbf">labCA</SPAN> interface.
+The script also adds to the <TT>%helps</TT> variable making on-line
+help available.
+
+<P>
+The script can be installed at any convenient location -- the lines
+setting up the <TT>%helps</TT> path need to be adapted in this case.
+
+<P>
+It is also possible to permanently link <SPAN  CLASS="textbf">labCA</SPAN> to <SPAN  CLASS="textbf">scilab</SPAN>. Consult
+the <SPAN  CLASS="textbf">scilab</SPAN> documentation for more information.
+
+<P>
+
+<H3><A NAME="SECTION00032200000000000000">
+Using <SPAN  CLASS="textbf">labCA</SPAN> with <SPAN  CLASS="textbf">matlab</SPAN></A>
+</H3>
+Every entry point / <TT>lcaXXX</TT> routine 
+is contained in a separate
+shared object (AKA ``<TT>mex</TT>-'') file in the <TT>&lt;<SPAN  CLASS="textbf">labCA</SPAN>-top&gt;/bin/&lt;arch&gt;/labca</TT><A NAME="tex2html13"
+  HREF="#foot816"><SUP><SPAN CLASS="arabic">12</SPAN></SUP></A> directory
+which must be added to the <SPAN  CLASS="textbf">matlab</SPAN> search path.
+Note that this is in <SPAN  CLASS="textbf">addition</SPAN>
+to setting the system library search path which must be performed prior
+to starting <SPAN  CLASS="textbf">matlab</SPAN> (see previous section).
+All necessary objects and libraries are transparently loaded simply
+by invoking any of the entry point routines. Note that on-line help
+files are also installed to be located automatically.
+<BR><HR><H4>Footnotes</H4>
+<DL>
+<DT><A NAME="foot816">... CLASS="textbf">labCA</SPAN>-top&gt;/bin/&lt;arch&gt;/labca</TT></A><A
+ HREF="node26.html#tex2html13"><SUP><SPAN CLASS="arabic">12</SPAN></SUP></A></DT>
+<DD>
+the extra subdirectory was added in order for the <SPAN  CLASS="textbf">matlab</SPAN> <TT>help</TT> command
+to easily locate the <TT>Contents.m</TT> file when the user types <TT>help labca</TT>.
+
+
+</DD>
+</DL>
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html362"
+  HREF="node27.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html360"
+  HREF="node24.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html356"
+  HREF="node25.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html363"
+  HREF="node27.html">About this document ...</A>
+<B> Up:</B> <A NAME="tex2html361"
+  HREF="node24.html">Building and Using labCA</A>
+<B> Previous:</B> <A NAME="tex2html357"
+  HREF="node25.html">Build</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+till
+2007-10-13
+</ADDRESS>
+</BODY>
+</HTML>

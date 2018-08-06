@@ -1,0 +1,1115 @@
+function tlsinit
+
+
+% NOTES & COMMENTS
+% 1. Magnet positions get overwritten in updateatindex.  
+%    Ie, positions come directly from the AT model.
+% 2. Make sure the BPM and magnes are in the correct location in the AT model 
+%    or LOCO will have trouble.  
+% 3. Try viewfamily, plotfamily, mmlviewer to view and check the MML setup.
+% 4. Try measbpmresp, meastuneresp, measchroresp
+%    Compare to the model and maybe copy them to the StorageRingOpsData directory.
+%    After LOCO it's often better to use the calibrated model (no noise).
+% 5. Try setorbitgui, steptune, stepchro, ...
+% 6. To run LOCO
+%    1. Measure new data
+%       >> measlocodata
+%       For the model use
+%       >> measlocodata('model');
+%    2. Build the LOCO input file
+%       >> buildlocoinput
+%    3. Run LOCO
+%       >> loco
+%    4. To set back to the machine see setlocodata (may need some work)
+%       >> setlocodata
+%
+%
+% TO-D0 LIST:
+% 0. Channel names must be added to getname_tls and tlsinit (RF, TUNE, DCCT)!!!
+% 1. tls2at and tls2at need some work
+% 2. bend2gev and gev2bend need some work
+% 3. Check .Ranges, .Tolerances, and .DeltaRespMat
+% 4. run monmags to check the .Tolerance field
+% 5. Measurements - monbpm, measbpmresp, measdisp
+%    Copy them to the StorageRingOpsData directory using plotfamily.
+% 6. Get the tune family working
+% 7. Check the BPM delay and set getbpmaverages accordingly.
+%    (Edit and try magstep to test the timing.)
+
+
+if nargin < 1
+    OperationalMode = 1;
+end
+
+setao([]);
+setad([]);
+
+
+% Get the device lists (local function)
+[BPMlist, HCMlist, VCMlist, TwoPerSector, ThreePerSector,TrimQlist] = buildthedevicelists;
+
+
+% BPMx
+AO.BPMx.FamilyName  = 'BPMx';
+AO.BPMx.MemberOf    = {'PlotFamily'; 'BPM'; 'BPMx'; 'Diagnostics'};
+AO.BPMx.DeviceList  = BPMlist;
+AO.BPMx.ElementList = (1:size(AO.BPMx.DeviceList,1))';
+AO.BPMx.Status      = ones(size(AO.BPMx.DeviceList,1),1);
+AO.BPMx.Position    = [];
+
+AO.BPMx.Monitor.MemberOf = {'BPMx'; 'Monitor';};
+AO.BPMx.Monitor.Mode = 'Simulator';
+AO.BPMx.Monitor.DataType = 'Scalar';
+AO.BPMx.Monitor.ChannelNames = getname_tls(AO.BPMx.FamilyName, 'Monitor', AO.BPMx.DeviceList);
+AO.BPMx.Monitor.HW2PhysicsParams = 1e-3;  % HW [mm], Simulator [Meters]
+AO.BPMx.Monitor.Physics2HWParams = 1000;
+AO.BPMx.Monitor.Units        = 'Hardware';
+AO.BPMx.Monitor.HWUnits      = 'mm';
+AO.BPMx.Monitor.PhysicsUnits = 'meter';
+
+
+% BPMy
+AO.BPMy.FamilyName  = 'BPMy';
+AO.BPMy.MemberOf    = {'PlotFamily'; 'BPM'; 'BPMy'; 'Diagnostics'};
+AO.BPMy.DeviceList  = BPMlist;
+AO.BPMy.ElementList = (1:size(AO.BPMx.DeviceList,1))';
+AO.BPMy.Status      = ones(size(AO.BPMx.DeviceList,1),1);
+AO.BPMy.Position    = [];
+
+AO.BPMy.Monitor.MemberOf = {'BPMy'; 'Monitor';};
+AO.BPMy.Monitor.Mode = 'Simulator';
+AO.BPMy.Monitor.DataType = 'Scalar';
+AO.BPMy.Monitor.ChannelNames = getname_tls(AO.BPMy.FamilyName, 'Monitor', AO.BPMy.DeviceList);
+AO.BPMy.Monitor.HW2PhysicsParams = 1e-3;  % HW [mm], Simulator [Meters]
+AO.BPMy.Monitor.Physics2HWParams = 1000;
+AO.BPMy.Monitor.Units        = 'Hardware';
+AO.BPMy.Monitor.HWUnits      = 'mm';
+AO.BPMy.Monitor.PhysicsUnits = 'meter';
+
+
+
+%%%%%%%%%%%%%%%%%%%%%
+% Corrector Magnets %
+%%%%%%%%%%%%%%%%%%%%%
+
+% HCM
+AO.HCM.FamilyName  = 'HCM';
+AO.HCM.MemberOf    = {'PlotFamily'; 'COR'; 'HCM'; 'Magnet'};
+AO.HCM.DeviceList  = HCMlist;
+AO.HCM.ElementList = (1:size(AO.HCM.DeviceList,1))';
+AO.HCM.Status      = ones(size(AO.HCM.DeviceList,1),1);
+AO.HCM.Position    = [];
+
+AO.HCM.Monitor.MemberOf = {'Horizontal'; 'COR'; 'HCM'; 'Magnet'; 'Monitor';};
+AO.HCM.Monitor.Mode = 'Simulator';
+AO.HCM.Monitor.DataType = 'Scalar';
+AO.HCM.Monitor.ChannelNames = getname_tls(AO.HCM.FamilyName, 'Monitor', AO.HCM.DeviceList);
+AO.HCM.Monitor.HW2PhysicsFcn = @tls2at;
+AO.HCM.Monitor.Physics2HWFcn = @at2tls;
+AO.HCM.Monitor.Units        = 'Hardware';
+AO.HCM.Monitor.HWUnits      = 'Ampere';
+AO.HCM.Monitor.PhysicsUnits = 'Radian';
+
+AO.HCM.Setpoint.MemberOf = {'MachineConfig'; 'Horizontal'; 'COR'; 'HCM'; 'Magnet'; 'Setpoint'; 'measbpmresp';};
+AO.HCM.Setpoint.Mode = 'Simulator';
+AO.HCM.Setpoint.DataType = 'Scalar';
+AO.HCM.Setpoint.ChannelNames = getname_tls(AO.HCM.FamilyName, 'Setpoint', AO.HCM.DeviceList);
+AO.HCM.Setpoint.HW2PhysicsFcn = @tls2at;
+AO.HCM.Setpoint.Physics2HWFcn = @at2tls;
+AO.HCM.Setpoint.Units        = 'Hardware';
+AO.HCM.Setpoint.HWUnits      = 'Ampere';
+AO.HCM.Setpoint.PhysicsUnits = 'Radian';
+AO.HCM.Setpoint.Range        = [-10 10];
+AO.HCM.Setpoint.Tolerance    = .001;
+AO.HCM.Setpoint.DeltaRespMat = 100e-6;
+ 
+
+% VCM
+AO.VCM.FamilyName  = 'VCM';
+AO.VCM.MemberOf    = {'PlotFamily'; 'COR'; 'VCM'; 'Magnet'};
+AO.VCM.DeviceList  = VCMlist;
+AO.VCM.ElementList = (1:size(AO.VCM.DeviceList,1))';
+AO.VCM.Status      = ones(size(AO.VCM.DeviceList,1),1);
+AO.VCM.Position    = [];
+
+AO.VCM.Monitor.MemberOf = {'Vertical'; 'COR'; 'VCM'; 'Magnet'; 'Monitor';};
+AO.VCM.Monitor.Mode = 'Simulator';
+AO.VCM.Monitor.DataType = 'Scalar';
+AO.VCM.Monitor.ChannelNames = getname_tls(AO.VCM.FamilyName, 'Monitor', AO.VCM.DeviceList);
+AO.VCM.Monitor.HW2PhysicsFcn = @tls2at;
+AO.VCM.Monitor.Physics2HWFcn = @at2tls;
+AO.VCM.Monitor.Units        = 'Hardware';
+AO.VCM.Monitor.HWUnits      = 'Ampere';
+AO.VCM.Monitor.PhysicsUnits = 'Radian';
+
+AO.VCM.Setpoint.MemberOf = {'MachineConfig'; 'Vertical'; 'COR'; 'VCM'; 'Magnet'; 'Setpoint'; 'measbpmresp';};
+AO.VCM.Setpoint.Mode = 'Simulator';
+AO.VCM.Setpoint.DataType = 'Scalar';
+AO.VCM.Setpoint.ChannelNames = getname_tls(AO.VCM.FamilyName, 'Setpoint', AO.VCM.DeviceList);
+AO.VCM.Setpoint.HW2PhysicsFcn = @tls2at;
+AO.VCM.Setpoint.Physics2HWFcn = @at2tls;
+AO.VCM.Setpoint.Units        = 'Hardware';
+AO.VCM.Setpoint.HWUnits      = 'Ampere';
+AO.VCM.Setpoint.PhysicsUnits = 'Radian';
+AO.VCM.Setpoint.Range        = [-10 10];
+AO.VCM.Setpoint.Tolerance    = .1;
+AO.VCM.Setpoint.DeltaRespMat = 100e-6;
+
+
+
+%%%%%%%%%%%%%%%
+% Quadrupoles %
+%%%%%%%%%%%%%%%
+AO.QF1.FamilyName  = 'QF1';
+AO.QF1.MemberOf    = {'PlotFamily'; 'QF1'; 'QF'; 'QUAD'; 'Magnet'; 'Tune Corrector';};
+AO.QF1.DeviceList  = TwoPerSector;
+AO.QF1.ElementList = (1:size(AO.QF1.DeviceList,1))';
+AO.QF1.Status      = ones(size(AO.QF1.DeviceList,1),1);
+AO.QF1.Position    = [];
+
+AO.QF1.Monitor.MemberOf = {};
+AO.QF1.Monitor.Mode = 'Simulator';
+AO.QF1.Monitor.DataType = 'Scalar';
+AO.QF1.Monitor.ChannelNames = getname_tls(AO.QF1.FamilyName, 'Monitor', AO.QF1.DeviceList);
+AO.QF1.Monitor.HW2PhysicsFcn = @tls2at;
+AO.QF1.Monitor.Physics2HWFcn = @at2tls;
+% AO.QF1.Monitor.HW2PhysicsParams = (2.5447/188.89);    % K/amps:  HW2Physics*Amps=K
+% AO.QF1.Monitor.Physics2HWParams = (188.89/2.5447); 
+AO.QF1.Monitor.Units        = 'Hardware';
+AO.QF1.Monitor.HWUnits      = 'Ampere';
+AO.QF1.Monitor.PhysicsUnits = 'meter^-2';
+
+AO.QF1.Setpoint.MemberOf = {'MachineConfig';};
+AO.QF1.Setpoint.Mode = 'Simulator';
+AO.QF1.Setpoint.DataType = 'Scalar';
+AO.QF1.Setpoint.ChannelNames = getname_tls(AO.QF1.FamilyName, 'Setpoint', AO.QF1.DeviceList);
+AO.QF1.Setpoint.HW2PhysicsFcn = @tls2at;
+AO.QF1.Setpoint.Physics2HWFcn = @at2tls;
+% AO.QF1.Setpoint.HW2PhysicsParams = (2.5447/188.89);    % K/amps:  HW2Physics*Amps=K  ???
+% AO.QF1.Setpoint.Physics2HWParams = (188.89/2.5447); 
+AO.QF1.Setpoint.Units        = 'Hardware';
+AO.QF1.Setpoint.HWUnits      = 'Ampere';
+AO.QF1.Setpoint.PhysicsUnits = 'meter^-2';
+AO.QF1.Setpoint.Range        = [0 250];
+AO.QF1.Setpoint.Tolerance    = .1;
+AO.QF1.Setpoint.DeltaRespMat = .01;
+
+
+AO.QF2.FamilyName  = 'QF2';
+AO.QF2.MemberOf    = {'PlotFamily'; 'QF2'; 'QF'; 'QUAD'; 'Magnet'; 'Tune Corrector';};
+AO.QF2.DeviceList  = TwoPerSector;
+AO.QF2.ElementList = (1:size(AO.QF2.DeviceList,1))';
+AO.QF2.Status      = ones(size(AO.QF2.DeviceList,1),1);
+AO.QF2.Position    = [];
+
+AO.QF2.Monitor.MemberOf = {};
+AO.QF2.Monitor.Mode = 'Simulator';
+AO.QF2.Monitor.DataType = 'Scalar';
+AO.QF2.Monitor.ChannelNames = getname_tls(AO.QF2.FamilyName, 'Monitor', AO.QF2.DeviceList);
+AO.QF2.Monitor.HW2PhysicsFcn = @tls2at;
+AO.QF2.Monitor.Physics2HWFcn = @at2tls;
+% AO.QF2.Monitor.HW2PhysicsParams = (2.5447/188.89);    % K/amps:  HW2Physics*Amps=K
+% AO.QF2.Monitor.Physics2HWParams = (188.89/2.5447); 
+AO.QF2.Monitor.Units        = 'Hardware';
+AO.QF2.Monitor.HWUnits      = 'Ampere';
+AO.QF2.Monitor.PhysicsUnits = 'meter^-2';
+
+AO.QF2.Setpoint.MemberOf = {'MachineConfig';};
+AO.QF2.Setpoint.Mode = 'Simulator';
+AO.QF2.Setpoint.DataType = 'Scalar';
+AO.QF2.Setpoint.ChannelNames = getname_tls(AO.QF2.FamilyName, 'Setpoint', AO.QF2.DeviceList);
+AO.QF2.Setpoint.HW2PhysicsFcn = @tls2at;
+AO.QF2.Setpoint.Physics2HWFcn = @at2tls;
+% AO.QF2.Setpoint.HW2PhysicsParams = (2.5447/188.89);    % K/amps:  HW2Physics*Amps=K  ???
+% AO.QF2.Setpoint.Physics2HWParams = (188.89/2.5447);
+AO.QF2.Setpoint.Units        = 'Hardware';
+AO.QF2.Setpoint.HWUnits      = 'Ampere';
+AO.QF2.Setpoint.PhysicsUnits = 'meter^-2';
+AO.QF2.Setpoint.Range        = [0 250];
+AO.QF2.Setpoint.Tolerance    = .1;
+AO.QF2.Setpoint.DeltaRespMat = .01;
+
+
+AO.QD1.FamilyName  = 'QD1';
+AO.QD1.MemberOf    = {'PlotFamily'; 'QD1'; 'QD'; 'QUAD'; 'Magnet'; 'Tune Corrector'};
+AO.QD1.DeviceList  = TwoPerSector;
+AO.QD1.ElementList = (1:size(AO.QD1.DeviceList,1))';
+AO.QD1.Status      = ones(size(AO.QD1.DeviceList,1),1);
+AO.QD1.Position    = [];
+
+AO.QD1.Monitor.MemberOf = {};
+AO.QD1.Monitor.Mode = 'Simulator';
+AO.QD1.Monitor.DataType = 'Scalar';
+AO.QD1.Monitor.ChannelNames = getname_tls(AO.QD1.FamilyName, 'Monitor', AO.QD1.DeviceList);
+AO.QD1.Monitor.HW2PhysicsFcn = @tls2at;
+AO.QD1.Monitor.Physics2HWFcn = @at2tls;
+% AO.QD1.Monitor.HW2PhysicsParams = (-1.6840/125.148);    % K/amps:  HW2Physics*Amps=K     % ???
+% AO.QD1.Monitor.Physics2HWParams = (125.148/-1.6840);
+AO.QD1.Monitor.Units        = 'Hardware';
+AO.QD1.Monitor.HWUnits      = 'Ampere';
+AO.QD1.Monitor.PhysicsUnits = 'meter^-2';
+
+AO.QD1.Setpoint.MemberOf = {'MachineConfig';};
+AO.QD1.Setpoint.Mode = 'Simulator';
+AO.QD1.Setpoint.DataType = 'Scalar';
+AO.QD1.Setpoint.ChannelNames = getname_tls(AO.QD1.FamilyName, 'Setpoint', AO.QD1.DeviceList);
+AO.QD1.Setpoint.HW2PhysicsFcn = @tls2at;
+AO.QD1.Setpoint.Physics2HWFcn = @at2tls;
+% AO.QD1.Setpoint.HW2PhysicsParams = (-1.6840/125.148);    % K/amps:  HW2Physics*Amps=K     % ???
+% AO.QD1.Setpoint.Physics2HWParams = (125.148/-1.6840);
+AO.QD1.Setpoint.Units        = 'Hardware';
+AO.QD1.Setpoint.HWUnits      = 'Ampere';
+AO.QD1.Setpoint.PhysicsUnits = 'meter^-2';
+AO.QD1.Setpoint.Range        = [0 250];
+AO.QD1.Setpoint.Tolerance    = .1;
+AO.QD1.Setpoint.DeltaRespMat = .01;
+
+
+AO.QD2.FamilyName  = 'QD2';
+AO.QD2.MemberOf    = {'PlotFamily'; 'QD2'; 'QD'; 'QUAD'; 'Magnet'; 'Tune Corrector'};
+AO.QD2.DeviceList  = TwoPerSector;
+AO.QD2.ElementList = (1:size(AO.QD2.DeviceList,1))';
+AO.QD2.Status      = ones(size(AO.QD2.DeviceList,1),1);
+AO.QD2.Position    = [];
+
+AO.QD2.Monitor.MemberOf = {};
+AO.QD2.Monitor.Mode = 'Simulator';
+AO.QD2.Monitor.DataType = 'Scalar';
+AO.QD2.Monitor.ChannelNames = getname_tls(AO.QD2.FamilyName, 'Monitor', AO.QD2.DeviceList);
+AO.QD2.Monitor.HW2PhysicsFcn = @tls2at;
+AO.QD2.Monitor.Physics2HWFcn = @at2tls;
+% AO.QD2.Monitor.HW2PhysicsParams = (-1.7374/125.148);    % K/amps:  HW2Physics*Amps=K     % ???
+% AO.QD2.Monitor.Physics2HWParams = (125.148/-1.7374);
+AO.QD2.Monitor.Units        = 'Hardware';
+AO.QD2.Monitor.HWUnits      = 'Ampere';
+AO.QD2.Monitor.PhysicsUnits = 'meter^-2';
+
+AO.QD2.Setpoint.MemberOf = {'MachineConfig';};
+AO.QD2.Setpoint.Mode = 'Simulator';
+AO.QD2.Setpoint.DataType = 'Scalar';
+AO.QD2.Setpoint.ChannelNames = getname_tls(AO.QD2.FamilyName, 'Setpoint', AO.QD2.DeviceList);
+AO.QD2.Setpoint.HW2PhysicsFcn = @tls2at;
+AO.QD2.Setpoint.Physics2HWFcn = @at2tls;
+% AO.QD2.Setpoint.HW2PhysicsParams = (-1.7374/125.148);    % K/amps:  HW2Physics*Amps=K     % ???
+% AO.QD2.Setpoint.Physics2HWParams = (125.148/-1.7374);
+AO.QD2.Setpoint.Units        = 'Hardware';
+AO.QD2.Setpoint.HWUnits      = 'Ampere';
+AO.QD2.Setpoint.PhysicsUnits = 'meter^-2';
+AO.QD2.Setpoint.Range        = [0 125];
+AO.QD2.Setpoint.Tolerance    = .1;
+AO.QD2.Setpoint.DeltaRespMat = .01;
+
+
+%%%%%%%%%%%%%%%%%%%%
+% Trim Quadrupoles %
+%%%%%%%%%%%%%%%%%%%%
+AO.TrimQ.FamilyName  = 'TrimQ';
+AO.TrimQ.MemberOf    = {'TrimQ'; 'Magnet';};
+AO.TrimQ.DeviceList  = TrimQlist;
+AO.TrimQ.ElementList = (1:size(AO.TrimQ.DeviceList,1))';
+AO.TrimQ.Status      = ones(size(AO.TrimQ.DeviceList,1),1);
+% AO.TrimQ.Position    = [];
+
+AO.TrimQ.Monitor.MemberOf = {};
+AO.TrimQ.Monitor.Mode = 'Simulator';
+AO.TrimQ.Monitor.DataType = 'Scalar';
+AO.TrimQ.Monitor.ChannelNames = getname_tls(AO.TrimQ.FamilyName, 'Monitor', AO.TrimQ.DeviceList);
+% AO.TrimQ.Monitor.HW2PhysicsFcn = @tls2at;
+% AO.TrimQ.Monitor.Physics2HWFcn = @at2tls;
+AO.TrimQ.Monitor.HW2PhysicsParams = 1;    % K/amps:  HW2Physics*Amps=K
+AO.TrimQ.Monitor.Physics2HWParams = 1; 
+AO.TrimQ.Monitor.Units        = 'Hardware';
+AO.TrimQ.Monitor.HWUnits      = 'Ampere';
+% AO.TrimQ.Monitor.PhysicsUnits = 'meter^-2';
+AO.TrimQ.Monitor.PhysicsUnits = 'Ampere';
+
+AO.TrimQ.Setpoint.MemberOf = {'MachineConfig';};
+AO.TrimQ.Setpoint.Mode = 'Simulator';
+AO.TrimQ.Setpoint.DataType = 'Scalar';
+AO.TrimQ.Setpoint.ChannelNames = getname_tls(AO.TrimQ.FamilyName, 'Setpoint', AO.TrimQ.DeviceList);
+% AO.TrimQ.Setpoint.HW2PhysicsFcn = @tls2at;
+% AO.TrimQ.Setpoint.Physics2HWFcn = @at2tls;
+AO.TrimQ.Setpoint.HW2PhysicsParams = 1;    % K/amps:  HW2Physics*Amps=K  ???
+AO.TrimQ.Setpoint.Physics2HWParams = 1; 
+AO.TrimQ.Setpoint.Units        = 'Hardware';
+AO.TrimQ.Setpoint.HWUnits      = 'Ampere';
+% AO.TrimQ.Setpoint.PhysicsUnits = 'meter^-2';
+AO.TrimQ.Setpoint.PhysicsUnits = 'Ampere';
+AO.TrimQ.Setpoint.Range        = [-10 10];
+AO.TrimQ.Setpoint.Tolerance    = .1;
+AO.TrimQ.Setpoint.DeltaRespMat = .01;
+
+
+%%%%%%%%%%%%%%
+% Sextupoles %
+%%%%%%%%%%%%%%
+AO.SF.FamilyName  = 'SF';
+AO.SF.MemberOf    = {'PlotFamily'; 'SF'; 'SEXT'; 'Magnet'; 'Chromaticity Corrector'};
+AO.SF.DeviceList  = TwoPerSector;
+AO.SF.ElementList = (1:size(AO.SF.DeviceList,1))';
+AO.SF.Status      = ones(size(AO.SF.DeviceList,1),1);
+AO.SF.Position    = [];
+
+AO.SF.Monitor.MemberOf = {};
+AO.SF.Monitor.Mode = 'Simulator';
+AO.SF.Monitor.DataType = 'Scalar';
+AO.SF.Monitor.ChannelNames = getname_tls(AO.SF.FamilyName, 'Monitor', AO.SF.DeviceList);
+AO.SF.Monitor.HW2PhysicsFcn = @tls2at;
+AO.SF.Monitor.Physics2HWFcn = @at2tls;
+% AO.SF.Monitor.HW2PhysicsParams = (50.852/195.465);
+% AO.SF.Monitor.Physics2HWParams = (195.465/50.852);
+AO.SF.Monitor.Units        = 'Hardware';
+AO.SF.Monitor.HWUnits      = 'Ampere';
+AO.SF.Monitor.PhysicsUnits = 'meter^-3';
+
+AO.SF.Setpoint.MemberOf = {'MachineConfig';};
+AO.SF.Setpoint.Mode = 'Simulator';
+AO.SF.Setpoint.DataType = 'Scalar';
+AO.SF.Setpoint.ChannelNames = getname_tls(AO.SF.FamilyName, 'Setpoint', AO.SF.DeviceList);
+AO.SF.Setpoint.HW2PhysicsFcn = @tls2at;
+AO.SF.Setpoint.Physics2HWFcn = @at2tls;
+% AO.SF.Setpoint.HW2PhysicsParams = (50.852/195.465);
+% AO.SF.Setpoint.Physics2HWParams = (195.465/50.852);
+AO.SF.Setpoint.Units        = 'Hardware';
+AO.SF.Setpoint.HWUnits      = 'Ampere';
+AO.SF.Setpoint.PhysicsUnits = 'meter^-3';
+AO.SF.Setpoint.Range        = [0 250];
+AO.SF.Setpoint.Tolerance    = .1;
+AO.SF.Setpoint.DeltaRespMat = .01;
+
+
+AO.SD.FamilyName  = 'SD';
+AO.SD.MemberOf    = {'PlotFamily'; 'SD'; 'SD'; 'SEXT'; 'Magnet'; 'Chromaticity Corrector'};
+AO.SD.DeviceList  = TwoPerSector;
+AO.SD.ElementList = (1:size(AO.SD.DeviceList,1))';
+AO.SD.Status      = ones(size(AO.SD.DeviceList,1),1);
+AO.SD.Position    = [];
+
+AO.SD.Monitor.MemberOf = {};
+AO.SD.Monitor.Mode = 'Simulator';
+AO.SD.Monitor.DataType = 'Scalar';
+AO.SD.Monitor.ChannelNames = getname_tls(AO.SD.FamilyName, 'Monitor', AO.SD.DeviceList);
+AO.SD.Monitor.HW2PhysicsFcn = @tls2at;
+AO.SD.Monitor.Physics2HWFcn = @at2tls;
+% AO.SD.Monitor.HW2PhysicsParams = (-38.837/146.246);
+% AO.SD.Monitor.Physics2HWParams = (146.246/-38.837);
+AO.SD.Monitor.Units        = 'Hardware';
+AO.SD.Monitor.HWUnits      = 'Ampere';
+AO.SD.Monitor.PhysicsUnits = 'meter^-3';
+
+AO.SD.Setpoint.MemberOf = {'MachineConfig';};
+AO.SD.Setpoint.Mode = 'Simulator';
+AO.SD.Setpoint.DataType = 'Scalar';
+AO.SD.Setpoint.ChannelNames = getname_tls(AO.SD.FamilyName, 'Setpoint', AO.SD.DeviceList);
+AO.SD.Setpoint.HW2PhysicsFcn = @tls2at;
+AO.SD.Setpoint.Physics2HWFcn = @at2tls;
+% AO.SD.Setpoint.HW2PhysicsParams = (-38.837/146.246);
+% AO.SD.Setpoint.Physics2HWParams = (146.246/-38.837);
+AO.SD.Setpoint.Units        = 'Hardware';
+AO.SD.Setpoint.HWUnits      = 'Ampere';
+AO.SD.Setpoint.PhysicsUnits = 'meter^-3';
+AO.SD.Setpoint.Range        = [0 250];
+AO.SD.Setpoint.Tolerance    = .1;
+AO.SD.Setpoint.DeltaRespMat = .01;
+
+
+
+%%%%%%%%%%
+%  BEND  %
+%%%%%%%%%%
+AO.BEND.FamilyName  = 'BEND';
+AO.BEND.MemberOf    = {'PlotFamily'; 'BEND'; 'Magnet';};
+AO.BEND.DeviceList  = ThreePerSector;
+AO.BEND.ElementList = (1:size(AO.BEND.DeviceList,1))';
+AO.BEND.Status      = ones(size(AO.BEND.DeviceList,1),1);
+AO.BEND.Position    = [];
+
+AO.BEND.Monitor.MemberOf = {};
+AO.BEND.Monitor.Mode = 'Simulator';
+AO.BEND.Monitor.DataType = 'Scalar';
+AO.BEND.Monitor.ChannelNames = getname_tls(AO.BEND.FamilyName, 'Monitor', AO.BEND.DeviceList);
+AO.BEND.Monitor.HW2PhysicsFcn = @tls2at;
+AO.BEND.Monitor.Physics2HWFcn = @at2tls;
+% AO.BEND.Monitor.HW2PhysicsParams = (-0.3693/1.200);    % K/amps:  HW2Physics*Amps=K     % ???
+% AO.BEND.Monitor.Physics2HWParams = (1.200/-0.3693);
+AO.BEND.Monitor.Units        = 'Hardware';
+AO.BEND.Monitor.HWUnits      = 'KA';
+AO.BEND.Monitor.PhysicsUnits = 'Radian';
+
+AO.BEND.Setpoint.MemberOf = {'MachineConfig';};
+AO.BEND.Setpoint.Mode = 'Simulator';
+AO.BEND.Setpoint.DataType = 'Scalar';
+AO.BEND.Setpoint.ChannelNames = getname_tls(AO.BEND.FamilyName, 'Setpoint', AO.BEND.DeviceList);
+AO.BEND.Setpoint.HW2PhysicsFcn = @tls2at;
+AO.BEND.Setpoint.Physics2HWFcn = @at2tls;
+% AO.BEND.Setpoint.HW2PhysicsParams = (-0.3693/1.200);    % K/amps:  HW2Physics*Amps=K     % ???
+% AO.BEND.Setpoint.Physics2HWParams = (1.200/-0.3693);
+AO.BEND.Setpoint.Units        = 'Hardware';
+AO.BEND.Setpoint.HWUnits      = 'KA';
+AO.BEND.Setpoint.PhysicsUnits = 'Radian';
+AO.BEND.Setpoint.Range        = [0 1.2];
+AO.BEND.Setpoint.Tolerance    = .1;
+AO.BEND.Setpoint.DeltaRespMat = .01;
+
+%%%%%%%%%%
+%  SWLS  %
+%%%%%%%%%%
+AO.SWLS.FamilyName                = 'SWLS';
+AO.SWLS.MemberOf                  = {'SWLS' ; 'PlotFamily'};
+AO.SWLS.DeviceList                = [ 1 1;1 2;1 3;1 4;1 5;1 6;1 7;1 8;1 9;1 10;1 11;1 12;1 13;1 14;1 15;1 16;1 17;1 18];
+AO.SWLS.ElementList               = (1:size(AO.SWLS.DeviceList,1))';
+AO.SWLS.Status                    = ones(size(AO.SWLS.DeviceList,1),1);
+AO.SWLS.Position                  = [];
+
+AO.SWLS.Monitor.MemberOf          = {};
+AO.SWLS.Monitor.Mode              = 'Simulator';
+AO.SWLS.Monitor.DataType          = 'Scalar';
+AO.SWLS.Monitor.ChannelNames      = getname_tls(AO.SWLS.FamilyName, 'Monitor', AO.SWLS.DeviceList);
+AO.SWLS.Monitor.HW2PhysicsFcn = @tls2at;
+AO.SWLS.Monitor.Physics2HWFcn = @at2tls;
+AO.SWLS.Monitor.Units             = 'Hardware';
+AO.SWLS.Monitor.HWUnits           = 'Ampere';
+AO.SWLS.Monitor.PhysicsUnits      = 'Radian';
+
+AO.SWLS.Setpoint.MemberOf         = {'MachineConfig';};
+AO.SWLS.Setpoint.Mode             = 'Simulator';
+AO.SWLS.Setpoint.DataType         = 'Scalar';
+AO.SWLS.Setpoint.ChannelNames     = getname_tls(AO.SWLS.FamilyName, 'Setpoint', AO.SWLS.DeviceList);
+AO.SWLS.Setpoint.HW2PhysicsFcn = @tls2at;
+AO.SWLS.Setpoint.Physics2HWFcn = @at2tls;
+AO.SWLS.Setpoint.Units            = 'Hardware';
+AO.SWLS.Setpoint.HWUnits          = 'Ampere';
+AO.SWLS.Setpoint.PhysicsUnits     = 'Radian';
+AO.SWLS.Setpoint.Range            = [-Inf Inf];
+AO.SWLS.Setpoint.Tolerance        = .1;
+
+
+%%%%%%%%%%
+%  IASW6  %
+%%%%%%%%%%
+AO.IASW6.FamilyName                = 'IASW6';
+AO.IASW6.MemberOf                  = {'IASW6' ; 'PlotFamily'};
+for i = 1:96
+    IASW6List(i,:) = [1 i];
+end
+AO.IASW6.DeviceList                = IASW6List;
+AO.IASW6.ElementList               = (1:size(AO.IASW6.DeviceList,1))';
+AO.IASW6.Status                    = ones(size(AO.IASW6.DeviceList,1),1);
+AO.IASW6.Position                  = [];
+
+AO.IASW6.Monitor.MemberOf          = {};
+AO.IASW6.Monitor.Mode              = 'Simulator';
+AO.IASW6.Monitor.DataType          = 'Scalar';
+AO.IASW6.Monitor.ChannelNames      = getname_tls(AO.IASW6.FamilyName, 'Monitor', AO.IASW6.DeviceList);
+AO.IASW6.Monitor.HW2PhysicsFcn = @tls2at;
+AO.IASW6.Monitor.Physics2HWFcn = @at2tls;
+AO.IASW6.Monitor.Units             = 'Hardware';
+AO.IASW6.Monitor.HWUnits           = 'Ampere';
+AO.IASW6.Monitor.PhysicsUnits      = 'Radian';
+
+AO.IASW6.Setpoint.MemberOf         = {'MachineConfig';};
+AO.IASW6.Setpoint.Mode             = 'Simulator';
+AO.IASW6.Setpoint.DataType         = 'Scalar';
+AO.IASW6.Setpoint.ChannelNames     = getname_tls(AO.IASW6.FamilyName, 'Setpoint', AO.IASW6.DeviceList);
+AO.IASW6.Setpoint.HW2PhysicsFcn = @tls2at;
+AO.IASW6.Setpoint.Physics2HWFcn = @at2tls;
+AO.IASW6.Setpoint.Units            = 'Hardware';
+AO.IASW6.Setpoint.HWUnits          = 'Ampere';
+AO.IASW6.Setpoint.PhysicsUnits     = 'Radian';
+AO.IASW6.Setpoint.Range            = [-Inf Inf];
+AO.IASW6.Setpoint.Tolerance        = .1;
+
+%%%%%%%%%%
+%  W20  %
+%%%%%%%%%%
+AO.W20.FamilyName                = 'W20';
+AO.W20.MemberOf                  = {'W20' ; 'PlotFamily'};
+for i = 1:162
+    W20List(i,:) = [1 i];
+end
+AO.W20.DeviceList                = W20List;
+AO.W20.ElementList               = (1:size(AO.W20.DeviceList,1))';
+AO.W20.Status                    = ones(size(AO.W20.DeviceList,1),1);
+AO.W20.Position                  = [];
+
+AO.W20.Monitor.MemberOf          = {};
+AO.W20.Monitor.Mode              = 'Simulator';
+AO.W20.Monitor.DataType          = 'Scalar';
+AO.W20.Monitor.ChannelNames      = getname_tls(AO.W20.FamilyName, 'Monitor', AO.W20.DeviceList);
+AO.W20.Monitor.HW2PhysicsFcn = @tls2at;
+AO.W20.Monitor.Physics2HWFcn = @at2tls;
+AO.W20.Monitor.Units             = 'Hardware';
+AO.W20.Monitor.HWUnits           = 'mm';
+AO.W20.Monitor.PhysicsUnits      = 'Radian';
+
+AO.W20.Setpoint.MemberOf         = {'MachineConfig';};
+AO.W20.Setpoint.Mode             = 'Simulator';
+AO.W20.Setpoint.DataType         = 'Scalar';
+AO.W20.Setpoint.ChannelNames     = getname_tls(AO.W20.FamilyName, 'Setpoint', AO.W20.DeviceList);
+AO.W20.Setpoint.HW2PhysicsFcn = @tls2at;
+AO.W20.Setpoint.Physics2HWFcn = @at2tls;
+AO.W20.Setpoint.Units            = 'Hardware';
+AO.W20.Setpoint.HWUnits          = 'mm';
+AO.W20.Setpoint.PhysicsUnits     = 'Radian';
+AO.W20.Setpoint.Range            = [-Inf Inf];
+AO.W20.Setpoint.Tolerance        = .1;
+
+
+%%%%%%%%%%
+%  SW6  %
+%%%%%%%%%%
+AO.SW6.FamilyName                = 'SW6';
+AO.SW6.MemberOf                  = {'SW6' ; 'PlotFamily'};
+for i = 1:192
+    SW6List(i,:) = [1 i];
+end
+AO.SW6.DeviceList                = SW6List;
+AO.SW6.ElementList               = (1:size(AO.SW6.DeviceList,1))';
+AO.SW6.Status                    = ones(size(AO.SW6.DeviceList,1),1);
+AO.SW6.Position                  = [];
+
+AO.SW6.Monitor.MemberOf          = {};
+AO.SW6.Monitor.Mode              = 'Simulator';
+AO.SW6.Monitor.DataType          = 'Scalar';
+AO.SW6.Monitor.ChannelNames      = getname_tls(AO.SW6.FamilyName, 'Monitor', AO.SW6.DeviceList);
+AO.SW6.Monitor.HW2PhysicsFcn = @tls2at;
+AO.SW6.Monitor.Physics2HWFcn = @at2tls;
+AO.SW6.Monitor.Units             = 'Hardware';
+AO.SW6.Monitor.HWUnits           = 'Ampere';
+AO.SW6.Monitor.PhysicsUnits      = 'Radian';
+
+AO.SW6.Setpoint.MemberOf         = {'MachineConfig';};
+AO.SW6.Setpoint.Mode             = 'Simulator';
+AO.SW6.Setpoint.DataType         = 'Scalar';
+AO.SW6.Setpoint.ChannelNames     = getname_tls(AO.SW6.FamilyName, 'Setpoint', AO.SW6.DeviceList);
+AO.SW6.Setpoint.HW2PhysicsFcn = @tls2at;
+AO.SW6.Setpoint.Physics2HWFcn = @at2tls;
+AO.SW6.Setpoint.Units            = 'Hardware';
+AO.SW6.Setpoint.HWUnits          = 'Ampere';
+AO.SW6.Setpoint.PhysicsUnits     = 'Radian';
+AO.SW6.Setpoint.Range            = [-Inf Inf];
+AO.SW6.Setpoint.Tolerance        = .1;
+
+
+%%%%%%%%%%
+%  U9  %
+%%%%%%%%%%
+AO.U9.FamilyName                = 'U9';
+AO.U9.MemberOf                  = {'U9' ; 'PlotFamily'};
+for i = 1:600
+    U9List(i,:) = [1 i];
+end
+AO.U9.DeviceList                = U9List;
+AO.U9.ElementList               = (1:size(AO.U9.DeviceList,1))';
+AO.U9.Status                    = ones(size(AO.U9.DeviceList,1),1);
+AO.U9.Position                  = [];
+
+AO.U9.Monitor.MemberOf          = {};
+AO.U9.Monitor.Mode              = 'Simulator';
+AO.U9.Monitor.DataType          = 'Scalar';
+AO.U9.Monitor.ChannelNames      = getname_tls(AO.U9.FamilyName, 'Monitor', AO.U9.DeviceList);
+AO.U9.Monitor.HW2PhysicsFcn = @tls2at;
+AO.U9.Monitor.Physics2HWFcn = @at2tls;
+AO.U9.Monitor.Units             = 'Hardware';
+AO.U9.Monitor.HWUnits           = 'mm';
+AO.U9.Monitor.PhysicsUnits      = 'Radian';
+
+AO.U9.Setpoint.MemberOf         = {'MachineConfig';};
+AO.U9.Setpoint.Mode             = 'Simulator';
+AO.U9.Setpoint.DataType         = 'Scalar';
+AO.U9.Setpoint.ChannelNames     = getname_tls(AO.U9.FamilyName, 'Setpoint', AO.U9.DeviceList);
+AO.U9.Setpoint.HW2PhysicsFcn = @tls2at;
+AO.U9.Setpoint.Physics2HWFcn = @at2tls;
+AO.U9.Setpoint.Units            = 'Hardware';
+AO.U9.Setpoint.HWUnits          = 'mm';
+AO.U9.Setpoint.PhysicsUnits     = 'Radian';
+AO.U9.Setpoint.Range            = [-Inf Inf];
+AO.U9.Setpoint.Tolerance        = .1;
+
+
+%%%%%%%%%%
+%  U5  %
+%%%%%%%%%%
+AO.U5.FamilyName                = 'U5';
+AO.U5.MemberOf                  = {'U5' ; 'PlotFamily'};
+for i = 1:936
+    U5List(i,:) = [1 i];
+end
+AO.U5.DeviceList                = U5List;
+AO.U5.ElementList               = (1:size(AO.U5.DeviceList,1))';
+AO.U5.Status                    = ones(size(AO.U5.DeviceList,1),1);
+AO.U5.Position                  = [];
+
+AO.U5.Monitor.MemberOf          = {};
+AO.U5.Monitor.Mode              = 'Simulator';
+AO.U5.Monitor.DataType          = 'Scalar';
+AO.U5.Monitor.ChannelNames      = getname_tls(AO.U5.FamilyName, 'Monitor', AO.U5.DeviceList);
+AO.U5.Monitor.HW2PhysicsFcn = @tls2at;
+AO.U5.Monitor.Physics2HWFcn = @at2tls;
+AO.U5.Monitor.Units             = 'Hardware';
+AO.U5.Monitor.HWUnits           = 'mm';
+AO.U5.Monitor.PhysicsUnits      = 'Radian';
+
+AO.U5.Setpoint.MemberOf         = {'MachineConfig';};
+AO.U5.Setpoint.Mode             = 'Simulator';
+AO.U5.Setpoint.DataType         = 'Scalar';
+AO.U5.Setpoint.ChannelNames     = getname_tls(AO.U5.FamilyName, 'Setpoint', AO.U5.DeviceList);
+AO.U5.Setpoint.HW2PhysicsFcn = @tls2at;
+AO.U5.Setpoint.Physics2HWFcn = @at2tls;
+AO.U5.Setpoint.Units            = 'Hardware';
+AO.U5.Setpoint.HWUnits          = 'mm';
+AO.U5.Setpoint.PhysicsUnits     = 'Radian';
+AO.U5.Setpoint.Range            = [-Inf Inf];
+AO.U5.Setpoint.Tolerance        = .1;
+
+
+%%%%%%%%%%%
+%  EPU56  %
+%%%%%%%%%%%
+AO.EPU56.FamilyName                = 'EPU56';
+AO.EPU56.MemberOf                  = {'EPU56' ; 'PlotFamily'};
+for i = 1:798
+    EPU56List(i,:) = [1 i];
+end
+AO.EPU56.DeviceList                = EPU56List;
+AO.EPU56.ElementList               = (1:size(AO.EPU56.DeviceList,1))';
+AO.EPU56.Status                    = ones(size(AO.EPU56.DeviceList,1),1);
+AO.EPU56.Position                  = [];
+
+AO.EPU56.Monitor.MemberOf          = {};
+AO.EPU56.Monitor.Mode              = 'Simulator';
+AO.EPU56.Monitor.DataType          = 'Scalar';
+AO.EPU56.Monitor.ChannelNames      = getname_tls(AO.EPU56.FamilyName, 'Monitor', AO.EPU56.DeviceList);
+AO.EPU56.Monitor.HW2PhysicsFcn = @tls2at;
+AO.EPU56.Monitor.Physics2HWFcn = @at2tls;
+AO.EPU56.Monitor.Units             = 'Hardware';
+AO.EPU56.Monitor.HWUnits           = 'mm';
+AO.EPU56.Monitor.PhysicsUnits      = 'Radian';
+
+AO.EPU56.Setpoint.MemberOf         = {'MachineConfig';};
+AO.EPU56.Setpoint.Mode             = 'Simulator';
+AO.EPU56.Setpoint.DataType         = 'Scalar';
+AO.EPU56.Setpoint.ChannelNames     = getname_tls(AO.EPU56.FamilyName, 'Setpoint', AO.EPU56.DeviceList);
+AO.EPU56.Setpoint.HW2PhysicsFcn = @tls2at;
+AO.EPU56.Setpoint.Physics2HWFcn = @at2tls;
+AO.EPU56.Setpoint.Units            = 'Hardware';
+AO.EPU56.Setpoint.HWUnits          = 'mm';
+AO.EPU56.Setpoint.PhysicsUnits     = 'Radian';
+AO.EPU56.Setpoint.Range            = [-Inf Inf];
+AO.EPU56.Setpoint.Tolerance        = .1;
+
+
+%%%%%%%%%%
+%  IASWB  %
+%%%%%%%%%%
+AO.IASWB.FamilyName                = 'IASWB';
+AO.IASWB.MemberOf                  = {'IASWB' ; 'PlotFamily'};
+for i = 1:96
+    IASWBList(i,:) = [1 i];
+end
+AO.IASWB.DeviceList                = IASWBList;
+AO.IASWB.ElementList               = (1:size(AO.IASWB.DeviceList,1))';
+AO.IASWB.Status                    = ones(size(AO.IASWB.DeviceList,1),1);
+AO.IASWB.Position                  = [];
+
+AO.IASWB.Monitor.MemberOf          = {};
+AO.IASWB.Monitor.Mode              = 'Simulator';
+AO.IASWB.Monitor.DataType          = 'Scalar';
+AO.IASWB.Monitor.ChannelNames      = getname_tls(AO.IASWB.FamilyName, 'Monitor', AO.IASWB.DeviceList);
+AO.IASWB.Monitor.HW2PhysicsFcn = @tls2at;
+AO.IASWB.Monitor.Physics2HWFcn = @at2tls;
+AO.IASWB.Monitor.Units             = 'Hardware';
+AO.IASWB.Monitor.HWUnits           = 'Ampere';
+AO.IASWB.Monitor.PhysicsUnits      = 'Radian';
+
+AO.IASWB.Setpoint.MemberOf         = {'MachineConfig';};
+AO.IASWB.Setpoint.Mode             = 'Simulator';
+AO.IASWB.Setpoint.DataType         = 'Scalar';
+AO.IASWB.Setpoint.ChannelNames     = getname_tls(AO.IASWB.FamilyName, 'Setpoint', AO.IASWB.DeviceList);
+AO.IASWB.Setpoint.HW2PhysicsFcn = @tls2at;
+AO.IASWB.Setpoint.Physics2HWFcn = @at2tls;
+AO.IASWB.Setpoint.Units            = 'Hardware';
+AO.IASWB.Setpoint.HWUnits          = 'Ampere';
+AO.IASWB.Setpoint.PhysicsUnits     = 'Radian';
+AO.IASWB.Setpoint.Range            = [-Inf Inf];
+AO.IASWB.Setpoint.Tolerance        = .1;
+
+
+%%%%%%%%%%
+%   RF   %
+%%%%%%%%%%
+AO.RF.FamilyName                = 'RF';
+AO.RF.MemberOf                  = {'RF'; 'RFSystem'; 'PlotFamily';};
+AO.RF.DeviceList                = [ 1 1 ];
+AO.RF.ElementList               = 1;
+AO.RF.Status                    = 1;
+AO.RF.Position                  = 0;
+
+AO.RF.Monitor.MemberOf          = {};
+AO.RF.Monitor.Mode              = 'Simulator';
+AO.RF.Monitor.DataType          = 'Scalar';
+AO.RF.Monitor.ChannelNames      = getname_tls(AO.RF.FamilyName, 'Monitor', AO.RF.DeviceList);
+AO.RF.Monitor.HW2PhysicsParams  = 1e+3;
+AO.RF.Monitor.Physics2HWParams  = 1e-3;
+AO.RF.Monitor.Units             = 'Hardware';
+AO.RF.Monitor.HWUnits           = 'kHz';
+AO.RF.Monitor.PhysicsUnits      = 'Hz';
+
+AO.RF.Setpoint.MemberOf         = {'MachineConfig';};
+AO.RF.Setpoint.Mode             = 'Simulator';
+AO.RF.Setpoint.DataType         = 'Scalar';
+AO.RF.Setpoint.ChannelNames     = getname_tls(AO.RF.FamilyName, 'Setpoint', AO.RF.DeviceList);
+AO.RF.Setpoint.HW2PhysicsParams = 1e+3;
+AO.RF.Setpoint.Physics2HWParams = 1e-3;
+AO.RF.Setpoint.Units            = 'Hardware';
+AO.RF.Setpoint.HWUnits          = 'kHz';
+AO.RF.Setpoint.PhysicsUnits     = 'Hz';
+AO.RF.Setpoint.Range            = [-Inf Inf];
+AO.RF.Setpoint.Tolerance        = 1.0;
+
+% AO.RF.VoltageCtrl.MemberOf          = {};
+% AO.RF.VoltageCtrl.Mode              = 'Simulator';
+% AO.RF.VoltageCtrl.DataType          = 'Scalar';
+% AO.RF.VoltageCtrl.ChannelNames      = '';
+% AO.RF.VoltageCtrl.HW2PhysicsParams  = 1;
+% AO.RF.VoltageCtrl.Physics2HWParams  = 1;
+% AO.RF.VoltageCtrl.Units             = 'Hardware';
+% AO.RF.VoltageCtrl.HWUnits           = 'Volts';
+% AO.RF.VoltageCtrl.PhysicsUnits      = 'Volts';
+% 
+% AO.RF.Voltage.MemberOf          = {};
+% AO.RF.Voltage.Mode              = 'Simulator';
+% AO.RF.Voltage.DataType          = 'Scalar';
+% AO.RF.Voltage.ChannelNames      = '';
+% AO.RF.Voltage.HW2PhysicsParams  = 1;
+% AO.RF.Voltage.Physics2HWParams  = 1;
+% AO.RF.Voltage.Units             = 'Hardware';
+% AO.RF.Voltage.HWUnits           = 'Volts';
+% AO.RF.Voltage.PhysicsUnits      = 'Volts';
+% 
+% AO.RF.Power.MemberOf          = {};
+% AO.RF.Power.Mode              = 'Simulator';
+% AO.RF.Power.DataType          = 'Scalar';
+% AO.RF.Power.ChannelNames      = '';          % ???
+% AO.RF.Power.HW2PhysicsParams  = 1;         
+% AO.RF.Power.Physics2HWParams  = 1;
+% AO.RF.Power.Units             = 'Hardware';
+% AO.RF.Power.HWUnits           = 'MWatts';           
+% AO.RF.Power.PhysicsUnits      = 'MWatts';
+% AO.RF.Power.Range             = [-inf inf];  % ???  
+% AO.RF.Power.Tolerance         = inf;  % ???  
+% 
+% AO.RF.Phase.MemberOf          = {'RF'; 'Phase'};
+% AO.RF.Phase.Mode              = 'Simulator';
+% AO.RF.Phase.DataType          = 'Scalar';
+% AO.RF.Phase.ChannelNames      = 'SRF1:STN:PHASE:CALC';    % ???  
+% AO.RF.Phase.Units             = 'Hardware';
+% AO.RF.Phase.HW2PhysicsParams  = 1; 
+% AO.RF.Phase.Physics2HWParams  = 1;
+% AO.RF.Phase.HWUnits           = 'Degrees';  
+% AO.RF.Phase.PhysicsUnits      = 'Degrees';
+% 
+% AO.RF.PhaseCtrl.MemberOf      = {'RF; Phase'; 'Control'};  % 'MachineConfig';
+% AO.RF.PhaseCtrl.Mode              = 'Simulator';
+% AO.RF.PhaseCtrl.DataType          = 'Scalar';
+% AO.RF.PhaseCtrl.ChannelNames      = 'SRF1:STN:PHASE';    % ???     
+% AO.RF.PhaseCtrl.Units             = 'Hardware';
+% AO.RF.PhaseCtrl.HW2PhysicsParams  = 1;         
+% AO.RF.PhaseCtrl.Physics2HWParams  = 1;
+% AO.RF.PhaseCtrl.HWUnits           = 'Degrees';  
+% AO.RF.PhaseCtrl.PhysicsUnits      = 'Degrees'; 
+% AO.RF.PhaseCtrl.Range             = [-200 200];    % ??? 
+% AO.RF.PhaseCtrl.Tolerance         = 10;    % ??? 
+
+
+
+%%%%%%%%%%%%%%
+%    DCCT    %
+%%%%%%%%%%%%%%
+AO.DCCT.FamilyName               = 'DCCT';
+AO.DCCT.MemberOf                 = {'Diagnostics'; 'DCCT'};
+AO.DCCT.DeviceList               = [1 1];
+AO.DCCT.ElementList              = 1;
+AO.DCCT.Status                   = 1;
+
+AO.DCCT.Monitor.MemberOf         = {};
+AO.DCCT.Monitor.Mode             = 'Simulator';
+AO.DCCT.Monitor.DataType         = 'Scalar';
+AO.DCCT.Monitor.ChannelNames     = getname_tls(AO.DCCT.FamilyName, 'Monitor', AO.DCCT.DeviceList);
+AO.DCCT.Monitor.HW2PhysicsParams = 1e-3;    
+AO.DCCT.Monitor.Physics2HWParams = 1e+3;
+AO.DCCT.Monitor.Units            = 'Hardware';
+AO.DCCT.Monitor.HWUnits          = 'milli-ampere';     
+AO.DCCT.Monitor.PhysicsUnits     = 'ampere';
+
+
+
+%%%%%%%%
+% Tune %
+%%%%%%%%
+AO.TUNE.FamilyName = 'TUNE';
+AO.TUNE.MemberOf = {'TUNE';};
+AO.TUNE.DeviceList = [1 1;1 2;1 3];
+AO.TUNE.ElementList = [1;2;3];
+AO.TUNE.Status = [1; 1; 1];
+
+AO.TUNE.Monitor.MemberOf   = {'TUNE';};
+AO.TUNE.Monitor.Mode = 'Simulator'; 
+AO.TUNE.Monitor.DataType = 'Scalar';
+AO.TUNE.Monitor.ChannelNames = getname_tls(AO.TUNE.FamilyName, 'Monitor', AO.TUNE.DeviceList);
+AO.TUNE.Monitor.HW2PhysicsParams = 1;
+AO.TUNE.Monitor.Physics2HWParams = 1;
+AO.TUNE.Monitor.Units        = 'Hardware';
+AO.TUNE.Monitor.HWUnits      = 'kHz';
+AO.TUNE.Monitor.PhysicsUnits = 'kHz';
+% AO.TUNE.Monitor.SpecialFunctionGet = 'gettune_tls';
+
+
+
+% The operational mode sets the path, filenames, and other important parameters
+% Run setoperationalmode after most of the AO is built so that the Units and Mode fields
+% can be set in setoperationalmode
+setao(AO);
+setoperationalmode(OperationalMode);
+AO = getao;
+
+
+% Convert to hardware units
+% 'NoEnergyScaling' is needed so that the BEND is not read to get the energy (this is a setup file)  
+AO.HCM.Setpoint.DeltaRespMat  = physics2hw('HCM', 'Setpoint', AO.HCM.Setpoint.DeltaRespMat,  AO.HCM.DeviceList,  'NoEnergyScaling');
+AO.VCM.Setpoint.DeltaRespMat  = physics2hw('VCM', 'Setpoint', AO.VCM.Setpoint.DeltaRespMat,  AO.VCM.DeviceList,  'NoEnergyScaling');
+AO.QF1.Setpoint.DeltaRespMat   = physics2hw('QF1',  'Setpoint', AO.QF1.Setpoint.DeltaRespMat,   AO.QF1.DeviceList,   'NoEnergyScaling');
+AO.QD1.Setpoint.DeltaRespMat   = physics2hw('QD1',  'Setpoint', AO.QD1.Setpoint.DeltaRespMat,   AO.QD1.DeviceList,   'NoEnergyScaling');
+AO.QF2.Setpoint.DeltaRespMat   = physics2hw('QF2',  'Setpoint', AO.QF2.Setpoint.DeltaRespMat,   AO.QF2.DeviceList,   'NoEnergyScaling');
+AO.QD2.Setpoint.DeltaRespMat   = physics2hw('QD2',  'Setpoint', AO.QD2.Setpoint.DeltaRespMat,   AO.QD2.DeviceList,   'NoEnergyScaling');
+AO.SF.Setpoint.DeltaRespMat   = physics2hw('SF',  'Setpoint', AO.SF.Setpoint.DeltaRespMat,   AO.SF.DeviceList,   'NoEnergyScaling');
+AO.SD.Setpoint.DeltaRespMat   = physics2hw('SD',  'Setpoint', AO.SD.Setpoint.DeltaRespMat,   AO.SD.DeviceList,   'NoEnergyScaling');
+setao(AO);
+
+
+ 
+function [BPMlist, HCMlist, VCMlist, TwoPerSector, ThreePerSector,TrimQlist] = buildthedevicelists
+
+NSector = 6;
+
+BPMlist = [
+             1 1
+             1 2
+             1 3
+             1 4
+             1 5
+             1 6
+             1 7
+             1 8
+             1 9
+             1 10
+             2 1
+             2 2
+             2 3
+             2 4
+             2 5
+             2 6
+             2 7
+             2 8
+             2 9
+             2 10
+             3 1
+             3 2
+             3 3
+             3 4
+             3 5
+             3 6
+             3 7
+             3 8
+             3 9
+             3 10
+             3 11
+             4 1
+             4 2
+             4 3
+             4 4
+             4 5
+             4 6
+             4 7
+             4 8
+             4 9
+             4 10 % 01/19/2009
+             5 1
+             5 2
+             5 3
+             5 4
+             5 5
+             5 6
+             5 7
+             5 8
+             5 9
+             5 10
+             6 1
+             6 2
+             6 3
+             6 4
+             6 5
+             6 6
+             6 7
+             6 8 ];
+
+
+HCMlist=[1 1
+    1 2
+    1 3
+    1 4
+    1 5 
+    1 6
+    1 7
+    1 8
+    1 9
+    2 1
+    2 2
+    2 3
+    2 4
+    2 5
+    2 6
+    2 7
+    2 8
+    3 1
+    3 2
+    3 3
+    3 4
+    3 5
+    3 6
+    3 7 % 01/19/2009
+    4 1
+    4 2
+    4 3
+    4 4
+    4 5
+    4 6
+    4 7 % 01/19/2009
+    4 8 % 01/19/2009
+    5 1
+    5 2
+    5 3
+    5 4
+    5 5
+    5 6
+    5 7
+    5 8
+    6 1
+    6 2
+    6 3
+    6 4
+    6 5
+    6 6
+    6 7];
+VCMlist=[1 1
+    1 2
+    1 3
+    1 4
+    1 5 
+    1 6
+    1 7
+    1 8
+    2 1
+    2 2
+    2 3
+    2 4
+    2 5
+    2 6
+    2 7
+   %2 8 % 01/21/2009
+    3 1
+    3 2
+    3 3
+    3 4
+    3 5
+    3 6
+    3 7
+    4 1
+    4 2
+    4 3
+    4 4
+    4 5
+    4 6
+    4 7
+    4 8 % 01/19/2009
+    5 1
+    5 2
+    5 3
+    5 4
+    5 5
+    5 6
+    5 7
+    5 8
+    5 9
+    6 1
+    6 2
+    6 3
+    6 4
+    6 5
+    6 6
+    6 7
+    6 8];
+
+TrimQlist = [
+             1 1
+             1 2
+             1 3
+             1 4
+             1 5
+             1 6
+             1 7
+             1 8
+             2 1
+             2 2
+             2 3
+             2 4
+             2 5
+             2 6
+             2 7
+             2 8
+             3 1
+             3 2
+             3 3
+             3 4
+             3 5
+             3 6
+             3 7
+             3 8
+             4 1
+             4 2
+             4 3
+             4 4
+             4 5
+             4 6
+             4 7
+             4 8
+             5 1
+             5 2
+             5 3
+             5 4
+             5 5
+             5 6
+             5 7
+             5 8
+             6 1
+             6 2
+             6 3
+             6 4
+             6 5
+             6 6
+             6 7
+             6 8 ];
+         
+TwoPerSector=[];
+ThreePerSector=[];
+for Sector =1:NSector  
+    TwoPerSector = [TwoPerSector;
+        Sector 1;
+        Sector 2;];
+    
+    ThreePerSector = [ThreePerSector;
+        Sector 1;
+        Sector 2;
+        Sector 3;];	
+end
+

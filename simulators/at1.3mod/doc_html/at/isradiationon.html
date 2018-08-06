@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of isradiationon</title>
+  <meta name="keywords" content="isradiationon">
+  <meta name="description" content="ISRADIATIONON - 1 if a radiation passmethod is found">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; isradiationon.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>isradiationon
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>ISRADIATIONON - 1 if a radiation passmethod is found</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function Answer = isradiationon </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">ISRADIATIONON - 1 if a radiation passmethod is found
+
+  See also <a href="setradiation.html" class="code" title="function [PassMethod, ATIndex, FamName, PassMethodOld, ATIndexOld, FamNameOld] = setradiation(InputString)">setradiation</a>, <a href="getcavity.html" class="code" title="function [CavityState, PassMethod, ATCavityIndex, RF, HarmonicNumber] = getcavity(THERING)">getcavity</a>, <a href="setcavity.html" class="code" title="function ATCavityIndex = setcavity(InputString)">setcavity</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="getpvmodel.html" class="code" title="function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)">getpvmodel</a>	GETPVMODEL - Get the model value</li><li><a href="modeldisp.html" class="code" title="function [Dx, Dy, Sx, Sy, h] = modeldisp(varargin)">modeldisp</a>	MODELDISP - Returns the dispersion function of the model</li></ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function Answer = isradiationon</a>
+0002 <span class="comment">%ISRADIATIONON - 1 if a radiation passmethod is found</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%  See also setradiation, getcavity, setcavity</span>
+0005 
+0006 <span class="comment">%  Written by Greg Portmann</span>
+0007 
+0008 
+0009 
+0010 <span class="keyword">global</span> THERING
+0011 
+0012 Answer = 0;
+0013 
+0014 localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'StrMPoleSymplectic4RadPass'</span>);
+0015 <span class="keyword">if</span> ~isempty(localindex)
+0016     Answer = 1;
+0017     <span class="keyword">return</span>;
+0018 <span class="keyword">end</span>
+0019 
+0020 localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'BndMPoleSymplectic4RadPass'</span>);
+0021 <span class="keyword">if</span> ~isempty(localindex)
+0022     Answer = 1;
+0023 <span class="keyword">end</span>
+0024</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

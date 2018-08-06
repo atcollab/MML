@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>lcaPut</TITLE>
+<META NAME="description" CONTENT="lcaPut">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="manual.css">
+
+<LINK REL="next" HREF="node7.html">
+<LINK REL="previous" HREF="node5.html">
+<LINK REL="up" HREF="node2.html">
+<LINK REL="next" HREF="node7.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html105"
+  HREF="node7.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html103"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html97"
+  HREF="node5.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html106"
+  HREF="node7.html">lcaPutNoWait</A>
+<B> Up:</B> <A NAME="tex2html104"
+  HREF="node2.html">Supported EZCA Calls</A>
+<B> Previous:</B> <A NAME="tex2html98"
+  HREF="node5.html">lcaGet</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html107"
+  HREF="node6.html#SECTION00024100000000000000">Calling Syntax</A>
+<LI><A NAME="tex2html108"
+  HREF="node6.html#SECTION00024200000000000000">Description</A>
+<LI><A NAME="tex2html109"
+  HREF="node6.html#SECTION00024300000000000000">Parameters</A>
+<LI><A NAME="tex2html110"
+  HREF="node6.html#SECTION00024400000000000000">Examples</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H2><A NAME="SECTION00024000000000000000"></A>
+<A NAME="lcaput"></A>
+<BR>
+lcaPut
+</H2>
+
+<H3><A NAME="SECTION00024100000000000000">
+Calling Syntax</A>
+</H3>
+<PRE>
+lcaPut(pvs, value, type)
+</PRE>
+<H3><A NAME="SECTION00024200000000000000">
+Description</A>
+</H3>
+Write to a number of PVs which may be scalars or arrays of different
+dimensions. It is possible to write the same value to a collection of PVs.
+
+<H3><A NAME="SECTION00024300000000000000">
+Parameters</A>
+</H3>
+<DL>
+<DT><STRONG>pvs</STRONG></DT>
+<DD>Column vector (in matlab: <SPAN  CLASS="textit">m x 1</SPAN> <SPAN  CLASS="textit">cell-</SPAN> matrix)
+of <SPAN  CLASS="textit">m</SPAN> strings.
+
+</DD>
+<DT><STRONG>value</STRONG></DT>
+<DD><SPAN  CLASS="textit">m x n</SPAN> matrix or <SPAN  CLASS="textit">1 x n</SPAN> row vector of values
+to be written to the PVs. If there is only a single row in <TT>value</TT>
+it is written to all <SPAN  CLASS="textit">m</SPAN> PVs. <TT>value</TT> may be a matrix of ``double''
+precision numbers or  a (<SPAN  CLASS="textit">matlab</SPAN>: <SPAN  CLASS="textit">cell-</SPAN>) matrix of strings (in
+which case the values are transferred as strings and converted by the
+CA server to the native type -- this is particularly useful for
+DBF_ENUM / ``menu'' type PVs).
+
+<P>
+It is possible to write less than <SPAN  CLASS="textit">n</SPAN> elements -- <SPAN  CLASS="textit">labCA</SPAN> scans all rows
+for NaN values and only transfers up to the last non-NaN element in each
+row.
+</DD>
+<DT><STRONG>type</STRONG></DT>
+<DD>(<SPAN  CLASS="textit">optional argument</SPAN>) A string specifying the
+data type to be used for the channel access data transfer. Note
+that <SPAN  CLASS="textit">labCA</SPAN> always converts numerical data from ``double'' locally.
+
+<P>
+It can be desirable, to use a different data type for the
+transfer because by default CA transfers are limited to ~ 16kB.
+Legal values for <TT>type</TT> are <TT>byte</TT>, <TT>short</TT>, <TT>long</TT>,
+<TT>float</TT>, <TT>double</TT>, <TT>char</TT> or <TT>native</TT>. There should rarely
+be a need for using anything other than <TT>native</TT>, the default,
+which directs CA to use the same type for transfer as the data are
+stored on the server. If <TT>value</TT> is a string matrix, <TT>type</TT>
+is automatically set to <TT>char</TT>.
+
+<P>
+Note that while <TT>native</TT> might result in different types
+being used for different PVs, it is currently not possible to
+explicitely request different types for individual PVs (i.e. 
+<TT>type</TT> cannot be a vector).
+</DD>
+</DL>
+
+<P>
+
+<H3><A NAME="SECTION00024400000000000000">
+Examples</A>
+</H3>
+<PRE>
+// write a PV
+    lcaPut( 'thepv', 1.234 )
+// write as a string (server converts)
+    lcaPut( 'thepv', '1.234' )
+// write/transfer as a short integer (server converts)
+    lcaPut( 'thepv', 12, 'short' )
+// write multiple PVs (use { } on matlab)
+    lcaPut( [ 'pvA'; 'pvB' ], [ 'a'; 'b' ] );
+// write array PV
+    lcaPut( 'thepv' , [ 1, 2, 3, 4 ] )
+// write same value to a group of PVs (string
+// concatenation differs on matlab)
+    lcaPut( [ 'pvA'; 'pvB' ] + '.SCAN', '1 second' )
+// write array and scalar PV (using NaN as a delimiter)
+    tab = [ 1, 2, 3, 4 ;   5, %nan, 0, 0 ]
+	lcaPut( [ 'arrayPV'; 'scalarPV' ], tab )
+</PRE>
+
+<P>
+<BR>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html105"
+  HREF="node7.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html103"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html97"
+  HREF="node5.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html106"
+  HREF="node7.html">lcaPutNoWait</A>
+<B> Up:</B> <A NAME="tex2html104"
+  HREF="node2.html">Supported EZCA Calls</A>
+<B> Previous:</B> <A NAME="tex2html98"
+  HREF="node5.html">lcaGet</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+till
+2007-10-13
+</ADDRESS>
+</BODY>
+</HTML>

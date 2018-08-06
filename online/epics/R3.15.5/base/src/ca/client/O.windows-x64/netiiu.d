@@ -1,0 +1,56 @@
+# DO NOT EDIT: This file created by mkmf.pl
+
+netiiu.obj : ../iocinf.h
+netiiu.obj : ../cac.h
+netiiu.obj : ../netiiu.h
+netiiu.obj : ../../../../include/compilerDependencies.h
+netiiu.obj : ../../../../include/ipAddrToAsciiAsynchronous.h
+netiiu.obj : ../msgForMultiplyDefinedPV.h
+netiiu.obj : ../../../../include/epicsTimer.h
+netiiu.obj : ../../../../include/epicsEvent.h
+netiiu.obj : ../../../../include/freeList.h
+netiiu.obj : ../localHostName.h
+netiiu.obj : ../../../../include/shareLib.h
+netiiu.obj : ../nciu.h
+netiiu.obj : ../comBuf.h
+netiiu.obj : ../bhe.h
+netiiu.obj : ../cacIO.h
+netiiu.obj : ../netIO.h
+netiiu.obj : ../virtualCircuit.h
+netiiu.obj : ../caProto.h
+netiiu.obj : ../../../../include/compiler/msvc/compilerSpecific.h
+netiiu.obj : ../../../../include/osiSock.h
+netiiu.obj : ../../../../include/tsFreeList.h
+netiiu.obj : ../../../../include/tsDLList.h
+netiiu.obj : ../../../../include/epicsTime.h
+netiiu.obj : ../../../../include/epicsThread.h
+netiiu.obj : ../../../../include/os/WIN32/osdEvent.h
+netiiu.obj : ../../../../include/epicsSingleton.h
+netiiu.obj : ../../../../include/resourceLib.h
+netiiu.obj : ../../../../include/epicsMutex.h
+netiiu.obj : ../../../../include/epicsAssert.h
+netiiu.obj : ../../../../include/epicsTypes.h
+netiiu.obj : ../../../../include/osiWireFormat.h
+netiiu.obj : ../inetAddrID.h
+netiiu.obj : ../../../../include/epicsGuard.h
+netiiu.obj : ../../../../include/epicsMemory.h
+netiiu.obj : ../../../../include/tsMinMax.h
+netiiu.obj : ../caServerID.h
+netiiu.obj : ../comQueSend.h
+netiiu.obj : ../comQueRecv.h
+netiiu.obj : ../tcpRecvWatchdog.h
+netiiu.obj : ../tcpSendWatchdog.h
+netiiu.obj : ../hostNameCache.h
+netiiu.obj : ../SearchDest.h
+netiiu.obj : ../../../../include/os/WIN32/osdSock.h
+netiiu.obj : ../../../../include/ellLib.h
+netiiu.obj : ../../../../include/os/WIN32/osdTime.h
+netiiu.obj : ../../../../include/os/WIN32/osdThread.h
+netiiu.obj : ../../../../include/tsSLList.h
+netiiu.obj : ../../../../include/epicsString.h
+netiiu.obj : ../../../../include/os/WIN32/osdMutex.h
+netiiu.obj : ../../../../include/os/WIN32/osdWireFormat.h
+netiiu.obj : ../../../../include/epicsEndian.h
+netiiu.obj : ../../../../include/os/WIN32/osdWireConfig.h
+
+

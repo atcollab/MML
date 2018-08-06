@@ -1,0 +1,29 @@
+record(waveform,"lca:wav0") { field("NELM", "100") field("FTVL", "LONG") }
+record(waveform,"lca:wav1") { field("NELM", "100") field("FTVL", "LONG") }
+record(waveform,"lca:wav2") { field("NELM", "100") field("FTVL", "LONG") }
+record(waveform,"lca:wav3") { field("NELM", "100") field("FTVL", "LONG") }
+record(waveform,"lca:wav4") { field("NELM", "100") field("FTVL", "LONG") }
+record(waveform,"lca:wav5") { field("NELM", "100") field("FTVL", "LONG") }
+record(waveform,"lca:wav6") { field("NELM", "100") field("FTVL", "LONG") }
+record(waveform,"lca:wav7") { field("NELM", "100") field("FTVL", "LONG") }
+record(waveform,"lca:wav8") { field("NELM", "100") field("FTVL", "LONG") }
+record(waveform,"lca:wav9") { field("NELM", "100") field("FTVL", "LONG") }
+
+record(calc,    "lca:count") {
+	field("INPA","lca:count")
+	field("CALC","A+1")
+	field("SCAN","1 second")
+}
+
+record(ai,      "lca:scl0") { }
+record(ai,      "lca:scl1") { }
+record(ai,      "lca:scl2") { }
+record(ai,      "lca:scl3") { }
+record(ai,      "lca:scl4") { }
+record(ai,      "lca:scl5") { }
+record(ai,      "lca:scl6") { }
+record(ai,      "lca:scl7") { }
+record(ai,      "lca:scl8") { }
+record(ai,      "lca:scl9") { }
+
+record(ao,      "lca:out")  { }

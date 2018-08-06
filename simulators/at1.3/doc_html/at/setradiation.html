@@ -1,0 +1,422 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of setradiation</title>
+  <meta name="keywords" content="setradiation">
+  <meta name="description" content="SETRADIATION - Sets the model PassMethod to include or exclude radiation ('On' / 'Off' {Default})">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; setradiation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>setradiation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>SETRADIATION - Sets the model PassMethod to include or exclude radiation ('On' / 'Off' {Default})</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [PassMethod, ATIndex, FamName, PassMethodOld, ATIndexOld, FamNameOld] = setradiation(InputString) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">SETRADIATION - Sets the model PassMethod to include or exclude radiation ('On' / 'Off' {Default})
+  [PassMethod, ATIndex, FamName, PassMethodOld, ATIndexOld, FamNameOld] = setradiation('On' or 'Off')
+
+  INPUTS
+  1. 'On' or 'Off'
+
+  OUTPUTS
+  New AT model parameters
+  1. PassMethod - AT PassMethod field (cell array)
+  2. ATIndex    - AT index in THERING
+  3. FamName    - AT family name (cell array)
+  Old AT model parameters
+  4. PassMethodOld - AT PassMethod field (cell array)
+  5. ATIndexOld    - AT index in THERING
+  6. FamNameOld    - AT family name (cell array)
+
+  NOTE
+  1. setpassmethod(ATIndexOld, PassMethodOld) can be used to restore old PassMethods.
+  2. This function is machine specific so it is prone to being out-of-date.  All machine get the 
+     same passmethods for radiation on. The potential confusion occurs when turning the radiation off.
+     The following is the list for how this function is programmed.  Please email me if 
+     it is not correct for your accelerator.
+
+  1. Spear, Diamond, Soleil, TLS, TPS, SESAME, SSRF, MLS, Bessy II, and the X-Ray ring
+     Quadrupole magnets pass methods:
+     a. QuadLinearPass             - Radiation off
+     b. StrMPoleSymplectic4RadPass - Radiation on
+
+     Bend magnet pass methods:
+     a. BendLinearPass             - Radiation off
+     b. BndMPoleSymplectic4RadPass - Radiation on
+
+     Sextupoles magnets pass methods:
+     a. StrMPoleSymplectic4Pass    - Radiation off
+     b. StrMPoleSymplectic4RadPass - Radiation on
+
+  2. PLS, ASP
+     Quadrupole magnets pass methods:
+     a. QuadLinearPass             - Radiation off
+     b. StrMPoleSymplectic4RadPass - Radiation on
+
+     Bend magnet pass methods:
+     a. BndMPoleSymplectic4Pass    - Radiation off
+     b. BndMPoleSymplectic4RadPass - Radiation on
+
+     Sextupoles magnets pass methods:
+     a. StrMPoleSymplectic4Pass    - Radiation off
+     b. StrMPoleSymplectic4RadPass - Radiation on
+
+  3. ALS, CLS, ALBA, CAMD, ELSA, LNLS, VUV ring and any ring not mentioned above
+     Quadrupole magnets pass methods:
+     a. StrMPoleSymplectic4Pass    - Radiation off
+     b. StrMPoleSymplectic4RadPass - Radiation on
+
+     Bend magnet pass methods:
+     a. BndMPoleSymplectic4Pass    - Radiation off
+     b. BndMPoleSymplectic4RadPass - Radiation on
+
+     Sextupoles magnets pass methods:
+     a. StrMPoleSymplectic4Pass    - Radiation off
+     b. StrMPoleSymplectic4RadPass - Radiation on
+
+  See also <a href="setpassmethod.html" class="code" title="function setpassmethod(ATIndex, PassMethod, DeviceList)">setpassmethod</a>, <a href="getpassmethod.html" class="code" title="function [PassMethod, ATIndex, FamName] = getpassmethod(ATIndex, DeviceList)">getpassmethod</a>, <a href="getcavity.html" class="code" title="function [CavityState, PassMethod, ATCavityIndex, RF, HarmonicNumber] = getcavity(THERING)">getcavity</a>, <a href="setcavity.html" class="code" title="function ATCavityIndex = setcavity(InputString)">setcavity</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="calccoupling.html" class="code" title="function [Tilt, Eta, EpsX, EpsY, Ratio, ENV, DP, DL, sigmas] = calccoupling">calccoupling</a>	CALCCOUPLING - Calculates the coupling and tilt of the AT model</li><li><a href="getpvmodel.html" class="code" title="function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)">getpvmodel</a>	GETPVMODEL - Get the model value</li><li><a href="modeldisp.html" class="code" title="function [Dx, Dy, Sx, Sy, h] = modeldisp(varargin)">modeldisp</a>	MODELDISP - Returns the dispersion function of the model</li></ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [PassMethod, ATIndex, FamName, PassMethodOld, ATIndexOld, FamNameOld] = setradiation(InputString)</a>
+0002 <span class="comment">%SETRADIATION - Sets the model PassMethod to include or exclude radiation ('On' / 'Off' {Default})</span>
+0003 <span class="comment">%  [PassMethod, ATIndex, FamName, PassMethodOld, ATIndexOld, FamNameOld] = setradiation('On' or 'Off')</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">%  INPUTS</span>
+0006 <span class="comment">%  1. 'On' or 'Off'</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">%  OUTPUTS</span>
+0009 <span class="comment">%  New AT model parameters</span>
+0010 <span class="comment">%  1. PassMethod - AT PassMethod field (cell array)</span>
+0011 <span class="comment">%  2. ATIndex    - AT index in THERING</span>
+0012 <span class="comment">%  3. FamName    - AT family name (cell array)</span>
+0013 <span class="comment">%  Old AT model parameters</span>
+0014 <span class="comment">%  4. PassMethodOld - AT PassMethod field (cell array)</span>
+0015 <span class="comment">%  5. ATIndexOld    - AT index in THERING</span>
+0016 <span class="comment">%  6. FamNameOld    - AT family name (cell array)</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">%  NOTE</span>
+0019 <span class="comment">%  1. setpassmethod(ATIndexOld, PassMethodOld) can be used to restore old PassMethods.</span>
+0020 <span class="comment">%  2. This function is machine specific so it is prone to being out-of-date.  All machine get the</span>
+0021 <span class="comment">%     same passmethods for radiation on. The potential confusion occurs when turning the radiation off.</span>
+0022 <span class="comment">%     The following is the list for how this function is programmed.  Please email me if</span>
+0023 <span class="comment">%     it is not correct for your accelerator.</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">%  1. Spear, Diamond, Soleil, TLS, TPS, SESAME, SSRF, MLS, Bessy II, and the X-Ray ring</span>
+0026 <span class="comment">%     Quadrupole magnets pass methods:</span>
+0027 <span class="comment">%     a. QuadLinearPass             - Radiation off</span>
+0028 <span class="comment">%     b. StrMPoleSymplectic4RadPass - Radiation on</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%     Bend magnet pass methods:</span>
+0031 <span class="comment">%     a. BendLinearPass             - Radiation off</span>
+0032 <span class="comment">%     b. BndMPoleSymplectic4RadPass - Radiation on</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">%     Sextupoles magnets pass methods:</span>
+0035 <span class="comment">%     a. StrMPoleSymplectic4Pass    - Radiation off</span>
+0036 <span class="comment">%     b. StrMPoleSymplectic4RadPass - Radiation on</span>
+0037 <span class="comment">%</span>
+0038 <span class="comment">%  2. PLS, ASP</span>
+0039 <span class="comment">%     Quadrupole magnets pass methods:</span>
+0040 <span class="comment">%     a. QuadLinearPass             - Radiation off</span>
+0041 <span class="comment">%     b. StrMPoleSymplectic4RadPass - Radiation on</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">%     Bend magnet pass methods:</span>
+0044 <span class="comment">%     a. BndMPoleSymplectic4Pass    - Radiation off</span>
+0045 <span class="comment">%     b. BndMPoleSymplectic4RadPass - Radiation on</span>
+0046 <span class="comment">%</span>
+0047 <span class="comment">%     Sextupoles magnets pass methods:</span>
+0048 <span class="comment">%     a. StrMPoleSymplectic4Pass    - Radiation off</span>
+0049 <span class="comment">%     b. StrMPoleSymplectic4RadPass - Radiation on</span>
+0050 <span class="comment">%</span>
+0051 <span class="comment">%  3. ALS, CLS, ALBA, CAMD, ELSA, LNLS, VUV ring and any ring not mentioned above</span>
+0052 <span class="comment">%     Quadrupole magnets pass methods:</span>
+0053 <span class="comment">%     a. StrMPoleSymplectic4Pass    - Radiation off</span>
+0054 <span class="comment">%     b. StrMPoleSymplectic4RadPass - Radiation on</span>
+0055 <span class="comment">%</span>
+0056 <span class="comment">%     Bend magnet pass methods:</span>
+0057 <span class="comment">%     a. BndMPoleSymplectic4Pass    - Radiation off</span>
+0058 <span class="comment">%     b. BndMPoleSymplectic4RadPass - Radiation on</span>
+0059 <span class="comment">%</span>
+0060 <span class="comment">%     Sextupoles magnets pass methods:</span>
+0061 <span class="comment">%     a. StrMPoleSymplectic4Pass    - Radiation off</span>
+0062 <span class="comment">%     b. StrMPoleSymplectic4RadPass - Radiation on</span>
+0063 <span class="comment">%</span>
+0064 <span class="comment">%  See also setpassmethod, getpassmethod, getcavity, setcavity</span>
+0065 
+0066 <span class="comment">%  Written by Greg Portmann</span>
+0067 
+0068 
+0069 
+0070 <span class="keyword">global</span> THERING
+0071 
+0072 <span class="keyword">if</span> nargin == 0
+0073     InputString = <span class="string">'Off'</span>;
+0074 <span class="keyword">end</span>
+0075 
+0076 ATIndex = [];
+0077 PassMethod = {};
+0078 FamName = {};
+0079 
+0080 <span class="comment">% Old passmethods</span>
+0081 <span class="keyword">if</span> nargout &gt; 3
+0082     ATIndexOld = [];
+0083     PassMethodOld = {};
+0084     FamNameOld = {};
+0085     localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'QuadLinearPass'</span>);
+0086     <span class="keyword">if</span> ~isempty(localindex)
+0087         ATIndexOld = [ATIndexOld localindex(:)'];
+0088         PassMethodOld = [PassMethodOld; getcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex)];
+0089         FamNameOld    = [FamNameOld;    getcellstruct(THERING,<span class="string">'FamName'</span>,   localindex)];
+0090     <span class="keyword">end</span>
+0091     localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'StrMPoleSymplectic4Pass'</span>);
+0092     <span class="keyword">if</span> ~isempty(localindex)
+0093         ATIndexOld = [ATIndexOld localindex(:)'];
+0094         PassMethodOld = [PassMethodOld; getcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex)];
+0095         FamNameOld    = [FamNameOld;    getcellstruct(THERING,<span class="string">'FamName'</span>,   localindex)];
+0096     <span class="keyword">end</span>
+0097     localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'StrMPoleSymplectic4RadPass'</span>);
+0098     <span class="keyword">if</span> ~isempty(localindex)
+0099         ATIndexOld = [ATIndexOld localindex(:)'];
+0100         PassMethodOld = [PassMethodOld; getcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex)];
+0101         FamNameOld    = [FamNameOld;    getcellstruct(THERING,<span class="string">'FamName'</span>,   localindex)];
+0102     <span class="keyword">end</span>
+0103 
+0104     localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'BendLinearPass'</span>);
+0105     <span class="keyword">if</span> ~isempty(localindex)
+0106         ATIndexOld = [ATIndexOld localindex(:)'];
+0107         PassMethodOld = [PassMethodOld; getcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex)];
+0108         FamNameOld    = [FamNameOld;    getcellstruct(THERING,<span class="string">'FamName'</span>,   localindex)];
+0109     <span class="keyword">end</span>
+0110     localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'BndMPoleSymplectic4Pass'</span>);
+0111     <span class="keyword">if</span> ~isempty(localindex)
+0112         ATIndexOld = [ATIndexOld localindex(:)'];
+0113         PassMethodOld = [PassMethodOld; getcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex)];
+0114         FamNameOld    = [FamNameOld;    getcellstruct(THERING,<span class="string">'FamName'</span>,   localindex)];
+0115     <span class="keyword">end</span>
+0116     localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'BndMPoleSymplectic4RadPass'</span>);
+0117     <span class="keyword">if</span> ~isempty(localindex)
+0118         ATIndexOld = [ATIndexOld localindex(:)'];
+0119         PassMethodOld = [PassMethodOld; getcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex)];
+0120         FamNameOld    = [FamNameOld;    getcellstruct(THERING,<span class="string">'FamName'</span>,   localindex)];
+0121     <span class="keyword">end</span>
+0122     ATIndexOld = ATIndexOld(:);
+0123     <span class="keyword">if</span> length(PassMethodOld) == 1
+0124         PassMethodOld = PassMethodOld{1};
+0125         FamNameOld    = FamNameOld{1};
+0126     <span class="keyword">end</span>
+0127 <span class="keyword">end</span>
+0128 
+0129 
+0130 <span class="comment">% Main</span>
+0131 <span class="keyword">switch</span> lower(InputString)
+0132     <span class="keyword">case</span> <span class="string">'off'</span>
+0133         MachineName = lower(getfamilydata(<span class="string">'Machine'</span>));
+0134         <span class="keyword">if</span> any([findstr(MachineName,<span class="string">'spear'</span>) findstr(MachineName,<span class="string">'nsls2'</span>) findstr(MachineName,<span class="string">'SESAME'</span>) findstr(MachineName,<span class="string">'bessy2'</span>) findstr(MachineName,<span class="string">'x-ray'</span>) findstr(MachineName,<span class="string">'diamond'</span>) findstr(MachineName,<span class="string">'soleil'</span>) findstr(MachineName,<span class="string">'ssrf'</span>) findstr(MachineName,<span class="string">'lnls'</span>) findstr(MachineName,<span class="string">'tls'</span>) findstr(MachineName,<span class="string">'tps'</span>) findstr(MachineName,<span class="string">'mls'</span>) findstr(MachineName,<span class="string">'sps'</span>)])
+0135 
+0136             localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'StrMPoleSymplectic4RadPass'</span>);
+0137             <span class="keyword">if</span> ~isempty(localindex)
+0138                 <span class="keyword">for</span> i = 1:length(localindex)
+0139                     <span class="keyword">if</span> isfield(THERING{localindex(i)},<span class="string">'K'</span>)
+0140                         <span class="comment">% Quadupoles</span>
+0141                         THERING = setcellstruct(THERING,<span class="string">'PassMethod'</span>, localindex(i), <span class="string">'QuadLinearPass'</span>);
+0142                     <span class="keyword">else</span>
+0143                         <span class="comment">% Sextupoles, etc.</span>
+0144                         THERING = setcellstruct(THERING,<span class="string">'PassMethod'</span>, localindex(i), <span class="string">'StrMPoleSymplectic4Pass'</span>);
+0145                     <span class="keyword">end</span>
+0146                     PassMethod{i,1} = THERING{localindex(i)}.PassMethod;
+0147                     FamName{i,1}    = THERING{localindex(i)}.FamName;
+0148                 <span class="keyword">end</span>
+0149                 ATIndex = localindex(:)';
+0150             <span class="keyword">end</span>
+0151 
+0152             <span class="comment">% Bends</span>
+0153             localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'BndMPoleSymplectic4RadPass'</span>);
+0154             <span class="keyword">if</span> ~isempty(localindex)
+0155                 THERING = setcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex, <span class="string">'BendLinearPass'</span>);
+0156                 ATIndex = [ATIndex localindex(:)'];
+0157                 PassMethod = [PassMethod; getcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex)];
+0158                 FamName    = [FamName;    getcellstruct(THERING,<span class="string">'FamName'</span>,   localindex)];
+0159             <span class="keyword">end</span>
+0160             
+0161             <span class="comment">% Output</span>
+0162             localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'QuadLinearPass'</span>);
+0163             <span class="keyword">if</span> ~isempty(localindex)
+0164                 ATIndex = [ATIndex localindex(:)'];
+0165                 PassMethod = [PassMethod; getcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex)];
+0166                 FamName    = [FamName;    getcellstruct(THERING,<span class="string">'FamName'</span>,   localindex)];
+0167             <span class="keyword">end</span>
+0168             localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'StrMPoleSymplectic4Pass'</span>);
+0169             <span class="keyword">if</span> ~isempty(localindex)
+0170                 ATIndex = [ATIndex localindex(:)'];
+0171                 PassMethod = [PassMethod; getcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex)];
+0172                 FamName    = [FamName;    getcellstruct(THERING,<span class="string">'FamName'</span>,   localindex)];
+0173             <span class="keyword">end</span>
+0174             localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'BendLinearPass'</span>);
+0175             <span class="keyword">if</span> ~isempty(localindex)
+0176                 ATIndex = [ATIndex localindex(:)'];
+0177                 PassMethod = [PassMethod; getcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex)];
+0178                 FamName    = [FamName;    getcellstruct(THERING,<span class="string">'FamName'</span>,   localindex)];
+0179             <span class="keyword">end</span>
+0180 
+0181         <span class="keyword">elseif</span> any([findstr(MachineName,<span class="string">'pls'</span>) findstr(MachineName,<span class="string">'asp'</span>)])
+0182 
+0183             localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'StrMPoleSymplectic4RadPass'</span>);
+0184             <span class="keyword">if</span> ~isempty(localindex)
+0185                 <span class="keyword">for</span> i = 1:length(localindex)
+0186                     <span class="keyword">if</span> isfield(THERING{localindex(i)},<span class="string">'K'</span>)
+0187                         <span class="comment">% Quadupoles</span>
+0188                         THERING = setcellstruct(THERING,<span class="string">'PassMethod'</span>, localindex(i), <span class="string">'QuadLinearPass'</span>);
+0189                     <span class="keyword">else</span>
+0190                         <span class="comment">% Sextupoles, etc.</span>
+0191                         THERING = setcellstruct(THERING,<span class="string">'PassMethod'</span>, localindex(i), <span class="string">'StrMPoleSymplectic4Pass'</span>);
+0192                     <span class="keyword">end</span>
+0193                     PassMethod{i,1} = THERING{localindex(i)}.PassMethod;
+0194                     FamName{i,1}    = THERING{localindex(i)}.FamName;
+0195                 <span class="keyword">end</span>
+0196                 ATIndex = localindex(:)';
+0197             <span class="keyword">end</span>
+0198 
+0199             <span class="comment">% Bends</span>
+0200             localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'BndMPoleSymplectic4RadPass'</span>);
+0201             <span class="keyword">if</span> ~isempty(localindex)
+0202                 THERING = setcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex, <span class="string">'BndMPoleSymplectic4Pass'</span>);
+0203                 ATIndex = [ATIndex localindex(:)'];
+0204                 PassMethod = [PassMethod; getcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex)];
+0205                 FamName    = [FamName;    getcellstruct(THERING,<span class="string">'FamName'</span>,   localindex)];
+0206             <span class="keyword">end</span>
+0207 
+0208             <span class="comment">% Output</span>
+0209             localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'QuadLinearPass'</span>);
+0210             <span class="keyword">if</span> ~isempty(localindex)
+0211                 ATIndex = [ATIndex localindex(:)'];
+0212                 PassMethod = [PassMethod; getcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex)];
+0213                 FamName    = [FamName;    getcellstruct(THERING,<span class="string">'FamName'</span>,   localindex)];
+0214             <span class="keyword">end</span>
+0215             localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'StrMPoleSymplectic4Pass'</span>);
+0216             <span class="keyword">if</span> ~isempty(localindex)
+0217                 ATIndex = [ATIndex localindex(:)'];
+0218                 PassMethod = [PassMethod; getcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex)];
+0219                 FamName    = [FamName;    getcellstruct(THERING,<span class="string">'FamName'</span>,   localindex)];
+0220             <span class="keyword">end</span>
+0221             localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'BndMPoleSymplectic4Pass'</span>);
+0222             <span class="keyword">if</span> ~isempty(localindex)
+0223                 ATIndex = [ATIndex localindex(:)'];
+0224                 PassMethod = [PassMethod; getcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex)];
+0225                 FamName    = [FamName;    getcellstruct(THERING,<span class="string">'FamName'</span>,   localindex)];
+0226             <span class="keyword">end</span>
+0227 
+0228         <span class="keyword">else</span>
+0229 
+0230             <span class="comment">% Quadupoles, Sextupoles, etc.</span>
+0231             localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'StrMPoleSymplectic4RadPass'</span>);
+0232             <span class="keyword">if</span> ~isempty(localindex)
+0233                 THERING = setcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex, <span class="string">'StrMPoleSymplectic4Pass'</span>);
+0234                 ATIndex = localindex(:)';
+0235                 PassMethod = [PassMethod; getcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex)];
+0236                 FamName    = [FamName;    getcellstruct(THERING,<span class="string">'FamName'</span>,   localindex)];
+0237             <span class="keyword">end</span>
+0238 
+0239             <span class="comment">% Bends</span>
+0240             localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'BndMPoleSymplectic4RadPass'</span>);
+0241             <span class="keyword">if</span> ~isempty(localindex)
+0242                 THERING = setcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex, <span class="string">'BndMPoleSymplectic4Pass'</span>);
+0243                 ATIndex = [ATIndex localindex(:)'];
+0244                 PassMethod = [PassMethod; getcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex)];
+0245                 FamName    = [FamName;    getcellstruct(THERING,<span class="string">'FamName'</span>,   localindex)];
+0246             <span class="keyword">end</span>
+0247 
+0248             <span class="comment">% Output</span>
+0249             localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'StrMPoleSymplectic4Pass'</span>);
+0250             <span class="keyword">if</span> ~isempty(localindex)
+0251                 ATIndex = [ATIndex localindex(:)'];
+0252                 PassMethod = [PassMethod; getcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex)];
+0253                 FamName    = [FamName;    getcellstruct(THERING,<span class="string">'FamName'</span>,   localindex)];
+0254             <span class="keyword">end</span>
+0255             localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'BndMPoleSymplectic4Pass'</span>);
+0256             <span class="keyword">if</span> ~isempty(localindex)
+0257                 ATIndex = [ATIndex localindex(:)'];
+0258                 PassMethod = [PassMethod; getcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex)];
+0259                 FamName    = [FamName;    getcellstruct(THERING,<span class="string">'FamName'</span>,   localindex)];
+0260             <span class="keyword">end</span>
+0261 
+0262         <span class="keyword">end</span>
+0263 
+0264 
+0265     <span class="keyword">case</span> <span class="string">'on'</span>
+0266         
+0267         <span class="comment">% Sextupoles, etc.</span>
+0268         localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'StrMPoleSymplectic4Pass'</span>);
+0269         <span class="keyword">if</span> ~isempty(localindex)
+0270             THERING = setcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex, <span class="string">'StrMPoleSymplectic4RadPass'</span>);
+0271         <span class="keyword">end</span>
+0272 
+0273         <span class="comment">% Quadupoles</span>
+0274         localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'QuadLinearPass'</span>);
+0275         <span class="keyword">if</span> ~isempty(localindex)
+0276             THERING = setcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex, <span class="string">'StrMPoleSymplectic4RadPass'</span>);
+0277         <span class="keyword">end</span>
+0278 
+0279         <span class="comment">% Bends</span>
+0280         localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'BndMPoleSymplectic4Pass'</span>);
+0281         <span class="keyword">if</span> ~isempty(localindex)
+0282             THERING = setcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex, <span class="string">'BndMPoleSymplectic4RadPass'</span>);
+0283         <span class="keyword">end</span>
+0284 
+0285         localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'BendLinearPass'</span>);
+0286         <span class="keyword">if</span> ~isempty(localindex)
+0287             THERING = setcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex, <span class="string">'BndMPoleSymplectic4RadPass'</span>);
+0288         <span class="keyword">end</span>
+0289 
+0290         <span class="comment">% Output</span>
+0291         localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'StrMPoleSymplectic4RadPass'</span>);
+0292         <span class="keyword">if</span> ~isempty(localindex)
+0293             ATIndex = [ATIndex localindex(:)'];
+0294             PassMethod = [PassMethod; getcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex)];
+0295             FamName    = [FamName;    getcellstruct(THERING,<span class="string">'FamName'</span>,   localindex)];
+0296         <span class="keyword">end</span>
+0297         localindex = findcells(THERING,<span class="string">'PassMethod'</span>,<span class="string">'BndMPoleSymplectic4RadPass'</span>);
+0298         <span class="keyword">if</span> ~isempty(localindex)
+0299             ATIndex = [ATIndex localindex(:)'];
+0300             PassMethod = [PassMethod; getcellstruct(THERING,<span class="string">'PassMethod'</span>,localindex)];
+0301             FamName    = [FamName;    getcellstruct(THERING,<span class="string">'FamName'</span>,   localindex)];
+0302         <span class="keyword">end</span>
+0303         <span class="comment">%disp(['PassMethod was changed to include radiation in ',num2str(length(ATIndex)),  ' elements'])</span>
+0304 <span class="keyword">end</span>
+0305 
+0306 
+0307 ATIndex = ATIndex(:);
+0308 
+0309 
+0310 <span class="keyword">if</span> length(PassMethod) == 1
+0311     PassMethod = PassMethod{1};
+0312     FamName    = FamName{1};
+0313 <span class="keyword">end</span>
+0314</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

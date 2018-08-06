@@ -1,0 +1,48 @@
+function r = minus(p,q)
+% function r = minus(p,q)
+% Return TPS p - TPS q.
+%-------------------------------------------------------------------------------
+% Author:
+%  Chang, Ho-Ping (also written as Ho-Ping Chang or Peace Chang)
+%  National Synchrotron Radiation Research Center
+%  101 Hsin-Ann Road, Hsinchu Science-Based Industrial Park
+%  Hsinchu 30077, Taiwan
+%  E-mail: peace@srrc.gov.tw
+%
+% Created Date: 11-Dec-2002
+% Updated Date: 13-May-2003
+%
+% Source Files:
+%  @TPS/minus.m
+% Terminology and Category:
+%  Truncated Power Series Algebra (TPSA)
+%  One-Step Index Pointer (OSIP)
+%  Truncated Power Series (TPS)
+% Description:
+%  In MATLAB, the index of array works FORTRAN-like.
+%  Overloading Arithmetic Operators for TPS.
+%  UMINUS Subtraction for TPS objects.
+%------------------------------------------------------------------------------
+global OSIP
+if strcmp('tps',class(p)) == 1 & strcmp('tps',class(q)) == 1
+   if p.n ~= q.n
+      error('TPS variables must agree.')
+   else
+      if p.o >= q.o
+         r = p;
+         m = OSIP_NumberOfMonomials(q.n,q.o);
+         if length(q.c) ~= m, error('length(q.c) ~= m'), end
+         r.c(1:m) = r.c(1:m)-q.c(1:m);
+      else
+         r = -q;
+         m = OSIP_NumberOfMonomials(p.n,p.o);
+         if length(p.c) ~= m, error('length(p.c) ~= m'), end
+         r.c(1:m) = r.c(1:m)+p.c(:);
+      end
+      clear m
+   end
+elseif  strcmp('tps',class(p)) == 1 & strcmp('tps',class(q)) ~= 1 % q is double
+   r = p;
+   r.c(1) = r.c(1)-q;
+end
+

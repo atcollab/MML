@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of printlattice</title>
+  <meta name="keywords" content="printlattice">
+  <meta name="description" content="PRINTLATTICE - Simple printout of the elements of the model">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; printlattice.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>printlattice
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>PRINTLATTICE - Simple printout of the elements of the model</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function varargout = printlattice(varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">PRINTLATTICE - Simple printout of the elements of the model
+  printlattice(THERING,[format,index,'filename'])
+
+  Reads THERING and give a simple printout of the elements to standard out
+  (screen). If INDEX is specified only those elements in the INDEX will be
+  printed out and if FILENAME is specified the output will also be printed
+  to file and not printed to standard out (screen). Nothing is returned by
+  PRINTLATTICE.
+
+  FORMAT determines how the output should look.
+    'element'  -  element by element simple output (default)
+    'input'    -  list of unique elements followed by element position
+
+  See also <a href="plottwiss.html" class="code" title="function [ax, h1, h2] = plottwiss(varargin)">plottwiss</a>, <a href="drawlattice.html" class="code" title="function h = drawlattice(Offset, Scaling, hAxes, Ldraw)">drawlattice</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function varargout = printlattice(varargin)</a>
+0002 <span class="comment">%PRINTLATTICE - Simple printout of the elements of the model</span>
+0003 <span class="comment">%  printlattice(THERING,[format,index,'filename'])</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">%  Reads THERING and give a simple printout of the elements to standard out</span>
+0006 <span class="comment">%  (screen). If INDEX is specified only those elements in the INDEX will be</span>
+0007 <span class="comment">%  printed out and if FILENAME is specified the output will also be printed</span>
+0008 <span class="comment">%  to file and not printed to standard out (screen). Nothing is returned by</span>
+0009 <span class="comment">%  PRINTLATTICE.</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%  FORMAT determines how the output should look.</span>
+0012 <span class="comment">%    'element'  -  element by element simple output (default)</span>
+0013 <span class="comment">%    'input'    -  list of unique elements followed by element position</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%  See also plottwiss, drawlattice</span>
+0016 
+0017 <span class="comment">%  Written by Eugene Tan</span>
+0018 
+0019 
+0020 <span class="keyword">global</span> THERING
+0021 
+0022 <span class="comment">% parse headers</span>
+0023 index = [];
+0024 filename = <span class="string">''</span>;
+0025 element = 1;
+0026 input = 0;
+0027 <span class="keyword">for</span> i=nargin:-1:1
+0028     <span class="keyword">if</span> iscell(varargin{i})
+0029         THERING = varargin{i};
+0030     <span class="keyword">elseif</span> ischar(varargin{i})
+0031         <span class="keyword">switch</span> varargin{i}
+0032             <span class="keyword">case</span> <span class="string">'element'</span>
+0033                 element = 1;
+0034             <span class="keyword">case</span> <span class="string">'input'</span>
+0035                 input = 1;
+0036             <span class="keyword">otherwise</span>
+0037                 filename = varargin{i};
+0038         <span class="keyword">end</span>
+0039     <span class="keyword">elseif</span> isnumeric(varargin{i})
+0040         index = varargin{i};
+0041     <span class="keyword">else</span>
+0042         fprintf(<span class="string">'Input parameter number %d ignored\n'</span>,i);
+0043     <span class="keyword">end</span>
+0044 <span class="keyword">end</span>
+0045 
+0046 
+0047 <span class="comment">% need to specify thering to use</span>
+0048 <span class="keyword">if</span> isempty(THERING)
+0049     error(<span class="string">'AT model not found'</span>);
+0050 <span class="keyword">end</span>
+0051 
+0052 
+0053 <span class="comment">% if index is not specified by the user then print all the elements</span>
+0054 <span class="keyword">if</span> isempty(index)
+0055     index = 1:length(THERING);
+0056 <span class="keyword">end</span>
+0057 
+0058 <span class="keyword">if</span> isempty(filename)
+0059     <span class="comment">% standard output</span>
+0060     fid = 1;
+0061 <span class="keyword">else</span>
+0062     <span class="comment">% open file and write to it</span>
+0063     fid = fopen(filename,<span class="string">'w'</span>);
+0064 <span class="keyword">end</span>
+0065 
+0066 
+0067 <span class="keyword">if</span> input
+0068     <span class="comment">% cycle through index and determine unique elements</span>
+0069     famnames = {};
+0070     uniqueindex = [];
+0071     elementline = {};
+0072     <span class="keyword">for</span> i=index
+0073         elementline{end+1} = THERING{i}.FamName;
+0074         <span class="keyword">if</span> isempty(strmatch(THERING{i}.FamName,strvcat(famnames)))
+0075             famnames{end+1,1} = THERING{i}.FamName;
+0076             uniqueindex(end+1) = i;
+0077         <span class="keyword">end</span>
+0078     <span class="keyword">end</span>
+0079     index = uniqueindex;
+0080 <span class="keyword">end</span>
+0081 
+0082 <span class="comment">% Information header</span>
+0083 fprintf(fid,<span class="string">'   === Element Definitions ===\n\n'</span>);
+0084 fprintf(fid,<span class="string">'   DRIFT      POS  LENGTH\n'</span>);
+0085 fprintf(fid,<span class="string">'   MARKER     POS  LENGTH\n'</span>);
+0086 fprintf(fid,<span class="string">'   QUAD       POS  LENGTH  K\n'</span>);
+0087 fprintf(fid,<span class="string">'   MULTIPOLE  POS  LENGTH  NORMAL_POLY\n'</span>);
+0088 fprintf(fid,<span class="string">'   BEND       POS  LENGTH  ANGLE  ENTRANCE  EXIT  NORMAL_POLY\n'</span>);
+0089 fprintf(fid,<span class="string">'\n'</span>);
+0090 
+0091 L = findspos(THERING, 1:length(THERING));
+0092 
+0093 <span class="keyword">for</span> i=index
+0094     elstring = [sprintf(<span class="string">'%10s '</span>,THERING{i}.FamName) <span class="string">' '</span>];
+0095     <span class="keyword">switch</span> THERING{i}.PassMethod
+0096         <span class="keyword">case</span> {<span class="string">'DriftPass'</span>}
+0097             elstring = [elstring sprintf(<span class="string">'%10s %11.6f %10.7f\n'</span>,<span class="string">'DRIFT'</span>, L(i), THERING{i}.Length)];
+0098         <span class="keyword">case</span> {<span class="string">'IdentityPass'</span>}
+0099             elstring = [elstring sprintf(<span class="string">'%10s %11.6f %10.7f\n'</span>,<span class="string">'MARKER'</span>, L(i),THERING{i}.Length)];
+0100         <span class="keyword">case</span> {<span class="string">'AperturePass'</span>}
+0101             elstring = [elstring sprintf(<span class="string">'%10s %11.6f\n'</span>,<span class="string">'Aperture'</span>, L(i))];
+0102         <span class="keyword">case</span> {<span class="string">'CavityPass'</span>}
+0103             elstring = [elstring sprintf(<span class="string">'%10s %11.6f %10.7f %10.1f\n'</span>,<span class="keyword">...</span>
+0104                 <span class="string">'CAVITY'</span>, L(i), THERING{i}.Length, THERING{i}.Frequency)];
+0105         <span class="keyword">case</span> {<span class="string">'CorrectorPass'</span>}
+0106             elstring = [elstring sprintf(<span class="string">'%10s %11.6f %10.7f %10.7f %10.7f\n'</span>,<span class="keyword">...</span>
+0107                 <span class="string">'CORRECTOR'</span>, L(i), THERING{i}.Length, THERING{i}.KickAngle)];
+0108         <span class="keyword">case</span> {<span class="string">'QuadLinearPass'</span>}
+0109             elstring = [elstring sprintf(<span class="string">'%10s %11.6f %10.7f %10.7f\n'</span>,<span class="keyword">...</span>
+0110                 <span class="string">'QUAD'</span>, L(i), THERING{i}.Length,THERING{i}.PolynomB(2))];
+0111         <span class="keyword">case</span> {<span class="string">'StrMPoleSymplectic4Pass'</span> <span class="string">'StrMPoleSymplectic4RadPass'</span>}
+0112             elstring = [elstring sprintf(<span class="string">'%10s %11.6f %10.7f '</span>,<span class="string">'MULTIPOLE'</span>, L(i), THERING{i}.Length) <span class="keyword">...</span>
+0113                 sprintf(<span class="string">'%10.7f '</span>, THERING{i}.PolynomB) sprintf(<span class="string">'\n'</span>)];
+0114         <span class="keyword">case</span> {<span class="string">'BendLinearPass'</span> <span class="string">'BndMPoleSymplectic4Pass'</span>,<span class="string">'BndMPoleSymplectic4RadPass'</span>}
+0115             elstring = [elstring sprintf(<span class="string">'%10s %11.6f %10.7f %10.7f %10.7f %10.7f '</span>,<span class="keyword">...</span>
+0116                 <span class="string">'BEND'</span>, L(i), THERING{i}.Length,THERING{i}.BendingAngle, THERING{i}.EntranceAngle, THERING{i}.ExitAngle) <span class="keyword">...</span>
+0117                 sprintf(<span class="string">'%10.7f '</span>, THERING{i}.PolynomB) sprintf(<span class="string">'\n'</span>)];
+0118         <span class="keyword">otherwise</span>
+0119             elstring = [elstring sprintf(<span class="string">'%10s %11.6f (#%d)\n'</span>, <span class="string">'UNKNOWN ELEMENT'</span>, L(i), i')];
+0120             <span class="comment">%fprintf('   UNKNOWN ELEMENT (#%d)\n', i);</span>
+0121     <span class="keyword">end</span>
+0122     fprintf(fid,<span class="string">'%s'</span>,elstring);
+0123 <span class="keyword">end</span>
+0124 
+0125 <span class="keyword">if</span> input
+0126     fprintf(fid,<span class="string">'\n\n === Element Arrangement === \n\n'</span>);
+0127     elstring = <span class="string">''</span>;
+0128     <span class="keyword">for</span> i=1:length(elementline)
+0129         elstring = [elstring sprintf(<span class="string">'%10s '</span>,elementline{i})];
+0130         <span class="keyword">if</span> mod(i,5) == 0
+0131             fprintf(fid,<span class="string">'%s\n'</span>,elstring);
+0132             elstring = <span class="string">''</span>;
+0133         <span class="keyword">end</span>
+0134     <span class="keyword">end</span>
+0135     fprintf(fid,<span class="string">'%s\n'</span>,elstring);
+0136 <span class="keyword">end</span>
+0137 
+0138 <span class="keyword">if</span> fid ~= 1
+0139     fclose(fid);
+0140 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

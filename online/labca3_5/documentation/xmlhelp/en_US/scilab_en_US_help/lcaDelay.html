@@ -1,0 +1,82 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>lcaDelay</title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	<span class="previous"><a href="lcaDebugOn.html">&lt;&lt; lcaDebugOn</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="lcaGet.html">lcaGet &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path"><a href="index.html">labCA</a> &gt;&gt; <a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a> &gt; lcaDelay</span>
+
+    <br /><br />
+    <div class="refnamediv"><h1 class="refname">lcaDelay</h1>
+    <p class="refpurpose">Delay execution of scilab or matlab for the specified time to handle    channel access activity (monitors).</p></div>
+
+
+<div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3>
+   <div class="synopsis"><pre><span class="functionid">lcaDelay</span><span class="default">(</span><span class="default">timeout</span><span class="default">)</span></pre></div></div>
+
+<div class="refsection"><h3 class="title">Description</h3>
+   <p class="para"></p>
+   <p class="para">Delay execution of scilab or matlab for the specified time to handle
+channel access activity (monitors). Using this call is not needed under
+EPICS-3.14 since monitors are transparently handled by separate
+threads. These ``worker threads&#0039;&#0039; receive data from CA on monitored
+channels ``in the background&#0039;&#0039; while scilab/matlab are processing
+arbitrary calculations. You only need to either poll the library for
+the data being ready using the [1]lcaNewMonitorValue()) routine or
+block for data becoming available using [2]lcaNewMonitorWait.</p>
+   <p class="para"></p></div>
+
+<div class="refsection"><h3 class="title">Parameters</h3>
+   <dl></dl></div>
+
+<div class="refsection"><h3 class="title">See also</h3>
+   <ul class="itemizedlist"><li class="member"><a href="lcaNewMonitorValue.html" class="link">1. lcaNewMonitorValue</a></li>
+   <li class="member"><a href="lcaNewMonitorWait.html" class="link">2. lcaNewMonitorWait</a></li></ul></div>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	<span class="previous"><a href="lcaDebugOn.html">&lt;&lt; lcaDebugOn</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="lcaGet.html">lcaGet &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

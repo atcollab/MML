@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Common Arguments and Return Values</TITLE>
+<META NAME="description" CONTENT="Common Arguments and Return Values">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="manual.css">
+
+<LINK REL="next" HREF="node4.html">
+<LINK REL="previous" HREF="node2.html">
+<LINK REL="up" HREF="node2.html">
+<LINK REL="next" HREF="node4.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html69"
+  HREF="node4.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html67"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html61"
+  HREF="node2.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html70"
+  HREF="node4.html">Error Handling</A>
+<B> Up:</B> <A NAME="tex2html68"
+  HREF="node2.html">Supported EZCA Calls</A>
+<B> Previous:</B> <A NAME="tex2html62"
+  HREF="node2.html">Supported EZCA Calls</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html71"
+  HREF="node3.html#SECTION00021100000000000000">PV Argument</A>
+<LI><A NAME="tex2html72"
+  HREF="node3.html#SECTION00021200000000000000">Timestamp Format</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H2><A NAME="SECTION00021000000000000000">
+Common Arguments and Return Values</A>
+</H2>
+
+<H3><A NAME="SECTION00021100000000000000">
+PV Argument</A>
+</H3>
+All <SPAN  CLASS="textit">labCA</SPAN> calls take a <SPAN  CLASS="textit">PV</SPAN> argument identifying
+the EPICS process variables the user wants to connect to.
+PVs are plain ASCII strings. <SPAN  CLASS="textit">labCA</SPAN> is capable of handling
+multiple PVs in a single call; they are simply passed as a
+column vector:
+<PRE>
+pvs = [ 'PVa'; 'b'; 'anotherone' ]
+</PRE>
+Because <SPAN  CLASS="textit">matlab</SPAN> doesn't allow the rows of
+a string vector to be of different size, the <SPAN  CLASS="textit">matlab</SPAN>
+wrapper expects a <SPAN  CLASS="textit">cell-</SPAN> array of strings:
+<PRE>
+pvs = { 'PVa'; 'b'; 'anotherone' }
+</PRE>
+
+<P>
+All channel access activities for the PVs
+passed to a single <SPAN  CLASS="textit">labCA</SPAN> call are batched together and
+completion of the batch is awaited before returning from
+the <SPAN  CLASS="textit">labCA</SPAN> call. Consider the following example:<A NAME="tex2html5"
+  HREF="#foot797"><SUP><SPAN CLASS="arabic">5</SPAN></SUP></A><PRE>
+lcaPut( 'trigger', 1 ) \\
+data=lcaGet( ['sensor1' ; 'sens2'] );
+</PRE>
+
+<UL>
+<LI>It is guaranteed that writing the ``trigger''
+completes (on the CA server) prior to reading the
+sensors.<A NAME="tex2html6"
+  HREF="#foot139"><SUP><SPAN CLASS="arabic">6</SPAN></SUP></A>
+</LI>
+<LI>Reading the two sensors is done in ``parallel'' --
+the exact order is unspecified. After the command sequence
+(successfully) completes, all the data are valid.
+</LI>
+</UL>
+
+<P>
+
+<H3><A NAME="SECTION00021200000000000000"></A>
+<A NAME="tsformat"></A>
+<BR>
+Timestamp Format
+</H3>
+Channel access timestamps are ``POSIX struct timespec''
+compliant, i.e. they provide the number of nanoseconds
+expired since 00:00:00 UTC, January 1, 1970. <SPAN  CLASS="textit">labCA</SPAN> 
+translates the timestamps into <SPAN  CLASS="textit">complex numbers</SPAN>
+with the seconds (<TT>tv_sec</TT> member) and nanoseconds
+(<TT>tv_nsec</TT>) in the real and imaginary parts, respectively.
+This makes it easy to extract the seconds while still maintaining
+full accuracy.
+
+<P>
+<BR><HR><H4>Footnotes</H4>
+<DL>
+<DT><A NAME="foot797">...</A><A
+ HREF="node3.html#tex2html5"><SUP><SPAN CLASS="arabic">5</SPAN></SUP></A></DT>
+<DD>
+In <SPAN  CLASS="textit">matlab</SPAN>, the square brackets (``[]'') must be replaced
+by curly braces (``{}'').
+
+</DD>
+<DT><A NAME="foot139">...</A><A
+ HREF="node3.html#tex2html6"><SUP><SPAN CLASS="arabic">6</SPAN></SUP></A></DT>
+<DD>If the remote sensors have finite
+processing time, the subsequent CA read may still
+get old data -- depending on the device support
+etc.; this is beyond the scope of channel access, however.
+
+</DD>
+</DL>
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html69"
+  HREF="node4.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html67"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html61"
+  HREF="node2.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html70"
+  HREF="node4.html">Error Handling</A>
+<B> Up:</B> <A NAME="tex2html68"
+  HREF="node2.html">Supported EZCA Calls</A>
+<B> Previous:</B> <A NAME="tex2html62"
+  HREF="node2.html">Supported EZCA Calls</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+till
+2007-10-13
+</ADDRESS>
+</BODY>
+</HTML>

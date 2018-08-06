@@ -1,0 +1,3 @@
+function gotow
+
+gotophysdata;

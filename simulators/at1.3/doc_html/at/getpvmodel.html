@@ -1,0 +1,1155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of getpvmodel</title>
+  <meta name="keywords" content="getpvmodel">
+  <meta name="description" content="GETPVMODEL - Get the model value">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; getpvmodel.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>getpvmodel
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>GETPVMODEL - Get the model value</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">GETPVMODEL - Get the model value
+  [Value, tout, DataTime, ErrorFlag] = getpvmodel(Family, Field, DeviceList, t)
+  [Value, tout, DataTime, ErrorFlag] = getpvmodel(Family, DeviceList, t)
+  [Value, tout, DataTime, ErrorFlag] = getpvmodel(DataStructure, t)
+
+  INPUTS
+  1. Family - Family Name
+              Data Structure
+              Accelerator Object
+              AT family name (or 'All' for every AT element)
+              'DCCT', 'TUNE', 'Energy'
+  2. Field - Accelerator Object field name ('Monitor', 'Setpoint', etc) {'Monitor'}
+             AT field name
+                 or
+             'K','Quad','Quadrupole'
+             'K2','Sext','Sextupole'
+             'K3','Octupole'
+             'KS1','SkewQuad','Skew'
+             'Roll' or 'Tilt' - for a magnet rolls
+             'RollX' or 'TiltX' and 'RollY' or 'TiltY' - for corrector magnet rolls
+             'DX' or 'XShift' - for a magnet shift (see setshift)
+             'ClosedOrbit' - [x Px y Py dP dL] (dL is only calculated if the cavity is on)
+
+             'xTurns', 'PxTurns', 'yTurns', 'PyTurns', dpTurns', 'dLTurns' (single turn data) (&quot;BPM&quot; Number x N turns)
+             'FirstTurn' or 'LinePass' - 6-dimensional first turn (single pass)
+             'Turns' - 3 dimensional matrix (BPM Number x N turns x 6)
+             Note: Units can only be 'Physics' for these field types.  'xTurns' or 'yTurns' can
+                   be converted to 'Hardware' units by calling physics2hw as a separate call.
+             Note: getpvmodel('TwissData','ClosedOrbit') - Gets the 6-dim start condition at the first AT element 
+                   getpvmodel('TwissData', Field) - Gets the TwissData.(Field) twiss parameters at the first AT element
+
+  3. DeviceList ([Sector Device #] or [element #]) {Default: Entire family}
+  4. 'Physics'  - Use physics  units (optional override of units)
+     'Hardware' - Use hardware units (optional override of units)  {Default: Hardware}
+  5. 'Struct' will return a data structure {Default for data structure inputs}
+     'Numeric' will return numeric outputs {Default for non-data structure inputs}
+
+  OUTPUTS
+  1. Value - Model value
+  2. tout - Time it took to compute the output [seconds]
+  3. DataTime - Time (in seconds) since  00:00:00, Jan 1, 1970
+                 (seconds + milliseconds * i)
+  4. ErrorFlag
+
+  NOTES
+  1. If Family is a cell array, then DeviceList and Field can also be a cell arrays
+
+  See also getpv, <a href="setpvmodel.html" class="code" title="function ErrorFlag = setpvmodel(varargin)">setpvmodel</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>	FAMILY2ATINDEX - Returns the AT index for a given family</li><li><a href="getcavity.html" class="code" title="function [CavityState, PassMethod, ATCavityIndex, RF, HarmonicNumber] = getcavity(THERING)">getcavity</a>	GETCAVITY - Returns the RF cavity state ('On' / 'Off')</li><li><a href="getenergymodel.html" class="code" title="function GeV = getenergymodel(iATIndex)">getenergymodel</a>	GETENERGYMODEL - Returns the model energy in GeV</li><li><a href="getharmonicnumber.html" class="code" title="function [HarmonicNumber, RF] = getharmonicnumber">getharmonicnumber</a>	GETHARMONICNUMBER - Returns the harmonic number from the AT model</li><li><a href="getpvmodel.html" class="code" title="function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)">getpvmodel</a>	GETPVMODEL - Get the model value</li><li><a href="getturns.html" class="code" title="function [xAllBPMs, ATindex, LostBeam] = getturns(x0, N, Family, DeviceList)">getturns</a>	GETTURNS - Single particle tracking for multiple turns</li><li><a href="isradiationon.html" class="code" title="function Answer = isradiationon">isradiationon</a>	ISRADIATIONON - 1 if a radiation passmethod is found</li><li><a href="modeltune.html" class="code" title="function [FractionalTune, IntegerTune] = modeltune">modeltune</a>	MODELTUNE - Returns the model tune (2x1 vector)</li><li><a href="setcavity.html" class="code" title="function ATCavityIndex = setcavity(InputString)">setcavity</a>	SETCAVITY - Set the RF cavity state</li><li><a href="setradiation.html" class="code" title="function [PassMethod, ATIndex, FamName, PassMethodOld, ATIndexOld, FamNameOld] = setradiation(InputString)">setradiation</a>	SETRADIATION - Sets the model PassMethod to include or exclude radiation ('On' / 'Off' {Default})</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="getpvmodel.html" class="code" title="function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)">getpvmodel</a>	GETPVMODEL - Get the model value</li><li><a href="getturns.html" class="code" title="function [xAllBPMs, ATindex, LostBeam] = getturns(x0, N, Family, DeviceList)">getturns</a>	GETTURNS - Single particle tracking for multiple turns</li></ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)</a>
+0002 <span class="comment">%GETPVMODEL - Get the model value</span>
+0003 <span class="comment">%  [Value, tout, DataTime, ErrorFlag] = getpvmodel(Family, Field, DeviceList, t)</span>
+0004 <span class="comment">%  [Value, tout, DataTime, ErrorFlag] = getpvmodel(Family, DeviceList, t)</span>
+0005 <span class="comment">%  [Value, tout, DataTime, ErrorFlag] = getpvmodel(DataStructure, t)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%  INPUTS</span>
+0008 <span class="comment">%  1. Family - Family Name</span>
+0009 <span class="comment">%              Data Structure</span>
+0010 <span class="comment">%              Accelerator Object</span>
+0011 <span class="comment">%              AT family name (or 'All' for every AT element)</span>
+0012 <span class="comment">%              'DCCT', 'TUNE', 'Energy'</span>
+0013 <span class="comment">%  2. Field - Accelerator Object field name ('Monitor', 'Setpoint', etc) {'Monitor'}</span>
+0014 <span class="comment">%             AT field name</span>
+0015 <span class="comment">%                 or</span>
+0016 <span class="comment">%             'K','Quad','Quadrupole'</span>
+0017 <span class="comment">%             'K2','Sext','Sextupole'</span>
+0018 <span class="comment">%             'K3','Octupole'</span>
+0019 <span class="comment">%             'KS1','SkewQuad','Skew'</span>
+0020 <span class="comment">%             'Roll' or 'Tilt' - for a magnet rolls</span>
+0021 <span class="comment">%             'RollX' or 'TiltX' and 'RollY' or 'TiltY' - for corrector magnet rolls</span>
+0022 <span class="comment">%             'DX' or 'XShift' - for a magnet shift (see setshift)</span>
+0023 <span class="comment">%             'ClosedOrbit' - [x Px y Py dP dL] (dL is only calculated if the cavity is on)</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">%             'xTurns', 'PxTurns', 'yTurns', 'PyTurns', dpTurns', 'dLTurns' (single turn data) (&quot;BPM&quot; Number x N turns)</span>
+0026 <span class="comment">%             'FirstTurn' or 'LinePass' - 6-dimensional first turn (single pass)</span>
+0027 <span class="comment">%             'Turns' - 3 dimensional matrix (BPM Number x N turns x 6)</span>
+0028 <span class="comment">%             Note: Units can only be 'Physics' for these field types.  'xTurns' or 'yTurns' can</span>
+0029 <span class="comment">%                   be converted to 'Hardware' units by calling physics2hw as a separate call.</span>
+0030 <span class="comment">%             Note: getpvmodel('TwissData','ClosedOrbit') - Gets the 6-dim start condition at the first AT element</span>
+0031 <span class="comment">%                   getpvmodel('TwissData', Field) - Gets the TwissData.(Field) twiss parameters at the first AT element</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">%  3. DeviceList ([Sector Device #] or [element #]) {Default: Entire family}</span>
+0034 <span class="comment">%  4. 'Physics'  - Use physics  units (optional override of units)</span>
+0035 <span class="comment">%     'Hardware' - Use hardware units (optional override of units)  {Default: Hardware}</span>
+0036 <span class="comment">%  5. 'Struct' will return a data structure {Default for data structure inputs}</span>
+0037 <span class="comment">%     'Numeric' will return numeric outputs {Default for non-data structure inputs}</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">%  OUTPUTS</span>
+0040 <span class="comment">%  1. Value - Model value</span>
+0041 <span class="comment">%  2. tout - Time it took to compute the output [seconds]</span>
+0042 <span class="comment">%  3. DataTime - Time (in seconds) since  00:00:00, Jan 1, 1970</span>
+0043 <span class="comment">%                 (seconds + milliseconds * i)</span>
+0044 <span class="comment">%  4. ErrorFlag</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">%  NOTES</span>
+0047 <span class="comment">%  1. If Family is a cell array, then DeviceList and Field can also be a cell arrays</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">%  See also getpv, setpvmodel</span>
+0050 
+0051 <span class="comment">%  Written by Greg Portmann</span>
+0052 
+0053 
+0054 <span class="keyword">global</span> THERING THERINGCELL
+0055 
+0056 ErrorFlag = 0;
+0057 
+0058 <span class="comment">% Input parsing</span>
+0059 StructOutputFlag = 0;
+0060 NumericOutputFlag = 0;
+0061 UnitsFlag = {};
+0062 <span class="keyword">for</span> i = length(varargin):-1:1
+0063     <span class="keyword">if</span> isstruct(varargin{i})
+0064         <span class="comment">% Ignor structures</span>
+0065     <span class="keyword">elseif</span> iscell(varargin{i})
+0066         <span class="comment">% Ignor cells</span>
+0067     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'struct'</span>)
+0068         StructOutputFlag = 1;
+0069         varargin(i) = [];
+0070     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'numeric'</span>)
+0071         NumericOutputFlag = 1;
+0072         StructOutputFlag = 0;
+0073         varargin(i) = [];
+0074     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'simulator'</span>) || strcmpi(varargin{i},<span class="string">'model'</span>) || strcmpi(varargin{i},<span class="string">'Online'</span>) || strcmpi(varargin{i},<span class="string">'Manual'</span>)
+0075         <span class="comment">% Remove and ignor</span>
+0076         varargin(i) = [];
+0077     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'physics'</span>)
+0078         UnitsFlag = {<span class="string">'Physics'</span>};
+0079         varargin(i) = [];
+0080     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'hardware'</span>)
+0081         UnitsFlag = {<span class="string">'Hardware'</span>};
+0082         varargin(i) = [];
+0083     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'archive'</span>)
+0084         <span class="comment">% Just remove</span>
+0085         varargin(i) = [];
+0086     <span class="keyword">elseif</span> strcmpi(varargin{i},<span class="string">'noarchive'</span>)
+0087         <span class="comment">% Just remove</span>
+0088         varargin(i) = [];
+0089     <span class="keyword">end</span>
+0090 <span class="keyword">end</span>
+0091 
+0092 <span class="keyword">if</span> isempty(varargin)
+0093     error(<span class="string">'Must have at least a family name input'</span>);
+0094 <span class="keyword">else</span>
+0095     Family = varargin{1};
+0096     <span class="keyword">if</span> length(varargin) &gt;= 2
+0097         Field = varargin{2};
+0098     <span class="keyword">end</span>
+0099     <span class="keyword">if</span> length(varargin) &gt;= 3
+0100         DeviceList = varargin{3};
+0101     <span class="keyword">end</span>
+0102     <span class="keyword">if</span> length(varargin) &gt;= 4
+0103         t = varargin{4};
+0104     <span class="keyword">else</span>
+0105         t = 0;
+0106     <span class="keyword">end</span>
+0107 <span class="keyword">end</span>
+0108 
+0109 
+0110 <span class="comment">%%%%%%%%%%%%%%%%%%%%%</span>
+0111 <span class="comment">% Cell Array Inputs %</span>
+0112 <span class="comment">%%%%%%%%%%%%%%%%%%%%%</span>
+0113 <span class="keyword">if</span> iscell(Family)
+0114     <span class="keyword">for</span> i = 1:length(Family)
+0115         <span class="keyword">if</span> length(varargin) &lt; 2
+0116             [AM{i}, tout{i}, DataTime{i}, ErrorFlag{i}] = <a href="getpvmodel.html" class="code" title="function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)">getpvmodel</a>(Family{i}, UnitsFlag{:});
+0117         <span class="keyword">elseif</span> length(varargin) &lt; 3
+0118             <span class="keyword">if</span> iscell(Field)
+0119                 [AM{i}, tout{i}, DataTime{i}, ErrorFlag{i}] = <a href="getpvmodel.html" class="code" title="function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)">getpvmodel</a>(Family{i}, Field{i}, UnitsFlag{:});
+0120             <span class="keyword">else</span>
+0121                 [AM{i}, tout{i}, DataTime{i}, ErrorFlag{i}] = <a href="getpvmodel.html" class="code" title="function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)">getpvmodel</a>(Family{i}, Field, UnitsFlag{:});
+0122             <span class="keyword">end</span>
+0123         <span class="keyword">else</span>
+0124             <span class="keyword">if</span> iscell(Field)
+0125                 <span class="keyword">if</span> iscell(DeviceList)
+0126                     [AM{i}, tout{i}, DataTime{i}, ErrorFlag{i}] = <a href="getpvmodel.html" class="code" title="function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)">getpvmodel</a>(Family{i}, Field{i}, DeviceList{i}, UnitsFlag{:}, t);
+0127                 <span class="keyword">else</span>
+0128                     [AM{i}, tout{i}, DataTime{i}, ErrorFlag{i}] = <a href="getpvmodel.html" class="code" title="function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)">getpvmodel</a>(Family{i}, Field{i}, DeviceList, UnitsFlag{:}, t);
+0129                 <span class="keyword">end</span>
+0130             <span class="keyword">else</span>
+0131                 <span class="keyword">if</span> iscell(DeviceList)
+0132                     [AM{i}, tout{i}, DataTime{i}, ErrorFlag{i}] = <a href="getpvmodel.html" class="code" title="function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)">getpvmodel</a>(Family{i}, Field, DeviceList{i}, UnitsFlag{:}, t);
+0133                 <span class="keyword">else</span>
+0134                     [AM{i}, tout{i}, DataTime{i}, ErrorFlag{i}] = <a href="getpvmodel.html" class="code" title="function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)">getpvmodel</a>(Family{i}, Field, DeviceList, UnitsFlag{:}, t);
+0135                 <span class="keyword">end</span>
+0136             <span class="keyword">end</span>
+0137         <span class="keyword">end</span>
+0138     <span class="keyword">end</span>
+0139     <span class="keyword">return</span>
+0140 <span class="keyword">end</span>
+0141 
+0142 
+0143 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0144 <span class="comment">% Family or data structure inputs beyond this point %</span>
+0145 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0146 <span class="keyword">if</span> isstruct(Family)
+0147     <span class="comment">% Only change StructOutputFlag if 'numeric' is not on the input line</span>
+0148     <span class="keyword">if</span> ~NumericOutputFlag
+0149         StructOutputFlag = 1;
+0150     <span class="keyword">end</span>
+0151 
+0152     <span class="comment">% Data structure inputs</span>
+0153     Field = <span class="string">''</span>;
+0154     <span class="keyword">if</span> length(varargin) &gt;= 2
+0155         <span class="comment">% Look for t as the second input</span>
+0156         <span class="keyword">if</span> isnumeric(varargin{2})
+0157             t = varargin{2};
+0158         <span class="keyword">else</span>
+0159             Field = varargin{2};
+0160         <span class="keyword">end</span>
+0161     <span class="keyword">end</span>
+0162     <span class="keyword">if</span> length(varargin) &gt;= 3
+0163         DeviceList =  varargin{3};
+0164     <span class="keyword">else</span>
+0165         DeviceList = [];
+0166     <span class="keyword">end</span>
+0167     <span class="keyword">if</span> length(varargin) &gt;= 4
+0168         t =  varargin{4};
+0169     <span class="keyword">end</span>
+0170     <span class="keyword">if</span> isfield(Family,<span class="string">'FamilyName'</span>)
+0171         Family = Family.FamilyName;
+0172     <span class="keyword">else</span>
+0173         error(<span class="string">'For data structure inputs FamilyName field must exist'</span>)
+0174     <span class="keyword">end</span>
+0175     <span class="keyword">if</span> isempty(Field)
+0176         <span class="keyword">if</span> isfield(Family,<span class="string">'Field'</span>)
+0177             Field = Family.Field;
+0178         <span class="keyword">end</span>
+0179     <span class="keyword">end</span>
+0180     <span class="keyword">if</span> isempty(DeviceList)
+0181         <span class="keyword">if</span> isfield(Family,<span class="string">'DeviceList'</span>)
+0182             DeviceList = Family.DeviceList;
+0183         <span class="keyword">end</span>
+0184     <span class="keyword">end</span>
+0185     <span class="keyword">if</span> isempty(UnitsFlag)
+0186         <span class="keyword">if</span> isfield(Family,<span class="string">'Units'</span>)
+0187             UnitsFlag{1} = Family.Units;
+0188         <span class="keyword">end</span>
+0189     <span class="keyword">end</span>
+0190 <span class="keyword">else</span>
+0191     <span class="comment">% Family string input</span>
+0192     <span class="keyword">if</span> length(varargin) &lt; 2
+0193         Field = <span class="string">''</span>;
+0194     <span class="keyword">end</span>
+0195     <span class="keyword">if</span> length(varargin) &lt; 3
+0196         DeviceList = [];
+0197     <span class="keyword">end</span>
+0198     <span class="keyword">if</span> isnumeric(Field)
+0199         <span class="keyword">if</span> length(varargin) &gt;= 3
+0200             t = DeviceList;
+0201         <span class="keyword">end</span>
+0202         DeviceList = Field;
+0203         Field = <span class="string">''</span>;
+0204     <span class="keyword">end</span>
+0205 <span class="keyword">end</span>
+0206 
+0207 <span class="keyword">if</span> isempty(Field)
+0208     Field = <span class="string">'Monitor'</span>;
+0209 <span class="keyword">end</span>
+0210 <span class="keyword">if</span> isempty(DeviceList)
+0211     <span class="keyword">if</span> isfamily(Family)
+0212         DeviceList = family2dev(Family);
+0213     <span class="keyword">end</span>
+0214 <span class="keyword">else</span>
+0215     <span class="keyword">if</span> isfamily(Family)
+0216         <span class="keyword">if</span> (size(DeviceList,2) == 1)
+0217             DeviceList = elem2dev(Family, DeviceList);
+0218         <span class="keyword">end</span>
+0219     <span class="keyword">end</span>
+0220 <span class="keyword">end</span>
+0221 
+0222 <span class="keyword">if</span> isempty(UnitsFlag)
+0223     UnitsFlag = <span class="string">'Hardware'</span>;
+0224 <span class="keyword">else</span>
+0225     UnitsFlag = UnitsFlag{1};
+0226 <span class="keyword">end</span>
+0227 
+0228 
+0229 <span class="comment">% Look to see it the AT model needs to be changed for this family</span>
+0230 ATModelNumber = getfamilydata(Family, <span class="string">'AT'</span>, <span class="string">'ATModel'</span>);
+0231 <span class="keyword">if</span> ~isempty(ATModelNumber)
+0232     <span class="comment">% Change THERING</span>
+0233     THERING = THERINGCELL{ATModelNumber};
+0234 
+0235     <span class="comment">% Set AD.Circumference</span>
+0236     setfamilydata(findspos(THERING,length(THERING)+1), <span class="string">'Circumference'</span>);
+0237     
+0238     <span class="keyword">if</span> isfield(THERING{1}, <span class="string">'MachineType'</span>)
+0239         setfamilydata(THERING{1}.MachineType, <span class="string">'MachineType'</span>);
+0240     <span class="keyword">end</span>
+0241     <span class="keyword">if</span> isfield(THERING{1}, <span class="string">'Energy'</span>)
+0242         setfamilydata(THERING{1}.Energy, <span class="string">'Energy'</span>);
+0243     <span class="keyword">end</span>
+0244     <span class="keyword">if</span> isfield(THERING{1}, <span class="string">'InjectionEnergy'</span>)
+0245         setfamilydata(THERING{1}.InjectionEnergy, <span class="string">'InjectionEnergy'</span>);
+0246     <span class="keyword">end</span>
+0247     <span class="keyword">if</span> isfield(THERING{1}, <span class="string">'MCF'</span>)
+0248         setfamilydata(THERING{1}.MCF, <span class="string">'MCF'</span>);
+0249     <span class="keyword">else</span>
+0250         <span class="comment">% Recompute the MCF if it's likely if a new accelerator</span>
+0251         <span class="comment">%try</span>
+0252         <span class="comment">%    setfamilydata(getmcf('Model'), 'MCF');</span>
+0253         <span class="comment">%catch</span>
+0254         <span class="comment">%end</span>
+0255     <span class="keyword">end</span>
+0256 <span class="keyword">end</span>
+0257 
+0258 
+0259 <span class="comment">% Simulator (AT)</span>
+0260 <span class="keyword">if</span> isempty(THERING)
+0261     error(<span class="string">'Simulator variable is not setup properly.'</span>);
+0262 <span class="keyword">end</span>
+0263 
+0264 
+0265 t0 = gettime;
+0266 
+0267 <span class="comment">%%%%%%%%%%%%</span>
+0268 <span class="comment">% Get Data %</span>
+0269 <span class="comment">%%%%%%%%%%%%</span>
+0270 
+0271 <span class="comment">% Families that do not require at AT field</span>
+0272 <span class="keyword">if</span> strcmp(Family, <span class="string">'TUNE'</span>)
+0273     AM = <a href="modeltune.html" class="code" title="function [FractionalTune, IntegerTune] = modeltune">modeltune</a>;
+0274 
+0275     <span class="comment">% Add random errors</span>
+0276     <span class="comment">%AM = Tune1' + rand(2,1)*.0001;</span>
+0277 
+0278 <span class="keyword">elseif</span> strcmp(Family, <span class="string">'RF'</span>)
+0279     
+0280     iCavity = findcells(THERING,<span class="string">'Frequency'</span>);
+0281     <span class="keyword">if</span> isempty(iCavity)
+0282         [HarmNumber, AM] = <a href="getharmonicnumber.html" class="code" title="function [HarmonicNumber, RF] = getharmonicnumber">getharmonicnumber</a>;
+0283         AM = AM * 1e6;
+0284     <span class="keyword">else</span>
+0285         AM = THERING{iCavity(1)}.Frequency;
+0286     <span class="keyword">end</span>
+0287     
+0288 <span class="keyword">elseif</span> strcmpi(Family, <span class="string">'DCCT'</span>)
+0289 
+0290     <span class="comment">% 6 hour lifetime, refill at midnight to 1000 mamps</span>
+0291     tau = 6;
+0292     a = clock;
+0293     AM = 1000 * exp(-(60*60*a(4)+60*a(5)+a(6))/tau/60/60);
+0294     
+0295 <span class="keyword">elseif</span> any(strcmpi(Family,{<span class="string">'Energy'</span>,<span class="string">'GeV'</span>}))
+0296     
+0297     AM = <a href="getenergymodel.html" class="code" title="function GeV = getenergymodel(iATIndex)">getenergymodel</a>;
+0298     Family = <span class="string">'GeV'</span>;  <span class="comment">% Just so hw2physics works (ALS)</span>
+0299     
+0300 <span class="keyword">elseif</span> strcmp(Family, <span class="string">'TwissData'</span>)
+0301     
+0302     <span class="keyword">if</span> isfield(THERING{1}, <span class="string">'TwissData'</span>)
+0303         TwissData = THERING{1}.TwissData;
+0304     <span class="keyword">else</span>
+0305         TwissData = getfamilydata(<span class="string">'TwissData'</span>);
+0306     <span class="keyword">end</span>
+0307     
+0308     <span class="keyword">if</span> any(strcmpi(Field, {<span class="string">'xTurns'</span>,<span class="string">'PxTurns'</span>,<span class="string">'yTurns'</span>,<span class="string">'PyTurns'</span>,<span class="string">'dPTurns'</span>,<span class="string">'dLTurns'</span>}))
+0309         <span class="keyword">if</span> ~isfield(TwissData, <span class="string">'ClosedOrbit'</span>)
+0310             error(<span class="string">'ClosedOrbit twiss parameter not found.'</span>);
+0311         <span class="keyword">end</span>
+0312         <span class="keyword">if</span> strcmpi(Field, <span class="string">'xTurns'</span>)
+0313             AM = TwissData.ClosedOrbit(1);
+0314         <span class="keyword">elseif</span> strcmpi(Field, <span class="string">'PxTurns'</span>)
+0315             AM = TwissData.ClosedOrbit(2);
+0316         <span class="keyword">elseif</span> strcmpi(Field, <span class="string">'yTurns'</span>)
+0317             AM = TwissData.ClosedOrbit(3);
+0318         <span class="keyword">elseif</span> strcmpi(Field, <span class="string">'PyTurns'</span>)
+0319             AM = TwissData.ClosedOrbit(4);
+0320         <span class="keyword">elseif</span> strcmpi(Field, <span class="string">'dPTurns'</span>)
+0321             AM = TwissData.dP;
+0322         <span class="keyword">elseif</span> strcmpi(Field, <span class="string">'dLTurns'</span>)
+0323             AM = TwissData.dL;
+0324         <span class="keyword">end</span>
+0325     <span class="keyword">else</span>
+0326         <span class="keyword">if</span> nargin == 1
+0327             AM = TwissData;
+0328         <span class="keyword">else</span>
+0329             AM = TwissData.(Field);
+0330         <span class="keyword">end</span>
+0331     <span class="keyword">end</span>
+0332     <span class="keyword">return</span>;
+0333     
+0334 <span class="keyword">else</span>
+0335     <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0336     <span class="comment">% Families that require an AT field %</span>
+0337     <span class="comment">%%%%%%%%%%%%%%%%%%%%%%\%%%%%%%%%%%%%%%</span>
+0338 
+0339     <span class="comment">% Find the index for where the desired data is in the total device list</span>
+0340     <span class="keyword">if</span> isfamily(Family)
+0341         DeviceListTotal = family2dev(Family, 0);
+0342         [DeviceIndex, iNotFound] = findrowindex(DeviceList, DeviceListTotal);
+0343         <span class="keyword">if</span> ~isempty(iNotFound)
+0344             <span class="comment">% Device not found</span>
+0345             <span class="keyword">for</span> i = 1:length(iNotFound)
+0346                 fprintf(<span class="string">'   No devices to get for Family %s(%d,%d)\n'</span>, Family, DeviceList(i,1), DeviceList(i,2));
+0347             <span class="keyword">end</span>
+0348             error(sprintf(<span class="string">'%d Devices not found'</span>, length(iNotFound)));
+0349         <span class="keyword">end</span>
+0350         
+0351         <span class="comment">% Find the AT structure if it exists</span>
+0352         AT = getfamilydata(Family, Field, <span class="string">'AT'</span>);
+0353         <span class="keyword">if</span> isempty(AT) &amp;&amp; any(strcmpi(Field,{<span class="string">'Setpoint'</span>,<span class="string">'Monitor'</span>,<span class="string">'Sum'</span>,<span class="string">'Set'</span>,<span class="string">'Read'</span>,<span class="string">'Readback'</span>}))
+0354             <span class="comment">% Try to defer the setpoint and monitor field to main family AT field</span>
+0355             AT = getfamilydata(Family, <span class="string">'AT'</span>);
+0356         <span class="keyword">end</span>
+0357         <span class="keyword">if</span> isempty(AT)
+0358             <span class="comment">% Look for Family in the AT-model</span>
+0359             ATIndex = findcells(THERING, <span class="string">'FamName'</span>, Family);
+0360             <span class="keyword">if</span> ~isempty(ATIndex)
+0361                 <span class="comment">% Field becomes the sub-structure of the AT-model</span>
+0362                 AT.ATType = Field;
+0363             <span class="keyword">else</span>
+0364                 <span class="comment">% Make a new field</span>
+0365                 <span class="keyword">if</span> any(strcmpi(Field,{<span class="string">'Setpoint'</span>,<span class="string">'Monitor'</span>,<span class="string">'Sum'</span>,<span class="string">'Set'</span>,<span class="string">'Read'</span>,<span class="string">'Readback'</span>}))
+0366                     Field = <span class="string">'Setpoint'</span>;
+0367                 <span class="keyword">end</span>
+0368                 <span class="comment">% Look for a model field</span>
+0369                 Model = getfamilydata(Family, Field, <span class="string">'Model'</span>);
+0370                 <span class="keyword">if</span> isempty(Model)
+0371                     AM = zeros(size(DeviceList,1),1);
+0372                     <span class="comment">%AM = NaN * zeros(size(DeviceList,1),1);</span>
+0373                     <span class="comment">%AM = randn(size(DeviceList,1),1)/1e6;  % Noise on model???</span>
+0374                 <span class="keyword">else</span>
+0375                     AM = Model.Data(DeviceIndex);  <span class="comment">% Physics units</span>
+0376 
+0377                     <span class="comment">% Change to hardware units if requested</span>
+0378                     <span class="keyword">if</span> strcmpi(UnitsFlag, <span class="string">'Hardware'</span>)
+0379                         AM = physics2hw(Family, Field, AM, DeviceList, <a href="getenergymodel.html" class="code" title="function GeV = getenergymodel(iATIndex)">getenergymodel</a>);
+0380                     <span class="keyword">else</span>
+0381                         UnitsFlag = <span class="string">'Physics'</span>;
+0382                     <span class="keyword">end</span>
+0383                 <span class="keyword">end</span>
+0384 
+0385                 <span class="comment">% Expand if there is a time vector input</span>
+0386                 <span class="keyword">if</span> length(t) &gt; 1
+0387                     AM(:,1:length(t)) = AM * ones(1,length(t));
+0388                     tout(1,1:length(t)) = t + gettime - t0;
+0389                     DataTime(1:size(AM,1),1:length(t)) = fix(t0) + rem(t0,1)*1e9*sqrt(-1);
+0390                 <span class="keyword">else</span>
+0391                     tout = t + gettime - t0;
+0392                     DataTime = fix(t0) + rem(t0,1)*1e9*sqrt(-1);
+0393                 <span class="keyword">end</span>
+0394 
+0395                 <span class="comment">%%%%%%%%%%%%%%%%%%%%%</span>
+0396                 <span class="comment">% Structure Outputs %</span>
+0397                 <span class="comment">%%%%%%%%%%%%%%%%%%%%%</span>
+0398                 <span class="keyword">if</span> StructOutputFlag
+0399                     <span class="comment">% Structure output for channel name method</span>
+0400                     AM.Data = AM;
+0401                     AM.FamilyName = Family;
+0402                     AM.Field = Field;
+0403                     AM.DeviceList = DeviceList;
+0404                     AM.Mode = <span class="string">'Simulator'</span>;
+0405                     AM.t = t;           <span class="comment">% Matlab time at start of measurement</span>
+0406                     AM.tout = tout;     <span class="comment">% Matlab time at  end  of measurement</span>
+0407                     AM.DataTime = DataTime;
+0408                     AM.TimeStamp = clock;
+0409                     AM.Units = UnitsFlag;
+0410                     <span class="keyword">if</span> strcmpi(AM.Units,<span class="string">'Hardware'</span>)
+0411                         AM.UnitsString = getfamilydata(Family, Field, <span class="string">'HWUnits'</span>);
+0412                     <span class="keyword">else</span>
+0413                         AM.UnitsString = getfamilydata(Family, Field, <span class="string">'PhysicsUnits'</span>);
+0414                     <span class="keyword">end</span>
+0415                     AM.DataDescriptor = [];
+0416                     AM.CreatedBy = <span class="string">'getpvmodel'</span>;
+0417                 <span class="keyword">end</span>
+0418                 <span class="keyword">return</span>
+0419             <span class="keyword">end</span>
+0420         <span class="keyword">end</span>
+0421 
+0422 
+0423         <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0424         <span class="comment">% Special function for simulator %</span>
+0425         <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0426         <span class="keyword">if</span> isfield(AT, <span class="string">'SpecialFunctionGet'</span>)
+0427             AM = feval(AT.SpecialFunctionGet, Family, Field, DeviceList);
+0428 
+0429             <span class="keyword">if</span> strcmpi(UnitsFlag, <span class="string">'Hardware'</span>)
+0430                 <span class="keyword">if</span> isfamily(Family, Field)
+0431                     AM = physics2hw(Family, Field, AM, DeviceList, <a href="getenergymodel.html" class="code" title="function GeV = getenergymodel(iATIndex)">getenergymodel</a>);
+0432                 <span class="keyword">else</span>
+0433                     UnitsFlag = <span class="string">'Physics'</span>;
+0434                 <span class="keyword">end</span>
+0435             <span class="keyword">else</span>
+0436                 UnitsFlag = <span class="string">'Physics'</span>;
+0437             <span class="keyword">end</span>
+0438 
+0439             <span class="comment">% Expand if there is a time vector input</span>
+0440             <span class="keyword">if</span> length(t) &gt; 1
+0441                 AM(:,1:length(t)) = AM * ones(1,length(t));
+0442                 tout(1,1:length(t)) = t + gettime - t0;
+0443                 DataTime(1:size(AM,1),1:length(t)) = fix(t0) + rem(t0,1)*1e9*sqrt(-1);
+0444             <span class="keyword">else</span>
+0445                 tout = t + gettime - t0;
+0446                 DataTime = fix(t0) + rem(t0,1)*1e9*sqrt(-1);
+0447             <span class="keyword">end</span>
+0448 
+0449             <span class="keyword">if</span> StructOutputFlag
+0450                 <span class="comment">% Structure output for channel name method</span>
+0451                 AM.Data = AM;
+0452                 AM.FamilyName = Family;
+0453                 AM.Field = Field;
+0454                 AM.DeviceList = DeviceList;
+0455                 AM.Mode = <span class="string">'Simulator'</span>;
+0456                 AM.t = t;           <span class="comment">% Matlab time at start of measurement</span>
+0457                 AM.tout = tout;     <span class="comment">% Matlab time at  end  of measurement</span>
+0458                 AM.DataTime = DataTime;
+0459                 AM.TimeStamp = clock;
+0460                 AM.Units = UnitsFlag;
+0461                 <span class="keyword">if</span> strcmpi(AM.Units,<span class="string">'Hardware'</span>)
+0462                     AM.UnitsString = getfamilydata(Family, Field, <span class="string">'HWUnits'</span>);
+0463                 <span class="keyword">else</span>
+0464                     AM.UnitsString = getfamilydata(Family, Field, <span class="string">'PhysicsUnits'</span>);
+0465                 <span class="keyword">end</span>
+0466                 AM.DataDescriptor = [];
+0467                 AM.CreatedBy = <span class="string">'getpvmodel'</span>;
+0468             <span class="keyword">end</span>
+0469 
+0470             <span class="keyword">return</span>
+0471         <span class="keyword">end</span>
+0472     <span class="keyword">else</span>
+0473         <span class="comment">% Look for an AT family</span>
+0474         <span class="keyword">if</span> strcmpi(Family, <span class="string">'All'</span>)
+0475             AT.ATIndex = 1:length(THERING);
+0476         <span class="keyword">else</span>
+0477             AT.ATIndex = findcells(THERING, <span class="string">'FamName'</span>, Family);
+0478         <span class="keyword">end</span>
+0479         AT.ATIndex = AT.ATIndex(:);
+0480         DeviceIndex = 1:length(AT.ATIndex);
+0481         <span class="keyword">if</span> isempty(DeviceList)
+0482             DeviceList = [ones(length(DeviceIndex),1) DeviceIndex(:)];
+0483         <span class="keyword">end</span>
+0484         AT.ATType = Field;
+0485     <span class="keyword">end</span>
+0486     
+0487     
+0488     <span class="comment">% Get methods</span>
+0489     <span class="keyword">if</span> isfield(AT, <span class="string">'ATParameterGroup'</span>)
+0490         ATIndexList = AT.ATIndex(DeviceIndex,1);  <span class="comment">% Only use the first column</span>
+0491         <span class="keyword">for</span> i = 1:size(DeviceList,1)
+0492             <span class="keyword">if</span> iscell(AT.ATParameterGroup)
+0493                 <span class="comment">% If cell, get the parameter group</span>
+0494                 <span class="comment">% Note:  this only works if the first FieldName sets the group parameter value</span>
+0495                 PGField = AT.ATParameterGroup{DeviceIndex(i)}(1).FieldName;
+0496                 AM(i,:) = getfield(THERING{ATIndexList(i)}, PGField, AT.ATParameterGroup{DeviceIndex(i)}(1).FieldIndex);
+0497 
+0498                 <span class="comment">% If getfield disappears use:</span>
+0499                 <span class="comment">%DataField = THERING{ATIndexList(i)}.(PGField);</span>
+0500                 <span class="comment">%Index1 = AT.ATParameterGroup{DeviceIndex(i)}(1).FieldIndex{1};</span>
+0501                 <span class="comment">%Index2 = AT.ATParameterGroup{DeviceIndex(i)}(1).FieldIndex{2};</span>
+0502                 <span class="comment">%AM(i,1) = DataField(Index1, Index2);</span>
+0503             <span class="keyword">elseif</span> ischar(AT.ATParameterGroup)
+0504                 <span class="comment">% If string, get the field</span>
+0505                 PGField = AT.ATParameterGroup;
+0506                 AM(i,:) = THERING{ATIndexList(i)}.PGField;
+0507             <span class="keyword">end</span>
+0508         <span class="keyword">end</span>
+0509 
+0510     <span class="keyword">else</span>
+0511         
+0512         <span class="comment">% Make sure AT.Index exists</span>
+0513         <span class="keyword">if</span> ~isfield(AT, <span class="string">'ATIndex'</span>)
+0514             AT.ATIndex = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(Family, DeviceListTotal);
+0515         <span class="keyword">end</span>
+0516 
+0517         <span class="comment">% For split magnet reduce the get to the first magnet in the split</span>
+0518         <span class="comment">% If K*Leff (not K) is being varied then use Nsplits as a multiplier</span>
+0519         <span class="keyword">if</span> size(AT.ATIndex,2) &gt; 1
+0520             Nsplits = ones(size(AT.ATIndex));
+0521             Nsplits(find(isnan(AT.ATIndex)))=0;
+0522             Nsplits = sum(Nsplits')';
+0523             ATIndexList = AT.ATIndex(:,1);
+0524         <span class="keyword">else</span>
+0525             ATIndexList = AT.ATIndex;
+0526         <span class="keyword">end</span>
+0527         ATIndexList = ATIndexList(DeviceIndex);
+0528 
+0529 
+0530         <span class="comment">% Check the DeviceIndex</span>
+0531         <span class="keyword">if</span> isempty(ATIndexList)
+0532             AM = [];
+0533             DataTime = 0+0*sqrt(-1);
+0534             <span class="keyword">return</span>;
+0535         <span class="keyword">end</span>
+0536 
+0537 
+0538         <span class="comment">% Switch on simulation method</span>
+0539         <span class="keyword">if</span> any(strcmpi(AT.ATType, {<span class="string">'x'</span>,<span class="string">'BPMx'</span>,<span class="string">'Horizontal'</span>,<span class="string">'y'</span>,<span class="string">'BPMy'</span>,<span class="string">'z'</span>,<span class="string">'BPMz'</span>,<span class="string">'Vertical'</span>,<span class="string">'ClosedOrbit'</span>}))
+0540             <span class="comment">% Need to consider AT 'x' at say Family='Quad' -&gt; rolls etc?</span>
+0541             [ATIndexList, isort] = sort(ATIndexList);
+0542             
+0543             <span class="keyword">if</span> istransport
+0544                 <span class="comment">% Initial launch condition</span>
+0545                 TwissData = <a href="getpvmodel.html" class="code" title="function [AM, tout, DataTime, ErrorFlag] = getpvmodel(varargin)">getpvmodel</a>(<span class="string">'TwissData'</span>);
+0546                 x0 = [TwissData.ClosedOrbit(:); TwissData.dP; TwissData.dL];
+0547                 Orbit = linepass(THERING, x0, ATIndexList);
+0548             <span class="keyword">else</span>
+0549                 [CavityState, PassMethod, iCavity] = <a href="getcavity.html" class="code" title="function [CavityState, PassMethod, ATCavityIndex, RF, HarmonicNumber] = getcavity(THERING)">getcavity</a>;
+0550                 <span class="keyword">if</span> isempty(CavityState)
+0551                     <span class="comment">% No cavity in AT model</span>
+0552                     <span class="keyword">if</span> <a href="isradiationon.html" class="code" title="function Answer = isradiationon">isradiationon</a>
+0553                         fprintf(<span class="string">'   Turning radiation off since there is no RF cavity.\n'</span>);
+0554                         <a href="setradiation.html" class="code" title="function [PassMethod, ATIndex, FamName, PassMethodOld, ATIndexOld, FamNameOld] = setradiation(InputString)">setradiation</a> off;
+0555                     <span class="keyword">end</span>
+0556                     Orbit = findsyncorbit(THERING, 0, ATIndexList);
+0557                 <span class="keyword">else</span>
+0558                     <span class="keyword">if</span> strcmpi(deblank(CavityState(1,:)), <span class="string">'On'</span>) || <a href="isradiationon.html" class="code" title="function Answer = isradiationon">isradiationon</a>
+0559                         <span class="comment">% findorbit6 recommended when cavity or radiation is on</span>
+0560                         <span class="keyword">if</span> strcmpi(deblank(CavityState(1,:)), <span class="string">'Off'</span>)
+0561                             <span class="comment">% Turn off cavity in AT model</span>
+0562                             fprintf(<span class="string">'   Turning the RF cavity on, since radiation is on.\n'</span>);
+0563                             <a href="setcavity.html" class="code" title="function ATCavityIndex = setcavity(InputString)">setcavity</a>(<span class="string">'On'</span>);
+0564                         <span class="keyword">end</span>
+0565                         Orbit = findorbit6(THERING, ATIndexList);
+0566                     <span class="keyword">else</span>
+0567                         <span class="comment">% Cavity is off in AT model</span>
+0568                         <span class="comment">%setcavity('Off');</span>
+0569 
+0570                         <span class="comment">% This is a way to simulate the effect of the RF without a cavity</span>
+0571                         C = 2.99792458e8;  <span class="comment">% delta for non relativistic cases???</span>
+0572                         CavityFrequency  = THERING{iCavity(1)}.Frequency;
+0573                         CavityHarmNumber = THERING{iCavity(1)}.HarmNumber;
+0574                         L = findspos(THERING,length(THERING)+1);   <span class="comment">% getfamilydata('Circumference')</span>
+0575                         f0 = C * CavityHarmNumber / L;
+0576                         DeltaRF = CavityFrequency - f0;   <span class="comment">% Hz</span>
+0577                         <span class="comment">%Orbit = findsyncorbit(THERING, -C*DeltaRF*CavityHarmNumber/CavityFrequency^2, ATIndexList);</span>
+0578 
+0579                         <span class="comment">%%Orbit = findsyncorbit(THERING, 0, ATIndexList);</span>
+0580                         <span class="comment">%Orbit = findorbit4(THERING, -C*DeltaRF*CavityHarmNumber/CavityFrequency^2, ATIndexList);</span>
+0581                         <span class="comment">% Reset cavity PassMethod</span>
+0582                         <span class="comment">%setcavity(PassMethod);</span>
+0583 
+0584                         Orbit = findsyncorbit(THERING, -C*DeltaRF*CavityHarmNumber/CavityFrequency^2, 1:length(THERING)+1);
+0585                         Orbit = Orbit(:,ATIndexList);
+0586                     <span class="keyword">end</span>
+0587                 <span class="keyword">end</span>
+0588             <span class="keyword">end</span>
+0589             <span class="keyword">if</span> any(strcmpi(AT.ATType, {<span class="string">'x'</span>,<span class="string">'BPMx'</span>,<span class="string">'Horizontal'</span>}))
+0590 
+0591                 <span class="comment">% Roll and Crunch are corrected here (BPM gain errors are corrected in real2raw/raw2real)</span>
+0592                 <span class="keyword">if</span> isfamily(Family, Field)
+0593                     <span class="comment">% Only corrector for gain/roll errors is using a ML family</span>
+0594                     <span class="comment">% Roll and Crunch are corrected here (BPM gain errors are corrected in real2raw/raw2real)</span>
+0595                     <span class="comment">%NDevices = length(ATIndexList);</span>
+0596                     <span class="comment">%GCR = zeros(NDevices,4);</span>
+0597                     <span class="comment">%GCR(:,1) = getcellstruct(THERING(ATIndexList), 'GCR', 1:NDevices, 1);</span>
+0598                     <span class="comment">%GCR(:,2) = getcellstruct(THERING(ATIndexList), 'GCR', 1:NDevices, 2);</span>
+0599                     <span class="comment">%GCR(:,3) = getcellstruct(THERING(ATIndexList), 'GCR', 1:NDevices, 3);</span>
+0600                     <span class="comment">%GCR(:,4) = getcellstruct(THERING(ATIndexList), 'GCR', 1:NDevices, 4);</span>
+0601                     <span class="keyword">for</span> i = 1:length(ATIndexList)
+0602                         <span class="keyword">if</span> isfield(THERING{ATIndexList(i)}, <span class="string">'GCR'</span>)
+0603                             GCR(i,:) = THERING{ATIndexList(i)}.GCR;
+0604                         <span class="keyword">else</span>
+0605                             <span class="comment">%GCR(i,:) = [1 1 0 0];  % [Gx Gy Crunch Roll]</span>
+0606                             Crunch = getcrunch(Family, Field, DeviceList(i,:));
+0607                             Roll = getroll(Family, Field, DeviceList(i,:));
+0608                             <span class="comment">%m = gcr2loco(1, 1, Crunch, Roll);</span>
+0609                             GCR(i,:) = [1 1 Crunch Roll];
+0610                         <span class="keyword">end</span>
+0611                     <span class="keyword">end</span>
+0612 
+0613                     x = Orbit(1,:)';
+0614                     y = Orbit(3,:)';
+0615 
+0616                     AM = ((x - GCR(:,3) .* y) .* cos(GCR(:,4)) + (y + GCR(:,3) .* x) .* sin(GCR(:,4))) ./ sqrt(1-GCR(:,3).^2);
+0617 
+0618                     <span class="comment">% Same as:</span>
+0619                     <span class="comment">%Crunch = GCR(:,3);</span>
+0620                     <span class="comment">%Roll = GCR(:,4);</span>
+0621                     <span class="comment">%a = ( Crunch .* sin(Roll) + cos(Roll)) ./ sqrt(1 - Crunch.^2);</span>
+0622                     <span class="comment">%b = (-Crunch .* cos(Roll) + sin(Roll)) ./ sqrt(1 - Crunch.^2);</span>
+0623                     <span class="comment">%AM = a .* x + b .* y;</span>
+0624                 <span class="keyword">else</span>
+0625                     AM = Orbit(1,:)';
+0626                 <span class="keyword">end</span>
+0627 
+0628             <span class="keyword">elseif</span> any(strcmpi(AT.ATType, {<span class="string">'y'</span>,<span class="string">'BPMy'</span>,<span class="string">'z'</span>,<span class="string">'BPMz'</span>,<span class="string">'Vertical'</span>}))
+0629 
+0630                 <span class="keyword">if</span> isfamily(Family, Field)
+0631                     <span class="comment">% Only corrector for gain/roll errors is using a ML family</span>
+0632                     <span class="comment">% Roll and Crunch are corrected here (BPM gain errors are corrected in real2raw/raw2real)</span>
+0633                     <span class="keyword">for</span> i = 1:length(ATIndexList)
+0634                         <span class="keyword">if</span> isfield(THERING{ATIndexList(i)}, <span class="string">'GCR'</span>)
+0635                             GCR(i,:) = THERING{ATIndexList(i)}.GCR;
+0636                         <span class="keyword">else</span>
+0637                             <span class="comment">%GCR(i,:) = [1 1 0 0];  % [Gx Gy Crunch Roll]</span>
+0638                             Crunch = getcrunch(Family, Field, DeviceList(i,:));
+0639                             Roll = getroll(Family, Field, DeviceList(i,:));
+0640                             <span class="comment">%m = gcr2loco(1, 1, Crunch, Roll);</span>
+0641                             GCR(i,:) = [1 1 Crunch Roll];
+0642                         <span class="keyword">end</span>
+0643                     <span class="keyword">end</span>
+0644 
+0645                     x = Orbit(1,:)';
+0646                     y = Orbit(3,:)';
+0647 
+0648                     AM = ((y - GCR(:,3) .* x) .* cos(GCR(:,4)) - (x + GCR(:,3) .* y) .* sin(GCR(:,4))) ./ sqrt(1-GCR(:,3).^2);
+0649 
+0650                     <span class="comment">% Same as:</span>
+0651                     <span class="comment">%Crunch = GCR(:,3);</span>
+0652                     <span class="comment">%Roll = GCR(:,4);</span>
+0653                     <span class="comment">%c = (-Crunch .* cos(Roll) - sin(Roll)) ./ sqrt(1 - Crunch.^2);</span>
+0654                     <span class="comment">%d = (-Crunch .* sin(Roll) + cos(Roll)) ./ sqrt(1 - Crunch.^2);</span>
+0655                     <span class="comment">%AM = c .* x + d .* y;</span>
+0656                 <span class="keyword">else</span>
+0657                     AM = Orbit(3,:)';
+0658                 <span class="keyword">end</span>
+0659             <span class="keyword">elseif</span> strcmpi(AT.ATType, <span class="string">'ClosedOrbit'</span>)
+0660                     AM = Orbit';
+0661             <span class="keyword">end</span>
+0662 
+0663             AM(isort,:) = AM;
+0664 
+0665             <span class="comment">% Add noise to the BPMs</span>
+0666             <span class="comment">%AM = AM + .1e-6*randn(size(AM));  % .1 microns</span>
+0667 
+0668         <span class="keyword">elseif</span> strcmpi(AT.ATType, <span class="string">'HCM'</span>)
+0669 
+0670             <span class="keyword">if</span> any(strcmpi(Field,{<span class="string">'Setpoint'</span>,<span class="string">'Monitor'</span>,<span class="string">'Sum'</span>,<span class="string">'Set'</span>,<span class="string">'Read'</span>,<span class="string">'Readback'</span>,<span class="string">'Kick'</span>}))
+0671                 <span class="comment">% Bending Angle (Radians)</span>
+0672                 <span class="keyword">for</span> i=1:length(ATIndexList)
+0673                     <span class="comment">% The CM gain errors are corrected in real2raw/raw2real</span>
+0674                     <span class="comment">% Coupling: Magnet roll is part of the AT model</span>
+0675                     <span class="comment">%           The gain is part of hw2physics/physics2hw</span>
+0676                     <span class="keyword">if</span> isfield(THERING{ATIndexList(i)}, <span class="string">'Roll'</span>)
+0677                         Roll = THERING{ATIndexList(i)}.Roll;
+0678                     <span class="keyword">else</span>
+0679                         <span class="comment">% Knowing the cross-plane family name can be a problem</span>
+0680                         <span class="comment">% If the VCM family has the same AT index, then use it.</span>
+0681                         <span class="keyword">try</span>
+0682                             VCMFamily = getvcmfamily;
+0683                             Roll = [getroll(Family, Field, DeviceList(i,:))  0];
+0684                             VCMDevList = family2dev(VCMFamily);
+0685                             iVCM = findrowindex(DeviceList(i,:), VCMDevList);
+0686                             <span class="keyword">if</span> ~isempty(iVCM)
+0687                                 ATIndexVCM = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(VCMFamily, DeviceList(i,:));
+0688                                 <span class="keyword">if</span> ATIndexVCM == ATIndexList(i)
+0689                                     Roll = [Roll(1) getroll(VCMFamily, Field, DeviceList(i,:))];
+0690                                 <span class="keyword">else</span>
+0691                                     Roll = [0 0];
+0692                                 <span class="keyword">end</span>
+0693                             <span class="keyword">end</span>
+0694                         <span class="keyword">catch</span>
+0695                             Roll = [0 0];
+0696                         <span class="keyword">end</span>
+0697                     <span class="keyword">end</span>
+0698                     AM(i,1) = [cos(Roll(2)) sin(Roll(2))] * THERING{ATIndexList(i)}.KickAngle(:) / (cos(Roll(1)-Roll(2)));
+0699 
+0700                     <span class="keyword">if</span> size(AT.ATIndex,2) &gt; 1
+0701                         AM(i,1) = Nsplits(i) * AM(i,1);
+0702                     <span class="keyword">end</span>
+0703                 <span class="keyword">end</span>
+0704 
+0705                 <span class="comment">% Add noise (microradian)</span>
+0706                 <span class="comment">%AM = AM + 1e-6*randn(length(AM),1);</span>
+0707             <span class="keyword">else</span>
+0708                 <span class="keyword">if</span> isfield(THERING{ATIndexList(1)}, Field)
+0709                     <span class="keyword">for</span> i=1:length(ATIndexList)
+0710                         AM(i,:) = THERING{ATIndexList(i)}.(Field);
+0711                     <span class="keyword">end</span>
+0712                 <span class="keyword">else</span>
+0713                     AM = zeros(length(ATIndexList),1);  <span class="comment">% or error???</span>
+0714                 <span class="keyword">end</span>
+0715             <span class="keyword">end</span>
+0716 
+0717         <span class="keyword">elseif</span> strcmpi(AT.ATType, <span class="string">'VCM'</span>)
+0718 
+0719             <span class="keyword">if</span> any(strcmpi(Field,{<span class="string">'Setpoint'</span>,<span class="string">'Monitor'</span>,<span class="string">'Sum'</span>,<span class="string">'Set'</span>,<span class="string">'Read'</span>,<span class="string">'Readback'</span>,<span class="string">'Kick'</span>}))
+0720                 <span class="comment">% Bending Angle (Radians)</span>
+0721                 <span class="keyword">for</span> i=1:length(ATIndexList)
+0722                     <span class="comment">% The CM gain errors are corrected in real2raw/raw2real</span>
+0723                     <span class="comment">% Coupling: Magnet roll is part of the AT model</span>
+0724                     <span class="comment">%           The gain is part of hw2physics/physics2hw</span>
+0725                     <span class="keyword">if</span> isfield(THERING{ATIndexList(i)}, <span class="string">'Roll'</span>)
+0726                         Roll = THERING{ATIndexList(i)}.Roll;
+0727                     <span class="keyword">else</span>
+0728                         <span class="comment">% Knowing the cross-plane family name can be a problem</span>
+0729                         <span class="comment">% If the VCM family has the same AT index, then use it.</span>
+0730                         <span class="keyword">try</span>
+0731                             HCMFamily = getvcmfamily;
+0732                             Roll = [0 getroll(Family, Field, DeviceList(i,:))];
+0733                             HCMDevList = family2dev(HCMFamily);
+0734                             iHCM = findrowindex(DeviceList(i,:), HCMDevList);
+0735                             <span class="keyword">if</span> ~isempty(iHCM)
+0736                                 ATIndexHCM = <a href="family2atindex.html" class="code" title="function [ATIndexList, ErrorFlag] = family2atindex(Family, varargin)">family2atindex</a>(HCMFamily, DeviceList(i,:));
+0737                                 <span class="keyword">if</span> ATIndexHCM == ATIndexList(i)
+0738                                     Roll = [getroll(HCMFamily, Field, DeviceList(i,:)) Roll(2)];
+0739                                 <span class="keyword">else</span>
+0740                                     Roll = [0 0];
+0741                                 <span class="keyword">end</span>
+0742                             <span class="keyword">end</span>
+0743                         <span class="keyword">catch</span>
+0744                             Roll = [0 0];
+0745                         <span class="keyword">end</span>
+0746                     <span class="keyword">end</span>
+0747 
+0748                     AM(i,1) = [-sin(Roll(1)) cos(Roll(1))] * THERING{ATIndexList(i)}.KickAngle(:) / (cos(Roll(1)-Roll(2)));
+0749 
+0750                     <span class="keyword">if</span> size(AT.ATIndex,2) &gt; 1
+0751                         AM(i,1) = Nsplits(i) * AM(i,1);
+0752                     <span class="keyword">end</span>
+0753                 <span class="keyword">end</span>
+0754                 <span class="comment">% Add noise (microradian)</span>
+0755                 <span class="comment">%AM = AM + 1e-6*randn(length(AM),1);</span>
+0756             <span class="keyword">else</span>
+0757                 <span class="keyword">if</span> isfield(THERING{ATIndexList(1)}, Field)
+0758                     <span class="keyword">for</span> i=1:length(ATIndexList)
+0759                         AM(i,:) = THERING{ATIndexList(i)}.(Field);
+0760                     <span class="keyword">end</span>
+0761                 <span class="keyword">else</span>
+0762                     AM = zeros(length(ATIndexList),1);
+0763                 <span class="keyword">end</span>
+0764             <span class="keyword">end</span>
+0765 
+0766         <span class="keyword">elseif</span> any(strcmpi(AT.ATType,{<span class="string">'K'</span>,<span class="string">'Quad'</span>,<span class="string">'Quadrupole'</span>}))
+0767             <span class="comment">% Quadrupole</span>
+0768             <span class="keyword">if</span> isfield(THERING{ATIndexList(1)}, <span class="string">'K'</span>)
+0769                 <span class="keyword">for</span> i = 1:length(ATIndexList)
+0770                     AM(i,1) = THERING{ATIndexList(i)}.K;
+0771                 <span class="keyword">end</span>
+0772             <span class="keyword">else</span>
+0773                 <span class="keyword">for</span> i = 1:length(ATIndexList)
+0774                     AM(i,1) = THERING{ATIndexList(i)}.PolynomB(2);
+0775                 <span class="keyword">end</span>
+0776             <span class="keyword">end</span>
+0777             <span class="comment">% Add noise</span>
+0778             <span class="comment">%AM = AM + 1e-3*randn(length(AM),1);</span>
+0779 
+0780         <span class="keyword">elseif</span> any(strcmpi(AT.ATType,{<span class="string">'K2'</span>,<span class="string">'Sext'</span>,<span class="string">'Sextupole'</span>}))
+0781             <span class="comment">% Sextupole</span>
+0782             <span class="keyword">for</span> i = 1:length(ATIndexList)
+0783                 AM(i,1) = THERING{ATIndexList(i)}.PolynomB(3);
+0784             <span class="keyword">end</span>
+0785             <span class="comment">% Add noise</span>
+0786             <span class="comment">%AM = AM + 1e-3*randn(length(AM),1);</span>
+0787 
+0788         <span class="keyword">elseif</span> any(strcmpi(AT.ATType,{<span class="string">'K3'</span>,<span class="string">'OCTU'</span>,<span class="string">'Octupole'</span>}))
+0789             <span class="comment">% Octupole</span>
+0790             <span class="keyword">for</span> i = 1:length(ATIndexList)
+0791                 AM(i,1) = THERING{ATIndexList(i)}.PolynomB(4);
+0792             <span class="keyword">end</span>
+0793             <span class="comment">% Add noise</span>
+0794             <span class="comment">%AM = AM + 1e-3*randn(length(AM),1);</span>
+0795 
+0796         <span class="keyword">elseif</span> any(strcmpi(AT.ATType,{<span class="string">'KS'</span>,<span class="string">'KS1'</span>,<span class="string">'SkewQ'</span>,<span class="string">'SkewQuad'</span>}))
+0797             <span class="comment">% SkewQuad</span>
+0798             <span class="keyword">for</span> i = 1:length(ATIndexList)
+0799                 AM(i,1) = THERING{ATIndexList(i)}.PolynomA(2);
+0800             <span class="keyword">end</span>
+0801             <span class="comment">% Add noise</span>
+0802             <span class="comment">%AM = AM + 1e-3*randn(length(AM),1);</span>
+0803 
+0804         <span class="keyword">elseif</span> strcmpi(AT.ATType, <span class="string">'BEND'</span>)
+0805             <span class="comment">% BEND</span>
+0806             <span class="keyword">for</span> i = 1:length(ATIndexList)
+0807                 AM(i,1) = THERING{ATIndexList(i)}.BendingAngle;
+0808             <span class="keyword">end</span>
+0809             <span class="comment">% Add noise</span>
+0810             <span class="comment">%AM = AM + 1e-3*randn(length(AM),1);</span>
+0811 
+0812         <span class="keyword">elseif</span> strcmpi(AT.ATType, <span class="string">'Photon BPM'</span>)
+0813             <span class="comment">% Spear only</span>
+0814             <span class="keyword">if</span> strcmpi(Family, <span class="string">'BLOpen'</span>)
+0815                 AM = ones(length(DeviceIndex),1);
+0816             <span class="keyword">elseif</span> strcmpi(Family, <span class="string">'BLSum'</span>)
+0817                 AM = ones(length(DeviceIndex),1);
+0818             <span class="keyword">elseif</span> strcmpi(Family, <span class="string">'BLErr'</span>)
+0819                 <span class="comment">% Calculate photon beam location</span>
+0820                 <span class="comment">% for ii=1:length(DeviceIndex)</span>
+0821                 <span class="comment">%    if strcmp(AO.BLType,'dipole')</span>
+0822                 <span class="comment">%        AM(ii)=CalcDipolePBPM(orbit(3,BPMATIndex),orbit(4,UpstreamBPMIndex),AO.BLLength);</span>
+0823                 <span class="comment">%    elseif strcmp(AO.BLType,'id')</span>
+0824                 <span class="comment">%        AM(ii)=CalcIDAngle(DeviceIndex,'simulator');</span>
+0825                 <span class="comment">%        AM(ii)=CalcIDError(DeviceIndex,'simulator');</span>
+0826                 <span class="comment">%    end</span>
+0827                 <span class="comment">% end</span>
+0828                 <span class="comment">% Add noise</span>
+0829                 <span class="comment">%AM = AM + 1e-3*randn(length(AM),1);</span>
+0830             <span class="keyword">end</span>
+0831 
+0832         <span class="keyword">elseif</span> strcmpi(AT.ATType, <span class="string">'Kicker'</span>) || strcmpi(AT.ATType, <span class="string">'kickeramp'</span>)
+0833 
+0834             ATIndexList = AT.ATIndex(DeviceIndex);
+0835             <span class="keyword">if</span> any(strcmpi(Field,{<span class="string">'Setpoint'</span>,<span class="string">'Monitor'</span>}))
+0836                 <span class="comment">% KickAngle</span>
+0837                 <span class="keyword">for</span> i=1:length(ATIndexList)
+0838                     AM(i,1) = THERING{ATIndexList(i)}.KickAngle(1);  <span class="comment">% This only allows for a horizontal kick</span>
+0839                 <span class="keyword">end</span>
+0840             <span class="keyword">else</span>
+0841                 <span class="keyword">if</span> isfield(THERING{ATIndexList(1)}, Field)
+0842                     <span class="keyword">for</span> i=1:length(ATIndexList)
+0843                         AM(i,:) = THERING{ATIndexList(i)}.(Field);
+0844                     <span class="keyword">end</span>
+0845                 <span class="keyword">else</span>
+0846                     AM = NaN * ones(length(ATIndexList),1);
+0847                 <span class="keyword">end</span>
+0848             <span class="keyword">end</span>
+0849 
+0850         <span class="keyword">elseif</span> strcmpi(AT.ATType, <span class="string">'Roll'</span>) || strcmpi(AT.ATType, <span class="string">'Tilt'</span>)
+0851             <span class="comment">% Roll or Tilt of a magnet</span>
+0852             <span class="keyword">for</span> i = 1:length(ATIndexList)
+0853                 <span class="keyword">if</span> isfield(THERING{ATIndexList(i)}, <span class="string">'R1'</span>) &amp;&amp; isfield(THERING{ATIndexList(i)}, <span class="string">'R2'</span>)
+0854                     R1 = THERING{ATIndexList(i)}.R1;
+0855                     AM(i,1) = acos(R1(1,1));
+0856                 <span class="keyword">else</span>
+0857                     error(sprintf(<span class="string">'%s(%d,%d) must have a R1 &amp; R2 field in the model to be rolled.'</span>, Family, DeviceList(i,:)));
+0858                 <span class="keyword">end</span>
+0859             <span class="keyword">end</span>
+0860 
+0861         <span class="keyword">elseif</span> strcmpi(AT.ATType, <span class="string">'XShift'</span>) || strcmpi(AT.ATType, <span class="string">'DX'</span>)
+0862             <span class="comment">% Roll or Tilt of a magnet</span>
+0863             <span class="keyword">for</span> i = 1:length(ATIndexList)
+0864                 <span class="keyword">if</span> isfield(THERING{ATIndexList(i)}, <span class="string">'T1'</span>)
+0865                     T1 = THERING{ATIndexList(i)}.T1;
+0866                     AM(i,1) = T1(1);
+0867                 <span class="keyword">else</span>
+0868                     error(sprintf(<span class="string">'%s(%d,%d) must have a T1 field in the model to be shifted.'</span>, Family, DeviceList(i,:)));
+0869                 <span class="keyword">end</span>
+0870             <span class="keyword">end</span>
+0871 
+0872         <span class="keyword">elseif</span> strcmpi(AT.ATType, <span class="string">'YShift'</span>) || strcmpi(AT.ATType, <span class="string">'DY'</span>)
+0873             <span class="comment">% Roll or Tilt of a magnet</span>
+0874             <span class="keyword">for</span> i = 1:length(ATIndexList)
+0875                 <span class="keyword">if</span> isfield(THERING{ATIndexList(i)}, <span class="string">'T1'</span>)
+0876                     T1 = THERING{ATIndexList(i)}.T1;
+0877                     AM(i,1) = T1(3);
+0878                 <span class="keyword">else</span>
+0879                     error(sprintf(<span class="string">'%s(%d,%d) must have a T1 field in the model to be shifted.'</span>, Family, DeviceList(i,:)));
+0880                 <span class="keyword">end</span>
+0881             <span class="keyword">end</span>
+0882 
+0883         <span class="keyword">elseif</span> strcmpi(AT.ATType, <span class="string">'RollX'</span>) || strcmpi(AT.ATType, <span class="string">'RollY'</span>)
+0884             <span class="comment">% Roll or Tilt</span>
+0885             <span class="keyword">for</span> i=1:length(ATIndexList)
+0886                 <span class="comment">% Corrector magnet roll</span>
+0887                 <span class="comment">% The .Roll field is just a middle layer way to store the roll.</span>
+0888                 <span class="comment">% Otherwise, one can not tell the difference between x/y kicks and coupling</span>
+0889                 <span class="keyword">if</span> isfield(THERING{ATIndexList(i)}, <span class="string">'KickAngle'</span>)
+0890                     <span class="keyword">if</span> isfield(THERING{ATIndexList(i)}, <span class="string">'Roll'</span>)
+0891                         Roll = THERING{ATIndexList(i)}.Roll;
+0892                     <span class="keyword">else</span>
+0893                         Roll = [0 0];
+0894                     <span class="keyword">end</span>
+0895                     <span class="keyword">if</span> strcmpi(AT.ATType, <span class="string">'RollX'</span>)
+0896                         AM(i,1) = Roll(1);
+0897                     <span class="keyword">else</span>
+0898                         AM(i,1) = Roll(2);
+0899                     <span class="keyword">end</span>
+0900                 <span class="keyword">else</span>
+0901                     error(sprintf(<span class="string">'%s(%d,%d) must be a KickAngle field in the model to be rolled.'</span>, Family, DeviceList(i,:)));
+0902                 <span class="keyword">end</span>
+0903             <span class="keyword">end</span>
+0904 
+0905         <span class="keyword">elseif</span> any(strcmpi(AT.ATType,{<span class="string">'FirstTurn'</span>,<span class="string">'LinePass'</span>,<span class="string">'Turns'</span>, <span class="string">'xTurns'</span>,<span class="string">'PxTurns'</span>,<span class="string">'yTurns'</span>,<span class="string">'PyTurns'</span>,<span class="string">'dPTurns'</span>,<span class="string">'dLTurns'</span>}))
+0906             <span class="comment">% Turn-by-turn data</span>
+0907 
+0908             Nturns = round(max(abs(t)));  <span class="comment">% getfamilydata('NTURNS');</span>
+0909             t = Nturns; <span class="comment">% Just incase it changed</span>
+0910             <span class="keyword">if</span> isempty(Nturns) || Nturns &lt; 1
+0911                 Nturns = 1;
+0912             <span class="keyword">end</span>
+0913 
+0914             <span class="comment">% Initial launch condition</span>
+0915             <span class="keyword">if</span> isfield(THERING{1}, <span class="string">'TwissData'</span>)
+0916                 TwissData = THERING{1}.TwissData;
+0917             <span class="keyword">else</span>
+0918                 TwissData = getfamilydata(<span class="string">'TwissData'</span>);
+0919             <span class="keyword">end</span>
+0920             <span class="keyword">if</span> ~isfield(TwissData, <span class="string">'dP'</span>)
+0921                 TwissData.dP = 0;
+0922             <span class="keyword">end</span>
+0923             <span class="keyword">if</span> ~isfield(TwissData, <span class="string">'L'</span>)
+0924                 TwissData.dL = 0;
+0925             <span class="keyword">end</span>
+0926             <span class="keyword">if</span> isempty(TwissData.ClosedOrbit)
+0927                 fprintf(<span class="string">'   6-dim initial condition set to zeros.  Use setpvmodel(''TwissData'',''ClosedOrbit'') to change it.\n'</span>);
+0928                 TwissData.ClosedOrbit = [0 0 0 0]';
+0929                 <span class="comment">%x0 = [.001 0, 0.001, 0]';</span>
+0930                 TwissData.dP = 0;
+0931                 TwissData.dL = 0;
+0932             <span class="keyword">end</span>
+0933             x0 = [TwissData.ClosedOrbit(:); TwissData.dP; TwissData.dL];
+0934             
+0935             [AM, ATIndexList, LostBeam] = <a href="getturns.html" class="code" title="function [xAllBPMs, ATindex, LostBeam] = getturns(x0, N, Family, DeviceList)">getturns</a>(x0, Nturns, Family, DeviceList);
+0936             
+0937             <span class="keyword">if</span> LostBeam
+0938                 error(<span class="string">'Tracking failed due to beam loss.'</span>);
+0939             <span class="keyword">end</span>
+0940             
+0941             <span class="keyword">if</span> any(strcmpi(AT.ATType,{<span class="string">'FirstTurn'</span>, <span class="string">'LinePass'</span>}))
+0942                 <span class="keyword">if</span> size(AM,2) == 1
+0943                     AM = squeeze(AM(:,:,1:6));
+0944                 <span class="keyword">end</span>
+0945             <span class="keyword">elseif</span> any(strcmpi(AT.ATType,{<span class="string">'Turns'</span>}))
+0946                 <span class="comment">%if size(AM,2) == 1</span>
+0947                 <span class="comment">%    AM = squeeze(AM(:,:,1:6));</span>
+0948                 <span class="comment">%end</span>
+0949             <span class="keyword">elseif</span> strcmpi(AT.ATType,<span class="string">'xTurns'</span>)
+0950                 AM = squeeze(AM(:,:,1));
+0951                 <span class="comment">% Add noise to the BPMs</span>
+0952                 <span class="comment">%AM = AM + .1e-6*randn(size(AM));  % .1 microns</span>
+0953             <span class="keyword">elseif</span> strcmpi(AT.ATType,<span class="string">'PxTurns'</span>)
+0954                 AM = squeeze(AM(:,:,2));
+0955             <span class="keyword">elseif</span> strcmpi(AT.ATType,<span class="string">'yTurns'</span>)
+0956                 AM = squeeze(AM(:,:,3));
+0957                 <span class="comment">% Add noise to the BPMs</span>
+0958                 <span class="comment">%AM = AM + .1e-6*randn(size(AM));  % .1 microns</span>
+0959             <span class="keyword">elseif</span> strcmpi(AT.ATType,<span class="string">'PyTurns'</span>)
+0960                 AM = squeeze(AM(:,:,4));
+0961             <span class="keyword">elseif</span> strcmpi(AT.ATType,<span class="string">'dPTurns'</span>)
+0962                 AM = squeeze(AM(:,:,5));
+0963             <span class="keyword">elseif</span> strcmpi(AT.ATType,<span class="string">'dLTurns'</span>)
+0964                 AM = squeeze(AM(:,:,6));
+0965             <span class="keyword">else</span>
+0966                 error(<span class="string">'Input of unknown type'</span>);
+0967             <span class="keyword">end</span>
+0968             
+0969             <span class="comment">%if size(AM, 1) ~= length(ATIndexList)</span>
+0970             <span class="comment">%if size(AM, 2) ~= Nturns</span>
+0971             <span class="comment">%    AM = AM';</span>
+0972             <span class="comment">%end</span>
+0973             
+0974             <span class="comment">% Gain/Roll coordinate change???</span>
+0975 
+0976             <span class="comment">% Add noise</span>
+0977             <span class="comment">%AM = AM + 1e-3*randn(length(AM),1);</span>
+0978 
+0979         <span class="keyword">elseif</span> strcmpi(AT.ATType, <span class="string">'Septum'</span>)
+0980 
+0981             AM = 0;
+0982 
+0983         <span class="keyword">elseif</span> strcmpi(AT.ATType, <span class="string">'null'</span>)
+0984             <span class="comment">% JR default do-nothing behaviour</span>
+0985             AM = NaN;
+0986 
+0987         <span class="keyword">else</span>
+0988             <span class="keyword">if</span> isfield(THERING{ATIndexList(1)}, Field)
+0989                 <span class="keyword">for</span> i = 1:length(ATIndexList)
+0990                     AM(i,:) = THERING{ATIndexList(i)}.(Field);
+0991                 <span class="keyword">end</span>
+0992             <span class="keyword">else</span>
+0993                 <span class="comment">%error(sprintf('ATType unknown for Family %s', Family));</span>
+0994                 AM = NaN * ones(length(ATIndexList),1);
+0995             <span class="keyword">end</span>
+0996             <span class="comment">% Add noise</span>
+0997             <span class="comment">%AM = AM + 1e-3*randn(length(AM),1);</span>
+0998         <span class="keyword">end</span>
+0999     <span class="keyword">end</span>
+1000 <span class="keyword">end</span>
+1001 
+1002 
+1003 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+1004 <span class="comment">% Change to hardware units if requested %</span>
+1005 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+1006 <span class="keyword">if</span> strcmpi(UnitsFlag, <span class="string">'Hardware'</span>) 
+1007     <span class="keyword">if</span> isfamily(Family, Field)
+1008         AM = physics2hw(Family, Field, AM, DeviceList, <a href="getenergymodel.html" class="code" title="function GeV = getenergymodel(iATIndex)">getenergymodel</a>);
+1009     <span class="keyword">else</span>
+1010         <span class="keyword">persistent</span> WarningFlag
+1011         <span class="keyword">if</span> isempty(WarningFlag)
+1012             fprintf(<span class="string">'\n   You are asking for hardware units from a nonstandard MML family (%s.%s).\n'</span>, Family, Field);
+1013             fprintf(<span class="string">'   Whenever conversion factors are not known for model data, physics units are returned.\n\n'</span>);
+1014             WarningFlag = 1;
+1015         <span class="keyword">end</span>
+1016 
+1017         UnitsFlag = <span class="string">'Physics'</span>;
+1018     <span class="keyword">end</span>
+1019 <span class="keyword">else</span>
+1020     UnitsFlag = <span class="string">'Physics'</span>;
+1021 <span class="keyword">end</span>
+1022 
+1023 
+1024 <span class="comment">% Expand if there is a time vector input</span>
+1025 <span class="keyword">if</span> length(t) &gt; 1
+1026     AM(:,1:length(t)) = AM * ones(1,length(t));
+1027     tout(1,1:length(t)) = t + gettime - t0;
+1028 <span class="keyword">else</span>
+1029     <span class="keyword">if</span> strcmpi(Field,<span class="string">'Turns'</span>)
+1030         tout = gettime - t0;
+1031     <span class="keyword">else</span>
+1032         tout = t + gettime - t0;
+1033     <span class="keyword">end</span>
+1034     <span class="comment">%DataTime = fix(t0) + rem(t0,1)*1e9*sqrt(-1);</span>
+1035 <span class="keyword">end</span>
+1036 DataTime(1:size(AM,1),1:length(t)) = fix(t0) + rem(t0,1)*1e9*sqrt(-1);
+1037 
+1038 
+1039 <span class="comment">%%%%%%%%%%%%%%%%%%%%%</span>
+1040 <span class="comment">% Structure Outputs %</span>
+1041 <span class="comment">%%%%%%%%%%%%%%%%%%%%%</span>
+1042 <span class="keyword">if</span> StructOutputFlag
+1043     <span class="comment">% Structure output for channel name method</span>
+1044     AM.Data = AM;
+1045     AM.FamilyName = Family;
+1046     AM.Field = Field;
+1047     AM.DeviceList = DeviceList;
+1048     AM.Mode = <span class="string">'Simulator'</span>;
+1049     AM.t = t;           <span class="comment">% Matlab time at start of measurement</span>
+1050     AM.tout = tout;     <span class="comment">% Matlab time at  end  of measurement</span>
+1051     AM.DataTime = DataTime;
+1052     AM.TimeStamp = clock;
+1053     AM.Units = UnitsFlag;
+1054     <span class="keyword">if</span> strcmpi(AM.Units,<span class="string">'Hardware'</span>)
+1055         AM.UnitsString = getfamilydata(Family, Field, <span class="string">'HWUnits'</span>);
+1056     <span class="keyword">else</span>
+1057         AM.UnitsString = getfamilydata(Family, Field, <span class="string">'PhysicsUnits'</span>);
+1058     <span class="keyword">end</span>
+1059     AM.DataDescriptor = [];
+1060     AM.CreatedBy = <span class="string">'getpvmodel'</span>;
+1061 <span class="keyword">end</span>
+1062</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

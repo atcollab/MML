@@ -1,0 +1,60 @@
+LIBRARY   sca3
+
+VERSION   3.0
+
+CODE      PRELOAD MOVEABLE DISCARDABLE
+DATA      PRELOAD SINGLE
+
+EXPORTS
+
+	 SCAget                         
+	 SCAput                             
+	 SCAap                             
+	 SCAFree
+	 do_get
+	 que_get
+     do_getbyname
+	 do_put
+	 que_put
+	 do_putbyname
+	 sca_gettimeofday
+	 sca_getbyname
+	 sca_putbyname
+	 set_min_time_between_do_gets
+	 set_min_time_between_do_puts
+	 print_global_stats
+	 sca_getap
+	 sca_get
+	 sca_getbyname
+	 sca_putbyname
+	 print_aps
+	 print_ap
+	 cache_smart_pend
+	 cache_getbyname
+	 cache_get
+	 cache_set
+	 cache_put
+	 sca_buildap
+     group_addchannel
+     group_removechannelbyname
+     group_removechannel
+     group_freebyname
+     group_free
+     group_refreshbyname
+     group_refresh
+     group_getchannelbyname
+     group_getchannel
+     group_printbyname
+     group_print
+     groups_print
+     group_set_refresh_period
+     group_get_refresh_period
+     group_get_refresh_period_lower_limit
+     group_get_refresh_period_upper_limit
+     group_get_default_refresh_period
+     group_set_do_get_timeout
+     group_get_do_get_timeout
+	 group_getnextchannelbyname
+     group_getfirstchannelbyname
+	 sca_setup_aliases
+

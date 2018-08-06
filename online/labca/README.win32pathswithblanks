@@ -1,0 +1,18 @@
+gnu make and the EPICS Makefile system
+doesn't work well with paths containing
+blanks.
+The reason is that it doesn't seem
+possible to get around blanks being
+recognized as word separators by the
+string manipulating gmake functions
+a la $(addprefix) etc.
+I tried to work around this. There is
+one quirk: matlab/Makefile calls $(MEX)
+which doesn't work well if the matlab
+path contains a blank. However, if
+I set the MATLAB environment variable
+prior to invoking Make, then it seems
+to work ok.
+
+TS, 4/2006
+

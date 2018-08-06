@@ -1,0 +1,207 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>test_subfuns</title>
+      <meta name="generator" content="MATLAB 7.0">
+      <meta name="date" content="2004-07-26">
+      <meta name="m-file" content="test_subfuns"><style>
+body {
+  background-color: white;
+  margin:10px;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows.  On Gecko-based browsers, the shrink-to-fit doesn't work. */ 
+p,h1,h2,div {
+  /* for MATLAB's browser */
+  width: 600px;
+  /* for Mozilla, but the "width" tag overrides it anyway */
+  max-width: 600px;
+  /* for IE */
+  width:expression(document.body.clientWidth > 620 ? "600px": "auto" );
+}
+
+    </style></head>
+   <body>
+      <h1></h1>
+      <introduction>
+         <p>Introducing <tt>SubFuns</tt>, a command-line utility to list all <tt>function</tt> declarations within a specified m-file.
+         </p>
+      </introduction>
+      <h2>Contents</h2>
+      <div>
+         <ul>
+            <li><a href="#1">MATLAB functions</a></li>
+            <li><a href="#2">Different function declarations</a></li>
+            <li><a href="#3">Problem: How many functions inside an m-file?</a></li>
+            <li><a href="#4">Solution: custom command-line utility</a></li>
+            <li><a href="#5">Example</a></li>
+         </ul>
+      </div>
+      <h2>MATLAB functions<a name="1"></a></h2>
+      <p>Functions are an integral part of MATLAB. They provide higher levels of functionality and abstraction. For example, the standard
+         deviation of a matrix is the square root of the variance, where the variance is the sum of the squares of the elements divided
+         by the total number of elements. So, in MATLAB the <tt>std</tt> function calls the <tt>var</tt> function, which in turn calls the <tt>sum</tt> function.
+      </p>
+      <p>This is just one of many examples where MATLAB makes extensive use of functions. Another is toolboxes available from The MathWorks
+         and third parties, which are largely just collections of trusted, proven, standard functions.
+      </p>
+      <p>In addition, many MATLAB users write their own custom functions and toolboxes.</p>
+      <h2>Different function declarations<a name="2"></a></h2>
+      <p>MATLAB 7 allows three types of <tt>function</tt> declarations within an m-file. To learn more, see the associated online documentation.
+      </p>
+      <div>
+         <ul>
+            <li>Primary M-File Function <a href="http://www.mathworks.com/access/helpdesk/help/techdoc/matlab_prog/ch_func8.shtml">http://www.mathworks.com/access/helpdesk/help/techdoc/matlab_prog/ch_func8.shtml</a></li>
+         </ul>
+      </div>
+      <div>
+         <ul>
+            <li>Subfunctions <a href="http://www.mathworks.com/access/helpdesk/help/techdoc/matlab_prog/ch_fun14.shtml">http://www.mathworks.com/access/helpdesk/help/techdoc/matlab_prog/ch_fun14.shtml</a></li>
+         </ul>
+      </div>
+      <div>
+         <ul>
+            <li>Nested Functions <a href="http://www.mathworks.com/access/helpdesk/help/techdoc/matlab_prog/ch_func9.shtml">http://www.mathworks.com/access/helpdesk/help/techdoc/matlab_prog/ch_func9.shtml</a></li>
+         </ul>
+      </div>
+      <h2>Problem: How many functions inside an m-file?<a name="3"></a></h2>
+      <p>With all this programming flexibility, it's not uncommon for an m-file to contain numerous <tt>function</tt> declarations. The MATLAB Editor provides a pull-down tool to Show Functions within an open m-file.
+      </p>
+      <p>Suppose you want to see <tt>function</tt> decalarations inside an m-file without editing. Perhaps you need to debug GUI callbacks, or understand someone else's function.
+         You may not remember everything in a long list of functions after the Show Functions pull-down disappears. In these situations
+         it would be helpful if the function list would hang around for reference.
+      </p>
+      <h2>Solution: custom command-line utility<a name="4"></a></h2>
+      <p>To solve this problem, I created a command-line utility function, called <tt>SubFuns</tt>. Like all good MATLAB programs, <tt>SubFuns</tt> includes Help text.
+      </p><pre class="codeinput">help <span class="string">SubFuns</span>
+</pre><pre class="codeoutput"> SUBFUNS lists all function declaration lines in specified MFILE.
+    SUBFUNS(MFILE) displays list to Command Window.
+ 
+ Example:
+    SubFuns SubFuns
+ 
+ Note:
+    This utility uses both subfunctions and a nested function, both of
+    which are supported.
+
+
+
+</pre><h2>Example<a name="5"></a></h2>
+      <p><tt>SubFuns</tt> is a MATLAB function that contains all three kinds of <tt>function</tt> declarations. To see these functions we can run <tt>SubFuns</tt> on itself.
+      </p><pre class="codeinput">SubFuns <span class="string">SubFuns</span>
+</pre><pre class="codeoutput">   Line:   Function:
+   1       SubFuns
+   77      FunctionName
+   94      NoLeadBlanks
+   152     OpenLink
+
+</pre><p class="footer"><br>
+         Published with MATLAB&reg; 7.0<br></p>
+      <!--
+##### SOURCE BEGIN #####
+%%
+% Introducing |SubFuns|, a command-line utility to list all |function|
+% declarations within a specified m-file.
+
+%% MATLAB functions
+% Functions are an integral part of MATLAB. They provide higher levels of
+% functionality and abstraction. For example, the standard deviation of a
+% matrix is the square root of the variance, where the variance is the sum
+% of the squares of the elements divided by the total number of elements.
+% So, in MATLAB the |std| function calls the |var| function, which in turn
+% calls the |sum| function. 
+%
+% This is just one of many examples where MATLAB makes extensive use of
+% functions. Another is toolboxes available from The MathWorks and third
+% parties, which are largely just collections of trusted, proven, standard
+% functions.
+%
+% In addition, many MATLAB users write their own custom functions and
+% toolboxes.
+
+%% Different function declarations
+% MATLAB 7 allows three types of |function| declarations within an m-file.
+% To learn more, see the associated online documentation.
+%
+% * Primary M-File Function
+% http://www.mathworks.com/access/helpdesk/help/techdoc/matlab_prog/ch_func8.shtml
+%
+% * Subfunctions
+% http://www.mathworks.com/access/helpdesk/help/techdoc/matlab_prog/ch_fun14.shtml
+%
+% * Nested Functions
+% http://www.mathworks.com/access/helpdesk/help/techdoc/matlab_prog/ch_func9.shtml
+
+%% Problem: How many functions inside an m-file?
+% With all this programming flexibility, it's not uncommon for an m-file to
+% contain numerous |function| declarations. The MATLAB Editor provides a
+% pull-down tool to Show Functions within an open m-file.
+%
+% Suppose you want to see |function| decalarations inside an m-file without
+% editing. Perhaps you need to debug GUI callbacks, or understand someone
+% else's function. You may not remember everything in a long list of
+% functions after the Show Functions pull-down disappears. In these
+% situations it would be helpful if the function list would hang around for
+% reference.
+
+%% Solution: custom command-line utility
+% To solve this problem, I created a command-line utility function, called
+% |SubFuns|. Like all good MATLAB programs, |SubFuns| includes Help text.
+help SubFuns
+
+%% Example
+% |SubFuns| is a MATLAB function that contains all three kinds of
+% |function| declarations. To see these functions we can run |SubFuns| on
+% itself.
+SubFuns SubFuns
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

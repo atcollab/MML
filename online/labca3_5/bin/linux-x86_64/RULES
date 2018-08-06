@@ -1,0 +1,43 @@
+#RULES
+include $(EPICS_BASE)/configure/RULES
+
+vpath %.m $(USR_VPATH) $(ALL_SRC_DIRS)
+
+MEXTARGET=$(addsuffix $(MEXEXT),$(MEXF))
+
+INSTALL_MATLABS =$(MATLABS:%=$(INSTALL_MATLAB)/%)
+
+INSTALL_MCCS =$(MCC_PROD:%=$(INSTALL_HOST_BIN)/%)
+
+INSTALL_CTFS =$(MCC_PROD:%=$(INSTALL_HOST_BIN)/%_ctf)
+
+INSTALL_MEXS =$(MEXTARGET:%=$(INSTALL_HOST_BIN)/%)
+
+MATLABPATH=
+
+build : $(MCC_PROD) $(MEXTARGET)
+
+buildInstall : $(INSTALL_MCCS) $(INSTALL_CTFS) $(INSTALL_MATLABS) $(INSTALL_MEXS)
+
+%: %.m
+	@$(RM) $@.log
+	$(MATLABDIR)/bin/mcc -Y $(MLM_LICENSE_FILE) -v -m -C \
+	-d $(SPEAR_MATLAB_BASE)/$(DIR_NAME)/O.$(EPICS_HOST_ARCH) \
+	-I $(SPEAR_MATLAB_BASE)/$(DIR_NAME) \
+	-I $(LABCA_INSTALL_HOST_BIN) \
+	-I $(SPEAR_MATLAB_BASE_BIN) \
+	$(USR_INCLUDES) $(USR_INCLUDES_$@)\
+	-o $@ \
+	$@.m > $@.log
+
+$(INSTALL_HOST_BIN)/%_ctf: %
+	@$(PERL) $(TOP)/configure/installCtf.pl -d -m 555 $< \
+	$(SPEAR_MATLAB_BASE_BIN) $(UNZIP)
+
+$(INSTALL_MATLAB)/%: %
+	@echo "Installing matlab program $@"
+	@$(INSTALL) -d -m 644 $< $(INSTALL_MATLAB)
+
+%$(MEXEXT): %.c
+	@$(RM) $@
+	$(MATLABDIR)/bin/$(MEX) $(MEXCXXFLAGS) CXXFLAGS=$(MEX_CXXFLAGS) $(USR_CPPFLAGS) $< $(USR_LDLIBS)

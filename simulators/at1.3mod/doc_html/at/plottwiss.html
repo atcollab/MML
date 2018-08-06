@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of plottwiss</title>
+  <meta name="keywords" content="plottwiss">
+  <meta name="description" content="PLOTTWISS - Plot the optical functions and tune of the present lattice">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; plottwiss.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>plottwiss
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>PLOTTWISS - Plot the optical functions and tune of the present lattice</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [ax, h1, h2] = plottwiss(varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">PLOTTWISS - Plot the optical functions and tune of the present lattice</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="drawlattice.html" class="code" title="function h = drawlattice(Offset, Scaling, hAxes, Ldraw)">drawlattice</a>	DRAWLATTICE - Draws the AT lattice to a figure</li><li><a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>	MODELTWISS - Returns a twiss function of the model</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [ax, h1, h2] = plottwiss(varargin)</a>
+0002 <span class="comment">%PLOTTWISS - Plot the optical functions and tune of the present lattice</span>
+0003 
+0004 
+0005 <span class="comment">%[TD, Tune] = twissring(RING,0,1:(length(RING)+1),'chrom');</span>
+0006 
+0007 [BetaX, BetaY, Sx, Sy, Tune] = <a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>(<span class="string">'Beta'</span>, <span class="string">'All'</span>);
+0008 <span class="comment">%BetaX(1), BetaY(1)</span>
+0009 
+0010 [EtaX, EtaY] = <a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>(<span class="string">'Eta'</span>, <span class="string">'All'</span>);
+0011 <span class="comment">%EtaX(1), EtaY(1)</span>
+0012 
+0013 [N, Nsymmetry] = getnumberofsectors;
+0014 L = getfamilydata(<span class="string">'Circumference'</span>);
+0015 Lsector = L / Nsymmetry;
+0016 
+0017 i = 1:length(Sx);
+0018 i(find(Sx &gt; Lsector)) = [];
+0019 i(end+1) = i(end) + 1;
+0020 
+0021 <span class="comment">%figure</span>
+0022 clf reset;
+0023 [ax,h1,h2] = plotyy(Sx(i), [BetaX(i) BetaY(i)], Sx(i), EtaX(i));
+0024 
+0025 xlabel(<span class="string">'Position [meters]'</span>);
+0026 <span class="comment">%ylabel('[meters]');</span>
+0027 title(sprintf(<span class="string">'Optical Functions ({\\it\\nu_x} = %5.3f, {\\it\\nu_y} = %5.3f)'</span>, Tune(1),Tune(2)));
+0028 <span class="comment">%axis tight;</span>
+0029 
+0030 set(get(ax(1),<span class="string">'ylabel'</span>),<span class="string">'string'</span>,<span class="string">'{\it\beta}  [meters]'</span>);
+0031 <span class="comment">%set(get(ax(1),'ylabel'),'string','{\it\beta_x}   {\it\beta_y  [meters]}');</span>
+0032 set(get(ax(2),<span class="string">'ylabel'</span>),<span class="string">'string'</span>,<span class="string">'{\it\eta_x [meters]}'</span>);
+0033 
+0034 
+0035 <span class="comment">% Plot 1 sector</span>
+0036 axes(ax(2));
+0037 <span class="comment">%axis tight;</span>
+0038 a2 = axis;
+0039 <span class="keyword">if</span> ~isempty(L) &amp;&amp; ~isempty(N)
+0040     a2(1) = 0;
+0041     a2(2) = Lsector;
+0042 <span class="keyword">end</span>
+0043 
+0044 <span class="comment">% Make room for the lattice</span>
+0045 DeltaY = a2(4) - a2(3);
+0046 a2(3) = a2(3) - .12 * DeltaY;
+0047 <span class="comment">%a2(4) = a2(4) + .08 * DeltaY;</span>
+0048 axis(a2);
+0049 
+0050 axes(ax(1));
+0051 <span class="comment">%axis tight</span>
+0052 a1 = axis;
+0053 <span class="keyword">if</span> ~isempty(L) &amp;&amp; ~isempty(N)
+0054     a1(2) = Lsector;
+0055 <span class="keyword">end</span>
+0056 
+0057 <span class="comment">% Make room for the lattice</span>
+0058 DeltaY = a1(4) - a1(3);
+0059 a1(3) = a1(3) - .12 * DeltaY;
+0060 <span class="comment">%a1(4) = a1(4) + .08 * DeltaY;</span>
+0061 axis([a2(1:2) a1(3:4)]);
+0062 
+0063 
+0064 <span class="comment">% Draw the lattice</span>
+0065 a = axis;
+0066 hold on;
+0067 <a href="drawlattice.html" class="code" title="function h = drawlattice(Offset, Scaling, hAxes, Ldraw)">drawlattice</a>(a(3)+.06*DeltaY, .05*DeltaY, ax(1), Lsector);
+0068 axis(a);
+0069 hold off;
+0070 
+0071 
+0072 legend(<span class="string">'{\it\beta_x}'</span>, <span class="string">'{\it\beta_y }'</span>, 0);
+0073 
+0074 ax(end+1) = gca;
+0075 linkaxes(ax, <span class="string">'x'</span>);
+0076 
+0077 axes(ax(2));
+0078 
+0079</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

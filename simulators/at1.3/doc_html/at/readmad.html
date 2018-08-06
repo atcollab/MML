@@ -1,0 +1,366 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of readmad</title>
+  <meta name="keywords" content="readmad">
+  <meta name="description" content="READMAD reads the file output of MAD commands">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; readmad.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>readmad
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>READMAD reads the file output of MAD commands</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [ATLATTICE, Twiss] = readmad(FILENAME) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">READMAD reads the file output of MAD commands
+ TWISS, STRUCTURE, SURVEY.
+
+ READMAD reads the MAD file header to determine the number of elements
+ in the lattice, symmetry flag, the number of supperperiods etc.
+
+ Then it interprets the entry for each element in the MAD output file.
+ The topology of the lattice is completely determined by
+ Length, Bending Angle, and Ttilt Angle in each element
+
+ READMAD uses MAD TYPES and the values of to determine
+ which pass-method function in AT to use.
+
+ MAD TYPE      |  AT PassMethod
+ ----------------------------------
+ DRIFT         |  DriftPass
+ SBEND         |  BendLinearPass, BendLinearFringeTiltPass, BndMPoleSymplectic4Pass
+ QUADRUPOLE    |  QualdLinearPass
+ SEXTUPOLE     |  StrMPoleSymplectic4Pass
+ OCTUPOLE      |  StrMPoleSymplectic4Pass
+ MULTIPOLE     |  !!! Not implemented, in future - ThinMPolePass
+ RFCAVITY      |  CavityPass
+ KICKER        |  CorrectorPass
+ HKICKER       |  CorrectorPass
+ VKICKER       |  CorrectorPass
+ MONITOR       |  IdentityPass
+ HMONITOR      |  IdentityPass
+ VMONITOR      |  IdentityPass
+ MARKER        |  IdentityPass
+ -----------------------------------
+ all others    |  Length=0 -&gt; IdentityPass, Length~=0 -&gt; DriftPass</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="mksrollmat.html" class="code" title="function R = mksrollmat(PSI)">mksrollmat</a>	MKSROLLMAT - Rotation matrix around s-axis</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function atelement = mad2at(elementdata,madfiletype)</a></li></ul>
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [ATLATTICE, Twiss] = readmad(FILENAME)</a>
+0002 <span class="comment">%READMAD reads the file output of MAD commands</span>
+0003 <span class="comment">% TWISS, STRUCTURE, SURVEY.</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">% READMAD reads the MAD file header to determine the number of elements</span>
+0006 <span class="comment">% in the lattice, symmetry flag, the number of supperperiods etc.</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">% Then it interprets the entry for each element in the MAD output file.</span>
+0009 <span class="comment">% The topology of the lattice is completely determined by</span>
+0010 <span class="comment">% Length, Bending Angle, and Ttilt Angle in each element</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">% READMAD uses MAD TYPES and the values of to determine</span>
+0013 <span class="comment">% which pass-method function in AT to use.</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% MAD TYPE      |  AT PassMethod</span>
+0016 <span class="comment">% ----------------------------------</span>
+0017 <span class="comment">% DRIFT         |  DriftPass</span>
+0018 <span class="comment">% SBEND         |  BendLinearPass, BendLinearFringeTiltPass, BndMPoleSymplectic4Pass</span>
+0019 <span class="comment">% QUADRUPOLE    |  QualdLinearPass</span>
+0020 <span class="comment">% SEXTUPOLE     |  StrMPoleSymplectic4Pass</span>
+0021 <span class="comment">% OCTUPOLE      |  StrMPoleSymplectic4Pass</span>
+0022 <span class="comment">% MULTIPOLE     |  !!! Not implemented, in future - ThinMPolePass</span>
+0023 <span class="comment">% RFCAVITY      |  CavityPass</span>
+0024 <span class="comment">% KICKER        |  CorrectorPass</span>
+0025 <span class="comment">% HKICKER       |  CorrectorPass</span>
+0026 <span class="comment">% VKICKER       |  CorrectorPass</span>
+0027 <span class="comment">% MONITOR       |  IdentityPass</span>
+0028 <span class="comment">% HMONITOR      |  IdentityPass</span>
+0029 <span class="comment">% VMONITOR      |  IdentityPass</span>
+0030 <span class="comment">% MARKER        |  IdentityPass</span>
+0031 <span class="comment">% -----------------------------------</span>
+0032 <span class="comment">% all others    |  Length=0 -&gt; IdentityPass, Length~=0 -&gt; DriftPass</span>
+0033 
+0034 Twiss = [];
+0035 
+0036 [fid, errmsg]  = fopen(FILENAME,<span class="string">'r'</span>);
+0037 <span class="keyword">if</span> fid==-1
+0038     error(<span class="string">'Could not open file'</span>);
+0039 <span class="keyword">end</span>
+0040 
+0041 warnlevel = warning;
+0042 warning on
+0043 
+0044 <span class="keyword">global</span> READMADCAVITYFLAG
+0045 READMADCAVITYFLAG = 0;
+0046 
+0047 LINE1 = fgetl(fid);
+0048 LINE2 = fgetl(fid);
+0049 
+0050 S = LINE1(9:16);
+0051 nonspaceindex = find(~isspace(S) &amp; (S~=0));
+0052 MADFILETYPE = S(nonspaceindex);
+0053 <span class="comment">% The possiblilites for MADFILETYPE are</span>
+0054 <span class="comment">% TWISS,SURVEY,STRUCTUR,ENVELOPE</span>
+0055 
+0056 
+0057 NSUPER = str2double(LINE1(41:48));
+0058 
+0059 S = LINE1(56);
+0060 SYMFLAG = eq(S,<span class="string">'T'</span>);
+0061 
+0062 NPOS = str2double(LINE1(57:64));
+0063 
+0064 disp([<span class="string">'   MAD output file: '</span>,FILENAME]);
+0065 disp([<span class="string">'   MAD file type:           '</span>,MADFILETYPE]);
+0066 disp([<span class="string">'   Symmetry flag:           '</span>,num2str(SYMFLAG)]);
+0067 disp([<span class="string">'   Number of superperiods:  '</span>,num2str(NSUPER)]);
+0068 disp([<span class="string">'   Number of elements :     '</span>,num2str(NPOS)]);
+0069 
+0070 
+0071 <span class="comment">% Allocate cell array to store AT lattice</span>
+0072 <span class="comment">% MAD files heve one extra entry for the beginning of the lattice</span>
+0073 ATNumElements = NPOS-1;
+0074 ATLATTICE = cell(1,ATNumElements);
+0075 
+0076 
+0077 <span class="keyword">switch</span> MADFILETYPE
+0078     <span class="keyword">case</span> {<span class="string">'STRUCTUR'</span>,<span class="string">'SURVEY'</span>}
+0079         NumLinesPerElement = 4;
+0080     <span class="keyword">case</span> {<span class="string">'TWISS'</span>,<span class="string">'CHROM'</span>}
+0081         NumLinesPerElement = 5;
+0082     <span class="keyword">case</span> <span class="string">'ENVELOPE'</span>
+0083         NumLinesPerElement = 8;
+0084 <span class="keyword">end</span>
+0085 
+0086 ELEMENTDATA = cell(1,NumLinesPerElement);
+0087 
+0088 <span class="comment">% Skip the INITIAL element in MAD file</span>
+0089 <span class="keyword">for</span> i = 1:NumLinesPerElement;
+0090     LINE = fgetl(fid);
+0091 <span class="keyword">end</span>
+0092 
+0093 <span class="keyword">for</span> i = 1:ATNumElements
+0094     <span class="comment">% Read the first 2 lines of the element entry</span>
+0095     <span class="keyword">for</span> j= 1:NumLinesPerElement
+0096         ELEMENTDATA{j}=fgetl(fid);
+0097     <span class="keyword">end</span>
+0098 
+0099     ATLATTICE{i}=<a href="#_sub1" class="code" title="subfunction atelement = mad2at(elementdata,madfiletype)">mad2at</a>(ELEMENTDATA,MADFILETYPE);
+0100 
+0101     <span class="keyword">if</span> strcmpi(MADFILETYPE, <span class="string">'TWISS'</span>)
+0102         Twiss.Alpha(i,1) = str2double(ELEMENTDATA{3}([1:16]));
+0103         Twiss.Beta(i,1)  = str2double(ELEMENTDATA{3}([1:16]+16));
+0104         Twiss.Mu(i,1)    = str2double(ELEMENTDATA{3}([1:16]+16*2));
+0105         Twiss.d(i,1)     = str2double(ELEMENTDATA{3}([1:16]+16*3));
+0106         Twiss.dp(i,1)    = str2double(ELEMENTDATA{3}([1:16]+16*4));
+0107 
+0108         Twiss.Alpha(i,2) = str2double(ELEMENTDATA{4}([1:16]));
+0109         Twiss.Beta(i,2)  = str2double(ELEMENTDATA{4}([1:16]+16));
+0110         Twiss.Mu(i,2)    = str2double(ELEMENTDATA{4}([1:16]+16*2));
+0111         Twiss.d(i,2)     = str2double(ELEMENTDATA{4}([1:16]+16*3));
+0112         Twiss.dp(i,2)    = str2double(ELEMENTDATA{4}([1:16]+16*4));
+0113 
+0114         Twiss.a(i,1)    = str2double(ELEMENTDATA{5}([1:16]));
+0115         Twiss.Px(i,1)   = str2double(ELEMENTDATA{5}([1:16]+16));
+0116         Twiss.y(i,1)    = str2double(ELEMENTDATA{5}([1:16]+16*2));
+0117         Twiss.Py(i,1)   = str2double(ELEMENTDATA{5}([1:16]+16*3));
+0118         Twiss.s(i,1) = str2double(ELEMENTDATA{5}([1:16]+16*4));
+0119     <span class="keyword">end</span>
+0120 <span class="keyword">end</span>
+0121 
+0122 <span class="comment">% Add a marker to the end</span>
+0123 ATLATTICE{end+1}.FamName = <span class="string">'EndMarker'</span>;
+0124 ATLATTICE{end}.Length  = 0;
+0125 ATLATTICE{end}.MADType = <span class="string">'MARK'</span>;
+0126 ATLATTICE{end}.PassMethod = <span class="string">'IdentityPass'</span>;
+0127 
+0128 
+0129 fclose(fid);
+0130 warning(warnlevel);
+0131 
+0132 <span class="comment">% disp(' ');</span>
+0133 <span class="comment">% disp(['AT cell array was successfully created from MAD output file ',FILENAME]);</span>
+0134 <span class="comment">% disp('Some information may be not available in MAD otput files')</span>
+0135 <span class="comment">% disp('Some elements may have to be further modified to be consistent with AT element models')</span>
+0136 <span class="comment">% disp(' ');</span>
+0137 <span class="comment">% %disp('For RF cavities READMAD creates elements that use DriftPass or IdentityPass (if Length ==0)');</span>
+0138 <span class="comment">% disp('For RF cavities READMAD creates elements that use CavityPass');</span>
+0139 <span class="comment">% disp('Use CAVITYON(ENERGY) [eV] in order to turn them into cavities');</span>
+0140 
+0141 <span class="comment">% Compute total length and RF frequency</span>
+0142 L0_tot = findspos(ATLATTICE, length(ATLATTICE)+1);
+0143 fprintf(<span class="string">'   Total length = %.6f m  \n'</span>, L0_tot)
+0144 <span class="comment">%fprintf('   RF = %.6f MHz (should be 499.640349 Hz)\n', HarmNumber*C0/L0_tot/1e6)</span>
+0145 
+0146 
+0147 <span class="comment">% Some AT passmethods requires Energy to be an field</span>
+0148 <span class="comment">% ATLATTICE = setcellstruct(ATLATTICE, 'Energy', 1:length(ATLATTICE), Energy);</span>
+0149 
+0150 
+0151 <span class="comment">% ---------------------------------------------------------------------------</span>
+0152 
+0153 <a name="_sub1" href="#_subfunctions" class="code">function atelement = mad2at(elementdata,madfiletype)</a>
+0154 <span class="keyword">global</span> READMADCAVITYFLAG
+0155 MADTYPE = elementdata{1}(1:4);
+0156 atelement.FamName = deblank(elementdata{1}(5:20));
+0157 atelement.Length  = str2double(elementdata{1}(21:32));
+0158 atelement.MADType = MADTYPE;
+0159 <span class="comment">%atelement.Type    = deblank(elementdata{1}(98:113));</span>
+0160 <span class="comment">%atelement.Energy  = str2double(elementdata{1}(115:130)) * 1e9;  % MAD uses GeV</span>
+0161 
+0162 
+0163 <span class="comment">% Type specific</span>
+0164 <span class="keyword">switch</span> MADTYPE
+0165     <span class="keyword">case</span> <span class="string">'DRIF'</span>
+0166         atelement.FamName = <span class="string">'DRIFT'</span>;
+0167         atelement.PassMethod = <span class="string">'DriftPass'</span>;
+0168     
+0169     <span class="keyword">case</span> {<span class="string">'MARK'</span>,<span class="string">'MONI'</span>,<span class="string">'HMON'</span>,<span class="string">'VMON'</span>}
+0170         atelement.PassMethod = <span class="string">'IdentityPass'</span>;
+0171     
+0172     <span class="keyword">case</span> {<span class="string">'KICK'</span>,<span class="string">'HKIC'</span>,<span class="string">'VKIC'</span>,<span class="string">'VKICK'</span>}
+0173         <span class="comment">%if any(strcmpi(MADTYPE,{'KICK','HKIC'}))</span>
+0174         <span class="comment">%    atelement.FamName  % debug</span>
+0175         <span class="comment">%    %MADTYPE</span>
+0176         <span class="comment">%end</span>
+0177         
+0178         <span class="comment">%atelement.FamName = 'COR';</span>
+0179         atelement.KickAngle = [0 0];
+0180         atelement.PassMethod = <span class="string">'CorrectorPass'</span>;
+0181     
+0182     <span class="keyword">case</span> <span class="string">'RFCA'</span>
+0183         <span class="comment">% Note MAD determines the RF frequency from the harmonic number HARMON</span>
+0184         <span class="comment">% defined by MAD stetement BEAM, and the total length of the closed orbit</span>
+0185         <span class="keyword">if</span> ~READMADCAVITYFLAG
+0186             <span class="comment">%warning('MAD lattice contains RF cavities')</span>
+0187             READMADCAVITYFLAG = 1;
+0188         <span class="keyword">end</span>
+0189         atelement.Frequency = 1e6*str2double(elementdata{2}(17:32)); <span class="comment">% MAD uses MHz</span>
+0190         atelement.Voltage   = 1e6*str2double(elementdata{2}(33:48));
+0191         atelement.PhaseLag  =     str2double(elementdata{2}(49:64));
+0192         <span class="keyword">if</span> atelement.Length
+0193             atelement.PassMethod = <span class="string">'CavityPass'</span>;
+0194         <span class="keyword">else</span>
+0195             atelement.PassMethod = <span class="string">'CavityPass'</span>;
+0196         <span class="keyword">end</span>
+0197 
+0198     <span class="keyword">case</span> <span class="string">'SBEN'</span>
+0199         K1 = str2double(elementdata{1}(49:64));
+0200         K2 = str2double(elementdata{1}(65:80));
+0201         atelement.BendingAngle = str2double(elementdata{1}(33:48));
+0202         atelement.ByError = 0;
+0203         atelement.MaxOrder = 3;
+0204         atelement.NumIntSteps = 10;
+0205         atelement.TiltAngle     = str2double(elementdata{2}(1:16));
+0206         atelement.EntranceAngle = str2double(elementdata{2}(17:32));
+0207         atelement.ExitAngle     = str2double(elementdata{2}(33:48));
+0208         <span class="comment">%     atelement.ExitAngle     = atelement.EntranceAngle;</span>
+0209         atelement.K = K1;
+0210         atelement.PolynomB = [0 K1 K2 0];
+0211         atelement.PolynomA = [0 0 0 0];
+0212         atelement.T1 = zeros(1,6);
+0213         atelement.T2 = zeros(1,6);
+0214         atelement.R1 = eye(6);
+0215         atelement.R2 = eye(6);
+0216         <span class="keyword">if</span> atelement.BendingAngle
+0217             <span class="keyword">if</span> K2
+0218                 atelement.PassMethod = <span class="string">'BndMPoleSymplectic4Pass'</span>;
+0219             <span class="keyword">elseif</span> atelement.TiltAngle
+0220                 atelement.PassMethod = <span class="string">'BendLinearFringeTiltPass'</span>;
+0221             <span class="keyword">else</span>
+0222                 atelement.PassMethod = <span class="string">'BndMPoleSymplectic4Pass'</span>;
+0223                 atelement.PassMethod = <span class="string">'BendLinearPass'</span>;
+0224             <span class="keyword">end</span>
+0225 
+0226         <span class="keyword">else</span>
+0227             <span class="keyword">if</span> K2
+0228                 atelement.PassMethod = <span class="string">'StrMPoleSymplectic4Pass'</span>;
+0229             <span class="keyword">elseif</span> K1
+0230                 atelement.PassMethod = <span class="string">'QuadLinearPass'</span>;
+0231                 <span class="comment">%atelement.PassMethod = 'StrMPoleSymplectic4Pass';</span>
+0232             <span class="keyword">else</span>
+0233                 atelement.PassMethod = <span class="string">'DriftPass'</span>;
+0234             <span class="keyword">end</span>
+0235         <span class="keyword">end</span>
+0236 
+0237     <span class="keyword">case</span> <span class="string">'QUAD'</span>
+0238         K1 = str2double(elementdata{1}(49:64));
+0239         atelement.MaxOrder = 3;
+0240         atelement.NumIntSteps = 10;
+0241         atelement.K = K1;
+0242         atelement.PolynomB = [0 K1 0 0];
+0243         atelement.PolynomA = [0 0 0 0];
+0244         atelement.T1 = zeros(1,6);
+0245         atelement.T2 = zeros(1,6);
+0246         TILT = str2double(elementdata{2}(1:16));
+0247         atelement.R1 = <a href="mksrollmat.html" class="code" title="function R = mksrollmat(PSI)">mksrollmat</a>(TILT);
+0248         atelement.R2 = <a href="mksrollmat.html" class="code" title="function R = mksrollmat(PSI)">mksrollmat</a>(-TILT);
+0249         <span class="comment">%atelement.PassMethod = 'QuadLinearPass';</span>
+0250         atelement.PassMethod = <span class="string">'StrMPoleSymplectic4Pass'</span>;
+0251 
+0252     <span class="keyword">case</span> <span class="string">'SEXT'</span>
+0253         <span class="comment">% MAD multipole strength coefficients K(n) are defined without 1/n!</span>
+0254         <span class="comment">% Adjust to match AT</span>
+0255         K2 = str2double(elementdata{1}(65:80))/2;
+0256         atelement.MaxOrder = 3;
+0257         atelement.NumIntSteps = 10;
+0258         atelement.PolynomB = [0 0 K2 0];
+0259         atelement.PolynomA = [0 0 0 0];
+0260         atelement.T1 = zeros(1,6);
+0261         atelement.T2 = zeros(1,6);
+0262         TILT = str2double(elementdata{2}(1:16));
+0263         atelement.R1 = <a href="mksrollmat.html" class="code" title="function R = mksrollmat(PSI)">mksrollmat</a>(TILT);
+0264         atelement.R2 = <a href="mksrollmat.html" class="code" title="function R = mksrollmat(PSI)">mksrollmat</a>(-TILT);
+0265         atelement.PassMethod = <span class="string">'StrMPoleSymplectic4Pass'</span>;
+0266 
+0267     <span class="keyword">case</span> <span class="string">'OCTU'</span>
+0268         <span class="comment">% MAD multipole strength coefficients K(n) are defined without 1/n!</span>
+0269         <span class="comment">% Adjust to match AT</span>
+0270         K3 = str2double(elementdata{2}(17:32))/6;
+0271         atelement.MaxOrder = 3 ;
+0272         atelement.NumIntSteps = 10;
+0273         atelement.PolynomB = [0 0 0 K3];
+0274         atelement.PolynomA = [0 0 0 0];
+0275         atelement.T1 = zeros(1,6);
+0276         atelement.T2 = zeros(1,6);
+0277         TILT = str2double(elementdata{2}(1:16));
+0278         atelement.R1 = <a href="mksrollmat.html" class="code" title="function R = mksrollmat(PSI)">mksrollmat</a>(TILT);
+0279         atelement.R2 = <a href="mksrollmat.html" class="code" title="function R = mksrollmat(PSI)">mksrollmat</a>(-TILT);
+0280         atelement.PassMethod = <span class="string">'StrMPoleSymplectic4Pass'</span>;
+0281 
+0282     <span class="keyword">otherwise</span>
+0283         <span class="keyword">if</span> atelement.Length
+0284             atelement.PassMethod = <span class="string">'DriftPass'</span>;
+0285         <span class="keyword">else</span>
+0286             atelement.PassMethod = <span class="string">'IdentityPass'</span>;
+0287         <span class="keyword">end</span>
+0288 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

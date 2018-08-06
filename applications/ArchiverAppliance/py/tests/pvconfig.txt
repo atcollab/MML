@@ -1,0 +1,7 @@
+# Here's an example file.  This line is a comment.
+-pv:.*:hb$ # pvs ending in ":hb" will be ignored, regardless of which path/ioc they are in
+-ioc:.*junk.* # iocs whose name contains "junk" will be ignored, regardless of path
+path:/vxboot/PVnames # The directory name
+	-ioc:junkioc # This ioc will be ignored
+	+ioc:goodioc # This ioc will be included, subject to the following line(s)
+		-pv:^junk.* # pvs whose names start with junk will be ignored

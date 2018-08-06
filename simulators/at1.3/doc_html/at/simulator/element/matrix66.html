@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of matrix66</title>
+  <meta name="keywords" content="matrix66">
+  <meta name="description" content="MATRIX66('FamName', M66, 'PassMethod')">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">at</a> &gt; <a href="#">simulator</a> &gt; <a href="index.html">element</a> &gt; matrix66.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at\simulator\element&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>matrix66
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>MATRIX66('FamName', M66, 'PassMethod')</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function z = matrix66(fname, L, M66, method) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">MATRIX66('FamName', M66, 'PassMethod')
+   creates a new family in the FAMLIST - a structure with fields
+        FamName            family name
+        M66                6x6 transfer matrix
+        PassMethod        name of the function on disk to use for tracking
+   returns assigned address in the FAMLIST that is uniquely identifies the family</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function z = matrix66(fname, L, M66, method)</a>
+0002 <span class="comment">%MATRIX66('FamName', M66, 'PassMethod')</span>
+0003 <span class="comment">%   creates a new family in the FAMLIST - a structure with fields</span>
+0004 <span class="comment">%        FamName            family name</span>
+0005 <span class="comment">%        M66                6x6 transfer matrix</span>
+0006 <span class="comment">%        PassMethod        name of the function on disk to use for tracking</span>
+0007 <span class="comment">%   returns assigned address in the FAMLIST that is uniquely identifies the family</span>
+0008 
+0009 ElemData.FamName = fname;  <span class="comment">% add check for identical family names</span>
+0010 ElemData.Length = L;
+0011 ElemData.M66 = M66;
+0012 ElemData.PassMethod=method;
+0013 
+0014 <span class="keyword">global</span> FAMLIST
+0015 z = length(FAMLIST)+1; <span class="comment">% number of declare families including this one</span>
+0016 FAMLIST{z}.FamName = fname;
+0017 FAMLIST{z}.NumKids = 0;
+0018 FAMLIST{z}.KidsList= [];
+0019 FAMLIST{z}.ElemData= ElemData;
+0020 
+0021</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

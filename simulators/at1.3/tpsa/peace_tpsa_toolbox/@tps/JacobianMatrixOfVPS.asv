@@ -1,0 +1,37 @@
+function m = JacobianMatrixOfVPS(v)
+% function m = JacobianMatrixOfVPS(vps)
+% Return the Jacobian Matrix of a given vps
+% Note: m = JacobinMatrixOfVPS(vps) == LinearMatrixOfVPS(vps)
+%-------------------------------------------------------------------------------
+% Author:
+%  Chang, Ho-Ping (also written as Ho-Ping Chang or Peace Chang)
+%  National Synchrotron Radiation Research Center
+%  101 Hsin-Ann Road, Hsinchu Science-Based Industrial Park
+%  Hsinchu 30077, Taiwan
+%  E-mail: peace@srrc.gov.tw
+%
+% Created Date: 08-May-2003
+% Updated Date: 13-May-2003
+%
+% Source Files:
+%  @TPS/JacobianMatrixFromVPS.m
+% Terminology and Category:
+%  Truncated Power Series Algebra (TPSA)
+%  One-Step Index Pointer (OSIP)
+%  Truncated Power Series (TPS)
+% Description:
+%  In MATLAB, the index of array works FORTRAN-like.
+%  Overloading Arithmetic Operators for TPS.
+%  vps(i) = exp(:t:) u(i)
+%  m = JacobianMarixOfVPS(vps)
+%------------------------------------------------------------------------------
+global OSIP
+m = eye(OSIP.NumberOfVariable);
+n = length(vps);
+m = zeros(n,OSIP.NumberOfVariable);
+for i=1:n
+    for j = 1:OSIP.NumberOfVariable
+        m(i,j) = vps(i).c(1+j);
+    end
+end
+clear i j n

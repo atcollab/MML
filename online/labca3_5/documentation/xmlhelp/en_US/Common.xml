@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<refentry version="5.0-subset Scilab" xml:id="lca_common" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <info>
+    <pubdate>$LastChangedDate: 02-Jun-2010 $</pubdate>
+  </info>
+
+  <refnamediv>
+    <refname>Common Arguments and Return Values</refname>
+	<refpurpose>Used by several labCA functions</refpurpose>
+  </refnamediv>
+  <refsection>
+  <title>PV Argument ('pvs')</title>
+  <para>
+   All labCA calls take a PV argument identifying the EPICS process
+   variables the user wants to connect to. PVs are plain ASCII strings.
+   labCA is capable of handling multiple PVs in a single call; they are
+   simply passed as a column vector:
+  </para>
+  <programlisting role="example"><![CDATA[
+pvs = [ 'PVa'; 'b'; 'anotherone' ]
+  ]]></programlisting>
+   <para>
+   Because matlab doesn't allow the rows of a string vector to be of
+   different size, the matlab wrapper expects a cell- array of strings:
+   </para>
+  <programlisting role="example"><![CDATA[
+pvs = { 'PVa'; 'b'; 'anotherone' }
+  ]]></programlisting>
+   <para>
+   All channel access activities for the PVs passed to a single labCA call
+   are batched together and completion of the batch is awaited before
+   returning from the labCA call. Consider the following example:
+  </para>
+  <note>
+  <para>
+          In matlab, the square brackets (``[]'') must be replaced by
+          curly braces (``{}'').
+  </para>
+  </note>
+  <programlisting role="example"><![CDATA[
+       lcaPut( 'trigger', 1 )
+data = lcaGet( ['sensor1' ; 'sens2'] );
+  ]]></programlisting>
+  <itemizedlist>
+  <listitem>
+     <para>
+     It is guaranteed that writing the ``trigger'' completes (on the CA
+     server) prior to reading the sensors.
+     </para>
+     <note>
+     <para>
+          If the remote sensors have finite processing time, the
+          subsequent CA read may still get old data -- depending on the
+          device support etc.; this is beyond the scope of channel access,
+          however.
+     </para>
+     </note>
+  </listitem>
+  <listitem>
+     <para>
+     Reading the two sensors is done in ``parallel'' -- the exact order
+     is unspecified. After the command sequence (successfully)
+     completes, all the data are valid.
+     </para>
+  </listitem>
+  </itemizedlist>
+  </refsection>
+
+  <refsection xml:id='lca_common_type_arg'>
+  <title>Data Type Argument ('type')</title>
+  <para>
+  (optional argument) A string specifying the data type to be used for the
+  channel access data transfer.
+  </para>
+  <note>
+  <para>
+  Unless the PVs are of native 'string' type or conversion to 'string'
+  is enforced explicitly (type = <emphasis>'char'</emphasis>),
+  labCA always converts the data to <emphasis>'double'</emphasis> locally.
+  </para>
+  </note> 
+  <para>
+  It can be desirable, however, to use a different data type for the transfer
+  because by default CA transfers are limited to ~ 16kB.
+  Legal values for type are
+  </para>
+  <itemizedlist>
+  <listitem><para>  <emphasis>'byte'   </emphasis> </para></listitem>
+  <listitem><para>  <emphasis>'short'  </emphasis> </para></listitem>
+  <listitem><para>  <emphasis>'long'   </emphasis> </para></listitem>
+  <listitem><para>  <emphasis>'float'  </emphasis> </para></listitem>
+  <listitem><para>  <emphasis>'double' </emphasis> </para></listitem>
+  <listitem><para>  <emphasis>'native' </emphasis> </para></listitem>
+  <listitem><para>  <emphasis>'char'   </emphasis>(strings) </para></listitem>
+  </itemizedlist>
+  <para>
+  There should rarely be a need for using anything other than
+  <emphasis>'native'</emphasis>, the default, which directs CA to use
+  the same type for transfer as the data are stored on the server.
+  </para>
+  <para>
+  Occasionally, conversion to <emphasis>'char'</emphasis> can be useful:
+  retrieve a number of PVs as strings, i.e. let the CA server convert them
+  to strings (if the PVs are not native strings already) and transfer them.
+  </para>
+  <para>
+  If multiple PVs are requested, either none or all must be of native
+  DBF_STRING or DBF_ENUM type unless explicit conversion to
+  <emphasis>'char'</emphasis> is enforced by specifying this argument.
+  </para>
+  <note>
+  <para>
+  While <emphasis>'native'</emphasis> might result in different types
+  being used for different PVs, it is currently not possible to
+  explicitly request different types for individual PVs (i.e.
+  type can't be a vector).
+  </para>
+  </note>
+  </refsection>
+
+  <refsection xml:id='lca_common_timestamp_val'>
+  <title>Timestamp Format</title>
+  <para>
+   Channel access timestamps are ``POSIX struct timespec'' compliant, i.e.
+   they provide the number of nanoseconds expired since 00:00:00 UTC,
+   January 1, 1970. labCA translates the timestamps into complex numbers
+   with the seconds (tv_sec member) and nanoseconds (tv_nsec) in the real
+   and imaginary parts, respectively. This makes it easy to extract the
+   seconds while still maintaining full accuracy.
+  </para>
+  </refsection>
+
+  <refsection xml:id='lca_common_nan_val'>
+  <title>NaN Values</title>
+  <para>
+  Actually, all fields of an EPICS database record share a common
+  severity, (which itself is a field/PV -- the .SEVR field).
+  However, the INVALID status actually only applies to the .VAL
+  field of a record -- other fields (e.g. .EGU) may still hold
+  meaningful data. Consequently, INVALID PVs are returned as NaN
+  only if they refer to a record's .VAL field.
+  </para>
+  </refsection>
+
+</refentry>

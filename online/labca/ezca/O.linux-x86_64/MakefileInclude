@@ -1,0 +1,121 @@
+#Do not modify this file.
+#This file is created during the build.
+
+ifneq ($(strip $(ezcamt_SRCS_$(OS_CLASS))),)
+ezcamt_SRCS+=$(subst -nil-,,$(ezcamt_SRCS_$(OS_CLASS)))
+else
+ifdef ezcamt_SRCS_DEFAULT
+ezcamt_SRCS+=$(ezcamt_SRCS_DEFAULT)
+endif
+endif
+ifneq ($(strip $(ezcamt_RCS_$(OS_CLASS))),)
+ezcamt_RCS+=$(subst -nil-,,$(ezcamt_RCS_$(OS_CLASS)))
+else
+ifdef ezcamt_RCS_DEFAULT
+ezcamt_RCS+=$(ezcamt_RCS_DEFAULT)
+endif
+endif
+ifneq ($(strip $(ezcamt_OBJS_$(OS_CLASS))),)
+ezcamt_OBJS+=$(subst -nil-,,$(ezcamt_OBJS_$(OS_CLASS)))
+else
+ifdef ezcamt_OBJS_DEFAULT
+ezcamt_OBJS+=$(ezcamt_OBJS_DEFAULT)
+endif
+endif
+ifneq ($(strip $(ezcamt_LDFLAGS_$(OS_CLASS))),)
+ezcamt_LDFLAGS+=$(subst -nil-,,$(ezcamt_LDFLAGS_$(OS_CLASS)))
+else
+ifdef ezcamt_LDFLAGS_DEFAULT
+ezcamt_LDFLAGS+=$(ezcamt_LDFLAGS_DEFAULT)
+endif
+endif
+ifneq ($(strip $(ezcamt_OBJLIBS_$(OS_CLASS))),)
+ezcamt_OBJLIBS+=$(subst -nil-,,$(ezcamt_OBJLIBS_$(OS_CLASS)))
+else
+ifdef ezcamt_OBJLIBS_DEFAULT
+ezcamt_OBJLIBS+=$(ezcamt_OBJLIBS_DEFAULT)
+endif
+endif
+ifneq ($(strip $(ezcamt_LDOBJS_$(OS_CLASS))),)
+ezcamt_LDOBJS+=$(subst -nil-,,$(ezcamt_LDOBJS_$(OS_CLASS)))
+else
+ifdef ezcamt_LDOBJS_DEFAULT
+ezcamt_LDOBJS+=$(ezcamt_LDOBJS_DEFAULT)
+endif
+endif
+ezcamt_LDLIBS+=$(ezcamt_LIBS)
+ifneq ($(strip $(ezcamt_LIBS_$(OS_CLASS))),)
+ezcamt_LDLIBS+=$(subst -nil-,,$(ezcamt_LIBS_$(OS_CLASS)))
+else
+ifdef ezcamt_LIBS_DEFAULT
+ezcamt_LDLIBS+=$(ezcamt_LIBS_DEFAULT)
+endif
+endif
+ifneq ($(strip $(ezcamt_SYS_LIBS_$(OS_CLASS))),)
+ezcamt_SYS_LIBS+=$(subst -nil-,,$(ezcamt_SYS_LIBS_$(OS_CLASS)))
+else
+ifdef ezcamt_SYS_LIBS_DEFAULT
+ezcamt_SYS_LIBS+=$(ezcamt_SYS_LIBS_DEFAULT)
+endif
+endif
+ezcamt_OBJS+=$(addsuffix $(OBJ),$(basename $(ezcamt_SRCS)))
+
+ifeq ($(filter ezcamt,$(TESTPROD) $(PROD)),ezcamt)
+ifeq (,$(strip $(ezcamt_OBJS) $(PRODUCT_OBJS)))
+ezcamt_OBJS+=ezcamt$(OBJ)
+endif
+ezcamt_RESS+=$(addsuffix $(RES),$(basename $(ezcamt_RCS)))
+ezcamt_OBJSNAME+=$(addsuffix $(OBJ),$(basename $(ezcamt_OBJS)))
+ezcamt_DEPLIBS=$(foreach lib, $(ezcamt_LDLIBS),\
+ $(firstword $(wildcard $(addsuffix /$(LIB_PREFIX)$(lib).*,\
+ $($(lib)_DIR) $(SHRLIB_SEARCH_DIRS)))\
+ $(addsuffix /$(LIB_PREFIX)$(lib)$(LIB_SUFFIX),\
+ $(firstword $($(lib)_DIR) $(SHRLIB_SEARCH_DIRS))/)))
+ezcamt$(EXE): $(ezcamt_OBJSNAME) $(ezcamt_RESS) $(ezcamt_DEPLIBS)
+endif
+
+ifeq ($(filter ezcamt,$(LIBRARY)),ezcamt)
+ifneq ($(filter ezcamt,$(LOADABLE_LIBRARY)),ezcamt)
+ifneq (,$(strip $(ezcamt_OBJS) $(LIBRARY_OBJS)))
+BUILD_LIBRARY += ezcamt
+endif
+ezcamt_RESS+=$(addsuffix $(RES),$(basename $(ezcamt_RCS)))
+ezcamt_OBJSNAME+=$(addsuffix $(OBJ),$(basename $(ezcamt_OBJS)))
+ezcamt_DEPLIBS=$(foreach lib, $(ezcamt_LDLIBS),\
+ $(firstword $(wildcard $(addsuffix /$(LIB_PREFIX)$(lib).*,\
+ $($(lib)_DIR) $(SHRLIB_SEARCH_DIRS)))\
+ $(addsuffix /$(LIB_PREFIX)$(lib)$(LIB_SUFFIX),\
+ $(firstword $($(lib)_DIR) $(SHRLIB_SEARCH_DIRS))/)))
+ezcamt_DLL_DEPLIBS=$(foreach lib, $(ezcamt_DLL_LIBS),\
+ $(firstword $(wildcard $(addsuffix /$(LIB_PREFIX)$(lib).*,\
+ $($(lib)_DIR) $(SHRLIB_SEARCH_DIRS)))\
+ $(addsuffix /$(LIB_PREFIX)$(lib)$(LIB_SUFFIX),\
+ $(firstword $($(lib)_DIR) $(SHRLIB_SEARCH_DIRS))/)))
+$(LIB_PREFIX)ezcamt$(LIB_SUFFIX):$(ezcamt_OBJSNAME) $(ezcamt_RESS)
+$(LIB_PREFIX)ezcamt$(LIB_SUFFIX):$(ezcamt_DEPLIBS)
+$(LIB_PREFIX)ezcamt$(SHRLIB_SUFFIX):$(ezcamt_OBJSNAME) $(ezcamt_RESS)
+$(LIB_PREFIX)ezcamt$(SHRLIB_SUFFIX):$(ezcamt_DEPLIBS)
+$(LIB_PREFIX)ezcamt$(SHRLIB_SUFFIX):$(ezcamt_DLL_DEPLIBS)
+endif
+endif
+ifeq ($(filter ezcamt,$(LOADABLE_LIBRARY)),ezcamt)
+ifneq (,$(strip $(ezcamt_OBJS) $(LIBRARY_OBJS)))
+LOADABLE_BUILD_LIBRARY += ezcamt
+endif
+ezcamt_RESS+=$(addsuffix $(RES),$(basename $(ezcamt_RCS)))
+ezcamt_OBJSNAME+=$(addsuffix $(OBJ),$(basename $(ezcamt_OBJS)))
+ezcamt_DEPLIBS=$(foreach lib, $(ezcamt_LDLIBS),\
+ $(firstword $(wildcard $(addsuffix /$(LIB_PREFIX)$(lib).*,\
+ $($(lib)_DIR) $(SHRLIB_SEARCH_DIRS)))\
+ $(addsuffix /$(LIB_PREFIX)$(lib)$(LIB_SUFFIX),\
+ $(firstword $($(lib)_DIR) $(SHRLIB_SEARCH_DIRS))/)))
+ezcamt_DLL_DEPLIBS=$(foreach lib, $(ezcamt_DLL_LIBS),\
+ $(firstword $(wildcard $(addsuffix /$(LIB_PREFIX)$(lib).*,\
+ $($(lib)_DIR) $(SHRLIB_SEARCH_DIRS)))\
+ $(addsuffix /$(LIB_PREFIX)$(lib)$(LIB_SUFFIX),\
+ $(firstword $($(lib)_DIR) $(SHRLIB_SEARCH_DIRS))/)))
+$(LOADABLE_SHRLIB_PREFIX)ezcamt$(LOADABLE_SHRLIB_SUFFIX):$(ezcamt_OBJSNAME) $(ezcamt_RESS)
+$(LOADABLE_SHRLIB_PREFIX)ezcamt$(LOADABLE_SHRLIB_SUFFIX):$(ezcamt_DEPLIBS)
+$(LOADABLE_SHRLIB_PREFIX)ezcamt$(LOADABLE_SHRLIB_SUFFIX):$(ezcamt_DLL_DEPLIBS)
+endif
+

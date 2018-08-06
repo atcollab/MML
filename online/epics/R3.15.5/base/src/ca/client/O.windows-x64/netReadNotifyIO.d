@@ -1,0 +1,57 @@
+# DO NOT EDIT: This file created by mkmf.pl
+
+netReadNotifyIO.obj : ../../../../include/errlog.h
+netReadNotifyIO.obj : ../iocinf.h
+netReadNotifyIO.obj : ../nciu.h
+netReadNotifyIO.obj : ../cac.h
+netReadNotifyIO.obj : ../../../../include/shareLib.h
+netReadNotifyIO.obj : ../../../../include/compilerDependencies.h
+netReadNotifyIO.obj : ../../../../include/resourceLib.h
+netReadNotifyIO.obj : ../../../../include/tsDLList.h
+netReadNotifyIO.obj : ../../../../include/tsFreeList.h
+netReadNotifyIO.obj : ../../../../include/epicsMutex.h
+netReadNotifyIO.obj : ../caProto.h
+netReadNotifyIO.obj : ../cacIO.h
+netReadNotifyIO.obj : ../../../../include/ipAddrToAsciiAsynchronous.h
+netReadNotifyIO.obj : ../msgForMultiplyDefinedPV.h
+netReadNotifyIO.obj : ../../../../include/epicsTimer.h
+netReadNotifyIO.obj : ../../../../include/epicsEvent.h
+netReadNotifyIO.obj : ../../../../include/freeList.h
+netReadNotifyIO.obj : ../localHostName.h
+netReadNotifyIO.obj : ../comBuf.h
+netReadNotifyIO.obj : ../bhe.h
+netReadNotifyIO.obj : ../netIO.h
+netReadNotifyIO.obj : ../virtualCircuit.h
+netReadNotifyIO.obj : ../../../../include/compiler/msvc/compilerSpecific.h
+netReadNotifyIO.obj : ../../../../include/tsSLList.h
+netReadNotifyIO.obj : ../../../../include/epicsString.h
+netReadNotifyIO.obj : ../../../../include/epicsGuard.h
+netReadNotifyIO.obj : ../../../../include/epicsAssert.h
+netReadNotifyIO.obj : ../../../../include/os/WIN32/osdMutex.h
+netReadNotifyIO.obj : ../../../../include/epicsThread.h
+netReadNotifyIO.obj : ../../../../include/osiSock.h
+netReadNotifyIO.obj : ../../../../include/epicsTime.h
+netReadNotifyIO.obj : ../../../../include/os/WIN32/osdEvent.h
+netReadNotifyIO.obj : ../../../../include/epicsSingleton.h
+netReadNotifyIO.obj : ../../../../include/epicsTypes.h
+netReadNotifyIO.obj : ../../../../include/osiWireFormat.h
+netReadNotifyIO.obj : ../inetAddrID.h
+netReadNotifyIO.obj : ../../../../include/epicsMemory.h
+netReadNotifyIO.obj : ../../../../include/tsMinMax.h
+netReadNotifyIO.obj : ../caServerID.h
+netReadNotifyIO.obj : ../netiiu.h
+netReadNotifyIO.obj : ../comQueSend.h
+netReadNotifyIO.obj : ../comQueRecv.h
+netReadNotifyIO.obj : ../tcpRecvWatchdog.h
+netReadNotifyIO.obj : ../tcpSendWatchdog.h
+netReadNotifyIO.obj : ../hostNameCache.h
+netReadNotifyIO.obj : ../SearchDest.h
+netReadNotifyIO.obj : ../../../../include/os/WIN32/osdThread.h
+netReadNotifyIO.obj : ../../../../include/os/WIN32/osdSock.h
+netReadNotifyIO.obj : ../../../../include/ellLib.h
+netReadNotifyIO.obj : ../../../../include/os/WIN32/osdTime.h
+netReadNotifyIO.obj : ../../../../include/os/WIN32/osdWireFormat.h
+netReadNotifyIO.obj : ../../../../include/epicsEndian.h
+netReadNotifyIO.obj : ../../../../include/os/WIN32/osdWireConfig.h
+
+

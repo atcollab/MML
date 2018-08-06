@@ -1,0 +1,467 @@
+function varargout = tango_staticdb_config(varargin)
+% TANGO_STATICDB_EDITOR M-file for tango_staticdb_config.fig
+%      TANGO_STATICDB_EDITOR, by itself, creates a new TANGO_STATICDB_EDITOR or raises the existing
+%      singleton*.
+%
+%      H = TANGO_STATICDB_EDITOR returns the handle to a new TANGO_STATICDB_EDITOR or the handle to
+%      the existing singleton*.
+%
+%      TANGO_STATICDB_EDITOR('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in TANGO_STATICDB_EDITOR.M with the given input arguments.
+%
+%      TANGO_STATICDB_EDITOR('Property','Value',...) creates a new TANGO_STATICDB_EDITOR or raises the
+%      existing singleton*.  Starting from the left, property value pairs are
+%      applied to the GUI before tango_staticdb_config_OpeningFunction gets called.  An
+%      unrecognized property name or invalid value makes property application
+%      stop.  All inputs are passed to tango_staticdb_config_OpeningFcn via varargin.
+%
+%      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
+%      instance to run (singleton)".
+%
+% See also: GUIDE, GUIDATA, GUIHANDLES
+
+% Copyright 2002-2003 The MathWorks, Inc.
+
+% Edit the above text to modify the response to help tango_staticdb_config
+
+% Last Modified by GUIDE v2.5 07-Aug-2004 10:21:49
+
+% Laurent S. Nadolski, SOLEIL
+
+% Begin initialization code - DO NOT EDIT
+gui_Singleton = 1;
+gui_State = struct('gui_Name',       mfilename, ...
+    'gui_Singleton',  gui_Singleton, ...
+    'gui_OpeningFcn', @tango_staticdb_config_OpeningFcn, ...
+    'gui_OutputFcn',  @tango_staticdb_config_OutputFcn, ...
+    'gui_LayoutFcn',  [] , ...
+    'gui_Callback',   []);
+if nargin && ischar(varargin{1})
+    gui_State.gui_Callback = str2func(varargin{1});
+end
+
+if nargout
+    [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
+else
+    gui_mainfcn(gui_State, varargin{:});
+end
+% End initialization code - DO NOT EDIT
+
+
+% --- Executes just before tango_staticdb_config is made visible.
+function tango_staticdb_config_OpeningFcn(hObject, eventdata, handles, varargin)
+% This function has no output args, see OutputFcn.
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% varargin   command line arguments to tango_staticdb_config (see VARARGIN)
+
+% Choose default command line output for tango_staticdb_config
+handles.output = hObject;
+
+% Update handles structure
+guidata(hObject, handles);
+
+% UIWAIT makes tango_staticdb_config wait for user response (see UIRESUME)
+% uiwait(handles.figure1);
+
+disp('TANGO Static DataBase Configurator');
+
+% uimenu_anneau_Callback(handles.uimenu_LT1, eventdata, handles);
+%uimenu_LT1_Callback(handles.uimenu_LT1, eventdata, handles);
+% Update handles structure
+guidata(hObject, handles);
+
+% --- Outputs from this function are returned to the command line.
+function varargout = tango_staticdb_config_OutputFcn(hObject, eventdata, handles)
+% varargout  cell array for returning output args (see VARARGOUT);
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Get default command line output from handles structure
+varargout{1} = handles.output;
+
+
+% --- Executes on selection change in popupmenu_group.
+function popupmenu_group_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu_group (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = get(hObject,'String') returns popupmenu_group contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu_group
+
+contents = get(hObject,'String');
+num      = get(hObject,'Value');
+group    = contents{num};
+
+setappdata(handles.figure1,'group', group);
+
+AO       = getappdata(handles.figure1,'AO');
+
+%% Status one devices
+valid  = find(AO.(group).Status);
+%% Builds up attribut list for selected group
+if ~iscell(AO.(group).DeviceName)
+    AO.(group).DeviceName = {AO.(group).DeviceName};
+end
+
+attributeList = tango_get_attribute_list(AO.(group).DeviceName{valid(1)});
+
+if isnumeric(attributeList) &&  attributeList == -1
+    error('Cannot communicate with device %s',AO.(group).DeviceName{valid(1)})
+end
+
+num = get(handles.popupmenu_attribute,'Value');
+if num > length(attributeList)
+    num = 1;
+    set(handles.popupmenu_attribute,'Value',num);
+end
+set(handles.popupmenu_attribute,'String',attributeList);
+
+%setback selected element and property to first one
+set(handles.listbox_property,'Value',1);
+set(handles.listbox_group,'Value',1);
+
+popupmenu_attribute_Callback(handles.popupmenu_attribute, eventdata, handles);
+
+% Update handles structure
+guidata(hObject, handles);
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu_group_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu_group (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc
+    set(hObject,'BackgroundColor','white');
+else
+    set(hObject,'BackgroundColor',get(0,'defaultUicontrolBackgroundColor'));
+end
+
+
+% --- Executes on selection change in popupmenu_attribute.
+function popupmenu_attribute_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu_attribute (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = get(hObject,'String') returns popupmenu_attribute contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu_attribute
+
+contents  = get(hObject,'String');
+num       = get(hObject,'Value');
+attribute = contents{num};
+
+setappdata(handles.figure1,'attribute', attribute);
+group     = getappdata(handles.figure1,'group');
+AO        = getappdata(handles.figure1,'AO');
+
+%% Selects valid devices
+valid  = find(AO.(group).Status);
+%% Builds up property list for selected group
+if ~iscell(AO.(group).DeviceName)
+    AO.(group).DeviceName = {AO.(group).DeviceName};
+end
+propertyList = fieldnames(tango_attribute_query(AO.(group).DeviceName{valid(1)}, attribute));
+
+num = get(hObject,'Value');
+if num > length(propertyList)
+    num = 1;
+    set(handles.popupmenu_property,'Value',num);
+end
+set(handles.popupmenu_property,'String',propertyList);
+
+popupmenu_property_Callback(handles.popupmenu_property, eventdata, handles);
+
+% Update handles structure
+guidata(hObject, handles);
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu_attribute_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu_attribute (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc
+    set(hObject,'BackgroundColor','white');
+else
+    set(hObject,'BackgroundColor',get(0,'defaultUicontrolBackgroundColor'));
+end
+
+
+% --- Executes on selection change in popupmenu_property.
+function popupmenu_property_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu_property (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = get(hObject,'String') returns popupmenu_property contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu_property
+
+contents  = get(hObject,'String');
+num       = get(hObject,'Value');
+property  = contents{num};
+
+setappdata(handles.figure1,'property', property);
+
+group     = getappdata(handles.figure1,'group');
+attribute = getappdata(handles.figure1,'attribute');
+AO        = getappdata(handles.figure1,'AO');
+
+% Status one devices
+valid  = find(AO.(group).Status);
+
+% Update Group list
+
+if ~iscell(AO.(group).DeviceName)
+    AO.(group).DeviceName = {AO.(group).DeviceName};
+end
+
+set(handles.listbox_group,'String',AO.(group).DeviceName(valid));
+
+% Contruct DeviceName/AttributName list
+fullTangoNames = strcat(AO.(group).DeviceName(valid), '/', attribute);
+
+% Builds up property list
+list = tango_get_attribute_property(fullTangoNames, property);
+set(handles.listbox_property,'String',list);
+% Reset to first item in selection list
+set(handles.listbox_property,'Value',1);
+
+% Update handles structure
+guidata(hObject, handles);
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu_property_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu_property (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc
+    set(hObject,'BackgroundColor','white');
+else
+    set(hObject,'BackgroundColor',get(0,'defaultUicontrolBackgroundColor'));
+end
+
+% --- Executes on selection change in listbox_group.
+function listbox_group_Callback(hObject, eventdata, handles)
+% hObject    handle to listbox_group (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = get(hObject,'String') returns listbox_group contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from listbox_group
+
+
+% --- Executes during object creation, after setting all properties.
+function listbox_group_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to listbox_group (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc
+    set(hObject,'BackgroundColor','white');
+else
+    set(hObject,'BackgroundColor',get(0,'defaultUicontrolBackgroundColor'));
+end
+
+
+% --- Executes on selection change in listbox_property.
+function listbox_property_Callback(hObject, eventdata, handles)
+% hObject    handle to listbox_property (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = get(hObject,'String') returns listbox_property contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from listbox_property
+
+contents = get(hObject,'String');
+idx = get(hObject,'Value');
+
+set(handles.edit_value,'String',contents{idx(1)});
+
+% --- Executes during object creation, after setting all properties.
+function listbox_property_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to listbox_property (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc
+    set(hObject,'BackgroundColor','white');
+else
+    set(hObject,'BackgroundColor',get(0,'defaultUicontrolBackgroundColor'));
+end
+
+
+% --- Executes on button press in checkbox_all.
+function checkbox_all_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox_all (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox_all
+
+function edit_value_Callback(hObject, eventdata, handles)
+% hObject    handle to edit_value (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit_value as text
+%        str2double(get(hObject,'String')) returns contents of edit_value as a double
+
+% First of all, ask for confirmation
+answer = questdlg('Do you want to apply change ?','Confirmation dialog box');
+
+switch answer
+    case 'Yes'
+
+        % Get the new value
+        value = get(hObject,'String');
+
+        group     = getappdata(handles.figure1,'group');
+        attribute = getappdata(handles.figure1,'attribute');
+        property  = getappdata(handles.figure1,'property');
+        AO        = getappdata(handles.figure1,'AO');
+
+        % Status one devices
+        valid  = find(AO.(group).Status);
+
+        if ~iscell(AO.(group).DeviceName)
+            AO.(group).DeviceName = {AO.(group).DeviceName};
+        end
+
+        if (get(handles.checkbox_all,'Value') == 0)
+            %% Get selected element
+            idx = get(handles.listbox_property,'Value');
+            tango_set_attribute_property(strcat(AO.(group).DeviceName(valid(idx)), ...
+                '/',attribute),property, value)
+        else % All the same
+            tango_set_attribute_property(strcat(AO.(group).DeviceName(valid), ...
+                '/',attribute),property, value)
+        end
+        % Status one devices
+        valid  = find(AO.(group).Status);
+
+        % refresh display
+        popupmenu_property_Callback(handles.popupmenu_property,eventdata, handles);
+
+    case {'No','Cancel'}
+        return;
+    otherwise
+        warning('Wrong answer')
+end
+
+
+
+
+% --- Executes during object creation, after setting all properties.
+function edit_value_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_value (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc
+    set(hObject,'BackgroundColor','white');
+else
+    set(hObject,'BackgroundColor',get(0,'defaultUicontrolBackgroundColor'));
+end
+
+
+% --------------------------------------------------------------------
+function uimenu_linac_Callback(hObject, eventdata, handles)
+% hObject    handle to uimenu_linac (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+init_uimenu(hObject, eventdata, handles);
+
+% -------------------------------------------------------------------------
+function uimenu_LT1_Callback(hObject, eventdata, handles)
+% hObject    handle to uimenu_LT1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+LT1init;
+handles = init_uimenu(hObject, eventdata, handles);
+% Update handles structure
+guidata(hObject, handles);
+
+% -------------------------------------------------------------------------
+function handles = init_uimenu(hObject, eventdata, handles)
+
+setappdata(handles.figure1,'AO', getao);
+
+%% Checked box
+all = findobj(get(hObject,'Parent'),'Type','UImenu');
+set(all, 'Checked', 'Off');
+set(hObject, 'Checked', 'On');
+
+%% Initialize popupmenu w/ first element, first attribute, first property
+listgroup = fieldnames(getfamilydata);
+set(handles.popupmenu_group,'String',listgroup);
+setappdata(handles.figure1,'group', listgroup{1});
+
+popupmenu_group_Callback(handles.popupmenu_group, eventdata, handles);
+
+% --------------------------------------------------------------------
+function uimenu_booster_Callback(hObject, eventdata, handles)
+% hObject    handle to uimenu_booster (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+AD = getad;
+
+if isempty(AD)
+    boosterinit;
+elseif ~strcmpi(AD.Machine,'Ring')
+    boosterinit
+end
+
+init_uimenu(hObject, eventdata, handles);
+
+% --------------------------------------------------------------------
+function uimenu_LT2_Callback(hObject, eventdata, handles)
+% hObject    handle to uimenu_LT2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+init_uimenu(hObject, eventdata, handles);
+
+% --------------------------------------------------------------------
+function uimenu_anneau_Callback(hObject, eventdata, handles)
+% hObject    handle to uimenu_anneau (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+AD = getad;
+
+if isempty(AD)
+    soleilinit;
+elseif ~strcmpi(AD.Machine,'Ring')
+    soleilinit
+end
+
+init_uimenu(hObject, eventdata, handles);
+
+% --------------------------------------------------------------------
+function Untitled_1_Callback(hObject, eventdata, handles)
+% hObject    handle to Untitled_1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+

@@ -1,0 +1,82 @@
+This documents the building of epics release 13_5_5 on my pc.  For this compilation I have used the notes on the epics site as a guidline.  In particular I have used the main epics page
+http://www.aps.anl.gov/epics/base/win32.php
+and a link to another
+http://www.aps.anl.gov/epics/tech-talk/2015/msg01582.php
+with a sample of a batch file I will base my file from.
+
+rem This file sets up for an EPICS windows-x64 build
+rem  I will not need this as this is already set as an environment variable
+set EPICS_HOST_ARCH=windows-x64
+
+rem These are the locations of "make", "re2c", "Perl", and EPICS base.  Prepend them to the PATH.
+rem  I will create a path with the minimum required windows path and then add my paths for perl, gmake within the perl distribution, and my epics location
+set PATH=C:\Program Files (x86)\GnuWin32\bin;C:\Program Files (x86)\re2c;C:\Perl64\bin;H:\epics\base\bin\windows-x64;%PATH%
+
+rem Execute the Visual Studio batch file for 64-bit builds
+rem  Instead I will use the appropriate command for Visual Studio Community 2015
+%comspec% /k ""C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"" amd64
+rem  note that %comspec% launches the command for cmd.exe
+rem  note that the /k option tells command to keep the window open
+
+"C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" x86_amd64
+
+rem  this suggested file is then executed by the following command, but I should be able to just execute the entire set of commands in one batch file
+C:\Windows\System32\cmd.exe /K C:\EPICS\setup_epics_vs2010_win64.bat
+
+
+Required Software
+
+Operating system native compiler
+In this case I am using Microsoft Visual Studio Community 2015 (I likely could also use 2017, but I already have 2015 loaded on my machine.  Note that the system needs to be loaded as a custom installation in order to get the Visual C++ compiler and the successor to the Visual Studio Software Development Kit (SDK).  This is done by selecting
+Common Tools -> Visual Studio Extensibility Tools Update 3
+in the installation process.
+Note that if Visual Studio is already installed with insufficent tools installed, from Control Panel -> All Control Panel Items -> Programs and Features, navigate to Microsoft Visual Studio Community 2015 with Updates, right click and run modify.
+The script to run for the native compiler can then be found from
+Windows->All Programs->Visual Studio 2015->Visual Studio Tools->Windows Desktop Command Prompts->VS2015 x64 Native Tools Command Prompt
+This shortcut starts in the directory
+"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\"
+and runs the command
+%comspec% /k ""C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"" amd64
+(Note that %comspec% is an environment variable set to C:\Windows\system32\cmd.exe)
+
+Perl
+I use Strawberry Perl.  One advantage of this installation is that it includes gmake (GNU Make 4.2.1).  EPICS installation says that make 3.81 or later is required, so I will try to see if this make works.
+Note that Strawberry Perl by default installs three directories in the path:
+C:\Strawberry\c\bin;C:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;
+I will include these three directories in my batch file.
+
+Windows
+On Windows7, the default paths seem to be
+C:\Windows\System32;C:\Windows;C:\Windows\System32\wbem;C:\Windows\System32\WindowsPowerShell\v1.0
+(Note that %SystemRoot% is an environment variable set to C:\Windows.)
+
+EPICS
+Download epics base 3.15.5 from
+https://www.aps.anl.gov/epics/download/base/index.php
+Use 7-zip and unzip and untar files to
+C:\epics\base_3_15_5
+
+::
+::
+:: set environment variables
+set EPICS_HOST_ARCH=windows-x64
+set epicsInstall=C:\epics\base_3_15_5
+set perl=C:\Strawberry
+:: set path for windows
+set PATH=%SystemRoot%\System32;%SystemRoot%;%SystemRoot%\System32\wbem;%SystemRoot%\System32\WindowsPowerShell\v1.0;
+:: add path for perl/gmake
+set PATH=%PATH%;%perl%\c\bin;%perl%\perl\site\bin;%perl%\perl\bin;
+:: add path for epics installation
+set PATH=%PATH%;%epicsInstall%\bin\%EPICS_HOST_ARCH%
+:: navigate to base directory (does not work after execution of vcvarsall.bat)
+cd /D %epicsInstall%
+:: set ms visual studio 2015 community environment
+::   note that comspec finds the command line prompt
+::   /k tells the command prompt to stay open upon completion of command
+%comspec% /k ""C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"" amd64
+:: gmake clean, gmake to build epics
+
+
+Started gmake clean, gmake at 14:17:01, completed at 14:21:25
+C:\epics\base_3_15_5>caget SRF1:STN:VOLT
+SRF1:STN:VOLT                  2848.2

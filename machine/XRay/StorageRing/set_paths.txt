@@ -1,0 +1,15 @@
+% paths required by plotfamily
+addpath('/ctrl/sys.programs/acceleratorcontrol/ucode');
+addpath('/ctrl/sys.programs/acceleratorcontrol');
+addpath('/ctrl/sys.programs/MUcode');
+addpath('/ctrl/sys.programs/AT');
+addpath('/ctrl/sys.programs/AT/atdemos');
+addpath('/ctrl/sys.programs/AT/atdoc');
+addpath('/ctrl/sys.programs/AT/atdoc/doc');
+addpath('/ctrl/sys.programs/AT/atdoc/html');
+addpath('/ctrl/sys.programs/AT/atgui');
+addpath('/ctrl/sys.programs/AT/atphysics');
+addpath('/ctrl/sys.programs/AT/lattice');
+addpath('/ctrl/sys.programs/AT/simulator');
+addpath('/ctrl/sys.programs/AT/simulator/element');
+addpath('/ctrl/sys.programs/AT/simulator/track');

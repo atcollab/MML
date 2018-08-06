@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of concatenaterings</title>
+  <meta name="keywords" content="concatenaterings">
+  <meta name="description" content="">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; concatenaterings.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>concatenaterings
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong></strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function varargout = concatenaterings(NRings) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="getcavity.html" class="code" title="function [CavityState, PassMethod, ATCavityIndex, RF, HarmonicNumber] = getcavity(THERING)">getcavity</a>	GETCAVITY - Returns the RF cavity state ('On' / 'Off')</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function varargout = concatenaterings(NRings)</a>
+0002 
+0003 a=1;
+0004 
+0005 <span class="keyword">global</span> THERING
+0006 
+0007 
+0008 <span class="comment">% Number of ALS's to concatenate</span>
+0009 <span class="keyword">if</span> nargin &lt; 1
+0010     NRings = input(<span class="string">'   How many rings to concatenate? '</span>);
+0011 <span class="keyword">end</span>
+0012 
+0013 
+0014 [CavityState, PassMethod, ATCavityIndex, RF, HarmonicNumber] = <a href="getcavity.html" class="code" title="function [CavityState, PassMethod, ATCavityIndex, RF, HarmonicNumber] = getcavity(THERING)">getcavity</a>(THERING);
+0015 
+0016 <span class="keyword">if</span> ~isempty(ATCavityIndex)
+0017     <span class="keyword">for</span> i = 1:length(ATCavityIndex)
+0018         THERING{ATCavityIndex(i)}.HarmNumber = NRings * THERING{ATCavityIndex(i)}.HarmNumber;
+0019     <span class="keyword">end</span>
+0020 <span class="keyword">end</span>
+0021 
+0022 
+0023 THERING1 = THERING;
+0024 <span class="keyword">for</span> i = 1:NRings-1
+0025     THERING = [THERING THERING1];
+0026 <span class="keyword">end</span>
+0027 
+0028 
+0029 L = getfamilydata(<span class="string">'Circumference'</span>);
+0030 <span class="keyword">if</span> ~isempty(L)
+0031     setfamilydata(NRings * L, <span class="string">'Circumference'</span>);
+0032 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of loadthering</title>
+  <meta name="keywords" content="loadthering">
+  <meta name="description" content="LOADTHERING - Loads the THERING from a .mat file">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; loadthering.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>loadthering
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>LOADTHERING - Loads the THERING from a .mat file</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function  FileName = loadthering(FileName) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">LOADTHERING - Loads the THERING from a .mat file
+  [FileName, THERING] = loadthering
+  [FileName, THERING] = loadthering(FileName)
+  [FileName, THERING] = loadthering('Golden') to load the THERING from the operations directory (THERING.mat)
+
+  See also <a href="savethering.html" class="code" title="function  savethering(FileName)">savethering</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function  FileName = loadthering(FileName)</a>
+0002 <span class="comment">%LOADTHERING - Loads the THERING from a .mat file</span>
+0003 <span class="comment">%  [FileName, THERING] = loadthering</span>
+0004 <span class="comment">%  [FileName, THERING] = loadthering(FileName)</span>
+0005 <span class="comment">%  [FileName, THERING] = loadthering('Golden') to load the THERING from the operations directory (THERING.mat)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%  See also savethering</span>
+0008 
+0009 <span class="comment">%  Written by Greg Portmann</span>
+0010 
+0011 
+0012 <span class="keyword">global</span> THERING
+0013 
+0014 THERINGsave = THERING;
+0015 
+0016 <span class="keyword">if</span> nargin &lt; 1
+0017     FileName = <span class="string">''</span>;
+0018 <span class="keyword">end</span>
+0019 
+0020 <span class="keyword">if</span> ischar(FileName)
+0021     <span class="keyword">if</span> isempty(FileName)
+0022         [FileName, DirectoryName, FilterIndex] = uigetfile(<span class="string">'*.mat'</span>,<span class="string">'Select a file with THERING'</span>);
+0023         <span class="keyword">if</span> FilterIndex == 0
+0024             <span class="keyword">return</span>;
+0025         <span class="keyword">end</span>
+0026         FileName = [DirectoryName, FileName];
+0027     <span class="keyword">elseif</span> strcmpi(FileName, <span class="string">'Golden'</span>)
+0028         FileName = [getfamilydata(<span class="string">'Directory'</span>,<span class="string">'OpsData'</span>), <span class="string">'THERING.mat'</span>];
+0029     <span class="keyword">end</span>
+0030 <span class="keyword">else</span>
+0031     error(<span class="string">'Filename input must be a string'</span>);
+0032 <span class="keyword">end</span>
+0033 
+0034 THERING = [];
+0035 load(FileName);
+0036 
+0037 <span class="keyword">if</span> isempty(THERING)
+0038     THERING = THERINGsave;
+0039     error(<span class="string">'THERING was not found in file %s'</span>, FileName);
+0040 <span class="keyword">end</span>
+0041 
+0042 <span class="comment">% Run updateatindex after the ring is changed is always wise</span>
+0043 <span class="keyword">if</span> exist(<span class="string">'updateatindex.m'</span>, <span class="string">'file'</span>)
+0044     updateatindex;
+0045 <span class="keyword">end</span>
+0046</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

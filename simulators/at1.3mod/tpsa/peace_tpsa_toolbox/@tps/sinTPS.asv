@@ -1,0 +1,41 @@
+function r = sinTPS(t)
+%-------------------------------------------------------------------------------
+% Author:
+%  Chang, Ho-Ping (also written as Ho-Ping Chang or Peace Chang)
+%  National Synchrotron Radiation Research Center
+%  101 Hsin-Ann Road, Hsinchu Science-Based Industrial Park
+%  Hsinchu 30077, Taiwan
+%  E-mail: peace@srrc.gov.tw
+%
+% Created Date: 11-Dec-2002
+% Updated Date: 13-May-2003
+%    May 6, 2003
+%  Source Files:
+%    @TPS/sinTPS.m
+% Terminology and Category:
+%    Truncated Power Series Algebra (TPSA)
+%    One-Step Index Pointer (OSIP)
+%    Truncated Power Series (TPS)
+%  Description:
+%    In MATLAB, the index of array works FORTRAN-like.
+%    Overloading Arithmetic Operators for TPS.
+%    r = sinTPS(t) 
+%------------------------------------------------------------------------------
+global OSIP
+g = t;
+g.c(1) = 0;
+[index,order,k] = NonZeroMinOrderTPS(g);
+if index <= 1
+   r = TPS;
+else
+   h = g;
+   f = h*h;
+   r = g*OSIP.CoeOfSinCos(1);
+   expo = ceil(OSIP.MaximumOrder/order);
+   for i=3:2:expo
+       h = h*f;
+       r = r+h*OSIP.CoeOfSinCos(i);
+   end
+   clear i
+end
+clear index order k f g h

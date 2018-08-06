@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of plotbeta</title>
+  <meta name="keywords" content="plotbeta">
+  <meta name="description" content="PLOTBETA(RING) - Plots the coupled beta functions of the model">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; plotbeta.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>plotbeta
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>PLOTBETA(RING) - Plots the coupled beta functions of the model</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function varargout = plotbeta(varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">PLOTBETA(RING) - Plots the coupled beta functions of the model
+
+  Note: this function just calls modelbeta
+
+  See also <a href="modelbeta.html" class="code" title="function [BetaX, BetaY, Sx, Sy, Tune, Chrom] = modelbeta(varargin)">modelbeta</a>, <a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>, twissring</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="modelbeta.html" class="code" title="function [BetaX, BetaY, Sx, Sy, Tune, Chrom] = modelbeta(varargin)">modelbeta</a>	MODELBETA - Returns the beta function of the model</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function varargout = plotbeta(varargin)</a>
+0002 <span class="comment">%PLOTBETA(RING) - Plots the coupled beta functions of the model</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%  Note: this function just calls modelbeta</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">%  See also modelbeta, modeltwiss, twissring</span>
+0007 
+0008 
+0009 <span class="comment">%  It calls FindOrbit4 and LinOpt which assume a lattice</span>
+0010 <span class="comment">%  with NO accelerating cavities and NO radiation</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%  PLOTBETA with no argumnts uses THERING as a default RING</span>
+0013 
+0014 <span class="keyword">if</span> nargout == 0
+0015     <a href="modelbeta.html" class="code" title="function [BetaX, BetaY, Sx, Sy, Tune, Chrom] = modelbeta(varargin)">modelbeta</a>(varargin{:}, <span class="string">'Drawlattice'</span>);
+0016 <span class="keyword">else</span>
+0017     [BetaX, BetaY, Sx, Sy, Tune, Chrom] = <a href="modelbeta.html" class="code" title="function [BetaX, BetaY, Sx, Sy, Tune, Chrom] = modelbeta(varargin)">modelbeta</a>(varargin{:}, <span class="string">'Drawlattice'</span>);
+0018 <span class="keyword">end</span>
+0019 
+0020 <span class="comment">% MachineType = getfamilydata('MachineType');</span>
+0021 <span class="comment">% if any(strcmpi(MachineType, {'Transport','Transportline','Linac'}))</span>
+0022 <span class="comment">%     % Transport line or linac</span>
+0023 <span class="comment">% else</span>
+0024 <span class="comment">%     % Ring</span>
+0025 <span class="comment">%     fprintf('   nux=%g, nuy=%g\n', Tune(1), Tune(2));</span>
+0026 <span class="comment">%     fprintf('   chromaticity xix=%g, xiy=%g\n', Chrom(1), Chrom(2));</span>
+0027 <span class="comment">% end</span>
+0028 
+0029 
+0030 <span class="comment">% if nargin == 0</span>
+0031 <span class="comment">%     global THERING</span>
+0032 <span class="comment">%     RING = THERING;</span>
+0033 <span class="comment">% end</span>
+0034 <span class="comment">% L = length(RING);</span>
+0035 <span class="comment">% spos = findspos(RING,1:L+1);</span>
+0036 <span class="comment">% [twissdata, tunes, chrom] = twissring(RING,0,1:L+1,'chrom');</span>
+0037 <span class="comment">% RINGLength = spos(L)+RING{L}.Length;</span>
+0038 <span class="comment">% betax = zeros(1,L);</span>
+0039 <span class="comment">% betay = zeros(1,L);</span>
+0040 <span class="comment">% for i =1:L</span>
+0041 <span class="comment">%    betax(i) = twissdata(i).beta(1);</span>
+0042 <span class="comment">%    betay(i) = twissdata(i).beta(2);</span>
+0043 <span class="comment">% end</span>
+0044 <span class="comment">% betax(L+1) = betax(1);</span>
+0045 <span class="comment">% betay(L+1) = betay(1);</span>
+0046 <span class="comment">% fprintf('nux=%g, nuy=%g\n',tunes(1),tunes(2));</span>
+0047 <span class="comment">% fprintf('chromaticity xix=%g, xiy=%g\n',chrom(1),chrom(2));</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">% figure</span>
+0050 <span class="comment">% % plot betax and betay in two subplots</span>
+0051 <span class="comment">%</span>
+0052 <span class="comment">% subplot(2,1,1)</span>
+0053 <span class="comment">% plot(spos,betax,'.-b');   % Laurent sometimes negative !</span>
+0054 <span class="comment">% %plot(spos,abs(betax),'.-b');</span>
+0055 <span class="comment">% A= axis;</span>
+0056 <span class="comment">% A(1) = 0;</span>
+0057 <span class="comment">% A(2) = RINGLength;</span>
+0058 <span class="comment">% axis(A);</span>
+0059 <span class="comment">% xlabel('s - position [m]');</span>
+0060 <span class="comment">% ylabel('\beta_x [m]');</span>
+0061 <span class="comment">% grid on</span>
+0062 <span class="comment">%</span>
+0063 <span class="comment">%</span>
+0064 <span class="comment">% title('beta-functions');</span>
+0065 <span class="comment">%</span>
+0066 <span class="comment">% subplot(2,1,2)</span>
+0067 <span class="comment">% plot(spos,betay,'.-r');   % Laurent sometimes negative !</span>
+0068 <span class="comment">% %plot(spos,abs(betay),'.-r');</span>
+0069 <span class="comment">% A= axis;</span>
+0070 <span class="comment">% A(1) = 0;</span>
+0071 <span class="comment">% A(2) = RINGLength;</span>
+0072 <span class="comment">% axis(A);</span>
+0073 <span class="comment">% xlabel('s - position [m]');</span>
+0074 <span class="comment">% ylabel('\beta_y [m]');</span>
+0075 <span class="comment">% grid on</span>
+0076 <span class="comment">% addlabel(datestr(now));</span>
+0077 <span class="comment">%</span>
+0078 <span class="comment">% if nargout &gt; 0</span>
+0079 <span class="comment">%     varargout{1}=betax;</span>
+0080 <span class="comment">% end</span>
+0081 <span class="comment">% if nargout ==2</span>
+0082 <span class="comment">%     varargout{2}=betay;</span>
+0083 <span class="comment">% end</span></pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

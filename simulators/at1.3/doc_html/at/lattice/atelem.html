@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of atelem</title>
+  <meta name="keywords" content="atelem">
+  <meta name="description" content="ATELEM makes a new AT element structure from another element,">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../index.html">Home</a> &gt;  <a href="../index.html">at</a> &gt; <a href="index.html">lattice</a> &gt; atelem.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../index.html"><img alt="<" border="0" src="../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at\lattice&nbsp;<img alt=">" border="0" src="../../right.png"></a></td></tr></table>-->
+
+<h1>atelem
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>ATELEM makes a new AT element structure from another element,</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>function elemstruct = atelem(ELEM,varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">ATELEM makes a new AT element structure from another element, 
+ standard AT type, or a template on file. Existing fields are overridden
+ with new values. New fields are added and initialized.
+
+ NEWELEM = ATELEM(ELEM,'Field1','Value1','Field2', 'Value2', ...)
+  ELEM can be 1) another element structure
+              2) One of the standard AT types
+                 'drift'
+                 'quadrupole'
+                 'sextupole'
+                  ...
+              3) name of a function that returns a template element structure
+ 
+ Accelerator Toolbox, Version 1.3, 2004-01-26</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="atelem.html" class="code" title="function elemstruct = atelem(ELEM,varargin)">atelem</a>	ATELEM makes a new AT element structure from another element,</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="atelem.html" class="code" title="function elemstruct = atelem(ELEM,varargin)">atelem</a>	ATELEM makes a new AT element structure from another element,</li><li><a href="insertindrift.html" class="code" title="function ELEMSEQ = insertindrift(DRIFT0, ELEM1, POS1, varargin)">insertindrift</a>	INSERTINDRIFT inserts one or more elements into a drift element</li></ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function elemstruct = atelem(ELEM,varargin)</a>
+0002 <span class="comment">%ATELEM makes a new AT element structure from another element,</span>
+0003 <span class="comment">% standard AT type, or a template on file. Existing fields are overridden</span>
+0004 <span class="comment">% with new values. New fields are added and initialized.</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% NEWELEM = ATELEM(ELEM,'Field1','Value1','Field2', 'Value2', ...)</span>
+0007 <span class="comment">%  ELEM can be 1) another element structure</span>
+0008 <span class="comment">%              2) One of the standard AT types</span>
+0009 <span class="comment">%                 'drift'</span>
+0010 <span class="comment">%                 'quadrupole'</span>
+0011 <span class="comment">%                 'sextupole'</span>
+0012 <span class="comment">%                  ...</span>
+0013 <span class="comment">%              3) name of a function that returns a template element structure</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% Accelerator Toolbox, Version 1.3, 2004-01-26</span>
+0016 <span class="keyword">if</span> isstruct(ELEM)
+0017     elemstruct = ELEM;
+0018     NARG = nargin - 1; 
+0019     k = 1;
+0020     <span class="keyword">while</span> k &lt; NARG
+0021         NextField = (varargin{k});
+0022         <span class="keyword">if</span> ischar(NextField)
+0023             elemstruct.(NextField) = varargin{k+1};
+0024         <span class="keyword">else</span>
+0025             error(<span class="string">'Field and value input arguments must come in pairs'</span>);
+0026         <span class="keyword">end</span>
+0027         k = k+2;
+0028     <span class="keyword">end</span>
+0029 <span class="keyword">elseif</span> ischar(ELEM)
+0030     <span class="keyword">switch</span> lower(ELEM(1:4)) <span class="comment">% Generic</span>
+0031         <span class="keyword">case</span> <span class="string">'drif'</span>
+0032             E.FamName = <span class="string">'None'</span>;
+0033             E.Length = 0;
+0034             E.PassMethod = <span class="string">'DriftPass'</span>;
+0035             
+0036         <span class="keyword">case</span> <span class="string">'quad'</span>
+0037             E.FamName = <span class="string">'None'</span>;
+0038             E.Length = 0;
+0039             E.K = 0;
+0040             E.PassMethod = <span class="string">'QuadLinearPass'</span>;
+0041             
+0042         <span class="keyword">case</span> <span class="string">'sext'</span>
+0043             E.FamName = <span class="string">'None'</span>;
+0044             E.Length = 0;
+0045             E.PolynomB  = [0 0 0];
+0046             E.PolynomA  = [0 0 0];
+0047             E.MaxOrder = 2;
+0048             E.NumIntSteps = 10;
+0049             E.PassMethod = <span class="string">'StrMPoleSymplectic4Pass'</span>;
+0050         <span class="keyword">case</span> <span class="string">'mark'</span>
+0051             E.FamName = <span class="string">'None'</span>;
+0052             E.Length = 0;
+0053             E.PassMethod = <span class="string">'IdentityPass'</span>;
+0054             
+0055         <span class="keyword">case</span> {<span class="string">'bend'</span>,<span class="string">'rben'</span>,<span class="string">'sben'</span>}
+0056             E.FamName = <span class="string">'None'</span>;
+0057             E.Length = 0;
+0058             E.BendingAngle = 0;
+0059             E.EntranceAngle =  0;
+0060             E.ExitAngle = 0;
+0061             E.PassMethod = <span class="string">'BendLinearPass'</span>;
+0062             
+0063         <span class="keyword">case</span> <span class="string">'corr'</span>
+0064             E.FamName = <span class="string">'None'</span>;
+0065             E.Length = 0;
+0066             E.KickAngle = [0 0];
+0067             E.PassMethod = <span class="string">'CorrectorPass'</span>;
+0068         <span class="keyword">otherwise</span> <span class="comment">% function that returns an at element structure</span>
+0069             <span class="keyword">if</span> exist(ELEM)==2
+0070                 <span class="keyword">try</span>
+0071                     E = feval(ELEM);
+0072                 <span class="keyword">catch</span>
+0073                     E = [];
+0074                 <span class="keyword">end</span>
+0075                 <span class="keyword">if</span> ~isstruct(E)
+0076                     error([<span class="string">'Function '</span>,<span class="string">''''</span>, ELEM,<span class="string">''''</span>, <span class="string">' does not return a valid element structure'</span>]);
+0077                 <span class="keyword">end</span>
+0078             <span class="keyword">else</span>
+0079                 error([<span class="string">'Function '</span>,<span class="string">''''</span>,ELEM,<span class="string">''''</span>, <span class="string">' is not on MATLAB path'</span>]);
+0080             <span class="keyword">end</span>
+0081     <span class="keyword">end</span>
+0082     elemstruct = <a href="atelem.html" class="code" title="function elemstruct = atelem(ELEM,varargin)">atelem</a>(E,varargin{:});
+0083 <span class="keyword">else</span>
+0084     error(<span class="string">'First argument must be an AT element or a string keyword'</span>)
+0085 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

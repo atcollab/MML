@@ -1,0 +1,506 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of at</title>
+  <meta name="keywords" content="at">
+  <meta name="description" content="at - functions specific to the Accelerator Toolbox">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; at.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>at
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>at - functions specific to the Accelerator Toolbox</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">at - functions specific to the Accelerator Toolbox
+
+ Written by Laurent S. Nadolski
+
+ TODO finish comments
+
+ Simulator/track
+
+   linepass
+   ringpass
+   atpass
+
+ Simulator/element
+
+   aperture
+   buildBL11table
+   corrector
+   drift
+   hmonitor
+   marker
+   mDriftPass
+   mexpassmethod
+   mIdentityPass
+   monitor
+   multipole
+   passmethods
+   quadrupole
+   rbend
+   rbend2
+   rfcavity
+   sbend
+   sextupole
+   solenoid
+   vmonitor
+   wiggler
+   wigtable
+   WigTablePass
+
+ atdemo
+   atslider
+   demoknob
+   elementpassdemo
+   findrespmdemo
+   latticedemo
+   linoptdemo
+   ohmienvelopedemo
+   sp3v81f
+   spear2
+   spear2rad
+   spear2resp
+   spear3
+   talk
+   trackingdemo
+
+ Miscellaneous
+
+  atdiag
+  athelp
+  atmexall
+  atpath
+  atroot
+
+ Atgui
+
+   dispfamvalues
+   intelem
+   intlat
+
+ Atphysics
+
+   cavityoff
+   cavityon
+   findelemaddiffmatrix
+   findelemm44
+   findelemm66
+   findelemraddiffmatrix
+   findelemraddiffm
+   findm44
+   findm66
+   findmpoleraddiffmatrix
+   findorbit4
+   findorbit6
+   findorbit
+   findrespm
+   findspos
+   findsyncorbit
+   findthickmpoleraddiffm
+   findthinmpoleraddiffm
+   fitchrom2
+   fittune2
+   intfft
+   linopt
+   mcf
+   mcf2
+   mkSRotationMatrix
+   numdifparams
+   ohmienvelope
+   plotbeta
+   plotcod
+   private/lyap
+   radiationoff
+   radiationon
+   thickmpoleraddiffm
+   thinmpoleraddiffm
+   tunechrom
+   tunespaceplot
+   twissline
+   twissring
+
+ Lattice
+
+   atelem
+   atindex
+   atparamgroup
+   buildlat
+   combinebypassmethod
+   combinelinear45
+   findcells
+   findtags
+   getcellstruct
+   insertelem0
+   insertelem_dev
+   insertindrift
+   isatelem
+   isatlattice
+   mergedrift
+   mkparamgroup
+   mksrollmat
+   mvelem
+   readmad
+   restoreparamgroup
+   reverse
+   rmelem0
+   saveparamgroup
+   setcellstruct
+   setparamgroup
+   setshift
+   settags
+   settilt
+   splitdrift
+   splitelem
+ 
+ Below is the result of the athelp command
+
+ Physics Tools
+ FINDMPOLERADDIFFMATIRX calculates radiation diffusion matrix of a multipole element
+ FINDELEMRADDIFMAT calculates element 'radiation diffusion matrix' B
+ RADIATIONON turns classical radiation  ON
+ NUMDIFPARAMS (all caps) is a global variable in AT
+ TWISSRING calculates linear optics functions for an UNCOUPLED ring
+ FINDTHINMPOLERADDIFFM
+ CAVITYON turns Cavities ON
+ FINDM66 numerically finds the 6x6 transfer matrix of an accelerator lattice
+ FINDSYNCORBIT finds closed orbit, synchronous with the RF cavity 
+ TWISSLINE calculates linear optics functions for an UNCOUPLED transport line
+ MKSROTATIONMATRIX(PSI) coordinate transformation matrix 
+ FINDSPOS returns longitudinal positions of accelerator lattice elements.
+ CAVITYOFF turns Cavities OFF
+ MCF - Calculates momentum compaction factor (MCF) of RING
+ FINDELEMM44 numerically finds the 4x4 transfer matrix of an element
+ TUNESPACEPLOT draws a tune diagram
+ FINDELEMRADDIFFM
+ FITCHROM2 fits chromaticity  of THERING using 2 sextupole families
+ FITTUNE2 fits linear tunes of THERING using 2 quadrupole families
+ OHMIENVELOPE calculates equilibrium beam envelope in a 
+ PLOTBETA plots UNCOUPLED! beta-functions
+ TUNECHROM computes linear tunes and chromaticities for COUPLED or UNCOUPLED lattice
+ FINDRESPM computes the change in the closed orbit due to parameter perturbations
+ FINDORBIT6 finds closed orbit in the full 6-d phase space
+ RADIATIONOFF turns classical radiation  OFF
+ FINDELEMM66 numerically finds the 6x6 transfer matrix of an element
+ FINDTHICKMPOLERADDIFFM
+ FINDTHICKMPOLERADDIFFM
+ MCF2(RING) calculates momentum compaction factor of RING versus energy
+ LINOPT performs linear analysis of the COUPLED lattices
+ FINDM44 numerically finds the 4x4 transfer matrix of an accelerator lattice
+ PLOTCOD Closed Orbit Distortion
+ INTFFT - calculate the tune from interpolated FFT of the trajectory.
+ FINDORBIT is an alias to the orbit search functions:
+ FINDORBIT4 finds closed orbit in the 4-d transverse phase 
+ FINDTHINMPOLERADDIFFM
+ 
+ Lattice Tools
+ SETTILT sets the entrance and exit misalignment matrixes
+ SETCELLSTRUCT sets the field values of MATLAB cell array of structures
+ INSERTELEM0 - quick and dirty:
+ GETCELLSTRUCT retrieves the field values MATLAB cell array of structures 
+ INSERTELEM0 inserts element(s) of zero length into a drift space
+ RMELEM0 removes elements of length 0 from the accelerator lattice
+  PARAMETER GROUP in AT is a general way
+ ISATELEM tests if an input argument is a valid AT element.
+ ISATLATTICE tests if an input argument is a valid AT lattice.
+ COMBINELINEAR45 combines adjacent  elements that use 4-by-5 PassMethods
+  INSERTINDRIFT inserts one or more elements into a drift element
+ MKSROLLMAT - rotation matrix around s-axis
+  INSERTELEM inserts one or more elements inside another element
+ ATINDEX extracts the information about element families and
+ FINDCELLS performs a search on MATLAB cell arrays of structures
+ READMAD reads the file output of MAD commands
+ BUILDLAT places elements from FAMLIST into cell array THERING
+ RESTOREPARAMGROUP restores the values of multiple physical 
+ MVELEM(ELEMPOS, DIST) moves an element  located at ELEMPOS in THERING
+ SAVEPARAMGROUP saves the values of multiple physical 
+ COMBINEBYPASSMETHOD combines adjacent elements that have the same specified pass method
+ SPLITDRIFT inserts an element into a drift space
+ MERGEDRIFT removes a lattice element and merges the two adjacent drift spaces
+ ATELEM makes a new AT element structure from another element, 
+ SETTAGS assigns individual string tags to elements in lattice THERING
+ SETSHIFT sets the misalignment vectors T1, T2 for elements
+ FINDTAGS looks for string matches in 'Tag' field of AT lattice elements
+ MKPARAMGROUP simplifies creation of AT parameter groups
+ SETPARAMGROUP modifies a group of parameters
+ REVERSE reverses the order of elements in a one-dimensional MATLAB ARRAY
+ 
+ AT Demos
+ SPEAR2RAD example lattice definition file
+ LINOPTDEMO script illustrates the use of LINOPT
+ ATSLIDER is an example of a GUI control of multiple parameters in THERING
+ SPEAR2RESP  example SPEAR2 lattice with orbit correctors and BPMS
+ TALK
+  All the dipole and quadrupole lengths are effective lengths
+ TRACKINGDEMO self-running tutorial
+ LATTICEDEMO self-running tutorial
+  ===================== Injection Kickers and Drifts ============================================ 
+ FINDRESPMDEMO response matrix demo
+ SPEAR2 example lattice definition file
+ DEMOKNOB illustrates the use of MATLAB GUI controls with AT
+ ELEMENTPASSDEMO self-running tutorial
+ OHMIENVELOPEDEMO illustrates the use of OHMIENVELOPE function</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%at - functions specific to the Accelerator Toolbox</span>
+0002 <span class="comment">%</span>
+0003 <span class="comment">% Written by Laurent S. Nadolski</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">% TODO finish comments</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Simulator/track</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">%   linepass</span>
+0010 <span class="comment">%   ringpass</span>
+0011 <span class="comment">%   atpass</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% Simulator/element</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%   aperture</span>
+0016 <span class="comment">%   buildBL11table</span>
+0017 <span class="comment">%   corrector</span>
+0018 <span class="comment">%   drift</span>
+0019 <span class="comment">%   hmonitor</span>
+0020 <span class="comment">%   marker</span>
+0021 <span class="comment">%   mDriftPass</span>
+0022 <span class="comment">%   mexpassmethod</span>
+0023 <span class="comment">%   mIdentityPass</span>
+0024 <span class="comment">%   monitor</span>
+0025 <span class="comment">%   multipole</span>
+0026 <span class="comment">%   passmethods</span>
+0027 <span class="comment">%   quadrupole</span>
+0028 <span class="comment">%   rbend</span>
+0029 <span class="comment">%   rbend2</span>
+0030 <span class="comment">%   rfcavity</span>
+0031 <span class="comment">%   sbend</span>
+0032 <span class="comment">%   sextupole</span>
+0033 <span class="comment">%   solenoid</span>
+0034 <span class="comment">%   vmonitor</span>
+0035 <span class="comment">%   wiggler</span>
+0036 <span class="comment">%   wigtable</span>
+0037 <span class="comment">%   WigTablePass</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">% atdemo</span>
+0040 <span class="comment">%   atslider</span>
+0041 <span class="comment">%   demoknob</span>
+0042 <span class="comment">%   elementpassdemo</span>
+0043 <span class="comment">%   findrespmdemo</span>
+0044 <span class="comment">%   latticedemo</span>
+0045 <span class="comment">%   linoptdemo</span>
+0046 <span class="comment">%   ohmienvelopedemo</span>
+0047 <span class="comment">%   sp3v81f</span>
+0048 <span class="comment">%   spear2</span>
+0049 <span class="comment">%   spear2rad</span>
+0050 <span class="comment">%   spear2resp</span>
+0051 <span class="comment">%   spear3</span>
+0052 <span class="comment">%   talk</span>
+0053 <span class="comment">%   trackingdemo</span>
+0054 <span class="comment">%</span>
+0055 <span class="comment">% Miscellaneous</span>
+0056 <span class="comment">%</span>
+0057 <span class="comment">%  atdiag</span>
+0058 <span class="comment">%  athelp</span>
+0059 <span class="comment">%  atmexall</span>
+0060 <span class="comment">%  atpath</span>
+0061 <span class="comment">%  atroot</span>
+0062 <span class="comment">%</span>
+0063 <span class="comment">% Atgui</span>
+0064 <span class="comment">%</span>
+0065 <span class="comment">%   dispfamvalues</span>
+0066 <span class="comment">%   intelem</span>
+0067 <span class="comment">%   intlat</span>
+0068 <span class="comment">%</span>
+0069 <span class="comment">% Atphysics</span>
+0070 <span class="comment">%</span>
+0071 <span class="comment">%   cavityoff</span>
+0072 <span class="comment">%   cavityon</span>
+0073 <span class="comment">%   findelemaddiffmatrix</span>
+0074 <span class="comment">%   findelemm44</span>
+0075 <span class="comment">%   findelemm66</span>
+0076 <span class="comment">%   findelemraddiffmatrix</span>
+0077 <span class="comment">%   findelemraddiffm</span>
+0078 <span class="comment">%   findm44</span>
+0079 <span class="comment">%   findm66</span>
+0080 <span class="comment">%   findmpoleraddiffmatrix</span>
+0081 <span class="comment">%   findorbit4</span>
+0082 <span class="comment">%   findorbit6</span>
+0083 <span class="comment">%   findorbit</span>
+0084 <span class="comment">%   findrespm</span>
+0085 <span class="comment">%   findspos</span>
+0086 <span class="comment">%   findsyncorbit</span>
+0087 <span class="comment">%   findthickmpoleraddiffm</span>
+0088 <span class="comment">%   findthinmpoleraddiffm</span>
+0089 <span class="comment">%   fitchrom2</span>
+0090 <span class="comment">%   fittune2</span>
+0091 <span class="comment">%   intfft</span>
+0092 <span class="comment">%   linopt</span>
+0093 <span class="comment">%   mcf</span>
+0094 <span class="comment">%   mcf2</span>
+0095 <span class="comment">%   mkSRotationMatrix</span>
+0096 <span class="comment">%   numdifparams</span>
+0097 <span class="comment">%   ohmienvelope</span>
+0098 <span class="comment">%   plotbeta</span>
+0099 <span class="comment">%   plotcod</span>
+0100 <span class="comment">%   private/lyap</span>
+0101 <span class="comment">%   radiationoff</span>
+0102 <span class="comment">%   radiationon</span>
+0103 <span class="comment">%   thickmpoleraddiffm</span>
+0104 <span class="comment">%   thinmpoleraddiffm</span>
+0105 <span class="comment">%   tunechrom</span>
+0106 <span class="comment">%   tunespaceplot</span>
+0107 <span class="comment">%   twissline</span>
+0108 <span class="comment">%   twissring</span>
+0109 <span class="comment">%</span>
+0110 <span class="comment">% Lattice</span>
+0111 <span class="comment">%</span>
+0112 <span class="comment">%   atelem</span>
+0113 <span class="comment">%   atindex</span>
+0114 <span class="comment">%   atparamgroup</span>
+0115 <span class="comment">%   buildlat</span>
+0116 <span class="comment">%   combinebypassmethod</span>
+0117 <span class="comment">%   combinelinear45</span>
+0118 <span class="comment">%   findcells</span>
+0119 <span class="comment">%   findtags</span>
+0120 <span class="comment">%   getcellstruct</span>
+0121 <span class="comment">%   insertelem0</span>
+0122 <span class="comment">%   insertelem_dev</span>
+0123 <span class="comment">%   insertindrift</span>
+0124 <span class="comment">%   isatelem</span>
+0125 <span class="comment">%   isatlattice</span>
+0126 <span class="comment">%   mergedrift</span>
+0127 <span class="comment">%   mkparamgroup</span>
+0128 <span class="comment">%   mksrollmat</span>
+0129 <span class="comment">%   mvelem</span>
+0130 <span class="comment">%   readmad</span>
+0131 <span class="comment">%   restoreparamgroup</span>
+0132 <span class="comment">%   reverse</span>
+0133 <span class="comment">%   rmelem0</span>
+0134 <span class="comment">%   saveparamgroup</span>
+0135 <span class="comment">%   setcellstruct</span>
+0136 <span class="comment">%   setparamgroup</span>
+0137 <span class="comment">%   setshift</span>
+0138 <span class="comment">%   settags</span>
+0139 <span class="comment">%   settilt</span>
+0140 <span class="comment">%   splitdrift</span>
+0141 <span class="comment">%   splitelem</span>
+0142 <span class="comment">%</span>
+0143 <span class="comment">% Below is the result of the athelp command</span>
+0144 <span class="comment">%</span>
+0145 <span class="comment">% Physics Tools</span>
+0146 <span class="comment">% FINDMPOLERADDIFFMATIRX calculates radiation diffusion matrix of a multipole element</span>
+0147 <span class="comment">% FINDELEMRADDIFMAT calculates element 'radiation diffusion matrix' B</span>
+0148 <span class="comment">% RADIATIONON turns classical radiation  ON</span>
+0149 <span class="comment">% NUMDIFPARAMS (all caps) is a global variable in AT</span>
+0150 <span class="comment">% TWISSRING calculates linear optics functions for an UNCOUPLED ring</span>
+0151 <span class="comment">% FINDTHINMPOLERADDIFFM</span>
+0152 <span class="comment">% CAVITYON turns Cavities ON</span>
+0153 <span class="comment">% FINDM66 numerically finds the 6x6 transfer matrix of an accelerator lattice</span>
+0154 <span class="comment">% FINDSYNCORBIT finds closed orbit, synchronous with the RF cavity</span>
+0155 <span class="comment">% TWISSLINE calculates linear optics functions for an UNCOUPLED transport line</span>
+0156 <span class="comment">% MKSROTATIONMATRIX(PSI) coordinate transformation matrix</span>
+0157 <span class="comment">% FINDSPOS returns longitudinal positions of accelerator lattice elements.</span>
+0158 <span class="comment">% CAVITYOFF turns Cavities OFF</span>
+0159 <span class="comment">% MCF - Calculates momentum compaction factor (MCF) of RING</span>
+0160 <span class="comment">% FINDELEMM44 numerically finds the 4x4 transfer matrix of an element</span>
+0161 <span class="comment">% TUNESPACEPLOT draws a tune diagram</span>
+0162 <span class="comment">% FINDELEMRADDIFFM</span>
+0163 <span class="comment">% FITCHROM2 fits chromaticity  of THERING using 2 sextupole families</span>
+0164 <span class="comment">% FITTUNE2 fits linear tunes of THERING using 2 quadrupole families</span>
+0165 <span class="comment">% OHMIENVELOPE calculates equilibrium beam envelope in a</span>
+0166 <span class="comment">% PLOTBETA plots UNCOUPLED! beta-functions</span>
+0167 <span class="comment">% TUNECHROM computes linear tunes and chromaticities for COUPLED or UNCOUPLED lattice</span>
+0168 <span class="comment">% FINDRESPM computes the change in the closed orbit due to parameter perturbations</span>
+0169 <span class="comment">% FINDORBIT6 finds closed orbit in the full 6-d phase space</span>
+0170 <span class="comment">% RADIATIONOFF turns classical radiation  OFF</span>
+0171 <span class="comment">% FINDELEMM66 numerically finds the 6x6 transfer matrix of an element</span>
+0172 <span class="comment">% FINDTHICKMPOLERADDIFFM</span>
+0173 <span class="comment">% FINDTHICKMPOLERADDIFFM</span>
+0174 <span class="comment">% MCF2(RING) calculates momentum compaction factor of RING versus energy</span>
+0175 <span class="comment">% LINOPT performs linear analysis of the COUPLED lattices</span>
+0176 <span class="comment">% FINDM44 numerically finds the 4x4 transfer matrix of an accelerator lattice</span>
+0177 <span class="comment">% PLOTCOD Closed Orbit Distortion</span>
+0178 <span class="comment">% INTFFT - calculate the tune from interpolated FFT of the trajectory.</span>
+0179 <span class="comment">% FINDORBIT is an alias to the orbit search functions:</span>
+0180 <span class="comment">% FINDORBIT4 finds closed orbit in the 4-d transverse phase</span>
+0181 <span class="comment">% FINDTHINMPOLERADDIFFM</span>
+0182 <span class="comment">%</span>
+0183 <span class="comment">% Lattice Tools</span>
+0184 <span class="comment">% SETTILT sets the entrance and exit misalignment matrixes</span>
+0185 <span class="comment">% SETCELLSTRUCT sets the field values of MATLAB cell array of structures</span>
+0186 <span class="comment">% INSERTELEM0 - quick and dirty:</span>
+0187 <span class="comment">% GETCELLSTRUCT retrieves the field values MATLAB cell array of structures</span>
+0188 <span class="comment">% INSERTELEM0 inserts element(s) of zero length into a drift space</span>
+0189 <span class="comment">% RMELEM0 removes elements of length 0 from the accelerator lattice</span>
+0190 <span class="comment">%  PARAMETER GROUP in AT is a general way</span>
+0191 <span class="comment">% ISATELEM tests if an input argument is a valid AT element.</span>
+0192 <span class="comment">% ISATLATTICE tests if an input argument is a valid AT lattice.</span>
+0193 <span class="comment">% COMBINELINEAR45 combines adjacent  elements that use 4-by-5 PassMethods</span>
+0194 <span class="comment">%  INSERTINDRIFT inserts one or more elements into a drift element</span>
+0195 <span class="comment">% MKSROLLMAT - rotation matrix around s-axis</span>
+0196 <span class="comment">%  INSERTELEM inserts one or more elements inside another element</span>
+0197 <span class="comment">% ATINDEX extracts the information about element families and</span>
+0198 <span class="comment">% FINDCELLS performs a search on MATLAB cell arrays of structures</span>
+0199 <span class="comment">% READMAD reads the file output of MAD commands</span>
+0200 <span class="comment">% BUILDLAT places elements from FAMLIST into cell array THERING</span>
+0201 <span class="comment">% RESTOREPARAMGROUP restores the values of multiple physical</span>
+0202 <span class="comment">% MVELEM(ELEMPOS, DIST) moves an element  located at ELEMPOS in THERING</span>
+0203 <span class="comment">% SAVEPARAMGROUP saves the values of multiple physical</span>
+0204 <span class="comment">% COMBINEBYPASSMETHOD combines adjacent elements that have the same specified pass method</span>
+0205 <span class="comment">% SPLITDRIFT inserts an element into a drift space</span>
+0206 <span class="comment">% MERGEDRIFT removes a lattice element and merges the two adjacent drift spaces</span>
+0207 <span class="comment">% ATELEM makes a new AT element structure from another element,</span>
+0208 <span class="comment">% SETTAGS assigns individual string tags to elements in lattice THERING</span>
+0209 <span class="comment">% SETSHIFT sets the misalignment vectors T1, T2 for elements</span>
+0210 <span class="comment">% FINDTAGS looks for string matches in 'Tag' field of AT lattice elements</span>
+0211 <span class="comment">% MKPARAMGROUP simplifies creation of AT parameter groups</span>
+0212 <span class="comment">% SETPARAMGROUP modifies a group of parameters</span>
+0213 <span class="comment">% REVERSE reverses the order of elements in a one-dimensional MATLAB ARRAY</span>
+0214 <span class="comment">%</span>
+0215 <span class="comment">% AT Demos</span>
+0216 <span class="comment">% SPEAR2RAD example lattice definition file</span>
+0217 <span class="comment">% LINOPTDEMO script illustrates the use of LINOPT</span>
+0218 <span class="comment">% ATSLIDER is an example of a GUI control of multiple parameters in THERING</span>
+0219 <span class="comment">% SPEAR2RESP  example SPEAR2 lattice with orbit correctors and BPMS</span>
+0220 <span class="comment">% TALK</span>
+0221 <span class="comment">%  All the dipole and quadrupole lengths are effective lengths</span>
+0222 <span class="comment">% TRACKINGDEMO self-running tutorial</span>
+0223 <span class="comment">% LATTICEDEMO self-running tutorial</span>
+0224 <span class="comment">%  ===================== Injection Kickers and Drifts ============================================</span>
+0225 <span class="comment">% FINDRESPMDEMO response matrix demo</span>
+0226 <span class="comment">% SPEAR2 example lattice definition file</span>
+0227 <span class="comment">% DEMOKNOB illustrates the use of MATLAB GUI controls with AT</span>
+0228 <span class="comment">% ELEMENTPASSDEMO self-running tutorial</span>
+0229 <span class="comment">% OHMIENVELOPEDEMO illustrates the use of OHMIENVELOPE function</span>
+0230 
+0231 
+0232 disp(<span class="string">'type athelp'</span>);</pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

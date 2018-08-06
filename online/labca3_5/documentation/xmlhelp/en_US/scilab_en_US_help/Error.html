@@ -1,0 +1,111 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Error Handling</title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	<span class="previous"><a href="lca_common.html">&lt;&lt; Common Arguments and Return Values</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="lcaClear.html">lcaClear &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path"><a href="index.html">labCA</a> &gt;&gt; <a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a> &gt; Error Handling</span>
+
+    <br /><br />
+    <div class="info"></div>
+
+  <div class="refnamediv"><h1 class="refname">Error Handling</h1><p class="refpurpose">labCA&#0039;s error reporting mechanism</p></div>
+  <div class="refsection"><h3 class="title">Error Handling</h3>
+  <p class="para">All errors encountered during execution of labCA calls result in
+   the call being aborted, a message being printed to the console and an
+   error status being recorded which can be retrieved using scilab&#0039;s
+   lasterror command. The recommended method for handling errors is
+   scilab&#0039;s try - catch - end construct:</p>
+  <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabskeyword">try</span>
+        <span class="scilabid">val</span> <span class="scilaboperator">=</span> <span class="scilabid">lcaGet</span><span class="scilabopenclose">(</span><span class="scilabid">pvvector</span><span class="scilabopenclose">)</span>
+<span class="scilabskeyword">catch</span>
+        <span class="scilabid">err</span>   <span class="scilaboperator">=</span> <a class="scilabcommand" href="scilab://lasterror">lasterror</a><span class="scilabopenclose">(</span><span class="scilabopenclose">)</span>
+        <span class="scilabcomment">// additional information is provided</span>
+        <span class="scilabcomment">// by the </span><span class="scilabcomment">&#0039;</span><span class="scilabcomment">lcaLastError</span><span class="scilabcomment">&#0039;</span><span class="scilabcomment"> routine</span>
+        <span class="scilabid">stats</span> <span class="scilaboperator">=</span> <span class="scilabid">lcaLastError</span><span class="scilabopenclose">(</span><span class="scilabopenclose">)</span>
+        <span class="scilabcomment">// handle error here</span>
+<span class="scilabskeyword">end</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div>
+   <table><tr><td valign="top"><img src="ScilabNote.png"/></td><td valign="top"><div class="note"><p class="para">This describes version 3 behavior;
+          earlier versions didn&#0039;t consistently ``throw&#0039;&#0039;
+          all errors so that they could be caught by the try-catch-end
+          mechanism but would merely print messages when encountering some
+          minor errors. Also, versions earlier than 3 would not report
+          error IDs/messages to lasterror nor implement the
+          <a href="lcaLastError.html" class="link">lcaLastError</a> routine.</p></div></td></tr></table>
+   <p class="para">Many labCA calls can handle multiple PVs at once and underlying CA
+   operations may fail for a subset of PVs only. However, lasterror only
+   supports reporting a single error status. Therefore the 
+   <a href="lcaLastError.html" class="link">lcaLastError</a>
+   routine was implemented: if a labCA call fails for a subset of PVs then
+   a subsequent call to lcaLastError returns a column vector of status
+   values for the individual PVs. The error codes are shown in
+   <a href="Error.html#lca_errorcodes" class="xref"></a>.</p>
+
+   <a name="lca_errorcodes"></a><table class="doctable"><caption><b>labCA Error Codes.
+   <p class="para">Numerical codes (scilab lasterror
+   and lcaLastError()) and corresponding matlab error ``ID&#0039;&#0039;s (as returned
+   by matlab lasterror).</p></b></caption>
+   <th><tr><td>#</td><td>Matlab Error ID</td><td>Comment</td></tr></th>
+   <tbody class="tbody"><tr><td>0</td><td>labca:unexpectedOK</td><td>No error</td></tr>
+     <tr><td>1</td><td>labca:invalidArg</td><td>Invalid argument</td></tr>
+     <tr><td>2</td><td>labca:noMemory</td><td>Not enough memory</td></tr>
+     <tr><td>3</td><td>labca:channelAccessFail</td><td>Underlying CA operation failed</td></tr>
+     <tr><td>4</td><td>labca:udfCaReq</td><td>Item(s) requested undefined for its/their native data type</td></tr>
+     <tr><td>5</td><td>labca:notConnected</td><td>Channel currently disconnected</td></tr>
+     <tr><td>6</td><td>labca:timedOut</td><td>No response in time</td></tr>
+     <tr><td>7</td><td>labca:inGroup</td><td>Currently in a EZCA group</td></tr>
+     <tr><td>8</td><td>labca:notInGroup</td><td>Currently not in a EZCA group</td></tr>
+     <tr><td>9</td><td>labca:usrAbort</td><td>EZCA call aborted by user (Ctrl-C)</td></tr>
+     <tr><td>20</td><td>labca:noMonitor</td><td>No monitor for PV/type found</td></tr>
+     <tr><td>21</td><td>labca:noChannel</td><td>No channel for PV name found</td></tr></tbody></table></div>
+
+   <div class="refsection"><h3 class="title">See also</h3>
+   <ul class="itemizedlist"><li class="member"><a href="lcaLastError.html" class="link">lcaLastError</a></li></ul></div>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	<span class="previous"><a href="lca_common.html">&lt;&lt; Common Arguments and Return Values</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_9d122bd15b55cf8b15c18b6ec34a52fb.html">labCA</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="lcaClear.html">lcaClear &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

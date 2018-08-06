@@ -1,0 +1,44 @@
+function r = ConcatenateVPSbyMatrix(vps,m)
+%function r = ConcatenateVPSbyMatrix(vps,m)
+% Concatenate each TPS of vps by Matrix m
+%-------------------------------------------------------------------------------
+% Author:
+%  Chang, Ho-Ping (also written as Ho-Ping Chang or Peace Chang)
+%  National Synchrotron Radiation Research Center
+%  101 Hsin-Ann Road, Hsinchu Science-Based Industrial Park
+%  Hsinchu 30077, Taiwan
+%  E-mail: peace@srrc.gov.tw
+%
+% Created Date: 26-May-2003
+% Updated Date: 26-May-2003
+%
+% Source Files:
+%  @TPS/ConcatenateVPSbyMatrix.m
+% Terminology and Category:
+%  Truncated Power Series Algebra (TPSA)
+%  One-Step Index Pointer (OSIP)
+%  Truncated Power Series (TPS)
+% Description:
+%  In MATLAB, the index of array works FORTRAN-like.
+%  Overloading Arithmetic Operators for TPS.
+%  r = ConcatenateVPSbyMatrix(vps,m)
+%------------------------------------------------------------------------------
+global OSIP
+
+Y = Matrix2VPS(TPS,m)
+% TPSA/TPS
+%Y = VariablesOfTPS(1:OSIP.NumberOfVariables);
+% TPSA/@TPS
+Y = VariablesOfTPS(TPS,1:OSIP.NumberOfVariables);
+j = 1:length(m(1,:));
+for i=1:length(m(:,1))
+    Y(i).c(1+j) = m(i,j);
+end
+
+vlen = length(vps);
+r = vps;
+for i=1:vlen
+    r(i) = ConcatenateOfTPS(vps(i),Y,1);
+end
+
+clear i vlen Y

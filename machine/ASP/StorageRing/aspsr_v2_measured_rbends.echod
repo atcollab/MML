@@ -1,0 +1,377 @@
+1DIMAT VERSION 2.9 PROD
+0DATE AND TIME OF THIS RUN:     11-JUL-2006     04:13:17
+0INPUT STREAM AND MESSAGE LOG:
+ 
+  
+   XSIF Parser Version  2.1             
+   Version Date:        01-JAN-2004
+   Run: 11-JUL-2006  04:13:17
+   XSIF Parser developed by NLC Department,
+       Stanford Linear Accelerator Center.
+  
+               ! 04/03/04 EUGENE: ADDED RF AND KICKERS                                         
+               ! 21/05/04 EUGENE: LENGTHS OF D1 CHANGED TO GET CIRCUMFERENCE TO 216 (UP TO 1 MI
+               ! 27/07/04 EUGENE: ADDED BPMS AND GIRDER MARKERS FOR MISALIGNMENT STUDIES.      
+               TITLE                                                                           
+         5     ASP STORAGE RING                                                                
+                                                                                               
+               UTRANSPORT                                                                      
+               USTANDARD                                                                       
+               PI := 3.14159265358979                                                          
+0* LINE    9 * PI := 3.14159265358979                                                          
+ * COLUMN  5 *     ?
+ ** WARNING ** THE ABOVE NAME IS AN INTRINSIC PARAMETER, IT WILL BE REDEFINED
+ 
+        10                                                                                     
+               ECHO                                                                            
+                                                                                               
+                                                                                               
+               ! ### BPMS AND GIRDER MARKERS ###                                               
+        15     BPM: MONITOR, L=0                                                               
+               ! FOR GIRDERS 1 AND 3                                                           
+               GM1A: MARKER                                                                    
+               GM1B: MARKER                                                                    
+               ! FOR GIRDERS 2 (CENTRE)                                                        
+        20     GM2A: MARKER                                                                    
+               GM2B: MARKER                                                                    
+               ! FOR THE DIPOLES                                                               
+               GMDA: MARKER                                                                    
+               GMDB: MARKER                                                                    
+        25                                                                                     
+                                                                                               
+               ! ### DRIFTS ###                                                                
+               D1: DRIFT, L=2.698286                                                           
+               D2: DRIFT, L=0.1900                                                             
+        30     D3: DRIFT, L=0.1650                                                             
+               D4: DRIFT, L=0.2750                                                             
+               D5: DRIFT, L=0.1550                                                             
+               D6: DRIFT, L=0.4500                                                             
+               ! DRIFTS AROUND BPMS                                                            
+        35     D1A: DRIFT, L=2.304                                                             
+               D1B: DRIFT, L=D1[L]-D1A[L]                                                      
+               D4A: DRIFT, L=0.076                                                             
+               D4B: DRIFT, L=D4[L]-D4A[L]                                                      
+               D4AA: DRIFT, L=0.211                                                            
+        40     D4BB: DRIFT, L=D4[L]-D4AA[L]                                                    
+               D2A: DRIFT, L=0.087                                                             
+               D2B: DRIFT, L=D2[L]-D2A[L]                                                      
+                                                                                               
+                                                                                               
+        45     ! ### DIPOLE ###                                                                
+               ! SINGLE DIPOLE. FOR ANY CHANGES ONLY ALTER "DIP".                              
+               DLEN   := 1.726                                                                 
+               DANGLE := (360/28)*(PI/180)                                                     
+               DK1    := 19.819*(-DANGLE*DANGLE/DLEN/DLEN)                                     
+        50     DIP: RBEND, L=DLEN, ANGLE=DANGLE, K1=DK1                                        
+               ! SYMMETRIC SPLIT OF THE DIPOLE INTO SIX PARTS                                  
+               DIPI: SBEND, L=DIP[L]/6, ANGLE=DANGLE/6, E1=DANGLE/2, E2=0, K1=DIP[K1]          
+               DIPM: SBEND, L=DIP[L]/6, ANGLE=DANGLE/6, E1=0, E2=0, K1=DIP[K1]                 
+               DIPO: SBEND, L=DIP[L]/6, ANGLE=DANGLE/6, E1=0, E2=DANGLE/2, K1=DIP[K1]          
+        55     DSPLIT: LINE=(DIPI,4*DIPM,DIPO)                                                 
+               ! SPLIT DIPOLE AT THE SOURCE POINTS                                             
+               DIPS3: SBEND, L=DIP[L]*0.46, ANGLE=DANGLE*0.46, E1=DANGLE/2, E2=0, K1=DIP[K1]   
+               DIPS4: SBEND, L=DIP[L]*0.54, ANGLE=DANGLE*0.54, E1=0, E2=DANGLE/2, K1=DIP[K1]   
+               DIPS1: SBEND, L=DIP[L]*0.544, ANGLE=DANGLE*0.544, E1=DANGLE/2, E2=0, K1=DIP[K1] 
+        60     DIPS2: SBEND, L=DIP[L]*0.456, ANGLE=DANGLE*0.456, E1=0, E2=DANGLE/2, K1=DIP[K1] 
+                                                                                               
+               ! SELECT WHICH SET OF DIPOLES TO USE HERE, SINGLE, SPLIT OR BY SOURCE POINTS.   
+               !DIP1:LINE=(GMDA, DIPS1,DIPS2, GMDB)                                            
+               !DIP2:LINE=(GMDA, DIPS3,DIPS4, GMDB)                                            
+        65     DIP1: LINE=(GMDA, DIP, GMDB)                                                    
+               DIP2: LINE=(GMDA, DIP, GMDB)                                                    
+               !DIP1: LINE=(GMDA, DSPLIT, GMDB)                                                
+               !DIP2: LINE=(GMDA, DSPLIT, GMDB)                                                
+                                                                                               
+        70     ! MEASURED                                                                      
+               CALL, FILENAME ="NEWDIPOLERBEND.DIMAD"                                          
+ ... READING FILE newDipoleRBEND.dimad
+ 
+               DLEFT:  DRIFT, L=0.0837626757                                                   
+               DRIGHT: DRIFT, L=0.0887292346                                                   
+               BL01: SBEND, L=0.0695312761, ANGLE=0.0001700782, E1=0.1121962211,&              
+        75      E2=-0.1120187381, K1=0.0026580668                                              
+               BL02: SBEND, L=0.0695282915, ANGLE=0.0007118132, E1=0.1120187381,&              
+                E2=-0.1112734474, K1=0.0004302895                                              
+               BL03: SBEND, L=0.0695152451, ANGLE=0.0032678721, E1=0.1112734474,&              
+                E2=-0.1078414785, K1=-0.1045888695                                             
+        80     BL04: SBEND, L=0.0694679183, ANGLE=0.0088002187, E1=0.1078414785,&              
+                E2=-0.0989182337, K1=-0.3486275471                                             
+               BL05: SBEND, L=0.0694041758, ANGLE=0.0092692888, E1=0.0989182337,&              
+                E2=-0.0896518010, K1=-0.3281526271                                             
+               BC01: SBEND, L=0.2820465390, ANGLE=0.0367531221, E1=0.0896518010,&              
+        85      E2=-0.0529125655, K1=-0.3312315118                                             
+               BC02: SBEND, L=0.2815037989, ANGLE=0.0354072962, E1=0.0529125655,&              
+                E2=-0.0175134439, K1=-0.3306429237                                             
+               BC03: SBEND, L=0.2813281018, ANGLE=0.0349189640, E1=0.0175134439,&              
+                E2=0.0174054578, K1=-0.3300984023                                              
+        90     BC04: SBEND, L=0.2814996751, ANGLE=0.0353946633, E1=-0.0174054578,&             
+                E2=0.0528080683, K1=-0.3302048119                                              
+               BC05: SBEND, L=0.2820380879, ANGLE=0.0367421699, E1=-0.0528080683,&             
+                E2=0.0895641319, K1=-0.3309037380                                              
+               BR01: SBEND, L=0.0694014448, ANGLE=0.0092683188, E1=-0.0895641319,&             
+        95      E2=0.0988345428, K1=-0.3275972520                                              
+               BR02: SBEND, L=0.0694650575, ANGLE=0.0090032960, E1=-0.0988345428,&             
+                E2=0.1077882518, K1=-0.3467634133                                              
+               BR03: SBEND, L=0.0695141539, ANGLE=0.0037116695, E1=-0.1077882518,&             
+                E2=0.1112699557, K1=-0.1347732139                                              
+       100     BR04: SBEND, L=0.0695280819, ANGLE=0.0007961566, E1=-0.1112699557,&             
+                E2=0.1120205593, K1=-0.0014988960                                              
+               BR05: SBEND, L=0.0695312501, ANGLE=0.0001897883, E1=-0.1120205593,&             
+                E2=0.1121997376, K1=0.0026764692                                               
+                                                                                               
+       105     NEWBEND: LINE=(DLEFT ,BL01 ,BL02 ,BL03 ,BL04  &                                 
+                      ,BL05 ,BC01 ,BC02 ,BC03 ,BC04  &                                         
+                      ,BC05 ,BR01 ,BR02 ,BR03 ,BR04  &                                         
+                      ,BR05 , DRIGHT)                                                          
+0... READING LOGICAL UNIT NUMBER  7 
+ 
+       110                                                                                     
+                                                                                               
+               ! ### QUADRUPOLES ###                                                           
+               Q1SINGLE: QUADRUPOLE, L=0.3550, K1=1.7600                                       
+               Q2SINGLE: QUADRUPOLE, L=0.1800, K1=-1.0400                                      
+       115     Q3SINGLE: QUADRUPOLE, L=0.3550, K1=1.5300                                       
+               Q14: Q1SINGLE, L=Q1SINGLE[L]/4                                                  
+               Q24: Q2SINGLE, L=Q2SINGLE[L]/4                                                  
+               Q34: Q3SINGLE, L=Q3SINGLE[L]/4                                                  
+                                                                                               
+       120     ! SELECT WHICH QUADRUPOLE TO USE                                                
+               Q1: LINE=(4*Q14)                                                                
+               Q2: LINE=(4*Q24)                                                                
+               Q3: LINE=(4*Q34)                                                                
+               !Q1: Q1SINGLE                                                                   
+       125     !Q2: Q2SINGLE                                                                   
+               !Q3: Q3SINGLE                                                                   
+                                                                                               
+                                                                                               
+               ! ### SEXTUPOLES ###                                                            
+       130     ! UNCOMMENT THE SEXTUPOLES THAT YOU WANT TO USE                                 
+               !S1: SEXTUPOLE, L=0.1000, K2=14.0000                                            
+               !S2: S1, K2=-15.0000                                                            
+               !S3: S1, K2=-6.5000                                                             
+               !S4: S1, K2=7.1000                                                              
+       135     S1: SEXTUPOLE, L=0.1000, K2=14.0000*2                                           
+               S2: S1, K2=-14.0000*2                                                           
+               S3: S1, K2=-6.5000*2                                                            
+               S4: S1, K2=7.1000*2                                                             
+               !S1: SEXTUPOLE, L=0.1000, K2=0                                                  
+       140     !S2: S1, K2=0                                                                   
+               !S3: S1, K2=0                                                                   
+               !S4: S1, K2=0                                                                   
+                                                                                               
+                                                                                               
+       145     ! ### CORRECTORS ###                                                            
+               HCOR: GKICK, DXP=0                                                              
+               VCOR: GKICK, DYP=0                                                              
+               ! FOR STUDYING LOCAL BUMPS                                                      
+               HCOR11: GKICK, DXP=0                                                            
+       150     HCOR21: GKICK, DXP=0                                                            
+               HCOR31: GKICK, DXP=0                                                            
+               HCOR12: GKICK, DXP=0                                                            
+               HCOR22: GKICK, DXP=0                                                            
+               HCOR32: GKICK, DXP=0                                                            
+       155     HCOR13: GKICK, DXP=0                                                            
+               HCOR23: GKICK, DXP=0                                                            
+               HCOR33: GKICK, DXP=0                                                            
+               VCOR11: GKICK, DYP=0                                                            
+               VCOR21: GKICK, DYP=0                                                            
+       160     VCOR31: GKICK, DYP=0                                                            
+               VCOR41: GKICK, DYP=0                                                            
+               VCOR12: GKICK, DYP=0                                                            
+               VCOR22: GKICK, DYP=0                                                            
+               VCOR32: GKICK, DYP=0                                                            
+       165     VCOR42: GKICK, DYP=0                                                            
+               VCOR13: GKICK, DYP=0                                                            
+               VCOR23: GKICK, DYP=0                                                            
+               VCOR33: GKICK, DYP=0                                                            
+               VCOR43: GKICK, DYP=0                                                            
+       170                                                                                     
+                                                                                               
+               ! ### RF ###                                                                    
+               RF: RFCAVITY, L=0.0, VOLT=3000, LAG=-0.215, FREQ=500, ENERGY=3                  
+               ! ASSOCIATED DRIFTS THATS PLACED ON EITHER SIDE OF THE CAVITY                   
+       175     D11: DRIFT, L=D1[L]-RF[L]/2                                                     
+               D22: DRIFT, L=D1[L]-RF[L]/2                                                     
+                                                                                               
+                                                                                               
+               ! ### KICKER MAGNETS ###                                                        
+       180     KICK1: GKICK, DXP=0.00223                                                       
+               KICK2: GKICK, DXP=-0.00185                                                      
+               KICK3: GKICK, DXP=-0.00185                                                      
+               KICK4: GKICK, DXP=0.00223                                                       
+               ! DRIFTS ON EITHER SIDE OF THE KICKERS TO PUT IT IN THE CORRECT POSITION.       
+       185     ! REMOVE .3 DRIFT (POSITION OF ONE END OF KICKER) AND HALF A KICKER LENGTH .7/2 
+               ! ORIG -> DK11: DRIFT, L=2.698286-0.3-0.7/2                                     
+               ! ORIG -> DK12: DRIFT, L=0.3+0.7/2                                              
+               DK11: DRIFT, L=2.698286-0.384714                                                
+               DK12: DRIFT, L=0.384714                                                         
+       190     DK21: DRIFT, L=2.698286-0.678714                                                
+               DK22: DRIFT, L=0.678714                                                         
+               DK31: DRIFT, L=2.698286-0.384714                                                
+               DK32: DRIFT, L=0.384714                                                         
+               DK41: DRIFT, L=2.698286-0.678714                                                
+       195     DK42: DRIFT, L=0.678714                                                         
+                                                                                               
+                                                                                               
+                                                                                               
+               ! ### DEFINE SOME BASIC SECTORS ###                                             
+       200     ! BPM ELEMENTS EACH WILL REPLACE THE DRIFT AS A WHOLE                           
+               BPM1D1: LINE=(D1A,BPM,D1B)                                                      
+               BPM2D4: LINE=(D4A,BPM,D4B)                                                      
+               BPM3D4: LINE=(D4AA,BPM,D4BB)                                                    
+               BPM4D2: LINE=(D2A,BPM,D2B)                                                      
+       205     BPM5D4: LINE=(BPM2D4)                                                           
+               BPM6D4: LINE=(BPM3D4)                                                           
+               BPM7D1: LINE=(D1B,BPM,D1A)                                                      
+               ! SEPARATE GROUPS OF ELEMENTS INTO GIRDERS. THE DIPOLES ARE STAND ALONE ELEMENTS
+               GIRDER1: LINE=(GM1A, S1,HCOR,S1,D2,Q1,D3,S2,VCOR,S2, GM1B)                      
+       210     GIRDER2: LINE=(GM1A, S3,VCOR,S3,D5,Q2,D6,Q3,D2,S4,HCOR,S4,BPM4D2,Q3,D6,&        
+                              Q2,D5,S3,VCOR,S3, GM1B)                                          
+               GIRDER3: LINE=(GM1A, S2,VCOR,S2,D3,Q1,D2,S1,HCOR,S1, GM1B)                      
+                                                                                               
+               ! BASIC ARC AND STRAIGHT SECTIONS                                               
+       215     CEL: LINE=(BPM1D1,GIRDER1,BPM2D4,DIP1,BPM3D4,GIRDER2,BPM5D4,DIP2,BPM6D4,&       
+                          GIRDER3,BPM7D1)                                                      
+                                                                                               
+               NCEL: LINE=(BPM1D1,GIRDER1,NEWBEND,GIRDER2,NEWBEND,&                            
+                          GIRDER3,BPM7D1)                                                      
+       220                                                                                     
+               ! FOR CREATING LOCAL BUMPS.                                                     
+               CEL1: LINE=(D1,S1,HCOR11,S1,D2,Q1,D3,S2,VCOR11,S2,D4,DIP1,D4,S3,VCOR21,S3,&     
+                            D5,Q2,D6,Q3,D2,S4,HCOR21,S4,D2,Q3,D6,Q2,D5,S3,VCOR31,S3,D4,&       
+                            DIP2,D4,S2,VCOR41,S2,D3,Q1,D2,S1,HCOR31,S1,D1)                     
+       225     CEL2: LINE=(D1,S1,HCOR12,S1,D2,Q1,D3,S2,VCOR12,S2,D4,DIP1,D4,S3,VCOR22,S3,&     
+                            D5,Q2,D6,Q3,D2,S4,HCOR22,S4,D2,Q3,D6,Q2,D5,S3,VCOR32,S3,D4,&       
+                            DIP2,D4,S2,VCOR42,S2,D3,Q1,D2,S1,HCOR32,S1,D1)                     
+               CEL3: LINE=(D1,S1,HCOR13,S1,D2,Q1,D3,S2,VCOR13,S2,D4,DIP1,D4,S3,VCOR23,S3,&     
+                            D5,Q2,D6,Q3,D2,S4,HCOR23,S4,D2,Q3,D6,Q2,D5,S3,VCOR33,S3,D4,&       
+       230                  DIP2,D4,S2,VCOR43,S2,D3,Q1,D2,S1,HCOR33,S1,D1)                     
+                                                                                               
+               ! FOR THE INSERTION OF AN RF CAVITY.                                            
+               CELRF06: LINE=(D1,S1,HCOR,S1,D2,Q1,D3,S2,VCOR,S2,D4,DIP1,D4,S3,VCOR,S3,D5,Q2,&  
+                           D6,Q3,D2,S4,HCOR,S4,D2,Q3,D6,Q2,D5,S3,VCOR,S3,D4,DIP2,D4,&          
+       235                 S2,VCOR,S2,D3,Q1,D2,S1,HCOR,S1,D11)                                 
+               CELRF07: LINE=(D11,S1,HCOR,S1,D2,Q1,D3,S2,VCOR,S2,D4,DIP1,D4,S3,VCOR,S3,D5,Q2,& 
+                           D6,Q3,D2,S4,HCOR,S4,D2,Q3,D6,Q2,D5,S3,VCOR,S3,D4,DIP2,D4,&          
+                           S2,VCOR,S2,D3,Q1,D2,S1,HCOR,S1,D1)                                  
+               TESTRF: LINE=(D22,S1,HCOR,S1,D2,Q1,D3,S2,VCOR,S2,D4,DIP1,D4,S3,VCOR,S3,D5,Q2,&  
+       240                 D6,Q3,D2,S4,HCOR,S4,D2,Q3,D6,Q2,D5,S3,VCOR,S3,D4,DIP2,D4,&          
+                           S2,VCOR,S2,D3,Q1,D2,S1,HCOR,S1,D1)                                  
+                                                                                               
+               ! FOR KICKER MAGNETS AROUND THE INJECTION STRAIGHTS.                            
+               CELKICK14: LINE=(DK11,KICK1,DK12,&                                              
+       245                 S1,HCOR,S1,D2,Q1,D3,S2,VCOR,S2,NEWBEND,S3,VCOR,S3,D5,Q2,&           
+                           D6,Q3,D2,S4,HCOR,S4,D2,Q3,D6,Q2,D5,S3,VCOR,S3,NEWBEND,&             
+                           S2,VCOR,S2,D3,Q1,D2,S1,HCOR,S1,DK22,KICK2,DK21)                     
+               CELKICK01: LINE=(DK31,KICK3,DK32,&                                              
+                           S1,HCOR,S1,D2,Q1,D3,S2,VCOR,S2,NEWBEND,S3,VCOR,S3,D5,Q2,&           
+       250                 D6,Q3,D2,S4,HCOR,S4,D2,Q3,D6,Q2,D5,S3,VCOR,S3,NEWBEND,&             
+                           S2,VCOR,S2,D3,Q1,D2,S1,HCOR,S1,DK42,KICK4,DK41)                     
+                                                                                               
+                                                                                               
+               ! ### DEFINE BEAMLINES/RINGS ###                                                
+       255     ! FOR CREATING LOCAL BUMPS WITHOUT RF AND KICKERS.                              
+               BUMPSECT: LINE=(CEL1,CEL2)                                                      
+               BUMPRING: LINE=(6*CEL,CEL1,CEL2,CEL3,5*CEL)                                     
+                                                                                               
+               ! FOR CREATING LOCAL BUMPS WITH RF AND KICKERS.                                 
+       260     KRRF: LINE=(CELRF06, RF, CELRF07, 4*CEL,CEL1,CEL2,CEL3,5*CEL)                   
+                                                                                               
+               ! RING WITH JUST THE RF                                                         
+               RFRING: LINE=(CELRF06, RF, CELRF07, 12*CEL)                                     
+               TRF: LINE=(RF, TESTRF, 13*CEL)                                                  
+       265                                                                                     
+               ! ORDINARY STORAGE RING                                                         
+               RING: LINE=(14*CEL)                                                             
+               NEWRING: LINE=(14*NCEL)                                                         
+               NEWKRING: LINE=(CELKICK14, CELKICK01, 12*NCEL)                                  
+       270                                                                                     
+                                                                                               
+               ! RING COMPLETE WITH RF AND KICKER MAGNETS.                                     
+               FULLRING: LINE=(CELKICK14, CELKICK01, 4*CEL, CELRF06, RF, CELRF07,&             
+                               6*CEL)                                                          
+       275                                                                                     
+               TESTLINE( Q1 , Q2 ): LINE=(Q1,Q2,DIP1)                                          
+               TT: LINE=(2*TESTLINE(Q14,Q24))                                                  
+                                                                                               
+               USE, NEWKRING                                                                   
+0... BEAM LINE "NEWKRING" EXPANDED:      1426 ELEMENTS,      1824 POSITIONS
+       280     ! USE, RING                                                                     
+               DIMAT                                                                           
+
+          ASP STORAGE RING                                                                
+
+
+ OUTPUT                                                                          
+ MODIFY TUNES [0.3 0.2], DISPERSION 0.0 AND CHROMATICITY [0 0] WITH S1=14 and s2=
+ MODIFY TUNES [0.3 0.2], DISPERSION 0.0 AND CHROMATICITY [0 0] WITH FOR NEWRING  
+ MODIFY TUNES [0.3 0.2], DISPERSION 0.0 AND CHROMATICITY [0 0] WITH FOR NEWRING  
+ MATR                                                                            
+
+
+    HORIZONTAL MOVEMENT ANALYSIS
+
+
+   COMPACTION FACTOR = 0.2044565E-02   GAMMA TR =          0.2211564E+02
+
+   COS(MU)=-0.14679537741269E+00         NU = 0.27344794270325E+00
+   ETA = 0.14344215420800E-01            ETAP = 0.40548732238155E-04
+   ALPHA =-0.27418169621698E-02          BETA = 0.91592166571980E+01
+
+   DMU /DELTA= 0.18134083152626E+01      CHROMATICITY   = 0.28861289721799E+00
+   DALPHA /DDELTA=-0.96939709855854E-02  DBETA/DDELTA= 0.69129085381805E+02
+   DETA/DDELTA= 0.34306399853468E+01     DETAP/DDELTA=-0.56213374763581E-01
+
+
+
+    VERTICAL MOVEMENT ANALYSIS
+
+   COS(MU)= 0.69742683286534E+00         NU = 0.12716410755287E+00
+   ETA = 0.00000000000000E+00            ETAP = 0.00000000000000E+00
+   ALPHA =-0.65124692408891E-04          BETA = 0.25624137771517E+01
+
+   DMU /DELTA= 0.20303217081478E+01      CHROMATICITY   = 0.32313573591850E+00
+   DALPHA /DDELTA=-0.10853876574733E-02  DBETA/DDELTA= 0.15021323809541E+00
+   DETA/DDELTA= 0.00000000000000E+00     DETAP/DDELTA= 0.00000000000000E+00
+
+ MACHINE                                                                         
+
+ MAXIMUM LATTICE FUNCTIONS :
+ BETA X =    0.1825414596E+02     BETA Y =    0.3275976875E+02
+ ETA  X =    0.6276867320E+00     ETA  Y =    0.0000000000E+00
+
+ MOMENTUM COMPACTION=  0.2044565E-02   JX= 1.36334   JY= 1.00000   JE= 1.63666
+ TAUREV=  0.7204793E-06(SEC)   FREV=  0.1387965E+07(HZ)
+
+
+
+                     ENERGY =   3.0000(GEV)
+
+ ENERGY LOSS =  0.89215E+00(MEV/REV)
+ AX=  0.28136E+03(/SEC)     AY=  0.20638E+03(/SEC)     AE=  0.33777E+03(/SEC)
+ TAUX=  0.35541E-02(SEC)    TAUY=  0.48454E-02(SEC)    TAUE=  0.29606E-02(SEC)
+ SIGE=  0.10120E-02
+ EPSX=  0.15009E-07(M-RAD)  SIGX=  0.37077E-03(M.)     SIGXT=  0.37105E-03(M.)
+ EPSY=  0.00000E+00(M-RAD)  SIGY=  0.00000E+00(M.)     SIGYT=  0.00000E+00(M.)
+
+
+
+                     ENERGY =   3.0500(GEV)
+
+ ENERGY LOSS =  0.95313E+00(MEV/REV)
+ AX=  0.29567E+03(/SEC)     AY=  0.21687E+03(/SEC)     AE=  0.35495E+03(/SEC)
+ TAUX=  0.33822E-02(SEC)    TAUY=  0.46110E-02(SEC)    TAUE=  0.28173E-02(SEC)
+ SIGE=  0.10289E-02
+ EPSX=  0.15513E-07(M-RAD)  SIGX=  0.37695E-03(M.)     SIGXT=  0.37724E-03(M.)
+ EPSY=  0.00000E+00(M-RAD)  SIGY=  0.00000E+00(M.)     SIGYT=  0.00000E+00(M.)
+
+ MOVEMENT                                                                        
+
+
+Number of particles remaining after turn      1:         5
+
+
+
+  HALTING WITH ERROR NUMBER :    305
+  AND ERROR : MOVMT:BAD DETERM                        
+ TOTAL CPU TIME USED:        0.343750000 SECONDS.

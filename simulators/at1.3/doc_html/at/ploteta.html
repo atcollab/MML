@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of ploteta</title>
+  <meta name="keywords" content="ploteta">
+  <meta name="description" content="PLOTETA plots UNCOUPLED! eta-functions">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2003 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">at</a> &gt; ploteta.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for at&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>ploteta
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>PLOTETA plots UNCOUPLED! eta-functions</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function varargout = ploteta(varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> PLOTETA plots UNCOUPLED! eta-functions
+
+  INPUTS
+  0. PLOTETA with no argumnts uses THERING as the default lattice
+  1. RING - PLOTETA(RING) calculates eta functions of the lattice RING
+ 
+  NOTES
+  1. PLOTETA uses FINDORBIT4 and LINOPT which assume a lattice
+     with NO accelerating cavities and NO radiation
+
+  See also <a href="modeltwiss.html" class="code" title="function [TwissX, TwissY, Sx, Sy, Tune, Chrom, h] = modeltwiss(varargin)">modeltwiss</a>, <a href="plottwiss.html" class="code" title="function [ax, h1, h2] = plottwiss(varargin)">plottwiss</a>, <a href="plotcod.html" class="code" title="function varargout = plotcod(RING,DP)">plotcod</a>, <a href="plotbeta.html" class="code" title="function varargout = plotbeta(varargin)">plotbeta</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="modeldisp.html" class="code" title="function [Dx, Dy, Sx, Sy, h] = modeldisp(varargin)">modeldisp</a>	MODELDISP - Returns the dispersion function of the model</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function varargout = ploteta(varargin)</a>
+0002 <span class="comment">% PLOTETA plots UNCOUPLED! eta-functions</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%  INPUTS</span>
+0005 <span class="comment">%  0. PLOTETA with no argumnts uses THERING as the default lattice</span>
+0006 <span class="comment">%  1. RING - PLOTETA(RING) calculates eta functions of the lattice RING</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">%  NOTES</span>
+0009 <span class="comment">%  1. PLOTETA uses FINDORBIT4 and LINOPT which assume a lattice</span>
+0010 <span class="comment">%     with NO accelerating cavities and NO radiation</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%  See also modeltwiss, plottwiss, plotcod, plotbeta</span>
+0013 
+0014 
+0015 <span class="keyword">if</span> nargout == 0
+0016     <a href="modeldisp.html" class="code" title="function [Dx, Dy, Sx, Sy, h] = modeldisp(varargin)">modeldisp</a>(varargin{:}, <span class="string">'Drawlattice'</span>);
+0017 <span class="keyword">else</span>
+0018     varargout = <a href="modeldisp.html" class="code" title="function [Dx, Dy, Sx, Sy, h] = modeldisp(varargin)">modeldisp</a>(varargin{:}, <span class="string">'Drawlattice'</span>);
+0019 <span class="keyword">end</span>
+0020 
+0021 
+0022 
+0023 <span class="comment">% % Written by Andrei Terebilo</span>
+0024 <span class="comment">% % Modified by Laurent S. Nadolski</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">% if nargin == 0</span>
+0027 <span class="comment">%     global THERING</span>
+0028 <span class="comment">%     RING = THERING;</span>
+0029 <span class="comment">% end</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">% [TD, tune] = twissring(THERING,0,1:length(THERING)+1,'chroma');</span>
+0032 <span class="comment">% ETA        = cat(2,TD.Dispersion)';</span>
+0033 <span class="comment">% S          = cat(1,TD.SPos);</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">% disp(tune)</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">% % figure</span>
+0038 <span class="comment">% % plot betax and betay in two subplots</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">% h1 = subplot(5,1,[1 2]);</span>
+0041 <span class="comment">% plot(S,ETA(:,1),'.-b');</span>
+0042 <span class="comment">% ylabel('\eta_x [m]');</span>
+0043 <span class="comment">% xlim([0 S(end)]);</span>
+0044 <span class="comment">%</span>
+0045 <span class="comment">% title('Dispersion functions');</span>
+0046 <span class="comment">%</span>
+0047 <span class="comment">% h2 = subplot(5,1,3);</span>
+0048 <span class="comment">% drawlattice</span>
+0049 <span class="comment">% set(h2,'YTick',[])</span>
+0050 <span class="comment">%</span>
+0051 <span class="comment">% h3 = subplot(5,1,[4 5]);</span>
+0052 <span class="comment">% plot(S,ETA(:,3),'.-r');</span>
+0053 <span class="comment">% xlabel('s - position [m]');</span>
+0054 <span class="comment">% ylabel('\eta_z [m]');</span>
+0055 <span class="comment">%</span>
+0056 <span class="comment">% linkaxes([h1 h2 h3],'x')</span>
+0057 <span class="comment">% set([h1 h2 h3],'XGrid','On','YGrid','On');</span></pre></div>
+<hr><address>Generated on Fri 19-Feb-2010 19:19:43 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a></strong> &copy; 2003</address>
+</body>
+</html>

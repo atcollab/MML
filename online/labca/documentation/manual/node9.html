@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>lcaSetMonitor</TITLE>
+<META NAME="description" CONTENT="lcaSetMonitor">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="manual.css">
+
+<LINK REL="next" HREF="node10.html">
+<LINK REL="previous" HREF="node8.html">
+<LINK REL="up" HREF="node2.html">
+<LINK REL="next" HREF="node10.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html145"
+  HREF="node10.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html143"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html137"
+  HREF="node8.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html146"
+  HREF="node10.html">lcaNewMonitorWait</A>
+<B> Up:</B> <A NAME="tex2html144"
+  HREF="node2.html">Supported EZCA Calls</A>
+<B> Previous:</B> <A NAME="tex2html138"
+  HREF="node8.html">lcaGetNelem</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html147"
+  HREF="node9.html#SECTION00027100000000000000">Calling Syntax</A>
+<LI><A NAME="tex2html148"
+  HREF="node9.html#SECTION00027200000000000000">Description</A>
+<LI><A NAME="tex2html149"
+  HREF="node9.html#SECTION00027300000000000000">Parameters</A>
+<LI><A NAME="tex2html150"
+  HREF="node9.html#SECTION00027400000000000000">Examples</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H2><A NAME="SECTION00027000000000000000"></A>
+<A NAME="lcasetmonitor"></A>
+<BR>
+lcaSetMonitor
+</H2>
+
+<H3><A NAME="SECTION00027100000000000000">
+Calling Syntax</A>
+</H3>
+<PRE>
+lcaSetMonitor(pvs, nmax, type)
+</PRE>
+<H3><A NAME="SECTION00027200000000000000">
+Description</A>
+</H3>
+Set a ``monitor'' on a set of PVs. Monitored PVs are automatically retrieved
+every time their value or status changes. 
+Monitors are especially useful under EPICS-3.14 which supports
+multiple threads. EPICS-3.14 transparently reads monitored PVs as needed.
+Older, single threaded versions of EPICS require periodic calls to <SPAN  CLASS="textit">labCA</SPAN>
+e.g., to <A HREF="node23.html#lcadelay"><TT>lcaDelay</TT></A>, in order to allow <SPAN  CLASS="textit">labCA</SPAN> to handle
+monitors.
+
+<P>
+Use the <A HREF="node11.html#lcanewmonitorvalue"><TT>lcaNewMonitorValue</TT></A> call to check
+monitor status (local flag) or <A HREF="node10.html#lcanewmonitorwait"><TT>lcaNewMonitorWait</TT></A>
+to wait for new data to become available (since last <TT>lcaGet</TT> or <TT>lcaSetMonitor</TT>).
+If new data are available, they are retrieved using
+the ordinary <A HREF="node5.html#lcaget"><TT>lcaGet</TT></A> call.
+
+<P>
+Note the difference between polling and monitoring a PV in combination with
+polling the local monitor status flag (<A HREF="node11.html#lcanewmonitorvalue"><TT>lcaNewMonitorValue</TT></A>).
+In the first case, remote data are fetched
+on every polling cycle whereas in the second case, data are transferred only
+when they change.  Also, in the monitored case, <TT>lcaGet</TT> reads from a local
+buffer rather than from the network. It is most convenient however to wait
+for monitored data to arrive using <A HREF="node10.html#lcanewmonitorwait"><TT>lcaNewMonitorWait</TT></A>
+rather than polling.
+
+<P>
+There is currently no possibility to selectively remove a monitor. Use
+the <A HREF="node12.html#lcaclear"><TT>lcaClear</TT></A> call to disconnect a channel and as a side-effect,
+remove all monitors on that channel. Future access to a cleared channel
+simply reestablishes a connection (but no monitors).
+
+<H3><A NAME="SECTION00027300000000000000">
+Parameters</A>
+</H3>
+<DL>
+<DT><STRONG>pvs</STRONG></DT>
+<DD>Column vector (in matlab: <SPAN  CLASS="textit">m x 1</SPAN> <SPAN  CLASS="textit">cell-</SPAN> matrix)
+of <SPAN  CLASS="textit">m</SPAN> strings.
+
+</DD>
+<DT><STRONG>nmax</STRONG></DT>
+<DD>(<SPAN  CLASS="textit">optional argument</SPAN>) Maximum number of elements
+(per PV) to monitor/retrieve. If set to 0 (default), all elements are fetched.
+See <A HREF="node5.html#nmaxarg">here</A> for more information.
+
+<P>
+Note that a subsequent <A HREF="node5.html#lcaget"><TT>lcaGet</TT></A> must specify a <TT>nmax</TT>
+argument equal or less than the number given to <TT>lcaSetMonitor</TT> --
+otherwise the <TT>lcaGet</TT> operation results in fetching a new
+set of data from the server because the <TT>lcaGet</TT> request cannot
+be satisfied using the copy locally cached by the monitor-thread.
+</DD>
+<DT><STRONG>type</STRONG></DT>
+<DD>(<SPAN  CLASS="textit">optional argument</SPAN>) A string specifying the
+data type to be used for the channel access data transfer. The
+native type is used by default.
+See <A HREF="node5.html#typearg">here</A> for more information.
+
+<P>
+The type specified for the subsequent <TT>lcaGet</TT> for retrieving
+the data should match the monitor's data type. Otherwise, <TT>lcaGet</TT>
+will fetch a new copy from the server instead of using the data that
+was already transferred as a result of the monitoring.
+</DD>
+</DL>
+<H3><A NAME="SECTION00027400000000000000">
+Examples</A>
+</H3>
+<PRE>
+lcaSetMonitor('PV')
+// monitor 'PV'. Reduce network traffic by just have the
+// library retrieve the first 20 elements. Use DBR_SHORT
+// for transfer.
+lcaSetMonitor('PV', 20, 's')
+</PRE>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html145"
+  HREF="node10.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html143"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html137"
+  HREF="node8.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html146"
+  HREF="node10.html">lcaNewMonitorWait</A>
+<B> Up:</B> <A NAME="tex2html144"
+  HREF="node2.html">Supported EZCA Calls</A>
+<B> Previous:</B> <A NAME="tex2html138"
+  HREF="node8.html">lcaGetNelem</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+till
+2007-10-13
+</ADDRESS>
+</BODY>
+</HTML>

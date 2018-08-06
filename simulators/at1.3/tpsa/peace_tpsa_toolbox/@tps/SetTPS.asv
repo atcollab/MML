@@ -1,0 +1,28 @@
+function a = SetTPS(t,o,c)
+%-------------------------------------------------------------------------------
+% Author:
+%  Chang, Ho-Ping (also written as Ho-Ping Chang or Peace Chang)
+%  National Synchrotron Radiation Research Center
+%  101 Hsin-Ann Road, Hsinchu Science-Based Industrial Park
+%  Hsinchu 30077, Taiwan
+%  E-mail: peace@srrc.gov.tw
+%
+% Created Date: 11-Dec-2002
+% Updated Date: 13-May-2003
+%    Dec. 12, 2002
+%  Source Files:
+%    @TPS/display.m
+% Terminology and Category:
+%    Truncated Power Series Algebra (TPSA)
+%    One-Step Index Pointer (OSIP)
+%    Truncated Power Series (TPS)
+%  Description:
+%    status = SetTPS(t,o,c)
+%------------------------------------------------------------------------------
+global OSIP
+t.o = o;
+if length(c) ~= OSIP_NumberOfMonomials(OSIP.NumberOfVariables,o)
+   error('length(c) does nor match the requirement')
+end
+t.c = c;
+a = t;

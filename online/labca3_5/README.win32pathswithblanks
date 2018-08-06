@@ -1,0 +1,26 @@
+gnu make and the EPICS Makefile system
+don't work well with paths containing
+blanks.
+The reason is that it doesn't seem
+possible to get around blanks being
+recognized as word separators by the
+string manipulating gmake functions
+a la $(addprefix) etc.
+I tried to work around this as much
+as possible and it seems that most
+things work if blanks are escaped
+with backslash-characters, e.g.,
+
+MATLABDIR=C:\Program\ Files\MATLAB\2010a
+
+HOWEVER: the perl script that computes
+dependencies ('.d' files) definitely
+cannot deal with blanks and removes these
+escape characters. Hence, the .d files
+are unusable by 'make' and lead to errors.
+To work around this either
+ - disable dependency tracking in EPICS base
+OR
+ - always 'make clean' then 'make'
+
+T.S. 1/2012

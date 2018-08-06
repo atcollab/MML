@@ -1,0 +1,148 @@
+function soleilamor2lin
+%solamor2 - soleil lattice w/o ID 
+% Lattice definition file
+% Lattice for SOLEIL: perfect lattice no magnetic errors 
+% Compiled by Laurent Nadolski and Amor Nadji
+% 09/01/02, ALS
+% Controlroom : set linearpass for quad (closed orbit)
+
+global FAMLIST THERING GLOBVAL
+
+GLOBVAL.E0 = 2.75e9; % Ring energy
+GLOBVAL.LatticeFile = mfilename;
+FAMLIST = cell(0);
+
+disp(['** Loading SOLEIL magnet lattice ', mfilename]);
+
+L0 = 354.0967211999983;      % design length [m]
+C0 = 2.99792458e8;           % speed of light [m/s]
+HarmNumber = 416;
+
+%% Cavity
+%              NAME   L     U[V]       f[Hz]          h        method       
+CAV = rfcavity('RF' , 0 , 4.0e+6 , HarmNumber*C0/L0, ...
+               HarmNumber ,'ThinCavityPass');   
+
+%% Marker and apertures
+   SECT1  =  marker('SECT1', 'IdentityPass');
+   SECT2  =  marker('SECT2', 'IdentityPass');
+   SECT3  =  marker('SECT3', 'IdentityPass');
+   SECT4  =  marker('SECT4', 'IdentityPass');
+   DEBUT  =  marker('DEBUT', 'IdentityPass');
+   FIN    =  marker('FIN', 'IdentityPass');
+   
+   INJ = aperture('INJ',[-0.035 0.035 -0.04 0.04],'AperturePass');
+
+% BPM   
+   BPM    =  marker('BPM', 'IdentityPass');
+
+% DRIFT SPACES
+   SD13= drift('SD13', 3.48255, 'DriftPass');
+   SD1 = drift('SD1',  6.00000, 'DriftPass');
+   SD2 = drift('SD2',  0.39000, 'DriftPass');
+   SD3 = drift('SD3',  0.20000, 'DriftPass');
+   SD4 = drift('SD4',  0.39000, 'DriftPass');
+   SD14= drift('SD14', 0.59000, 'DriftPass');
+   SD5 = drift('SD5',  0.20000, 'DriftPass');
+   SD6 = drift('SD6',  0.79000, 'DriftPass');
+   SD7 = drift('SD7',  0.44000, 'DriftPass');
+   SD8 = drift('SD8',  0.20000, 'DriftPass');
+   SD9 = drift('SD9',  0.47634, 'DriftPass');
+   SD10= drift('SD10', 0.47000, 'DriftPass');
+   SD12= drift('SD12', 0.47000, 'DriftPass');
+   SDAC= drift('SDAC', 1.90468, 'DriftPass');
+   
+% QUADRUPOLES 
+Q1   =  quadrupole('Q1' , 0.32,  -1.18610 , 'QuadLinearPass');
+Q2   =  quadrupole('Q2' , 0.46,   1.71132 , 'QuadLinearPass');
+Q3   =  quadrupole('Q3' , 0.32,  -0.71729 , 'QuadLinearPass');
+Q4   =  quadrupole('Q4' , 0.32,  -1.39423 , 'QuadLinearPass');
+Q5   =  quadrupole('Q5' , 0.32,   1.89119 , 'QuadLinearPass');
+Q6   =  quadrupole('Q6' , 0.32,  -1.11831 , 'QuadLinearPass');
+Q7   =  quadrupole('Q7' , 0.46,   2.21705 , 'QuadLinearPass');
+Q8   =  quadrupole('Q8' , 0.32,  -1.70205 , 'QuadLinearPass');
+Q9   =  quadrupole('Q9' , 0.32,  -1.68903 , 'QuadLinearPass');
+Q10  =  quadrupole('Q10', 0.32,   1.96186 , 'QuadLinearPass');
+
+
+% SEXTUPOLES for xix=0.4 and xi_y=1.4
+F = 1e8;
+Finv = 1/F;
+
+S1  =  sextupole('S1' , Finv,  1.71919*F, 'StrMPoleSymplectic4Pass');
+S2  =  sextupole('S2' , Finv, -4.10456*F, 'StrMPoleSymplectic4Pass');
+S3  =  sextupole('S3' , Finv, -2.16938*F, 'StrMPoleSymplectic4Pass');
+S4  =  sextupole('S4' , Finv,  3.60465*F, 'StrMPoleSymplectic4Pass');
+S5  =  sextupole('S5' , Finv, -3.69821*F, 'StrMPoleSymplectic4Pass');
+S6  =  sextupole('S6' , Finv,  3.24667*F, 'StrMPoleSymplectic4Pass');
+S7  =  sextupole('S7' , Finv, -5.00352*F, 'StrMPoleSymplectic4Pass');
+S8  =  sextupole('S8' , Finv,  4.19372*F, 'StrMPoleSymplectic4Pass');
+S9  =  sextupole('S9' , Finv, -2.97623*F, 'StrMPoleSymplectic4Pass');
+S10 =  sextupole('S10', Finv,  1.86108*F, 'StrMPoleSymplectic4Pass');
+
+% Slow feedback correctors
+HCOR =  corrector('HCOR',0.0,[0 0],'CorrectorPass');
+VCOR =  corrector('VCOR',0.0,[0 0],'CorrectorPass');
+
+% Fast feedback correctors
+FHCOR =  corrector('FHCOR',0.0,[0 0],'CorrectorPass');
+FVCOR =  corrector('FVCOR',0.0,[0 0],'CorrectorPass');
+
+% DIPOLES 
+BEND  =  rbend('BEND'  , 1.05243,  ...
+            0.19635, 0.098175, 0.098175, 0.0,'BendLinearPass');
+
+% Begin Lattice
+
+%%  Superperiods  
+
+SUP  = [  ... 
+ SD1     FHCOR  FVCOR   BPM     Q1     SD2     S1     HCOR    SD3     Q2  ...
+ BPM     SD14   Q3      SD5     S2     VCOR    SD6    BEND    SD7     Q4  ...
+ SD8     S3     BPM     SD9     Q5     SD12    S4     HCOR    VCOR    BPM  ...   
+ SD10    Q5     SD9     BPM     S3     SD8     Q4     SD7     BEND    SD7  ...
+ Q6      SD5    S5      VCOR    SD4    BPM     Q7     SD3     S6      HCOR ...
+ SD2     Q8     BPM     FHCOR   FVCOR  SD13    SD13   FHCOR   FVCOR   BPM  ...  
+ Q8      SD2    S8      HCOR    SD3    Q7      BPM    SD4     S7      VCOR ...
+ SD5     Q6     SD7     BEND    SD7    Q9      SD8    S9      VCOR    BPM  ...
+ SD9     Q10    SD8     S10     HCOR   BPM     FHCOR  FVCOR   SDAC    SDAC ...  
+ FHCOR   FVCOR  BPM     S10     HCOR   SD8     Q10    SD9     BPM     S9  ...
+ VCOR    SD8    Q9      SD7     BEND   SD7     Q6     SD5     S7      VCOR ...
+ SD4     BPM    Q7      SD3     S8     HCOR    SD2    Q8      BPM     FHCOR...
+ FVCOR   SD13   SD13    FHCOR   FVCOR  BPM     Q8     SD2     S8      HCOR ...
+ SD3     Q7     BPM     SD4     S7     VCOR    SD5    Q6      SD7     BEND...
+ SD7     Q9     SD8     S9      VCOR   BPM     SD9    Q10     SD8     S10 ...
+ HCOR    BPM    FHCOR   FVCOR   SDAC   SDAC    FHCOR  FVCOR   BPM     S10 ...
+ HCOR    SD8    Q10     SD9     BPM    S9      VCOR   SD8     Q9      SD7  ...
+ BEND    SD7    Q6      SD5     S7     SD4     VCOR   BPM     Q7      SD3  ...
+ S8      HCOR   SD2     Q8      BPM    FHCOR   FVCOR  SD13    SD13    FHCOR...
+ FVCOR   BPM    Q8      SD2     S6     HCOR    SD3    Q7      BPM     SD4  ...   
+ S5      VCOR   SD5     Q6      SD7    BEND    SD7    Q4      SD8     S3  ...
+ BPM     SD9    Q5      SD10    BPM    S4      HCOR   VCOR    SD12    Q5  ...
+ SD9     BPM    S3      SD8     Q4     SD7     BEND   SD6     S2      VCOR ...
+ SD5     Q3     SD14    BPM     Q2     SD3     S1     HCOR    SD2     Q1  ...
+ BPM     FHCOR  FVCOR   SD1  ];
+
+ 
+ELIST = [DEBUT INJ SECT1 SUP SECT2 SUP SECT3 SUP SECT4 SUP CAV FIN];
+
+buildlat(ELIST);
+
+%% compute total length and RF frequency
+
+L0_tot=0;
+for i=1:length(THERING)
+   L0_tot=L0_tot+THERING{i}.Length;
+end
+
+fprintf('\nL0_tot=%f m (should be %f m) \nf_RF=%f Hz \n\n',L0_tot,L0,HarmNumber*C0/L0_tot)
+
+%% Compute initial tunes before loading errors
+[InitialTunes, InitialChro] = tunechrom(THERING,0,[18.25, 10.2],'chrom','coupling');
+
+% fprintf('A bit false since radiation and cavity on\n');
+fprintf('Tunes before loading lattice errors: nu_x=%g, nu_y=%g\n',InitialTunes(1),InitialTunes(2));
+fprintf('Chroma before loading lattice errors: xi_x=%g, xi_y=%g\n',InitialChro(1),InitialChro(2));
+
+evalin('caller','global THERING FAMLIST GLOBVAL');
+disp('** Finished loading lattice in Accelerator Toolbox');

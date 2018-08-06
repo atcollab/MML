@@ -1,0 +1,1673 @@
+!!!!!!!!!!!!!!!!!!!!!!STRUTTURA DELLE 12 CELLE!!!!!!!!!!!!!!!!!!!!!!!!!
+
+!!!!!!!!!!! DATI PRESI DALLO STRUCTURE FILE DI ELETTRA !!!!!!!!!!!!!!
+!!! sono indicati tutti i quads bends e sestupoli distinti 
+assign,print="outputfile.txt"
+DxX10 :string,"(Dx*10)" 
+comment
+rfc2.1: RFCAVITY, volt=0, Harmon= 432 , L=0., lag=0.5
+rfc3.1: RFCAVITY, volt=0, Harmon= 432 , L=0., lag=0.5
+rfc8.1: RFCAVITY, volt=0, Harmon= 432 , L=0., lag=0.5
+rfc9.1: RFCAVITY, volt=0, Harmon= 432 , L=0., lag=0.5
+endcomment
+
+rfc: RFCAVITY, volt=0, Harmon= 432 , L=0., lag=0.5
+dri: drift, l=0.9
+dri1: drift, l=0.45
+
+
+
+p1.1: marker
+p11: marker
+p1: marker
+p2: marker
+p3: marker
+p12: marker
+p13: marker
+se1: marker
+
+CV: vKICKER, kick=0.00000
+CH: hKICKER, kick=0.00000
+
+BPM : MONITOR
+
+
+D_S12.231       :DRIFT,  L=0.261216
+D_S12.241       :DRIFT,  L=0.068784
+D_S12.251       :DRIFT,  L=0.222500
+D_S12.261       :DRIFT,  L=0.057500
+D_S12.271       :DRIFT,  L=0.057500
+D_S12.281       :DRIFT,  L=0.283500
+D_S12.291       :DRIFT,  L=0.116000
+D_S12.301       :DRIFT,  L=0.135000
+D_S12.311       :DRIFT,  L=0.115000
+D_S12.321       :DRIFT,  L=0.055000
+D_S12.331       :DRIFT,  L=0.10
+D_S12.341       :DRIFT,  L=0.10
+D_S12.351       :DRIFT,  L=0.1405500
+D_S12.361       :DRIFT,  L=0.47605
+D_S12.371       :DRIFT,  L=0.115500
+D_S12.381       :DRIFT,  L=0.145000
+D_S12.391       :DRIFT,  L=0.115000
+D_S12.401       :DRIFT,  L=0.115000
+D_S12.411       :DRIFT,  L=0.140000
+D_S12.421       :DRIFT,  L=0.10
+D_S12.431       :DRIFT,  L=0.10
+D_S12.441       :DRIFT,  L=1.174000
+D_S12.451       :DRIFT,  L=0.10
+D_S12.461       :DRIFT,  L=0.10
+D_S12.471       :DRIFT,  L=0.130000
+D_S12.481       :DRIFT,  L=0.115000
+D_S12.491       :DRIFT,  L=0.115000
+D_S12.501       :DRIFT,  L=0.255000
+
+D_S12.51  :DRIFT, L=0.115
+D_S12.52  :DRIFT, L=0.140
+D_S12.53  :DRIFT, L=0.115
+D_S12.54  :DRIFT, L=0.115
+D_S12.55  :DRIFT, L=0.25
+SWIG_S12.2:DRIFT,L=0.502
+D_S12.55_1:DRIFT, L=0.25
+D_S1.1   :DRIFT, L=0.10
+D_S1.2   :DRIFT, L=0.100
+D_S1.3   :DRIFT, L=0.140
+D_S1.4   :DRIFT, L=0.115
+D_S1.5   :DRIFT, L=0.115000
+D_S1.6   :DRIFT, L=0.145000
+D_S1.7   :DRIFT, L=0.115500
+D_S1.8   :DRIFT, L=0.110500
+D_S1.9   :DRIFT, L=0.100000
+D_S1.10  :DRIFT, L=0.100000
+D_S1.11  :DRIFT, L=0.165550
+D_S1.12  :DRIFT, L=0.510550
+D_S1.13  :DRIFT, L=0.135000
+D_S1.14  :DRIFT, L=0.116000
+D_S1.15  :DRIFT, L=0.283500
+D_S1.16  :DRIFT, L=0.057500
+D_S1.17  :DRIFT, L=0.057500
+D_S1.18  :DRIFT, L=0.222500
+D_S1.19  :DRIFT, L=0.120000
+D_S1.28  :DRIFT, L=0.120000
+D_S1.29  :DRIFT, L=0.222500
+D_S1.30  :DRIFT, L=0.057500
+D_S1.31   :DRIFT, L=0.057500
+D_S1.32   :DRIFT, L=0.283500
+D_S1.33   :DRIFT, L=0.116000
+D_S1.34   :DRIFT, L=0.135000
+D_S1.35   :DRIFT, L=0.11500
+D_S1.36   :DRIFT, L=0.055000
+D_S1.37   :DRIFT, L=0.100000
+D_S1.38   :DRIFT, L=0.100000
+D_S1.39   :DRIFT, L=0.140550
+D_S1.40   :DRIFT, L=0.47605
+D_S1.41   :DRIFT, L=0.115500
+D_S1.42   :DRIFT, L=0.145000
+D_S1.43   :DRIFT, L=0.115000
+D_S1.44   :DRIFT, L=0.115000
+D_S1.45   :DRIFT, L=0.140000
+D_S1.46   :DRIFT, L=0.100000
+D_S1.47   :DRIFT, L=0.100000
+D_S1.48   :DRIFT, L=1.174000
+D_S1.49   :DRIFT, L=0.100000
+D_S1.50   :DRIFT, L=0.100000
+D_S1.51   :DRIFT, L=0.130000
+D_S1.52   :DRIFT, L=0.115000
+D_S1.53   :DRIFT, L=0.115000
+D_S1.54   :DRIFT, L=0.255000
+
+
+!sestupoli
+sest:multipole
+SF_S1.1: sest,  k2l=8.283903E+00  
+
+
+SF_S1.2: sest,  k2l=8.283903E+00
+
+  
+SD_S1.1: sest,  k2l=-6.804632E+00
+SD_S1.2: sest,  k2l=-6.804632E+00
+S1_S1.1: sest,  k2l=2.199
+S1_S1.2: sest,  k2l=2.199
+
+SF_S2.1: sest,  k2l=8.283903E+00  
+SF_S2.2: sest,  k2l=8.283903E+00  
+SD_S2.1: sest,  k2l=-6.804632E+00
+SD_S2.2: sest,  k2l=-6.804632E+00
+S1_S2.1: sest,  k2l=2.199
+S1_S2.2: sest,  k2l=2.199
+
+SF_S3.1: sest,  k2l=8.283903E+00  
+SF_S3.2: sest,  k2l=8.283903E+00  
+SD_S3.1: sest,  k2l=-6.804632E+00
+SD_S3.2: sest,  k2l=-6.804632E+00
+S1_S3.1: sest,  k2l=2.199
+S1_S3.2: sest,  k2l=2.199
+
+
+SF_S4.1: sest,  k2l=8.283903E+00  
+SF_S4.2: sest,  k2l=8.283903E+00  
+SD_S4.1: sest,  k2l=-6.804632E+00
+SD_S4.2: sest,  k2l=-6.804632E+00
+S1_S4.1: sest,  k2l=2.199
+S1_S4.2: sest,  k2l=2.199
+
+SF_S5.1: sest,  k2l=8.283903E+00  
+SF_S5.2: sest,  k2l=8.283903E+00  
+SD_S5.1: sest,  k2l=-6.804632E+00
+SD_S5.2: sest,  k2l=-6.804632E+00
+S1_S5.1: sest,  k2l=2.199
+S1_S5.2: sest,  k2l=2.199
+
+SF_S6.1: sest,  k2l=8.283903E+00  
+SF_S6.2: sest,  k2l=8.283903E+00  
+SD_S6.1: sest,  k2l=-6.804632E+00
+SD_S6.2: sest,  k2l=-6.804632E+00
+S1_S6.1: sest,  k2l=2.199
+S1_S6.2: sest,  k2l=2.199
+
+SF_S7.1: sest,  k2l=8.283903E+00  
+SF_S7.2: sest,  k2l=8.283903E+00  
+SD_S7.1: sest,  k2l=-6.804632E+00
+SD_S7.2: sest,  k2l=-6.804632E+00
+S1_S7.1: sest,  k2l=2.199
+S1_S7.2: sest,  k2l=2.199
+
+
+SF_S8.1: sest,  k2l=8.283903E+00  
+SF_S8.2: sest,  k2l=8.283903E+00  
+SD_S8.1: sest,  k2l=-6.804632E+00
+SD_S8.2: sest,  k2l=-6.804632E+00
+S1_S8.1: sest,  k2l=2.199
+S1_S8.2: sest,  k2l=2.199
+
+SF_S9.1: sest,  k2l=8.283903E+00  
+SF_S9.2: sest,  k2l=8.283903E+00  
+SD_S9.1: sest,  k2l=-6.804632E+00
+SD_S9.2: sest,  k2l=-6.804632E+00
+S1_S9.1: sest,  k2l=2.199
+S1_S9.2: sest,  k2l=2.199
+
+
+SF_S10.1: sest,  k2l=8.283903E+00  
+SF_S10.2: sest,  k2l=8.283903E+00  
+SD_S10.1: sest,  k2l=-6.804632E+00
+SD_S10.2: sest,  k2l=-6.804632E+00
+S1_S10.1: sest,  k2l=2.199
+S1_S10.2: sest,  k2l=2.199
+
+SF_S11.1: sest,  k2l=8.283903E+00  
+SF_S11.2: sest,  k2l=8.283903E+00  
+SD_S11.1: sest,  k2l=-6.804632E+00
+SD_S11.2: sest,  k2l=-6.804632E+00
+S1_S11.1: sest,  k2l=2.199
+S1_S11.2: sest,  k2l=2.199
+
+SF_S12.1: sest,  k2l=8.283903E+00  
+SF_S12.2: sest,  k2l=8.283903E+00  
+SD_S12.1: sest,  k2l=-6.804632E+00
+SD_S12.2: sest,  k2l=-6.804632E+00
+S1_S12.1: sest,  k2l=2.199
+S1_S12.2: sest,  k2l=2.199
+!============================================================
+
+
+
+QF_S1.1: quadrupole, l=0.409,  k1=2.230702214281
+Q3_S1.1: quadrupole, l=0.26,   k1=-1.224005349447
+Q2_S1.1: quadrupole, l=0.498,  k1= 2.234868485811
+Q1_S1.1: quadrupole, l=.26,    k1=-1.998410619293
+Q1_S1.2: quadrupole, l=.26,    k1=-1.998410619293
+Q2_S1.2: quadrupole, l=0.498,  k1=2.234868485811
+Q3_S1.2: quadrupole, l=.26,    k1=-1.224005349447
+QF_S1.2: quadrupole, l=0.409,  k1=2.230702214281
+QD_S1.1: quadrupole, l=0.26,   k1=-1.43050774063
+
+
+B_S1.1: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+B_S1.2: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+
+
+QD_S12.1: quadrupole, l=.26,   k1=-1.43050774063
+Q1_S12.2: quadrupole, l=.26,    k1=-1.998410619293
+Q2_S12.2: quadrupole, l=0.498,  k1=2.234868485811
+Q3_S12.2: quadrupole, l=.26,    k1=-1.224005349447
+QF_S12.2: quadrupole, l=0.409,   k1=2.230702214281
+
+B_S12.2: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+
+fine: marker
+
+
+
+
+
+
+CELL0: line=(D_S12.26,  FLSC_S12.1, D_S12.27, D_S12.161 , &
+FLSC_S12.2,  D_S12.171 , D_S12.181 , KICKER_S12.3,  D_S12.191, D_S12.201,&
+D_S12.211, KICKER_S12.4, D_S12.221,D_S12.231, bpm,  D_S12.241, &
+Q1_S12.2, D_S12.251, D_S12.261, S1_S12.2, D_S12.271 ,  &
+D_S12.281, Q2_S12.2, D_S12.291 , &
+bpm, D_S12.301 , Q3_S12.2, D_S12.311, bpm, D_S12.321, D_S12.331, &
+cv, ch, D_S12.341 , D_S12.351,  B_S12.2, D_S12.361, QF_S12.2, &
+D_S12.371, &
+bpm, D_S12.381, D_S12.391, SF_S12.2, D_S12.401 ,D_S12.411, D_S12.421, &
+cv, ch, D_S12.431, D_S12.441, D_S12.451 , cv, ch, &
+D_S12.461, D_S12.471, D_S12.481, SD_S12.2, D_S12.491 , D_S12.501 ,  &
+p2,p3, P11, QD_S12.1, D_S12.51, bpm, D_S12.52, D_S12.53,   &
+SD_S1.1, D_S12.54, D_S12.55,SWIG_S12.2, fine,SWIG_S12.2,D_S12.55_1)
+
+!D_S1.20  :DRIFT, L=0.370000
+!D_S1.21  :DRIFT, L=0.100000
+!D_S1.22  :DRIFT, L=0.100000
+!D_S1.23  :DRIFT, L=2.426000
+!D_S1.24  :DRIFT, L=2.426000
+!D_S1.25  :DRIFT, L=0.100000
+!D_S1.26  :DRIFT, L=0.100000
+!D_S1.27  :DRIFT, L=0.370000
+
+
+!STRAIGHT1: line=(D_S1.20, D_S1.21,  cv, ch, D_S1.22, D_S1.23, P12, D_S1.24, &
+!                   D_S1.25, cv, ch, D_S1.26, D_S1.27 )
+
+D_S1.20  :DRIFT, L=0.370000
+D_S1.21  :DRIFT, L=0.100000
+D_S1.22  :DRIFT, L=0.100000
+D_S1.23  :DRIFT, L=0.118
+ID_S1.1    :DRIFT, L=2.008
+D_S1.13_1:DRIFT, L=0.14
+D_S1.13_2:DRIFT, L=0.16
+DISPCOR  :hKICKER, kick=0.00000
+D_S1.13_3:DRIFT, L=0.16
+D_S1.13_4:DRIFT, L=0.14
+ID_S1.2    :DRIFT, L=2.008
+D_S1.24  :DRIFT, L=0.118
+D_S1.25  :DRIFT, L=0.100000
+D_S1.26  :DRIFT, L=0.100000
+D_S1.27  :DRIFT, L=0.370000
+
+
+STRAIGHT1: line=(D_S1.20, D_S1.21,  cv, ch, D_S1.22, D_S1.23, ID_S1.1, &
+            D_S1.13_1,D_S1.13_2,DISPCOR,D_S1.13_3,D_S1.13_4,ID_S1.2, &
+                 D_S1.24 ,D_S1.25, cv, ch, D_S1.26, D_S1.27 )
+
+
+CELL1: line= (D_S1.1, cv, ch, D_S1.2,  D_S1.3, D_S1.4,&
+SF_S1.1, &
+D_S1.5, D_S1.6,  p1.1, bpm, D_S1.7, QF_S1.1,  D_S1.8 , D_S1.9 ,      &
+cv, ch, D_S1.10, D_S1.11 , B_S1.1, p1,  &
+D_S1.12, Q3_S1.1, D_S1.13 , bpm, D_S1.14, Q2_S1.1, D_S1.15,    &
+D_S1.16,  S1_S1.1,                                         &
+D_S1.17, D_S1.18,  Q1_S1.1,   D_S1.19,                  &
+bpm, STRAIGHT1, bpm, D_S1.28,  Q1_S1.2 , &
+D_S1.29, D_S1.30, S1_S1.2,  D_S1.31,  D_S1.32, Q2_S1.2, D_S1.33,    &
+bpm,   D_S1.34,    &
+Q3_S1.2, D_S1.35,   &
+bpm,  D_S1.36,  D_S1.37,  cv, ch, D_S1.38, &
+D_S1.39, B_S1.2, D_S1.40, &
+QF_S1.2, D_S1.41, P13, bpm, D_S1.42, D_S1.43,  &
+SF_S1.2, D_S1.44,  &
+D_S1.45,  &
+D_S1.46,  &
+cv, ch,  D_S1.47, D_S1.48, D_S1.49,  &
+cv, ch, D_S1.50,  D_S1.51,  D_S1.52,  SD_S1.2, &
+D_S1.53, D_S1.54, QD_S1.1, p2 , se1)
+
+
+D_S1.55   :DRIFT, L=0.115000
+D_S1.56   :DRIFT, L=0.140000
+D_S1.57   :DRIFT, L=0.115000
+D_S1.58   :DRIFT, L=0.115000
+!D_S1.59   :DRIFT, L=1.504000
+D_S1.59a   :DRIFT, L=0.752
+D_S1.59b   :DRIFT, L=0.752
+D_S2.1    :DRIFT, L=0.10
+D_S2.2    :DRIFT, L=0.10
+D_S2.3    :DRIFT, L=0.140000
+D_S2.4    :DRIFT, L=0.115000
+D_S2.5    :DRIFT, L=0.115000
+D_S2.6    :DRIFT, L=0.145000
+D_S2.7    :DRIFT, L=0.115500
+D_S2.8    :DRIFT, L=0.110500
+D_S2.9    :DRIFT, L=0.10
+D_S2.10   :DRIFT, L=0.10
+D_S2.11      :DRIFT, L=0.165550
+D_S2.12      :DRIFT, L=0.510550
+D_S2.13      :DRIFT, L=0.135000
+D_S2.14      :DRIFT, L=0.116000
+D_S2.15      :DRIFT, L=0.283500
+D_S2.16      :DRIFT, L=0.057500
+D_S2.17      :DRIFT, L=0.057500
+D_S2.18      :DRIFT, L=0.222500
+D_S2.19      :DRIFT, L=0.120000
+D_S2.28      :DRIFT, L=0.120000
+D_S2.29      :DRIFT, L=0.222500
+D_S2.30      :DRIFT, L=0.057500
+D_S2.31      :DRIFT, L=0.057500
+D_S2.32      :DRIFT, L=0.283500
+D_S2.33      :DRIFT, L=0.116000
+D_S2.34      :DRIFT, L=0.135000
+D_S2.35      :DRIFT, L=0.115000
+D_S2.36      :DRIFT, L=0.055000
+D_S2.37      :DRIFT, L=0.10
+D_S2.38      :DRIFT, L=0.10
+D_S2.39      :DRIFT, L= 0.1405500
+D_S2.40      :DRIFT, L=0.47605
+D_S2.41      :DRIFT, L=0.115500
+D_S2.42      :DRIFT, L=0.145000
+D_S2.43      :DRIFT, L=0.115000
+D_S2.44      :DRIFT, L=0.115000
+D_S2.45      :DRIFT, L=0.140000
+D_S2.46      :DRIFT, L=0.10
+D_S2.47      :DRIFT, L=0.10
+D_S2.48      :DRIFT, L=0.791000
+D_S2.49      :DRIFT, L=0.383000
+D_S2.50      :DRIFT, L=0.10
+D_S2.51      :DRIFT, L=0.10
+D_S2.52      :DRIFT, L=0.130000
+D_S2.53      :DRIFT, L=0.115000
+D_S2.54      :DRIFT, L=0.115000
+D_S2.55      :DRIFT, L=0.255000
+
+QF_S2.1: quadrupole,  l=0.409,   k1=2.230702214281
+Q3_S2.1: quadrupole,  l=.26,    k1=-1.224005349447
+Q2_S2.1: quadrupole, l=0.498,  k1=2.234868485811
+Q1_S2.1: quadrupole, l=.26,    k1=-1.998410619293
+Q1_S2.2: quadrupole, l=.26,    k1=-1.998410619293
+Q2_S2.2: quadrupole, l=0.498,  k1=2.234868485811
+Q3_S2.2: quadrupole, l=.26,    k1=-1.224005349447
+QF_S2.2: quadrupole, l=0.409,   k1=2.230702214281
+QD_S2.1: quadrupole, l=.26,   k1=-1.43050774063
+
+B_S2.1: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+B_S2.2: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+
+FLSC_S2   :MONITOR
+
+P22:MARKER
+P23: MARKER
+
+
+!D_S2.20      :DRIFT, L=0.220000
+!D_S2.21      :DRIFT, L=0.10
+!D_S2.22      :DRIFT, L=0.10
+!D_S2.23      :DRIFT, L=0.293420
+!ID_S2.1      :DRIFT, L=0.05636*27   !1.52172
+!ID_S2.2      :DRIFT, L=0.05636*13.5  !0.76086
+!ID_S2.3      :DRIFT, L=0.05636*27   !1.52172
+!D_S2.24      :DRIFT, L=0.293420
+!D_S2.25      :DRIFT, L=0.10
+!D_S2.26      :DRIFT, L=0.10
+!D_S2.27      :DRIFT, L=0.220000
+
+!STRAIGHT2: line=(D_S2.20, D_S2.21, cv, ch, D_S2.22, D_S2.23,        &
+!ID_S2.1, ID_S2.2 , P22, ID_S2.2 , ID_S2.3, D_S2.24,  D_S2.25,   &
+!cv, ch, D_S2.26,  D_S2.27)
+
+LGBPM : MONITOR
+
+D_S2.20      :DRIFT, L=0.220000
+D_S2.21      :DRIFT, L=0.10
+D_S2.22      :DRIFT, L=0.10
+D_S2.23      :DRIFT, L=0.108
+D_S2.23_1    :DRIFT, L=0.02
+
+D_S2.23_2    :DRIFT, L=0.02
+D_S2.23_3    :DRIFT, L=0.15
+ID_S2.1      :DRIFT, L=2.260
+D_S2.23_4    :DRIFT, L=0.018
+D_S2.23_5    :DRIFT, L=0.018
+ID_S2.2      :DRIFT, L=2.260
+D_S2.23_6    :DRIFT, L=0.15
+D_S2.23_7    :DRIFT, L=0.02
+
+D_S2.23_8    :DRIFT, L=0.02
+D_S2.24    :DRIFT, L=0.108
+D_S2.25      :DRIFT, L=0.10
+D_S2.26      :DRIFT, L=0.10
+D_S2.27      :DRIFT, L=0.220000
+
+STRAIGHT2: line=(D_S2.20, D_S2.21, cv, ch, D_S2.22, D_S2.23,           &
+D_S2.23_1,LGBPM,D_S2.23_2,D_S2.23_3, ID_S2.1,D_S2.23_4,P22,D_S2.23_5, &
+ID_S2.2 , D_S2.23_6,D_S2.23_7,LGBPM,D_S2.23_8, D_S2.24,  D_S2.25,   &
+cv, ch, D_S2.26,  D_S2.27)
+
+
+
+CELL2: line= ( p3, D_S1.55,  bpm,  D_S1.56, D_S1.57,  SD_S2.1, &
+D_S1.58,  D_S1.59a,rfc,D_S1.59b, D_S2.1, cv, ch, D_S2.2, D_S2.3,& 
+D_S2.4, SF_S2.1, &
+D_S2.5, D_S2.6,  bpm, D_S2.7,  QF_S2.1,  D_S2.8,  D_S2.9,      &
+cv, ch, D_S2.10, D_S2.11,  B_S2.1, p1,  &
+D_S2.12,  Q3_S2.1, D_S2.13,  bpm,  D_S2.14, Q2_S2.1, &
+D_S2.15, D_S2.16,  S1_S2.1,  &
+D_S2.17, D_S2.18,  Q1_S2.1, D_S2.19,        &
+bpm, STRAIGHT2,bpm,  D_S2.28,  &
+Q1_S2.2, D_S2.29, D_S2.30,  S1_S2.2,  D_S2.31,  D_S2.32,  Q2_S2.2,  &
+D_S2.33, bpm,  &
+D_S2.34,  Q3_S2.2,  D_S2.35 ,        &
+bpm,  D_S2.36,  D_S2.37, cv, ch, D_S2.38, D_S2.39, B_S2.2, &
+D_S2.40,   &
+QF_S2.2, D_S2.41, P23, bpm, D_S2.42, D_S2.43, &
+SF_S2.2, D_S2.44, D_S2.45, D_S2.46, &
+cv, ch,   D_S2.47, D_S2.48, FLSC_S2 , D_S2.49, D_S2.50,   &
+cv, ch,  D_S2.51, D_S2.52, D_S2.53,  SD_S2.2, D_S2.54, D_S2.55,  QD_S2.1, p2)
+
+
+D_S2.56   :DRIFT, L=    0.115000
+D_S2.57   :DRIFT, L=    0.140000
+D_S2.58   :DRIFT, L=    0.115000
+D_S2.59   :DRIFT, L=    0.115000
+!D_S2.60   :DRIFT, L=    0.911500
+!D_S2.61   :DRIFT, L=    0.592500
+D_S2.60   :DRIFT, L=    0.4615
+D_S2.61   :DRIFT, L=    0.1425
+D_S3.1    :DRIFT, L=    0.10
+D_S3.2    :DRIFT, L=    0.10
+D_S3.3    :DRIFT, L=    0.140000
+D_S3.4    :DRIFT, L=    0.115000
+D_S3.5    :DRIFT, L=    0.115000
+D_S3.6    :DRIFT, L=    0.145000
+D_S3.7    :DRIFT, L=    0.115500
+D_S3.8    :DRIFT, L=    0.110500
+D_S3.9    :DRIFT, L=    0.10
+D_S3.10   :DRIFT, L=    0.10
+D_S3.11      :DRIFT, L=    0.165550
+D_S3.12      :DRIFT, L=    0.510550
+D_S3.13      :DRIFT, L=    0.135000
+D_S3.14      :DRIFT, L=    0.116000
+D_S3.15      :DRIFT, L=    0.283500
+D_S3.16      :DRIFT, L=    0.057500
+D_S3.17      :DRIFT, L=    0.057500
+D_S3.18      :DRIFT, L=    0.222500
+D_S3.19      :DRIFT, L=    0.120000
+D_S3.20      :DRIFT, L=    0.370000
+D_S3.21      :DRIFT, L=    0.10
+D_S3.22      :DRIFT, L=    0.10
+D_S3.23      :DRIFT, L=    0.173120
+ID_S3.1      :DRIFT, L= 0.12516*12   
+ID_S3.2      :DRIFT, L= 0.12516*6
+!ID_S3.2     :DRIFT, L= 0.12516*12
+ID_S3.3      :DRIFT, L= 0.12516*12
+D_S3.24      :DRIFT, L=    0.173120
+D_S3.25      :DRIFT, L=    0.10
+D_S3.26      :DRIFT, L=    0.10
+D_S3.27      :DRIFT, L=    0.370000
+D_S3.28      :DRIFT, L=    0.120000
+D_S3.29      :DRIFT, L=    0.222500
+D_S3.30      :DRIFT, L=    0.057500
+D_S3.31      :DRIFT, L=    0.057500
+D_S3.32      :DRIFT, L=    0.283500
+D_S3.33      :DRIFT, L=    0.116000
+D_S3.34      :DRIFT, L=    0.135000
+D_S3.35      :DRIFT, L=    0.115000
+D_S3.36      :DRIFT, L=    0.055000
+D_S3.37      :DRIFT, L=    0.10
+D_S3.38      :DRIFT, L=    0.10
+D_S3.39      :DRIFT, L=    0.1405500
+D_S3.40      :DRIFT, L=    0.47605
+D_S3.41      :DRIFT, L=    0.115500
+D_S3.42      :DRIFT, L=    0.145000
+D_S3.43      :DRIFT, L=    0.115000
+D_S3.44      :DRIFT, L=    0.115000
+D_S3.45      :DRIFT, L=    0.140000
+D_S3.46      :DRIFT, L=    0.10
+D_S3.47      :DRIFT, L=    0.10
+D_S3.48      :DRIFT, L=    1.17400
+D_S3.49      :DRIFT, L=    0.10
+D_S3.50      :DRIFT, L=    0.10
+D_S3.51      :DRIFT, L=    0.130000
+D_S3.52      :DRIFT, L=    0.115000
+D_S3.53      :DRIFT, L=    0.115000
+D_S3.54      :DRIFT, L=    0.255000
+
+QF_S3.1: quadrupole,  l=0.409,   k1=2.230702214281
+Q3_S3.1: quadrupole,  l=.26,    k1=-1.224005349447
+Q2_S3.1: quadrupole, l=0.498,  k1=2.234868485811
+Q1_S3.1: quadrupole, l=.26,    k1=-1.998410619293
+Q1_S3.2: quadrupole, l=.26,    k1=-1.998410619293
+Q2_S3.2: quadrupole, l=0.498,  k1=2.234868485811
+Q3_S3.2: quadrupole, l=.26,    k1=-1.224005349447
+QF_S3.2: quadrupole, l=0.409,   k1=2.230702214281
+QD_S3.1: quadrupole, l=.26,   k1=-1.43050774063
+
+B_S3.1: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+B_S3.2: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+
+
+
+P31: MARKER
+P32: MARKER
+
+CELL3: line= (p3, D_S2.56, bpm,D_S2.57, D_S2.58, SD_S3.1, D_S2.59,rfc  &
+D_S2.60, dri, D_S2.61,  D_S3.1,  cv, ch, D_S3.2, D_S3.3,D_S3.4,  &
+SF_S3.1, D_S3.5,  D_S3.6,   bpm,  D_S3.7,  QF_S3.1, D_S3.8, D_S3.9 ,     &
+cv, ch,   D_S3.10, D_S3.11,  B_S3.1, p1,   &
+D_S3.12,  Q3_S3.1, D_S3.13 ,  bpm, D_S3.14, Q2_S3.1, D_S3.15, D_S3.16, &
+S1_S3.1, D_S3.17,  D_S3.18,  Q1_S3.1,  D_S3.19,   bpm, &
+D_S3.20 , D_S3.21, cv, ch, D_S3.22,  D_S3.23 ,  &
+ID_S3.1, ID_S3.2 , P31, ID_S3.2 , ID_S3.3, D_S3.24 , D_S3.25 , &
+cv, ch, D_S3.26, D_S3.27,  bpm,  D_S3.28,  Q1_S3.2, D_S3.29,&
+D_S3.30 , &
+S1_S3.2 , D_S3.31, D_S3.32 , &
+Q2_S3.2, D_S3.33,  bpm,  D_S3.34,  Q3_S3.2, D_S3.35,      &
+bpm, D_S3.36, D_S3.37,   cv, ch, D_S3.38, D_S3.39, B_S3.2,  &
+D_S3.40,  QF_S3.2, D_S3.41,  P32,  bpm, D_S3.42, D_S3.43, SF_S3.2 , &
+D_S3.44, D_S3.45, &
+D_S3.46, cv, ch,  D_S3.47, D_S3.48, D_S3.49,  &
+cv, ch, D_S3.50, D_S3.51, D_S3.52,   SD_S3.2, D_S3.53,  &
+D_S3.54, QD_S3.1 , p2 )
+
+
+D_S3.55      :DRIFT, L=    0.115000
+D_S3.56      :DRIFT, L=    0.140000
+D_S3.57      :DRIFT, L=    0.115000
+D_S3.58      :DRIFT, L=    0.115000
+!D_S3.60     :DRIFT, L=    0.911500
+!D_S3.61     :DRIFT, L=    0.592500
+D_S3.60      :DRIFT, L=    0.4615
+D_S3.61      :DRIFT, L=    0.1425
+D_S4.1       :DRIFT, L=    0.10
+D_S4.2       :DRIFT, L=    0.10
+D_S4.3       :DRIFT, L=    0.140000
+D_S4.4       :DRIFT, L=    0.115000
+D_S4.5       :DRIFT, L=    0.115000
+D_S4.6       :DRIFT, L=    0.145000
+D_S4.7       :DRIFT, L=    0.115500
+D_S4.8       :DRIFT, L=    0.110500
+D_S4.9       :DRIFT, L=    0.10
+D_S4.10      :DRIFT, L=    0.10
+D_S4.11      :DRIFT, L=    0.165550
+D_S4.12      :DRIFT, L=    0.510550
+D_S4.13      :DRIFT, L=    0.135000
+D_S4.14      :DRIFT, L=    0.116000
+D_S4.15      :DRIFT, L=    0.283500
+D_S4.16      :DRIFT, L=    0.057500
+D_S4.17      :DRIFT, L=    0.057500
+D_S4.18      :DRIFT, L=    0.222500
+D_S4.19      :DRIFT, L=    0.120000
+D_S4.20      :DRIFT, L=    0.370000
+D_S4.21      :DRIFT, L=    0.10
+D_S4.22      :DRIFT, L=    0.10
+D_S4.23      :DRIFT, L=    0.836
+!ID_S4       :DRIFT, L= 0.212*15
+ID_S4        :DRIFT, L= 0.212*7.5
+D_S4.24      :DRIFT, L=    0.836
+D_S4.25      :DRIFT, L=    0.10
+D_S4.26      :DRIFT, L=    0.10
+D_S4.27      :DRIFT, L=    0.370000
+D_S4.28      :DRIFT, L=    0.120000
+D_S4.29      :DRIFT, L=    0.222500
+D_S4.30      :DRIFT, L=    0.057500
+D_S4.31      :DRIFT, L=    0.057500
+D_S4.32      :DRIFT, L=    0.283500
+D_S4.33      :DRIFT, L=    0.116000
+D_S4.34      :DRIFT, L=    0.135000
+D_S4.35      :DRIFT, L=    0.115000
+D_S4.36      :DRIFT, L=    0.055000
+D_S4.37      :DRIFT, L=    0.10
+D_S4.38      :DRIFT, L=    0.10
+D_S4.39      :DRIFT, L=    0.1405500
+D_S4.40      :DRIFT, L=    0.47605
+D_S4.41      :DRIFT, L=    0.115500
+D_S4.42      :DRIFT, L=    0.145000
+D_S4.43      :DRIFT, L=    0.115000
+D_S4.44      :DRIFT, L=    0.115000
+D_S4.45      :DRIFT, L=    0.140000
+D_S4.46      :DRIFT, L=    0.10
+D_S4.47      :DRIFT, L=    0.10
+D_S4.48      :DRIFT, L=    0.939000
+D_S4.49      :DRIFT, L=    0.235000
+D_S4.50      :DRIFT, L=    0.10
+D_S4.51      :DRIFT, L=    0.10
+D_S4.52      :DRIFT, L=    0.130000
+D_S4.53      :DRIFT, L=    0.115000
+D_S4.54      :DRIFT, L=    0.115000
+D_S4.55      :DRIFT, L=    0.255000
+
+QF_S4.1: quadrupole,  l=0.409,   k1=2.230702214281
+Q3_S4.1: quadrupole,  l=.26,    k1=-1.224005349447
+Q2_S4.1: quadrupole, l=0.498,  k1=2.234868485811
+Q1_S4.1: quadrupole, l=.26,    k1=-1.998410619293
+Q1_S4.2: quadrupole, l=.26,    k1=-1.998410619293
+Q2_S4.2: quadrupole, l=0.498,  k1=2.234868485811
+Q3_S4.2: quadrupole, l=.26,    k1=-1.224005349447
+QF_S4.2: quadrupole, l=0.409,   k1=2.230702214281
+QD_S4.1: quadrupole, l=.26,   k1=-1.43050774063
+
+
+B_S4.1: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+B_S4.2: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+
+
+p4: marker
+p41: marker
+FLSC_S4: monitor
+
+
+CELL4: LINE=( p3,  D_S3.55,  bpm,  D_S3.56, D_S3.57,  SD_S4.1, &
+D_S3.58,  D_S3.60, dri,   D_S3.61, D_S4.1, cv, ch, &
+D_S4.2, D_S4.3, D_S4.4, SF_S4.1, &
+D_S4.5, D_S4.6,  bpm, D_S4.7,  QF_S4.1,  D_S4.8,  D_S4.9,      &
+cv, ch, D_S4.10, D_S4.11,  B_S4.1, p1,  &
+D_S4.12,  Q3_S4.1, D_S4.13,  bpm,  D_S4.14, Q2_S4.1, &
+D_S4.15, D_S4.16,  S1_S4.1,  &
+D_S4.17, D_S4.18,  Q1_S4.1, D_S4.19,        &
+bpm, D_S4.20, D_S4.21, cv, ch, D_S4.22, D_S4.23,        &
+ID_S4, P4, ID_S4, D_S4.24,  D_S4.25,   &
+cv, ch, D_S4.26,  D_S4.27,  &
+bpm,  D_S4.28,  &
+Q1_S4.2, D_S4.29, D_S4.30,  S1_S4.2,  D_S4.31,  &
+D_S4.32,  Q2_S4.2,  D_S4.33, bpm,  &
+D_S4.34,  Q3_S4.2,  D_S4.35 ,        &
+bpm,  D_S4.36,  D_S4.37, cv, ch, D_S4.38, D_S4.39, B_S4.2, &
+D_S4.40,   &
+QF_S4.2,  D_S4.41, P41, bpm, D_S4.42, D_S4.43,  SF_S4.2 , &
+D_S4.44, D_S4.45, D_S4.46, &
+cv, ch,   D_S4.47, D_S4.48, FLSC_S4 , D_S4.49, D_S4.50,   &
+cv, ch, D_S4.51, D_S4.52, D_S4.53, SD_S4.2, D_S4.54, D_S4.55, QD_S4.1, p2)
+
+
+
+D_S4.56      :DRIFT, L=    0.115000
+D_S4.57      :DRIFT, L=    0.140000
+D_S4.58      :DRIFT, L=    0.115000
+D_S4.59      :DRIFT, L=    0.115000
+D_S4.60      :DRIFT, L=    1.504000
+D_S5.1       :DRIFT, L=    0.10
+D_S5.2       :DRIFT, L=    0.10
+D_S5.3       :DRIFT, L=    0.140000
+D_S5.4       :DRIFT, L=    0.115000
+D_S5.5       :DRIFT, L=    0.115000
+D_S5.6       :DRIFT, L=    0.145000
+D_S5.7       :DRIFT, L=    0.115500
+D_S5.8       :DRIFT, L=    0.110500
+D_S5.9       :DRIFT, L=    0.10
+D_S5.10      :DRIFT, L=    0.10
+D_S5.11      :DRIFT, L=    0.165550
+D_S5.12      :DRIFT, L=    0.510550
+D_S5.13      :DRIFT, L=    0.135000
+D_S5.14      :DRIFT, L=    0.116000
+D_S5.15      :DRIFT, L=    0.283500
+D_S5.16      :DRIFT, L=    0.057500
+D_S5.17      :DRIFT, L=    0.057500
+D_S5.18      :DRIFT, L=    0.222500
+D_S5.19      :DRIFT, L=    0.120000
+D_S5.20      :DRIFT, L=    0.370000
+D_S5.21      :DRIFT, L=    0.10
+D_S5.22      :DRIFT, L=    0.10
+D_S5.23      :DRIFT, L=    0.176
+ID_S5.1      :DRIFT, L= 0.15*10
+ID_S5.2      :DRIFT, L= 0.15*5
+ID_S5.21     :DRIFT, L= 0.15*5
+ID_S5.3      :DRIFT, L= 0.15*10
+D_S5.24      :DRIFT, L=    0.176000
+D_S5.25      :DRIFT, L=    0.10
+D_S5.26      :DRIFT, L=    0.10
+D_S5.27      :DRIFT, L=    0.370000
+D_S5.28      :DRIFT, L=    0.120000
+D_S5.29      :DRIFT, L=    0.222500
+D_S5.30      :DRIFT, L=    0.057500
+D_S5.31      :DRIFT, L=    0.057500
+D_S5.32      :DRIFT, L=    0.283500
+D_S5.33      :DRIFT, L=    0.116000
+D_S5.34      :DRIFT, L=    0.135000
+D_S5.35      :DRIFT, L=    0.115000
+D_S5.36      :DRIFT, L=    0.055000
+D_S5.37      :DRIFT, L=    0.10
+D_S5.38      :DRIFT, L=    0.10
+D_S5.39      :DRIFT, L=    0.1405500
+D_S5.40      :DRIFT, L=    0.47605
+D_S5.41      :DRIFT, L=    0.115500
+D_S5.42      :DRIFT, L=    0.145000
+D_S5.43      :DRIFT, L=    0.115000
+D_S5.44      :DRIFT, L=    0.115000
+D_S5.45      :DRIFT, L=    0.140000
+D_S5.46      :DRIFT, L=    0.10
+D_S5.47      :DRIFT, L=    0.10
+D_S5.48      :DRIFT, L=    1.174000
+D_S5.49      :DRIFT, L=    0.10
+D_S5.50      :DRIFT, L=    0.10
+D_S5.51      :DRIFT, L=    0.130000
+D_S5.52      :DRIFT, L=    0.115000
+D_S5.53      :DRIFT, L=    0.115000
+D_S5.54      :DRIFT, L=    0.255000
+
+QF_S5.1: quadrupole,  l=0.409,   k1=2.230702214281
+Q3_S5.1: quadrupole,  l=.26,    k1=-1.224005349447
+Q2_S5.1: quadrupole, l=0.498,  k1=2.234868485811
+Q1_S5.1: quadrupole, l=.26,    k1=-1.998410619293
+Q1_S5.2: quadrupole, l=.26,    k1=-1.998410619293
+Q2_S5.2: quadrupole, l=0.498,  k1=2.234868485811
+Q3_S5.2: quadrupole, l=.26,    k1=-1.224005349447
+QF_S5.2: quadrupole, l=0.409,   k1=2.230702214281
+QD_S5.1: quadrupole, l=.26,   k1=-1.43050774063
+
+B_S5.1: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+B_S5.2: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+
+
+p5: marker
+p51: marker
+
+dmeno: drift, l=-0.6
+dpiu:  drift, l= 0.6
+!CH6N: hKICKER, kick=0.000
+!CV6N: vKICKER, kick=0.000
+CH6N: drift, l=0
+CV6N: drift, l=0
+P6N:MARKER
+
+
+CELL5: line= (p3,  D_S4.56, bpm,D_S4.57, D_S4.58, SD_S5.1, D_S4.59,  &
+D_S4.60,  D_S5.1,  cv, ch, D_S5.2, D_S5.3,D_S5.4,  &
+SF_S5.1, D_S5.5,  D_S5.6,   bpm,  D_S5.7,  QF_S5.1, D_S5.8, D_S5.9 ,     &
+cv, ch,   D_S5.10, D_S5.11,  B_S5.1, p1,   &
+D_S5.12,  Q3_S5.1, D_S5.13 ,  bpm, D_S5.14, Q2_S5.1, D_S5.15, D_S5.16, &
+S1_S5.1, D_S5.17,  D_S5.18,  Q1_S5.1,  D_S5.19,   bpm, &
+D_S5.20 , D_S5.21, cv, ch, D_S5.22,  D_S5.23 ,  &
+ID_S5.1, ID_S5.2 , P5, ID_S5.21 , ID_S5.3, D_S5.24 , D_S5.25 , &
+cv, ch, D_S5.26, D_S5.27,  bpm,  D_S5.28,  Q1_S5.2, &
+D_S5.29,  D_S5.30 , &
+S1_S5.2,  D_S5.31, D_S5.32 , &
+Q2_S5.2, D_S5.33,  bpm,  D_S5.34,  Q3_S5.2, D_S5.35,      &
+bpm, D_S5.36, D_S5.37,   cv, ch, D_S5.38, D_S5.39, B_S5.2,  &
+D_S5.40,  QF_S5.2, D_S5.41,  &
+bpm, P51,  D_S5.42, D_S5.43, SF_S5.2 , D_S5.44, D_S5.45, &
+D_S5.46, cv, ch,  D_S5.47, D_S5.48, D_S5.49,  &
+cv, ch, D_S5.50, D_S5.51, D_S5.52, SD_S5.2, D_S5.53, D_S5.54, QD_S5.1, p2 )
+
+
+D_S5.55   :DRIFT, L=    0.115000
+D_S5.56   :DRIFT, L=    0.140000
+D_S5.57   :DRIFT, L=    0.115000
+D_S5.58   :DRIFT, L=    0.115000
+D_S5.59   :DRIFT, L=    1.279000
+SCRPH_S5     :DRIFT, L=    0.
+D_S5.60   :DRIFT, L=    0.225000
+D_S6.1    :DRIFT, L=    0.10
+D_S6.2    :DRIFT, L=    0.10
+D_S6.3    :DRIFT, L=    0.140000
+D_S6.4    :DRIFT, L=    0.115000
+D_S6.5    :DRIFT, L=    0.115000
+D_S6.6    :DRIFT, L=    0.145000
+D_S6.7    :DRIFT, L=    0.115500
+D_S6.8    :DRIFT, L=    0.110500
+D_S6.9    :DRIFT, L=    0.10
+D_S6.10   :DRIFT, L=    0.10
+D_S6.11   :DRIFT, L=    0.165550
+D_S6.12   :DRIFT, L=    0.510550
+D_S6.13   :DRIFT, L=    0.135000
+D_S6.14   :DRIFT, L=    0.116000
+D_S6.15   :DRIFT, L=    0.283500
+D_S6.16   :DRIFT, L=    0.057500
+D_S6.17   :DRIFT, L=    0.057500
+D_S6.18   :DRIFT, L=    0.222500
+D_S6.19   :DRIFT, L=    0.120000
+D_S6.20   :DRIFT, L=    0.370000
+D_S6.21   :DRIFT, L=    0.10
+D_S6.22   :DRIFT, L=    0.10
+D_S6.23   :DRIFT, L=    0.173120
+ID_S6.1   :DRIFT, L= 0.12516*12
+ID_S6.2   :DRIFT, L= 0.12516*6
+ID_S6.21   :DRIFT, L= 0.12516*6
+ID_S6.3   :DRIFT, L= 0.12516*12
+D_S6.24   :DRIFT, L=    0.173120
+D_S6.25   :DRIFT, L=    0.10
+D_S6.26   :DRIFT, L=    0.10
+D_S6.27   :DRIFT, L=    0.370000
+D_S6.28   :DRIFT, L=    0.120000
+D_S6.29   :DRIFT, L=    0.222500
+D_S6.30   :DRIFT, L=    0.057500
+D_S6.31   :DRIFT, L=    0.057500
+D_S6.32   :DRIFT, L=    0.283500
+D_S6.33   :DRIFT, L=    0.116000
+D_S6.34   :DRIFT, L=    0.135000
+D_S6.35   :DRIFT, L=    0.115000
+D_S6.36   :DRIFT, L=    0.055000
+D_S6.37   :DRIFT, L=    0.10
+D_S6.38   :DRIFT, L=    0.10
+D_S6.39   :DRIFT, L=    0.1405500
+D_S6.40   :DRIFT, L=    0.47605
+D_S6.41   :DRIFT, L=    0.115500
+D_S6.42   :DRIFT, L=    0.145000
+D_S6.43   :DRIFT, L=    0.115000
+D_S6.44   :DRIFT, L=    0.115000
+D_S6.45   :DRIFT, L=    0.140000
+D_S6.46   :DRIFT, L=    0.10
+D_S6.47   :DRIFT, L=    0.10
+D_S6.48   :DRIFT, L=    0.939000
+FLSC_S6         :MONITOR
+D_S6.49   :DRIFT, L=    0.235000
+D_S6.50   :DRIFT, L=    0.10
+D_S6.51   :DRIFT, L=    0.10
+D_S6.52   :DRIFT, L=    0.130000
+D_S6.53   :DRIFT, L=    0.115000
+D_S6.54   :DRIFT, L=    0.115000
+D_S6.55   :DRIFT, L=    0.255000
+
+
+QF_S6.1: quadrupole,  l=0.409,   k1=2.230702214281
+Q3_S6.1: quadrupole,  l=.26,    k1=-1.224005349447
+Q2_S6.1: quadrupole, l=0.498,  k1=2.234868485811
+Q1_S6.1: quadrupole, l=.26,    k1=-1.998410619293
+Q1_S6.2: quadrupole, l=.26,    k1=-1.998410619293
+Q2_S6.2: quadrupole, l=0.498,  k1=2.234868485811
+Q3_S6.2: quadrupole, l=.26,    k1=-1.224005349447
+QF_S6.2: quadrupole, l=0.409,   k1=2.230702214281
+QD_S6.1: quadrupole, l=.26,   k1=-1.43050774063
+
+B_S6.1: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+B_S6.2: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+
+pb6:marker
+
+
+p6: marker
+p61: marker
+
+
+CELL6: LINE=(p3, D_S5.55,  bpm,  D_S5.56, D_S5.57,  SD_S6.1,     &
+D_S5.58,  D_S5.59, SCRPH_S5,  D_S5.60, D_S6.1,  cv,  ch,  &
+D_S6.2, D_S6.3, D_S6.4, SF_S6.1, &
+D_S6.5, D_S6.6,  bpm, D_S6.7,  QF_S6.1,  &
+D_S6.8,  D_S6.9,      &
+cv, ch, D_S6.10, D_S6.11,  B_S6.1, p6n,  p1,  pb6, &
+D_S6.12,  Q3_S6.1, &
+D_S6.13,  bpm,  D_S6.14, Q2_S6.1, &
+D_S6.15, D_S6.16,  S1_S6.1,  &
+D_S6.17, D_S6.18,  Q1_S6.1, &
+D_S6.19,        &
+bpm, D_S6.20, D_S6.21, cv, ch, D_S6.22, D_S6.23,        &
+ID_S6.1 , ID_S6.2, P6, ID_S6.21, ID_S6.3,  D_S6.24,  D_S6.25,   &
+cv, ch, D_S6.26,  D_S6.27, &
+bpm,  D_S6.28,  &
+Q1_S6.2, &
+D_S6.29, D_S6.30,  S1_S6.2,  D_S6.31,  D_S6.32,  Q2_S6.2,  &
+D_S6.33, bpm,  &
+D_S6.34,  Q3_S6.2,  &
+D_S6.35 ,        &
+bpm, D_S6.36, D_S6.37, cv, ch, D_S6.38, D_S6.39, B_S6.2, D_S6.40, &
+QF_S6.2,  &
+D_S6.41, P61, bpm, D_S6.42, D_S6.43,  SF_S6.2 , D_S6.44, D_S6.45, D_S6.46, &
+cv, ch,   D_S6.47, D_S6.48, FLSC_S6 , D_S6.49, D_S6.50,   &
+cv, ch, D_S6.51, D_S6.52, D_S6.53, SD_S6.2, D_S6.54, D_S6.55, QD_S6.1 , p2 )
+
+D_S6.56      :DRIFT, L=    0.115000
+D_S6.57      :DRIFT, L=    0.140000
+D_S6.58      :DRIFT, L=    0.115000
+D_S6.59      :DRIFT, L=    0.115000
+D_S6.60      :DRIFT, L=    1.504000
+D_S7.1       :DRIFT, L=    0.10
+D_S7.2       :DRIFT, L=    0.10
+D_S7.3       :DRIFT, L=    0.140000
+D_S7.4       :DRIFT, L=    0.115000
+D_S7.5       :DRIFT, L=    0.115000
+D_S7.6       :DRIFT, L=    0.145000
+D_S7.7       :DRIFT, L=    0.115500
+D_S7.8       :DRIFT, L=    0.110500
+D_S7.9       :DRIFT, L=    0.10
+D_S7.10      :DRIFT, L=    0.10
+D_S7.11      :DRIFT, L=    0.165550
+D_S7.12      :DRIFT, L=    0.510550
+D_S7.13      :DRIFT, L=    0.135000
+D_S7.14      :DRIFT, L=    0.116000
+D_S7.15      :DRIFT, L=    0.283500
+D_S7.16      :DRIFT, L=    0.057500
+D_S7.17      :DRIFT, L=    0.057500
+D_S7.18      :DRIFT, L=    0.222500
+D_S7.19      :DRIFT, L=    0.120000
+D_S7.28      :DRIFT, L=    0.120000
+D_S7.29      :DRIFT, L=    0.222500
+D_S7.30      :DRIFT, L=    0.057500
+D_S7.31      :DRIFT, L=    0.057500
+D_S7.32      :DRIFT, L=    0.283500
+D_S7.33      :DRIFT, L=    0.116000
+D_S7.34      :DRIFT, L=    0.135000
+D_S7.35      :DRIFT, L=    0.115000
+D_S7.36      :DRIFT, L=    0.055000
+D_S7.37      :DRIFT, L=    0.10
+D_S7.38      :DRIFT, L=    0.10
+D_S7.39      :DRIFT, L=    0.1405500
+D_S7.40      :DRIFT, L=    0.47605
+D_S7.41      :DRIFT, L=    0.115500
+D_S7.42      :DRIFT, L=    0.145000
+D_S7.43      :DRIFT, L=    0.115000
+D_S7.44      :DRIFT, L=    0.115000
+D_S7.45      :DRIFT, L=    0.140000
+D_S7.46      :DRIFT, L=    0.10
+D_S7.47      :DRIFT, L=    0.10
+D_S7.48      :DRIFT, L=    1.174000
+D_S7.49      :DRIFT, L=    0.10
+D_S7.50      :DRIFT, L=    0.10
+D_S7.51      :DRIFT, L=    0.130000
+D_S7.52      :DRIFT, L=    0.115000
+D_S7.53      :DRIFT, L=    0.115000
+D_S7.54      :DRIFT, L=    0.255000
+
+
+QF_S7.1: quadrupole,  l=0.409,   k1=2.230702214281
+Q3_S7.1: quadrupole,  l=.26,    k1=-1.224005349447
+Q2_S7.1: quadrupole, l=0.498,  k1=2.234868485811
+Q1_S7.1: quadrupole, l=.26,    k1=-1.998410619293
+Q1_S7.2: quadrupole, l=.26,    k1=-1.998410619293
+Q2_S7.2: quadrupole, l=0.498,  k1=2.234868485811
+Q3_S7.2: quadrupole, l=.26,    k1=-1.224005349447
+QF_S7.2: quadrupole, l=0.409,   k1=2.230702214281
+QD_S7.1: quadrupole, l=.26,   k1=-1.43050774063
+
+
+B_S7.1: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+B_S7.2: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+
+
+
+ppp: marker
+p7: marker
+p71: marker
+
+
+!D_S7.20      :DRIFT, L=    0.370000
+!D_S7.21      :DRIFT, L=    0.10
+!D_S7.22      :DRIFT, L=    0.10
+!D_S7.23      :DRIFT, L=    1.66258
+!ID_S7.2      :DRIFT, L=0
+!D_S7.24      :DRIFT, L=    1.66258
+!D_S7.25      :DRIFT, L=    0.10
+!D_S7.26      :DRIFT, L=    0.10
+!D_S7.27      :DRIFT, L=    0.370000
+
+!STRAIGHT7: line(D_S7.20, D_S7.21, cv, ch, D_S7.22, D_S7.23,      &
+!ID_S7.1 ,  P7, ID_S7.1, D_S7.24,  D_S7.25,   &
+!cv, ch, D_S7.26,  D_S7.27)
+
+
+D_S7.20      :DRIFT, L=    0.370000
+D_S7.21      :DRIFT, L=    0.10
+D_S7.22      :DRIFT, L=    0.10
+D_S7.23      :DRIFT, L=    0.822
+D_S7.23_1    :DRIFT, L=    0.02
+D_S7.23_2    :DRIFT, L=    0.02
+D_S7.23_3    :DRIFT, L=    0.800
+ID_S7.1      :DRIFT, L=    0.764
+
+D_S7.24      :DRIFT, L=    0.822
+D_S7.25      :DRIFT, L=    0.10
+D_S7.26      :DRIFT, L=    0.10
+D_S7.27      :DRIFT, L=    0.370000
+
+STRAIGHT7: line(D_S7.20, D_S7.21, cv, ch, D_S7.22, D_S7.23, &
+  D_S7.23_1,LGBPM,D_S7.23_2,D_S7.23_3,ID_S7.1,P7,ID_S7.1, &   
+D_S7.23_3,D_S7.23_2,LGBPM,D_S7.23_1, D_S7.24,  D_S7.25,   &
+cv, ch, D_S7.26,  D_S7.27)
+
+
+CELL7: LINE=( p3, D_S6.56,  bpm,  D_S6.57, D_S6.58,  SD_S7.1, &
+D_S6.59,  D_S6.60, D_S7.1, cv, ch, &
+D_S7.2, D_S7.3, D_S7.4, SF_S7.1, &
+D_S7.5, D_S7.6,  bpm, D_S7.7,  QF_S7.1,  D_S7.8,  D_S7.9,      &
+cv, ch, D_S7.10, D_S7.11,  B_S7.1, p1,  &
+D_S7.12,  Q3_S7.1, D_S7.13,  bpm,  &
+D_S7.14, Q2_S7.1, D_S7.15, D_S7.16,  S1_S7.1,  &
+D_S7.17, D_S7.18,  Q1_S7.1, D_S7.19,       &
+bpm,STRAIGHT7, bpm,  D_S7.28,  &
+Q1_S7.2, D_S7.29, D_S7.30,  S1_S7.2,  D_S7.31,  &
+D_S7.32,  Q2_S7.2,  D_S7.33, bpm,  &
+D_S7.34,  Q3_S7.2,  D_S7.35 ,        &
+ppp,BPM,D_S7.36,  D_S7.37, cv, ch, D_S7.38, D_S7.39, B_S7.2,&
+D_S7.40,   &
+QF_S7.2,  D_S7.41, P71, bpm, D_S7.42, &
+D_S7.43,  SF_S7.2 , D_S7.44, D_S7.45, D_S7.46, &
+cv, ch,   D_S7.47, D_S7.48, D_S7.49,    &
+cv, ch,  D_S7.50, D_S7.51, D_S7.52, SD_S7.2, &
+D_S7.53, D_S7.54,  QD_S7.1 , p2 )
+
+D_S7.55      :DRIFT, L=    0.115000
+D_S7.56      :DRIFT, L=    0.140000
+D_S7.57      :DRIFT, L=    0.115000
+D_S7.58      :DRIFT, L=    0.115000
+D_S7.59a      :DRIFT, L=   0.752
+D_S7.59b      :DRIFT, L=   0.752
+D_S8.1       :DRIFT, L=    0.10
+D_S8.2       :DRIFT, L=    0.10
+D_S8.3       :DRIFT, L=    0.140000
+D_S8.4       :DRIFT, L=    0.115000
+D_S8.5       :DRIFT, L=    0.115000
+D_S8.6       :DRIFT, L=    0.145000
+D_S8.7       :DRIFT, L=    0.115500
+D_S8.8       :DRIFT, L=    0.110500
+D_S8.9       :DRIFT, L=    0.10
+D_S8.10      :DRIFT, L=    0.10
+D_S8.11      :DRIFT, L=    0.165550
+D_S8.12      :DRIFT, L=    0.510550
+D_S8.13      :DRIFT, L=    0.135000
+D_S8.14      :DRIFT, L=    0.116000
+D_S8.15      :DRIFT, L=    0.283500
+D_S8.16      :DRIFT, L=    0.057500
+D_S8.17      :DRIFT, L=    0.057500
+D_S8.18      :DRIFT, L=    0.222500
+D_S8.19      :DRIFT, L=    0.120000
+D_S8.28      :DRIFT, L=    0.120000
+D_S8.29      :DRIFT, L=    0.222500
+D_S8.30      :DRIFT, L=    0.057500
+D_S8.31      :DRIFT, L=    0.057500
+D_S8.32      :DRIFT, L=    0.283500
+D_S8.33      :DRIFT, L=    0.116000
+D_S8.34      :DRIFT, L=    0.135000
+D_S8.35      :DRIFT, L=    0.115000
+D_S8.36      :DRIFT, L=    0.055000
+D_S8.37      :DRIFT, L=    0.10
+D_S8.38      :DRIFT, L=    0.10
+D_S8.39      :DRIFT, L=    0.1405500
+D_S8.40      :DRIFT, L=    0.47605
+D_S8.41      :DRIFT, L=    0.115500
+D_S8.42      :DRIFT, L=    0.145000
+D_S8.43      :DRIFT, L=    0.115000
+D_S8.44      :DRIFT, L=    0.115000
+D_S8.45      :DRIFT, L=    0.140000
+D_S8.46      :DRIFT, L=    0.10
+D_S8.47      :DRIFT, L=    0.10
+D_S8.48      :DRIFT, L=    0.791000
+D_S8.49      :DRIFT, L=    0.383000
+D_S8.50      :DRIFT, L=    0.10
+D_S8.51      :DRIFT, L=    0.10
+D_S8.52      :DRIFT, L=    0.130000
+D_S8.53      :DRIFT, L=    0.115000
+D_S8.54      :DRIFT, L=    0.115000
+D_S8.55      :DRIFT, L=    0.255000
+
+QF_S8.1: quadrupole,  l=0.409,   k1=2.230702214281
+Q3_S8.1: quadrupole,  l=.26,    k1=-1.224005349447
+Q2_S8.1: quadrupole, l=0.498,  k1=2.234868485811
+Q1_S8.1: quadrupole, l=.26,    k1=-1.998410619293
+Q1_S8.2: quadrupole, l=.26,    k1=-1.998410619293
+Q2_S8.2: quadrupole, l=0.498,  k1=2.234868485811
+Q3_S8.2: quadrupole, l=.26,    k1=-1.224005349447
+QF_S8.2: quadrupole, l=0.409,   k1=2.230702214281
+QD_S8.1: quadrupole, l=.26,   k1=-1.43050774063
+
+
+B_S8.1: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+B_S8.2: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+
+
+
+p8: marker
+p81: marker
+FLSC_S8: MONITOR
+
+!D_S8.20      :DRIFT, L=    0.370000
+!D_S8.21      :DRIFT, L=    0.10
+!D_S8.22      :DRIFT, L=    0.10
+!D_S8.23      :DRIFT, L=    2.426000
+!D_S8.24      :DRIFT, L=    2.426000
+!D_S8.25      :DRIFT, L=    0.10
+!D_S8.26      :DRIFT, L=    0.10
+!D_S8.27      :DRIFT, L=    0.370000
+
+!STRAIGHT8: line=(D_S8.20, D_S8.21, cv, ch, D_S8.22, D_S8.23,   P8,      &
+!D_S8.24,  D_S8.25,cv, ch, D_S8.26,  D_S8.27)
+
+D_S8.20      :DRIFT, L=    0.370000
+D_S8.21      :DRIFT, L=    0.10
+D_S8.22      :DRIFT, L=    0.10
+D_S8.23      :DRIFT, L=    0.296
+ID_S8.1      :DRIFT, L=    2.130
+ID_S8.2      :DRIFT, L=    2.162
+D_S8.24      :DRIFT, L=    0.264
+D_S8.25      :DRIFT, L=    0.10
+D_S8.26      :DRIFT, L=    0.10
+D_S8.27      :DRIFT, L=    0.370000
+
+STRAIGHT8: line=(D_S8.20, D_S8.21, cv, ch, D_S8.22, D_S8.23,ID_S8.1,P8, &
+ID_S8.2,D_S8.24,  D_S8.25,cv, ch, D_S8.26,  D_S8.27)
+
+
+
+CELL8: line= ( p3, D_S7.55,  bpm,  D_S7.56, D_S7.57,  SD_S8.1,   &
+D_S7.58,  D_S7.59a,rfc,D_S7.59b, D_S8.1, cv, ch, D_S8.2, D_S8.3, &
+D_S8.4, SF_S8.1,   &
+D_S8.5, D_S8.6,  bpm, D_S8.7,  QF_S8.1,  D_S8.8,  D_S8.9,        &
+cv, ch, D_S8.10, D_S8.11,  B_S8.1, p1,  &
+D_S8.12,  Q3_S8.1, D_S8.13,  bpm,  D_S8.14, Q2_S8.1,&
+D_S8.15, D_S8.16,  S1_S8.1,  &
+D_S8.17, D_S8.18,  Q1_S8.1, D_S8.19,        &
+bpm, STRAIGHT8,bpm,  D_S8.28,  &
+Q1_S8.2, D_S8.29, D_S8.30,  S1_S8.2,  D_S8.31,  &
+D_S8.32,  Q2_S8.2,  D_S8.33, bpm,  &
+D_S8.34,  Q3_S8.2,  D_S8.35 ,        &
+bpm,  D_S8.36,  D_S8.37, cv, ch, &
+D_S8.38, D_S8.39, B_S8.2, D_S8.40,   &
+QF_S8.2,  D_S8.41, bpm, P81, D_S8.42, D_S8.43,  SF_S8.2 , &
+D_S8.44, D_S8.45, D_S8.46, &
+cv, ch,   D_S8.47, D_S8.48, FLSC_S8 , D_S8.49, D_S8.50,   &
+cv, ch,  D_S8.51, D_S8.52, D_S8.53,  SD_S8.2, D_S8.54, D_S8.55,  QD_S8.1, p2)
+
+
+D_S8.56      :DRIFT, L=    0.115000
+D_S8.57      :DRIFT, L=    0.140000
+D_S8.58      :DRIFT, L=    0.115000
+D_S8.59      :DRIFT, L=    0.115000
+!D_S8.60      :DRIFT, L=    0.911500
+!D_S8.61      :DRIFT, L=    0.592500
+D_S8.60      :DRIFT, L=    0.4615
+D_S8.61      :DRIFT, L=    0.1425
+D_S9.1       :DRIFT, L=    0.10
+D_S9.2       :DRIFT, L=    0.10
+D_S9.3       :DRIFT, L=    0.140000
+D_S9.4       :DRIFT, L=    0.115000
+D_S9.5       :DRIFT, L=    0.115000
+D_S9.6       :DRIFT, L=    0.145000
+D_S9.7       :DRIFT, L=    0.115500
+D_S9.8       :DRIFT, L=    0.110500
+D_S9.9       :DRIFT, L=    0.10
+D_S9.10      :DRIFT, L=    0.10
+D_S9.11      :DRIFT, L=    0.165550
+D_S9.12      :DRIFT, L=    0.510550
+D_S9.13      :DRIFT, L=    0.135000
+D_S9.14      :DRIFT, L=    0.116000
+D_S9.15      :DRIFT, L=    0.283500
+D_S9.16      :DRIFT, L=    0.057500
+D_S9.17      :DRIFT, L=    0.057500
+D_S9.18      :DRIFT, L=    0.222500
+D_S9.19      :DRIFT, L=    0.120000
+D_S9.28      :DRIFT, L=    0.120000
+D_S9.29      :DRIFT, L=    0.222500
+D_S9.30      :DRIFT, L=    0.057500
+D_S9.31      :DRIFT, L=    0.057500
+D_S9.32      :DRIFT, L=    0.283500
+D_S9.33      :DRIFT, L=    0.116000
+D_S9.34      :DRIFT, L=    0.135000
+D_S9.35      :DRIFT, L=    0.115000
+D_S9.36      :DRIFT, L=    0.055000
+D_S9.37      :DRIFT, L=    0.10
+D_S9.38      :DRIFT, L=    0.10
+D_S9.39      :DRIFT, L=    0.1405500
+D_S9.40      :DRIFT, L=    0.47605
+D_S9.41      :DRIFT, L=    0.115500
+D_S9.42      :DRIFT, L=    0.145000
+D_S9.43      :DRIFT, L=    0.115000
+D_S9.44      :DRIFT, L=    0.115000
+D_S9.45      :DRIFT, L=    0.140000
+D_S9.46      :DRIFT, L=    0.10
+D_S9.47      :DRIFT, L=    0.10
+D_S9.48      :DRIFT, L=    1.174000
+D_S9.49      :DRIFT, L=    0.10
+D_S9.50      :DRIFT, L=    0.10
+D_S9.51      :DRIFT, L=    0.130000
+D_S9.52      :DRIFT, L=    0.115000
+D_S9.53      :DRIFT, L=    0.115000
+D_S9.54      :DRIFT, L=    0.255000
+
+QF_S9.1: quadrupole,  l=0.409,   k1=2.230702214281
+Q3_S9.1: quadrupole,  l=.26,    k1=-1.224005349447
+Q2_S9.1: quadrupole, l=0.498,  k1=2.234868485811
+Q1_S9.1: quadrupole, l=.26,    k1=-1.998410619293
+Q1_S9.2: quadrupole, l=.26,    k1=-1.998410619293
+Q2_S9.2: quadrupole, l=0.498,  k1=2.234868485811
+Q3_S9.2: quadrupole, l=.26,    k1=-1.224005349447
+QF_S9.2: quadrupole, l=0.409,   k1=2.230702214281
+QD_S9.1: quadrupole, l=.26,   k1=-1.43050774063
+
+B_S9.1: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+B_S9.2: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+
+
+zigzag: hkicker, kick=0.
+p91: marker
+
+
+dmeno9: drift, l=-0.
+dpiu9: drift, l=0.
+p9n:marker
+cv9n: drift, l=0
+ch9n: drift, l=0
+
+
+!D_S9.20      :DRIFT, L=    0.370000
+!D_S9.21      :DRIFT, L=    0.10
+!D_S9.22      :DRIFT, L=    0.10
+!D_S9.23      :DRIFT, L=    2.426000
+!D_S9.24      :DRIFT, L=    2.426000
+!D_S9.25      :DRIFT, L=    0.10
+!D_S9.26      :DRIFT, L=    0.10
+!D_S9.27      :DRIFT, L=    0.370000
+
+!STRAIGHT9: line=(D_S9.20 , D_S9.21, cv, ch, D_S9.22,  D_S9.23 ,  zigzag, &
+!D_S9.24 , D_S9.25 , cv, ch, D_S9.26, D_S9.27)
+
+D_S9.20      :DRIFT, L=    0.370000
+D_S9.21      :DRIFT, L=    0.10
+D_S9.22      :DRIFT, L=    0.10
+D_S9.23      :DRIFT, L=    0.214
+ID_S9.1      :DRIFT, L=    2.196
+D_S9.23_1    :DRIFT, L=    0.01
+D_S9.23_2    :DRIFT, L=    0.006
+ID_S9.2      :DRIFT, L=    2.196
+D_S9.24      :DRIFT, L=    0.214
+D_S9.25      :DRIFT, L=    0.10
+D_S9.26      :DRIFT, L=    0.10
+D_S9.27      :DRIFT, L=    0.370000
+
+STRAIGHT9: line=(D_S9.20 , D_S9.21, cv, ch, D_S9.22,  D_S9.23 , ID_S9.1,  &
+D_S9.23_1,D_S9.23_2,zigzag,D_S9.23_2,D_S9.23_1,ID_S9.2,D_S9.24 , D_S9.25 ,&
+ cv, ch, D_S9.26, D_S9.27)
+
+
+CELL9: line= (p3, p91, D_S8.56, bpm,D_S8.57, D_S8.58, SD_S9.1, D_S8.59,  &
+rfc,D_S8.60, dri, D_S8.61,  D_S9.1,  cv, ch, D_S9.2, D_S9.3,D_S9.4,  &
+SF_S9.1, D_S9.5,  D_S9.6,   bpm,  D_S9.7,  QF_S9.1, D_S9.8, D_S9.9 ,     &
+cv, ch,   D_S9.10, D_S9.11,  B_S9.1,  &
+dmeno9, p9n, dpiu9, p1, &
+D_S9.12,  Q3_S9.1, D_S9.13 ,  bpm, D_S9.14, Q2_S9.1, D_S9.15, &
+D_S9.16, &
+S1_S9.1, D_S9.17,  D_S9.18,  Q1_S9.1,  D_S9.19, bpm, &
+  STRAIGHT9, bpm,  D_S9.28,  Q1_S9.2, D_S9.29,  D_S9.30 , &
+S1_S9.2 , D_S9.31, D_S9.32 , &
+Q2_S9.2, D_S9.33,  bpm,  D_S9.34,  Q3_S9.2, D_S9.35,      &
+bpm, D_S9.36, D_S9.37,   cv, ch, D_S9.38, D_S9.39, B_S9.2,  &
+D_S9.40,  QF_S9.2, D_S9.41,  P91, bpm, D_S9.42, D_S9.43, SF_S9.2 , &
+D_S9.44, D_S9.45, &
+D_S9.46, cv, ch,  D_S9.47, D_S9.48, D_S9.49,  &
+cv, ch, D_S9.50, D_S9.51, D_S9.52, SD_S9.2, D_S9.53, D_S9.54, QD_S9.1 , p2 )
+
+
+D_S9.55     :DRIFT, L=    0.115000
+D_S9.56     :DRIFT, L=    0.140000
+D_S9.57     :DRIFT, L=    0.115000
+D_S9.58     :DRIFT, L=    0.115000
+!D_S9.60    :DRIFT, L=    0.911500
+!D_S9.61    :DRIFT, L=    0.592500
+D_S9.60     :DRIFT, L=    0.4615
+D_S9.61     :DRIFT, L=    0.1425
+D_S10.1     :DRIFT, L=    0.10
+D_S10.2     :DRIFT, L=    0.10
+D_S10.3     :DRIFT, L=    0.140000
+D_S10.4     :DRIFT, L=    0.115000
+D_S10.5     :DRIFT, L=    0.115000
+D_S10.6     :DRIFT, L=    0.145000
+D_S10.7     :DRIFT, L=    0.115500
+D_S10.8     :DRIFT, L=    0.110500
+D_S10.9     :DRIFT, L=    0.10
+!D_S10.10    :DRIFT, L=   0.10
+D_S109       :DRIFT, L=   0.10
+D_S10.11    :DRIFT, L=    0.165550
+D_S10.12    :DRIFT, L=    0.510550
+D_S10.13    :DRIFT, L=    0.135000
+D_S10.14    :DRIFT, L=    0.116000
+D_S10.15    :DRIFT, L=    0.283500
+D_S10.16    :DRIFT, L=    0.057500
+D_S10.17    :DRIFT, L=    0.057500
+D_S10.18    :DRIFT, L=    0.222500
+D_S10.19    :DRIFT, L=    0.120000
+D_S10.28    :DRIFT, L=    0.120000
+D_S10.29    :DRIFT, L=    0.222500
+D_S10.30    :DRIFT, L=    0.057500
+D_S10.31    :DRIFT, L=    0.057500
+D_S10.32    :DRIFT, L=    0.283500
+D_S10.33    :DRIFT, L=    0.116000
+D_S10.34    :DRIFT, L=    0.135000
+D_S10.35    :DRIFT, L=    0.115000
+D_S10.36    :DRIFT, L=    0.055000
+D_S10.37    :DRIFT, L=    0.10
+D_S10.38    :DRIFT, L=    0.10
+D_S10.39    :DRIFT, L=    0.1405500
+D_S10.40    :DRIFT, L=    0.47605
+D_S10.41    :DRIFT, L=    0.115500
+D_S10.42    :DRIFT, L=    0.145000
+D_S10.43    :DRIFT, L=    0.115000
+D_S10.44    :DRIFT, L=    0.115000
+D_S10.45    :DRIFT, L=    0.140000
+D_S10.46    :DRIFT, L=    0.10
+D_S10.47    :DRIFT, L=    0.10
+D_S10.48    :DRIFT, L=    0.939000
+FLSC_S10       :MONITOR
+D_S10.49    :DRIFT, L=    0.235000
+D_S10.50    :DRIFT, L=    0.10
+D_S10.51    :DRIFT, L=    0.10
+D_S10.52    :DRIFT, L=    0.130000
+D_S10.53    :DRIFT, L=    0.115000
+D_S10.54    :DRIFT, L=    0.115000
+D_S10.55    :DRIFT, L=    0.255000
+
+
+QF_S10.1: quadrupole,  l=0.409,   k1=2.230702214281
+Q3_S10.1: quadrupole,  l=.26,    k1=-1.224005349447
+Q2_S10.1: quadrupole, l=0.498,  k1=2.234868485811
+Q1_S10.1: quadrupole, l=.26,    k1=-1.998410619293
+Q1_S10.2: quadrupole, l=.26,    k1=-1.998410619293
+Q2_S10.2: quadrupole, l=0.498,  k1=2.234868485811
+Q3_S10.2: quadrupole, l=.26,    k1=-1.224005349447
+QF_S10.2: quadrupole, l=0.409,   k1=2.230702214281
+QD_S10.1: quadrupole, l=.26,   k1=-1.43050774063
+
+
+B_S10.1: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+B_S10.2: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+
+
+pB10: marker
+p10: marker
+P101: MARKER
+
+
+D_S10.20    :DRIFT, L=    0.370000
+D_S10.21    :DRIFT, L=    0.10
+D_S10.22    :DRIFT, L=    0.10
+D_S10.23    :DRIFT, L=    0.18
+ID_S10.1    :DRIFT, L=    2.246
+ID_S10.2    :DRIFT, L=    2.246
+D_S10.24    :DRIFT, L=    0.18
+D_S10.25    :DRIFT, L=    0.10
+D_S10.26    :DRIFT, L=    0.10
+D_S10.27    :DRIFT, L=    0.370000
+
+STRAIGHT10:line=( D_S10.20 , D_S10.21, cv, ch, D_S10.22,  D_S10.23, & 
+ID_S10.1,P10, ID_S10.2,D_S10.24 , D_S10.25 ,cv, ch, D_S10.26, D_S10.27)
+
+
+
+CELL10: line= (p3, D_S9.55, bpm,D_S9.56, D_S9.57, SD_S10.1, D_S9.58,  &
+D_S9.60, dri, D_S9.61,  D_S10.1,  cv, &
+ch, D_S10.2, D_S10.3,D_S10.4,     &
+SF_S10.1, D_S10.5,  D_S10.6,   bpm,  D_S10.7,  QF_S10.1, D_S10.8, D_S10.9,   &
+cv, ch, D_S109, D_S10.11,  B_S10.1, p1, pb10, &
+D_S10.12, Q3_S10.1, D_S10.13, bpm, D_S10.14, &
+Q2_S10.1, D_S10.15, D_S10.16,   &
+S1_S10.1, D_S10.17,  D_S10.18,  Q1_S10.1,  D_S10.19,   bpm, &  
+STRAIGHT10, bpm,  D_S10.28,  Q1_S10.2, D_S10.29, D_S10.30 , &
+S1_S10.2 , D_S10.31, D_S10.32 , &
+Q2_S10.2, D_S10.33,  bpm,  D_S10.34,  Q3_S10.2, D_S10.35,      &
+bpm, D_S10.36, D_S10.37,   cv, ch, D_S10.38, D_S10.39, B_S10.2,&
+D_S10.40,  QF_S10.2, D_S10.41, P101, bpm,&
+D_S10.42, D_S10.43, SF_S10.2 , D_S10.44,  &
+D_S10.45, &
+D_S10.46, cv, ch,  D_S10.47, D_S10.48,  FLSC_S10 , D_S10.49,   &
+D_S10.50, &
+cv, ch,  D_S10.51, D_S10.52,   D_S10.53,  SD_S10.2,  &
+D_S10.54,  D_S10.55, QD_S10.1 , p2 )
+
+
+D_S10.56    :DRIFT, L=    0.115000
+D_S10.57    :DRIFT, L=    0.140000
+D_S10.58    :DRIFT, L=    0.115000
+D_S10.59    :DRIFT, L=    0.115000
+D_S10.60    :DRIFT, L=    1.504000
+D_S11.1     :DRIFT, L=    0.10
+D_S11.2     :DRIFT, L=    0.10
+D_S11.3     :DRIFT, L=    0.140000
+D_S11.4     :DRIFT, L=    0.115000
+D_S11.5     :DRIFT, L=    0.115000
+D_S11.6     :DRIFT, L=    0.145000
+D_S11.7     :DRIFT, L=    0.115500
+D_S11.8     :DRIFT, L=    0.110500
+D_S11.9     :DRIFT, L=    0.10
+D_S11.10    :DRIFT, L=    0.10
+D_S11.11    :DRIFT, L=    0.165550
+D_S11.12    :DRIFT, L=    0.510550
+D_S11.13    :DRIFT, L=    0.135000
+D_S11.14    :DRIFT, L=    0.116000
+D_S11.15    :DRIFT, L=    0.283500
+D_S11.16    :DRIFT, L=    0.057500
+D_S11.17    :DRIFT, L=    0.057500
+D_S11.18    :DRIFT, L=    0.222500
+D_S11.19    :DRIFT, L=    0.120000
+D_S11.28    :DRIFT, L=    0.120000
+D_S11.29    :DRIFT, L=    0.222500
+D_S11.30    :DRIFT, L=    0.057500
+D_S11.31    :DRIFT, L=    0.057500
+D_S11.32    :DRIFT, L=    0.283500
+D_S11.33    :DRIFT, L=    0.116000
+D_S11.34    :DRIFT, L=    0.135000
+D_S11.35    :DRIFT, L=    0.115000
+D_S11.36    :DRIFT, L=    0.055000
+D_S11.37    :DRIFT, L=    0.10
+D_S11.38    :DRIFT, L=    0.10
+D_S11.39    :DRIFT, L=    0.1405500
+D_S11.40    :DRIFT, L=    0.47605
+D_S11.41    :DRIFT, L=    0.115500
+D_S11.42    :DRIFT, L=    0.145000
+D_S11.43    :DRIFT, L=    0.115000
+D_S11.44    :DRIFT, L=    0.115000
+D_S11.45    :DRIFT, L=    0.140000
+D_S11.46    :DRIFT, L=    0.10
+D_S11.47    :DRIFT, L=    0.10
+D_S11.48    :DRIFT, L=    0.9
+D_S11.48_1  :DRIFT, L=    0.274000
+D_S11.49    :DRIFT, L=    0.10
+D_S11.50    :DRIFT, L=    0.10
+D_S11.51    :DRIFT, L=    0.130000
+D_S11.52    :DRIFT, L=    0.115000
+D_S11.53    :DRIFT, L=    0.115000
+D_S11.54    :DRIFT, L=    0.255000
+SCRPV_S11   :DRIFT, L=    0
+SCRPH_S11   :DRIFT, L=    0
+
+
+QF_S11.1: quadrupole,  l=0.409,   k1=2.230702214281
+Q3_S11.1: quadrupole,  l=.26,    k1=-1.224005349447
+Q2_S11.1: quadrupole, l=0.498,  k1=2.234868485811
+Q1_S11.1: quadrupole, l=.26,    k1=-1.998410619293
+Q1_S11.2: quadrupole, l=.26,    k1=-1.998410619293
+Q2_S11.2: quadrupole, l=0.498,  k1=2.234868485811
+Q3_S11.2: quadrupole, l=.26,    k1=-1.224005349447
+QF_S11.2: quadrupole, l=0.409,   k1=2.230702214281
+QD_S11.1: quadrupole, l=.26,   k1=-1.43050774063
+
+
+
+B_S11.1: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+B_S11.2: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+
+
+p111:MARKER
+P112:MARKER
+
+!D_S11.20    :DRIFT, L=    0.370000
+!D_S11.21    :DRIFT, L=    0.10
+!D_S11.22    :DRIFT, L=    0.10
+!D_S11.23    :DRIFT, L=    2.426000
+!D_S11.24    :DRIFT, L=    2.426000
+!SCRPV_S11   :DRIFT, L=    0
+!SCRPH_S11   :DRIFT, L=    0
+!D_S11.25    :DRIFT, L=    0.10
+!D_S11.26    :DRIFT, L=    0.10
+!D_S11.27    :DRIFT, L=    0.370000
+
+
+!STRAIGHT11: line=(D_S11.20, D_S11.21, cv, ch, D_S11.22, D_S11.23,   P111,  &
+!D_S11.24,  D_S11.25, cv, ch, D_S11.26,  D_S11.27)
+
+D_S11.20    :DRIFT, L=    0.370000
+D_S11.21    :DRIFT, L=    0.10
+D_S11.22    :DRIFT, L=    0.10
+D_S11.23    :DRIFT, L=    0.326
+THIRDHC     :DRIFT, L=    1.7
+D_S11.23_1  :DRIFT, L=    0.4
+D_S11.23_2  :DRIFT, L=    0.3
+SCWIGGLER   :DRIFT, L=    1.8     
+D_S11.24    :DRIFT, L=    0.326
+D_S11.25    :DRIFT, L=    0.10
+D_S11.26    :DRIFT, L=    0.10
+D_S11.27    :DRIFT, L=    0.370000
+
+
+STRAIGHT11: line=(D_S11.20, D_S11.21, cv, ch, D_S11.22, D_S11.23,THIRDHC, &
+                    D_S11.23_1, P111, D_S11.23_2,SCWIGGLER, &
+ D_S11.24,  D_S11.25, cv, ch, D_S11.26,  D_S11.27)
+
+
+
+CELL11: line= ( p3, D_S10.56,  bpm,  D_S10.57, D_S10.58,  SD_S11.1, &
+D_S10.59,  D_S10.60, D_S11.1, cv, ch, D_S11.2, D_S11.3, D_S11.4, SF_S11.1,&
+D_S11.5, D_S11.6,  bpm, D_S11.7,  QF_S11.1,  D_S11.8,  D_S11.9,      &
+cv, ch, D_S11.10, D_S11.11,  B_S11.1, p1,  &
+D_S11.12,  Q3_S11.1, D_S11.13,  bpm,  D_S11.14, Q2_S11.1, D_S11.15, &
+D_S11.16,  S1_S11.1, &
+D_S11.17, D_S11.18,  Q1_S11.1, D_S11.19,       &
+bpm, STRAIGHT11, bpm,  D_S11.28,  &
+Q1_S11.2, D_S11.29, D_S11.30,  S1_S11.2,  D_S11.31,  D_S11.32,  Q2_S11.2, &
+D_S11.33, bpm,  &
+D_S11.34,  Q3_S11.2,  D_S11.35 ,        &
+bpm,  D_S11.36,  D_S11.37, cv, ch, D_S11.38, &
+D_S11.39, B_S11.2, D_S11.40,&
+QF_S11.2,  D_S11.41, P112, bpm, D_S11.42, D_S11.43,  SF_S11.2 , &
+D_S11.44, D_S11.45, D_S11.46,&
+cv, ch,   D_S11.47, D_S11.48,SCRPH_S11,SCRPV_S11,D_S11.48_1, D_S11.49,    &
+cv, ch, D_S11.50, D_S11.51, D_S11.52,   SD_S11.2, D_S11.53, D_S11.54,&
+QD_S11.1 , p2 )
+
+
+D_S11.55    :DRIFT, L=    0.115000
+D_S11.56    :DRIFT, L=    0.140000
+D_S11.57    :DRIFT, L=    0.115000
+D_S11.58    :DRIFT, L=    0.115000
+D_S11.59    :DRIFT, L=    1.504000
+D_S12.1     :DRIFT, L=    0.10
+D_S12.2     :DRIFT, L=    0.10
+D_S12.3     :DRIFT, L=    0.140000
+D_S12.4     :DRIFT, L=    0.115000
+D_S12.5     :DRIFT, L=    0.115000
+D_S12.6     :DRIFT, L=    0.145000
+D_S12.7     :DRIFT, L=    0.115500
+D_S12.8     :DRIFT, L=    0.110500
+D_S12.9     :DRIFT, L=    0.10
+D_S12.10    :DRIFT, L=    0.10
+D_S12.11    :DRIFT, L=    0.165550
+D_S12.12    :DRIFT, L=    0.510550
+D_S12.13    :DRIFT, L=    0.135000
+D_S12.14    :DRIFT, L=    0.116000
+D_S12.15    :DRIFT, L=    0.283500
+D_S12.16    :DRIFT, L=    0.057500
+D_S12.17    :DRIFT, L=    0.057500
+D_S12.18    :DRIFT, L=    0.222500
+D_S12.19    :DRIFT, L=    0.068784
+D_S12.20    :DRIFT, L=    0.261216
+D_S12.21    :DRIFT, L=    0.300000
+D_S12.22    :DRIFT, L=    0.300000
+D_S12.23    :DRIFT, L=    0.541000
+D_S12.24    :DRIFT, L=    0.300000
+KICKER_S12.1   :MARKER
+KICKER_S12.2   :MARKER
+D_S12.25    :DRIFT, L=    0.300000
+D_S12.26    :DRIFT, L=    0.340000
+FLSC_S12.1     :MONITOR
+D_S12.27    :DRIFT, L=    1.460000
+D_S12.161   :DRIFT, L=    0.055000
+FLSC_S12.2     :MONITOR
+D_S12.171    :DRIFT, L=    0.235000
+D_S12.181    :DRIFT, L=    0.300000
+KICKER_S12.3    :MARKER
+D_S12.191    :DRIFT, L=    0.300000
+D_S12.201    :DRIFT, L=    0.541000
+D_S12.211    :DRIFT, L=    0.300000
+KICKER_S12.4   :MARKER
+D_S12.221    :DRIFT, L=    0.300000
+
+
+QF_S12.1: quadrupole,  l=0.409, k1=2.230702214281
+Q3_S12.1: quadrupole,  l=.26,   k1=-1.224005349447
+Q2_S12.1: quadrupole,  l=0.498,  k1=2.234868485811
+Q1_S12.1: quadrupole,  l=.26,    k1=-1.998410619293
+
+B_S12.1: sbend,  l=1.448900,  angle=0.261799387, &
+k1=-0.42969037, E1=0.1308995, E2=0.1308995
+
+
+!KICKER_S12.1: hkicker, kick=0.016   ! 0.016 +0.016*0.01*gauss()
+!KICKER_S12.2: hkicker, kick=-0.016  !-0.016 -0.016*0.01*gauss()
+!KICKER_S12.3: hkicker, kick=-0.016  !-0.016 -0.016*0.01*gauss()
+!KICKER_S12.4: hkicker, kick=0.016  ! 0.016 +0.016*0.01*gauss()
+
+!KICKER_S12.1: drift, l=0.0
+!KICKER_S12.2: drift, l=0.0
+!KICKER_S12.3: drift, l=0.0
+!KICKER_S12.4: drift, l=0.0
+pkick:marker
+
+CELL12: line= (p3, D_S11.55, bpm, D_S11.56, D_S11.57,  SD_S12.1,  &
+D_S11.58,  D_S11.59, D_S12.1, cv, ch, D_S12.2, D_S12.3, D_S12.4, SF_S12.1,&
+D_S12.5, D_S12.6,  bpm, D_S12.7,  QF_S12.1,  D_S12.8,  D_S12.9,      &
+cv, ch, D_S12.10, D_S12.11,  B_S12.1, p1,  &
+D_S12.12,  Q3_S12.1, D_S12.13,  bpm,  &
+D_S12.14, Q2_S12.1, D_S12.15, D_S12.16,  S1_S12.1, &
+D_S12.17, D_S12.18,  Q1_S12.1, D_S12.19,       &
+bpm, D_S12.20, D_S12.21, KICKER_S12.1, D_S12.22, D_S12.23, D_S12.24,  &
+KICKER_S12.2, D_S12.25,pkick )
+
+
+CELL:line=(cell0, cell1,cell2,cell3,CELL4,CELL5,CELL6,CELL7,CELL8, &
+CELL9,CELL10,cell11, cell12)!,rfc)
+
+
+RING: line= ( cell )
+USE, ring
+
+
+!SURVEY TAPE="elettra_mad_survey_file.survey"
+!STRUCT FILENAME="elettra_mad_structure_file.structure"
+
+
+
+
+!to make a printout of the optics functions
+!print, full
+!TWISS,save
+
+!comment
+print, full
+TWISS,save
+
+!TWISS,save , betx=8.367, bety=3.033, alfx=0.127, alfy=0.399, &
+!Dx=0., Dpx=0.0,deltap=0
+
+
+!select,optics,clear
+!select,optics,range=#e
+
+!endcomment
+!end printout
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! PLOT BEAM FUNCTIONS
+!print, ring !, range= #e
+
+  
+SETPL, Xsiz=18. , Ysiz=18. ,ASCAL=1.0, LSCAL=1.0, SSCAL=1.0, RSCAL=1.0
+
+ 
+!comment 
+  Hmn:=0; Hmx:=48; Vmn:=-5.; Vmx:=25.
+  
+  plot, Haxis = s                                &
+      , Hmin = Hmn , Hmax = Hmx , range = #s/#e  &
+      , Vaxis = betx , bety, DxX10             &  !, dY
+      , Vmin = Vmn , Vmax = Vmx                 &
+        title="optics", filename="ElOpt",&
+      , Style = 100 , ntmax= 5 , spline
+  
+!endcomment
+
+stop
