@@ -137,7 +137,7 @@ Note: The new AT does not work on linux when using a Matlab version less than 7.
 
 ## Change History:
 
-2018
+2018 (v3.3)
 
 1. Jim Sebek fixed LabCA (EPICS) to work with changes introduced with Matlab 2017b.  It's in the labca_3_5 directory 
    and presently is only compiled for Windows-x64.  Jim's epics\R3.15.5 windows compile is also included in the link directory. 
@@ -161,14 +161,14 @@ Note: The new AT does not work on linux when using a Matlab version less than 7.
 3. I made an attempt to change all legend commands with the 0 option to the 2017b compatible 'Location','Best' input.  
    Thanks again to Jim Sebek for pointing out that Mathworks dropped this backward compatibility with 2017b. 
 
-2017
+2017 (v3.2)
 1. Small bug fixes, changed the directory structure so that online and simulate are more symmetric and ready to add other simulators
 
-2016
+2016 (v3.1)
 1. Small bug fixes
 
 
-2015 - I finally got around to debugging all the problems that Matlab_2014b caused.  
+2015 - I finally got around to debugging all the problems that Matlab_2014b caused. (v3.0)
 1. First some comments about graph colors.
    If you like the old color order for lines, then you have to change the axes ColorOrder property to the old  one.
    I put the following in my startup.m file.  
@@ -211,7 +211,7 @@ Note: The new AT does not work on linux when using a Matlab version less than 7.
    of functions.  Hopefully I got them all.  As usual, let me know.
 
 
-2012
+2012 (v2.17.1)
 1. As always, minor improvements and bug fixes are continuously done. 
 2. Added the Indus2 storage ring to the release
 3. Extra function calls in setmachineconfig and getmachineconfig changed!
@@ -228,7 +228,7 @@ Note: The new AT does not work on linux when using a Matlab version less than 7.
 4. Many thanks to Jim Sebek (SLAC/SSRL) for compiling LabCA for Windows64!
 5. Added the NSLS-II accelerator
 
-2011
+2011 (v2.17)
 1. As always, a couple of minor bug fixes. 
 2. Added the Sirius and Elettra accelerators
 3. Change the way time zones are accounted for.
@@ -241,18 +241,18 @@ Note: The new AT does not work on linux when using a Matlab version less than 7.
    I also changed the simulator to work in UTC time if AD.TimeZone is set.
 4. Family subfields can now have their own DeviceList, ElementList, and Status.
 
-2010 - October to December
+2010 - October to December (v2.16.3)
 1. Major bug fix in setpv when using cell arrays in incremental mode or steppv (found by Laurent Nadolski).  
    The delta change was being applied twice if the WaitFlag was being used (not zero).
-2010 - February to September
+2010 - February to September (v2.16.2)
 1. Minor bug fixes
-2010 - January
+2010 - January (v2.16.1)
 1. A sizable change was made to the save/restore method.  It should be backward compatible.  Basically, separated
    the save from the retore.  Use 'Save/Restore' in the .MemberOf field for a save and restore.  Use 'Save' in the 
    .MemberOf field to only save.  To restore a family it must be in the save file but it also must be a member of
    'Save/Restore'.  The machineconfig GUI function was substancially improved.   
 
-2009 - October
+2009 - October (v2.16)
 1. AT Changes
    a. Included Xiaobiao Huang new pass methods BndMPoleSymplectic4E2Pass.c and BndMPoleSymplectic4E2RadPass.c
    b. Jinhyuk Choi fixed a bug in BendLinear.pass (checked by Xiaobiao Huang)
@@ -263,39 +263,39 @@ Note: The new AT does not work on linux when using a Matlab version less than 7.
 3. For machines running EPICS there is mml2edm converter for GUI development.
 4. Many minor other changes.
 
-2009 - March
+2009 - March (v2.15.5)
 1. Bug fix in setorbitgui when changing the number of BPMs and using the RF frequency.
 2. Updated the TLS machine directory
 3. measrespmat - upstream elements zeroed for transport lines
 4. Improved getlattice
 
-2009 - February
+2009 - February (v2.15.4)
 1. viewfamily GUI
 2. machineconfig GUI
 3. getunits, getmode, family2channel made more robust when the field input is empty.  New findfirstfield function.
 
-2009 - January
+2009 - January (v2.15.3)
 1. Mostly small changes added in the last couple months.  I'm start to add more functionality
    for transport line.
 2. Added TLS, BESSY2, MLS and ELSA rings to the MML release.
 
-2008 - September
+2008 - September (v2.15.2)
 1. Added ALBA to the distribution (setpathalba to try it)
 2. Added the MLS accelerator (Bessy) to the distribution
 
-2008 - July
+2008 - July (v2.15.1)
 1. Added Laurent's reson to /mml directory
 2. Added Marc's TuneMovePanel to /mml/at directory (presently model only)
 3. monbpm changed to pre-allocate memory
 4. New function: [MachineName, MachineType] = whereami
 
 
-2008 - June
+2008 - June (v2.15)
 1. measlocodata and monbpm changed to allow a 'model' input flag (as well as 'online' & 'simulator').
    This is useful for rapid testing of LOCO on the model.
 2. modeldisp fixed when no RF cavity is present.
 
-2008 - March
+2008 - March (v2.14)
 1. Changed measrespmat when using physics units to convert the .DeltaRespMat about the 
    present setpoint.  This should help with nonlinearities in hardware-to-physics conversions.
 2. Added an attempt at a MML.gif and MML_Matlab.gif.  Any help here welcome.
@@ -310,33 +310,33 @@ Note: The new AT does not work on linux when using a Matlab version less than 7.
        getpv('HCM','RunFlag'); 
    ```
 
-2008 - January
+2008 - January (v2.13)
 1. Small bug in mmlview when devices status is zero.
 2. LocoMeasData.DeltaAmps got changed to physics units at some point, now is back to hardware units.
 
-2007 - December
+2007 - December (v2.12)
 1. Small improvements to plotmemberof, hw2physics, physics2hw, getrunflag
 2. Energy scaling of response matrices improved getpv, getpvonline, setpv, setpvonline handled strings better 
 3. New ringpara function from Xiaobiao Huang (Spear) � like atsummary but it compares much better to MAD
 
-2007 - October
+2007 - October (v2.11)
 1. Small improvements to plotmemberof, hw2physics, physics2hw, getrunflag
 2. More LOCO fixes
 3. Improved the plotting in modeltwiss, modeleta, modeldisp, etc.
 4. New labca with a memory leak fix for lcaPutNoWait.
 
-2007 - September
+2007 - September (v2.10)
 1. setorbitbumpgui - added more general editing of corrector magnets lists and removing a 
                      bump now can be done in steps.
 2. AT - 64-bit linux binaries added
 3. New LOCO code with new scaled Levenburg-Marquardt method (more to come)
 
-2007 - August
+2007 - August (v2.9)
 1. getsigma('Physics') had a bug when the offset orbit was nonzero.
 2. getdata and getrespmat check for default units and call hw2physics or physics2hw, if necessary.
 3. AT no longer comes with .dll extensions.  If you need them they�re in <MMLRoot>\at\simulator\element\obsolete\dlls.  .mexw32 is the newer PC extension.  
 
-2007 - July
+2007 - July (v2.8)
 1. findmemberof has an optional flag to return after the first family found.  This was 
    added to speed up functions like gethbpmfamily.
 2. gethbpmfamily, getvbpmfamily, gethcmfamily, getvcmfamily will error if it cannot find the memberof field.
@@ -349,19 +349,19 @@ Note: The new AT does not work on linux when using a Matlab version less than 7.
 5. New functions: plotmemberof, plotquad, cdmachine
 6. I added linkaxis(handle, 'x') a lot of places
 
-2007 - June
+2007 - June (v2.7)
 1. Improved LOCO, plotfamily, getrespmat, incavityon, and a few more
 2. XML "toolbox" added to the release
 3. For EPICS users, a new labca (3.0) is available.
 4. Standalone compile example in .../machine/ALS/StorageRing/Compile/StandAlone
 5. 64-bit Solaris compiles included for AT and mysql toolboxes.
 
-2007 - May
+2007 - May (v2.6)
 1. New LOCO files with parameter weighting.
 2. The labca setpv default changed from lcaPutNoWait to lcaPut
 3. setrf default device list changed to [] instead of [1 1]
 
-2007 - April
+2007 - April (v2.5)
 1.  Beam based alignment of quadrupoles
     a. bpm2quad, quad2bpm now has a 'Upstream' and 'Downstream' flag
     b. quadcenter now works on transfer lines using downstream BPMs
@@ -384,7 +384,7 @@ Note: The new AT does not work on linux when using a Matlab version less than 7.
 11. New mml/at functions written by ASP: machine_at, ffttunedisp2, printlattice, plottwiss 
 12. New mml function: getnumberofsectors
 
-2007 - March
+2007 - March (v2.5)
 1. New functions: 
    a. bpmresp2loco - to convert an MML response to LOCO units
    b. rmgolden, reoffset - to more easily remove the a golden or offset value
@@ -399,7 +399,7 @@ Note: The new AT does not work on linux when using a Matlab version less than 7.
 5. orbitcorrectionsmethods � added column weights
 6  steprf now uses setpv with an �incremental� flag 
 
-2007 - February
+2007 - February (v2.5)
 1. Made "help mml" more interesting.  Hypertext in the command window is often helpful (also see alsinfo)
 2. New application: setorbitbumpgui (like always, there is a menu in plotfamily to it)
 3. checklimits and setorbit updated for checking limits when maxsp<minsp.  Yes, this can happen
@@ -413,7 +413,7 @@ Note: The new AT does not work on linux when using a Matlab version less than 7.
    to exclude a raw2real in getrunflag so that gain/offset difference between the setpoint & monitor
    can be removed and the .Tolerance field does not have to be increased.
 
-2007 - January
+2007 - January (v2.4)
 1. plotfamily, mmlviewer, setorbitgui, drawlattice -> made small improvements like removed the 
    visibility of the handles.
 2. modeltwiss - bug fix when Twiss parameters inputs are not in the AT model.
@@ -432,10 +432,10 @@ Note: The new AT does not work on linux when using a Matlab version less than 7.
 9. Changed setpv to wait 2.2*AD.TuneDelay on WaitFlag=-3 to be consistent with BPM delay.
    Usually, this variable is set in the setoperationalmode file.
 
-2006 - December
+2006 - December (v2.3)
 1. plotfamily - Bug with reseting a setpoint change when selecting from list box #2. 
 
-2006 - October
+2006 - October (v2.2)
 1. mmlviewer - a GUI for viewing the MML setup and lattice files. 
 2. Calccoupling � Calculate and plot couple of in the AT model (written by James Safranek).  
    It is often run on a model that has been calibrated with LOCO.
@@ -460,7 +460,7 @@ Note: The new AT does not work on linux when using a Matlab version less than 7.
           AM2 = getx(AM1) is also physics units.
     But, getgolden, getoffset, getgain, ... needed to be fixed to return the proper units.
 
-2006 - September
+2006 - September (v2.1)
 1. setorbitgui - a GUI for running the setorbit program.  Use setorbitsetup to 
    custumize the setting for a particular accelerator.
 2. Added a check for special functions to getpv/setpv when an 'online'
@@ -476,7 +476,7 @@ Note: The new AT does not work on linux when using a Matlab version less than 7.
    For instance, measbpmresp('MinimumBeamCurrent', 32.1)  
    will pause at a beam current of 32.1 and prompt for a refill.
   
-2006 - August
+2006 - August (v2.0)
 I've made lots of changes to the matlab middle layer software this month!
 The main thing is you can't install it over an old installation!!!  This one 
 has a whole new directory layout.  One way to do the installation is:
@@ -546,20 +546,20 @@ Changes:
 
 
 
-2006 - July
+2006 - July (v1.5)
 1. steppv - bug fix when changing the mode as a keyword.  For instance, when working online, 
             stepsp('HCM','Simulator') would get the present setpoint from online and not the model.
 2. setorbit - small changes to the graphics.
 
 
-2006 - June
+2006 - June (v1.4)
 1. plotfamily - Added a slider and editbox to change setpoints.  Click on a lattice element
                 to enable.  Click on a drift or BPM to turn off.
 2. Bug fix in inputparsingffd for structure inputs.
 3. Bug fix in LOCO when fitting energy shifts at correctors with noralization on.
 
 
-2006 - May
+2006 - May (v1.3)
 1. New functions: gethbpmfamily,getvbpmfamily, gethcmfamily, getvcmfamily
    Use these function to get default family names.
 2. getbpmresp/measbpmresp now uses MemberOf field to find default families.
@@ -571,7 +571,7 @@ Changes:
    horizontal correctors on above the axis and vertical below.
 
 
-2006 - March
+2006 - March (v1.2)
 1. setmachineconfig - option to interatively select what to set by using the 'Display' input.
 2. mkparamgroup is distributed with AT.  Another, slightly different, version 
    was distributed with with the middlelayer now it's part of LOCO.
@@ -588,12 +588,12 @@ Changes:
    See help setpvmodel and help getpvmodel for more d tails. 
 
 
-2006 - January
+2006 - January (v1.1)
 1. Fixed an error in plotfamily when changing the device list.
 2. Added Christoph's function for analyzing single turn data: findfreq and calcphase   
 
 
-2005 - December
+2005 - December (v1.0)
 1. When using fuction handles in hw2physics and physics2hw (HW2PhysicsFcn and Physics2HWFcn) 
    the energy input in passed as a vector instead of looping.  This allows for faster 
    execution times because vectorized math can now be done in the HW2PhysicsFcn and Physics2HWFcn 
