@@ -24,10 +24,14 @@ for aoElement = AOelements'
     switch aoElement
         case {'BPMx' 'FTx' 'FTsum'}
             ATType  = 'X';
-            ATIndex = Indices.BPM(:);
+            ATIndex = [Indices.BPM(:); 1];
         case {'BPMy' 'FTy'}
             ATType  = 'Y';
-            ATIndex = Indices.BPM(:);
+            ATIndex = [Indices.BPM(:); 1];
+            % test swap of the BPMs to see if its obvious eugene 29/08/2007
+%             ttt = ATIndex(4);
+%             ATIndex(4) = ATIndex(3);
+%             ATIndex(3) = ttt;
         case 'HCM'
             ATType  = 'HCM';
 %             ATIndex = Indices.HCM(:);%union(Indices.SFA, Indices.SFB);
@@ -36,6 +40,12 @@ for aoElement = AOelements'
             ATType  = 'VCM';
 %             ATIndex = Indices.VCM(:);%union(Indices.SDA, Indices.SDB);
             ATIndex = union(Indices.SDA, Indices.SDB);
+        case 'HFC'
+            ATType  = 'HCM';
+            ATIndex = union(Indices.SDA, Indices.SDB(1:2:end)); % Only the first SDB is wired in every arc as a HFC
+        case 'VFC'
+            ATType  = 'VCM';
+            ATIndex = union(Indices.SFA, Indices.SFB);
         case 'QFA'
             ATType  = 'QUAD';
             ATIndex = Indices.(aoElement)(:);
@@ -59,7 +69,11 @@ for aoElement = AOelements'
             ATIndex = Indices.(aoElement)(:);
         case 'RF'
             ATType  = 'RF';
-            ATIndex = Indices.(aoElement)(:);
+            if isfield(Indices,'RF')
+                ATIndex = Indices.(aoElement)(:);
+            else
+                ATIndex = [];
+            end
         case 'SKQ'
             ATType  = 'SkewQuad';
             ATIndex = Indices.SDA(:);
@@ -67,8 +81,10 @@ for aoElement = AOelements'
             ATType  = 'Kicker';
             if isfield(Indices,'KICK')
                 ATIndex = Indices.(aoElement)([3 4 1 2]);
-            else
+            elseif isfield(Indices,'KICK1')
                 ATIndex = [Indices.KICK1 Indices.KICK2 Indices.KICK3 Indices.KICK4];
+            else
+                ATIndex = [];
             end
         case 'BEND'
             if isfield(Indices,'BEND')
@@ -79,26 +95,26 @@ for aoElement = AOelements'
                 tempmat = [];
                 i=1;
                 while isfield(Indices,sprintf('b_left%02d',i))
-                    tempmat = [tempmat; Indices.(sprintf('b_left%02d',i))(:)];
+                    tempmat = [tempmat Indices.(sprintf('b_left%02d',i))(:)];
                     i = i + 1;
                 end
                 i=1;
                 while isfield(Indices,sprintf('b_centre%02d',i))
-                    tempmat = [tempmat; Indices.(sprintf('b_left%02d',i))(:)];
+                    tempmat = [tempmat Indices.(sprintf('b_centre%02d',i))(:)];
                     i = i + 1;
                 end
                 i=1;
                 while isfield(Indices,sprintf('b_right%02d',i))
-                    tempmat = [tempmat; Indices.(sprintf('b_left%02d',i))(:)];
+                    tempmat = [tempmat Indices.(sprintf('b_right%02d',i))(:)];
                     i = i + 1;
                 end
-                ATIndex = tempmat(:);
+                ATIndex = tempmat';
             end
         otherwise
             ATType = '';
     end
     
-    if ~isempty(ATType)
+    if ~isempty(ATType) && ~isempty(ATIndex)
         AO.(aoElement).AT.ATType  = ATType;
         AO.(aoElement).AT.ATIndex = buildatindex(AO.(aoElement).FamilyName, ATIndex);
     end

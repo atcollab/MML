@@ -1,9 +1,12 @@
 function [image_out] = snap(cam_name,varargin)
+
+error('snap is deprecated. Use getcameradata instead.');
+
 % SNAP
 %
-% Snaps an image from a CCD camera
-
-%function [cam_name] = snap(c)
+% Snaps an image from a CCD camera, specified by string c
+%
+%function [image] = snap(cam_name)
 
 if nargin > 1 && strcmpi(varargin{1},'plot')
     plotimage = 1;
@@ -17,65 +20,67 @@ end
 
 
 
-disp('starting snap')
+% disp('starting snap')
 % open CA to camera PVs
-h1 = mcaopen([cam_name ':HEIGHT_MONITOR']);
-h2 = mcaopen([cam_name ':WIDTH_MONITOR']);
-h3 = mcaopen([cam_name ':DATA_MONITOR']);
-h4 = mcaopen([cam_name ':EUID_MONITOR']);
-h5 = mcaopen([cam_name ':ISO_STATUS']);
-h6 = mcaopen([cam_name ':COUNTER_MONITOR']);
-h7 = mcaopen([cam_name ':BPP_MONITOR']);
-h8 = mcaopen([cam_name ':TRIGGER_MODE_STATUS']);
-h9 = mcaopen([cam_name ':TRIGGER_ON_OFF_STATUS']);
-h10 = mcaopen([cam_name ':TRIGGER_DELAY_MONITOR']);
-h11 = mcaopen([cam_name ':FRAMERATE_STATUS']);
-h12 = mcaopen([cam_name ':MODE_STATUS']);
-h13 = mcaopen([cam_name ':SHUTTER_MONITOR']);
-h14 = mcaopen([cam_name ':SHUTTER_MODE_STATUS']);
-h15 = mcaopen([cam_name ':EXPOSURE_MONITOR']);
-h16 = mcaopen([cam_name ':EXPOSURE_MODE_STATUS']);
-h17 = mcaopen([cam_name ':GAIN_MONITOR']);
-h18 = mcaopen([cam_name ':GAIN_MODE_STATUS']);
-h19 = mcaopen([cam_name ':WOFFSET_MONITOR']);
-h20 = mcaopen([cam_name ':HOFFSET_MONITOR']);
-h21 = mcaopen([cam_name ':BRIGHTNESS_MONITOR']);
-h22 = mcaopen([cam_name ':BRIGHTNESS_MODE_STATUS']);
-%h23 = mcaopen([cam_name ':XP_MONITOR']);
-%h24 = mcaopen([cam_name ':YP_MONITOR']);
+h1 = getpv([cam_name ':HEIGHT_MONITOR']);
+h2 = getpv([cam_name ':WIDTH_MONITOR']);
+h3 = getpv([cam_name ':DATA_MONITOR']);
+h4 = getpv([cam_name ':EUID_MONITOR']);
+h5 = getpv([cam_name ':ISO_STATUS']);
+h6 = getpv([cam_name ':COUNTER_MONITOR']);
+h7 = getpv([cam_name ':BPP_MONITOR']);
+h8 = getpv([cam_name ':TRIGGER_MODE_STATUS']);
+h9 = getpv([cam_name ':TRIGGER_ON_OFF_STATUS']);
+h10 = getpv([cam_name ':TRIGGER_DELAY_MONITOR']);
+h11 = getpv([cam_name ':FRAMERATE_STATUS']);
+h12 = getpv([cam_name ':MODE_STATUS']);
+h13 = getpv([cam_name ':SHUTTER_MONITOR']);
+h14 = getpv([cam_name ':SHUTTER_MODE_STATUS']);
+h15 = getpv([cam_name ':EXPOSURE_MONITOR']);
+h16 = getpv([cam_name ':EXPOSURE_MODE_STATUS']);
+h17 = getpv([cam_name ':GAIN_MONITOR']);
+h18 = getpv([cam_name ':GAIN_MODE_STATUS']);
+h19 = getpv([cam_name ':WOFFSET_MONITOR']);
+h20 = getpv([cam_name ':HOFFSET_MONITOR']);
+h21 = getpv([cam_name ':BRIGHTNESS_MONITOR']);
+h22 = getpv([cam_name ':BRIGHTNESS_MODE_STATUS']);
+%h23 = getpv([cam_name ':XP_MONITOR']);
+%h24 = getpv([cam_name ':YP_MONITOR']);
 
 % get the PV through CA
-height = mcaget(h1);
-width = mcaget(h2);
-iso_status = mcaget(h5);
+height = (h1);
+width = (h2);
+iso_status = (h5);
+% pre allocate memory
+data = zeros(1,786432);
 if iso_status == 0
-    mcaput(h5,1);
-    data = mcaget(h3);
-    mcaput(h5,0);
+    setpv([cam_name ':ISO_STATUS'],1);
+    data = h3;
+    setpv([cam_name ':ISO_STATUS'],0);
 else
-    data =mcaget(h3);
+    data =h3;
 end
-euid = mcaget(h4);
+euid = h4;
 
-counter = mcaget(h6);
-BPP = mcaget(h7);
-trigger_mode = mcaget(h8);
-trigger_on_off = mcaget(h9);
-trigger_delay = mcaget(h10);
-framerate_status = mcaget(h11);
-mode1 = mcaget(h12);
-shutter_monitor = mcaget(h13);
-shutter_mode = mcaget(h14);
-exposure_monitor = mcaget(h15);
-exposure_mode = mcaget(h16);
-gain_monitor = mcaget(h17);
-gain_mode = mcaget(h18);
-WOFFSET = mcaget(h19);
-HOFFSET = mcaget(h20);
-brightness_monitor = mcaget(h21);
-brightness_mode = mcaget(h22);
-% XP = mcaget(h23);
-% YP = mcaget(h24);
+counter = h6;
+BPP = h7;
+trigger_mode = h8;
+trigger_on_off = h9;
+trigger_delay = h10;
+framerate_status = h11;
+mode1 = h12;
+shutter_monitor = h13;
+shutter_mode = h14;
+exposure_monitor = h15;
+exposure_mode = h16;
+gain_monitor = h17;
+gain_mode = h18;
+WOFFSET = h19;
+HOFFSET = h20;
+brightness_monitor = h21;
+brightness_mode = h22;
+% XP = h23;
+% YP = h24;
 
 
 
@@ -87,38 +92,13 @@ image_out = x';
 
 if plotimage
     % intensity of RGB high
-    figure(666);
+    figure(61);
 
     % imagesc(x);
     imagesc(x');
     colormap gray;
 end
 
-% close CA
-mcaclose(h1)
-mcaclose(h2)
-mcaclose(h3)
-mcaclose(h4)
-mcaclose(h5)
-mcaclose(h6)
-mcaclose(h7)
-mcaclose(h8)
-mcaclose(h9)
-mcaclose(h10)
-mcaclose(h11)
-mcaclose(h12)
-mcaclose(h13)
-mcaclose(h14)
-mcaclose(h15)
-mcaclose(h16)
-mcaclose(h17)
-mcaclose(h18)
-mcaclose(h19)
-mcaclose(h20)
-mcaclose(h21)
-mcaclose(h22)
-% mcaclose(h23)
-% mcaclose(h24)
 
 
 
@@ -162,4 +142,4 @@ mcaclose(h22)
 %    fprintf('***** Don''t believe everything you read. NaN. *****\n');
 %end
 
-disp('snap finished')
+% disp('snap finished')

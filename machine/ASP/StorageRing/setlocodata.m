@@ -115,6 +115,7 @@ VCMDeviceListTotal  = family2dev(VCMFamily, 0);
 
 if any(strcmpi(CommandInput, 'Nominal'))
     fprintf('   Using nominal BPM and corrector gains (1) and rolls (0).\n');
+    disp('NOMINAL')
 
     % To speed things up, put Gains/Rolls/etc in the AO
     AO = getao;

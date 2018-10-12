@@ -1,8 +1,23 @@
 function track_tunes(current_tunes,fixtunes2,varargin)
+% track_tunes([curr_tunes curr_disp],[want_tunes want_disp],[calc_J,'increment'])
+%
+% Example: track_tunes([0.31 0.24 0.1],[0.290 0.216 0.1])
+%          track_tunes([0.31 0.24 0.1],[0.290 0.216 0.1],1,'increment');
+%
+% The value calc_J asks track_tunes to calculate the jacobian from the
+% loaded model. Default is to calculate.
 
+calc_from_model = 1;
 increment = 0;
-if nargin > 2 && ischar(varargin{1}) && strcmpi(varargin{1},'increment')
+if nargin > 3 && ischar(varargin{2}) && strcmpi(varargin{2},'increment')
     increment = 1;
+end
+if nargin > 2 && isnumeric(varargin{1})
+    calc_from_model = varargin{1};
+end
+
+if length(current_tunes) ~= 3 && length(fixtunes2) ~= 3
+    error('TRACK_TUNES requires 3 values [xtune ytune disp]');
 end
 
 % xtune_pv = 'CR01:GENERAL_ANALOG_02_MONITOR';
@@ -21,26 +36,117 @@ end
 %  current_tunes = [mcaget(xtune_handle) mcaget(ytune_handle) 0];
 % current_tunes = [0.2913 0.2145 0.00];
 % current_tunes = [getam('TUNE')' 0];
-delta_nu = fixtunes2 - current_tunes;
-delta_nu(3) = 0;
+delta_nu = fixtunes2(1:2) - current_tunes(1:2);
+delta_nu(3) = fixtunes2(3) - current_tunes(3);
 
 % fprintf('\n Current fractional tunes are: [%6.3f %6.3f] dispersion = %6.7f\n', current_tunes);
 % fprintf(' Delta fractional tunes are: [%6.3f %6.3f]  dispersion = %6.7f\n', delta_nu);
 
-% Inverse Jacobian measured using the model.
-Jinv = [...
-    0.130094898781898,0.000379003570963,0.100529311940219;...
-    -0.105532343683691,-0.139777190998969,-0.004112213885454;...
-    0.022078330803986,0.029242080859334,-0.054916466546098;];
+if calc_from_model
+    global THERING;
+    delta = 1e-6;
+    quadfam1 = 'QFA';
+    quadfam2 = 'QDA';
+    quadfam3 = 'QFB';
+    % Fit the model
+    fittunedisp2(current_tunes+[13 5 0],'QFA','QDA','QFB',1)
+    
+    % find indexes of the 2 quadrupole families use for fitting
+    Q1I = findcells(THERING,'FamName',quadfam1);
+    if isempty(Q1I); fprintf('Cannot find quadfamily: %s\n',quadfam1); return; end;
+    Q2I = findcells(THERING,'FamName',quadfam2);
+    if isempty(Q2I); fprintf('Cannot find quadfamily: %s\n',quadfam2); return; end;
+    Q3I = findcells(THERING,'FamName',quadfam3);
+    if isempty(Q3I); fprintf('Cannot find quadfamily: %s\n',quadfam3); return; end;
 
-% Order QFA QDA QFB
-initk = [1.7619022 -1.0859714 1.5444376]';
+
+    InitialK1 = getcellstruct(THERING,'K',Q1I);
+    InitialK2 = getcellstruct(THERING,'K',Q2I);
+    InitialK3 = getcellstruct(THERING,'K',Q3I);
+    InitialPolB1 = getcellstruct(THERING,'PolynomB',Q1I,2);
+    InitialPolB2 = getcellstruct(THERING,'PolynomB',Q2I,2);
+    InitialPolB3 = getcellstruct(THERING,'PolynomB',Q3I,2);
+
+    % Compute initial tunes before fitting
+    % [ LD, InitialTunes] = linopt(THERING,0);
+    mach = machine_at;
+    TempTunes = [mach.nux(end);mach.nuy(end)];
+    TempDisp  = mach.etax(1);
+    TempK1 = InitialK1;
+    TempK2 = InitialK2;
+    TempK3 = InitialK3;
+    TempPolB1 = InitialPolB1;
+    TempPolB2 = InitialPolB2;
+    TempPolB3 = InitialPolB3;
+
+    disp('Calculating Jacobian from current model');
+    fprintf('Tunes and Dispersion: %14.10f (H) %14.10f (V) %14.10f (D)\n',...
+        TempTunes(1),TempTunes(2),TempDisp);
+
+    % Take Derivative
+    THERING = setcellstruct(THERING,'K',Q1I,TempK1+delta);
+    THERING = setcellstruct(THERING,'PolynomB',Q1I,TempPolB1+delta,2);
+    mach = machine_at;
+    Tunes_dK1 = [mach.nux(end);mach.nuy(end)];
+    Disp_dK1 = mach.etax(1);
+    THERING = setcellstruct(THERING,'K',Q1I,TempK1);
+    THERING = setcellstruct(THERING,'PolynomB',Q1I,TempPolB1,2);
+
+    THERING = setcellstruct(THERING,'K',Q2I,TempK2+delta);
+    THERING = setcellstruct(THERING,'PolynomB',Q2I,TempPolB2+delta,2);
+    mach = machine_at;
+    Tunes_dK2 = [mach.nux(end);mach.nuy(end)];
+    Disp_dK2 = mach.etax(1);
+    THERING = setcellstruct(THERING,'K',Q2I,TempK2);
+    THERING = setcellstruct(THERING,'PolynomB',Q2I,TempPolB2,2);
+
+    THERING = setcellstruct(THERING,'K',Q3I,TempK3+delta);
+    THERING = setcellstruct(THERING,'PolynomB',Q3I,TempPolB3+delta,2);
+    mach = machine_at;
+    Tunes_dK3 = [mach.nux(end);mach.nuy(end)];
+    Disp_dK3 = mach.etax(1);
+    THERING = setcellstruct(THERING,'K',Q3I,TempK3);
+    THERING = setcellstruct(THERING,'PolynomB',Q3I,TempPolB3,2);
+
+
+    %Construct the Jacobian
+    change_dK = zeros(3);
+    tempTunesDisp = zeros(3);
+
+    change_dK(:,1) = [Tunes_dK1(1); Tunes_dK1(2); Disp_dK1];
+    change_dK(:,2) = [Tunes_dK2(1); Tunes_dK2(2); Disp_dK2];
+    change_dK(:,3) = [Tunes_dK3(1); Tunes_dK3(2); Disp_dK3];
+    tempTunesDisp(:,1) = [TempTunes(1); TempTunes(2); TempDisp];
+    tempTunesDisp(:,2) = [TempTunes(1); TempTunes(2); TempDisp];
+    tempTunesDisp(:,3) = [TempTunes(1); TempTunes(2); TempDisp];
+
+
+    J = (change_dK - tempTunesDisp)/delta;
+    Jinv = inv(J);
+    initk = [InitialK1(1) InitialK2(1) InitialK3(1)]';
+else
+    % Inverse Jacobian measured using the model.
+    Jinv = [...
+        0.130094898781898,0.000379003570963,0.100529311940219;...
+        -0.105532343683691,-0.139777190998969,-0.004112213885454;...
+        0.022078330803986,0.029242080859334,-0.054916466546098;];
+    % Order QFA QDA QFB
+    initk = [1.7619022 -1.0859714 1.5444376]';
+    
+    % -0.75 dispersion (9ps)
+    % Jinv = [...
+    %    0.220177508545285   0.000615853133914   0.062397330857094
+    %   -0.083404182378964  -0.148030962548666   0.002243208844560
+    %   -0.059742956049518   0.030032260554950  -0.041325062084519];
+    % % % Order QFA QDA QFB
+    % initk = [1.701360482635349  -1.072306322947120   1.576013680632028]';
+end
 
 % Fit the tunes but don't change the dispersion, therefore the last element
 % is zero.
 deltak = Jinv*[delta_nu]';
 
-percentage_change = deltak./initk;
+percentage_change = deltak./initk
 
 % Read current setpoints
 currentquads = [];
@@ -55,8 +161,10 @@ deltacurrentquads(:,3) = percentage_change(3).*currentquads(:,3);
 
 if max(percentage_change) > 0.05
     % If greater than 5% change then ask for confirmation
-    switch questdlg('Change in quads > 5%%. Are you sure?','Tune Tracking Question',...
+    switch questdlg('Change in quads > 5%%. Will force increment. Are you sure?','Tune Tracking Question',...
                 'Yes','No','Yes');
+        case 'Yes'
+            increment = 1;
         case 'No'
             disp('No changes made. goodbye');
             return
@@ -73,7 +181,7 @@ if increment
         setsp('QFA',currentquads(:,1) + deltacurrentquads(:,1)*(i/10),'Hardware');
         setsp('QDA',currentquads(:,2) + deltacurrentquads(:,2)*(i/10),'Hardware');
         setsp('QFB',currentquads(:,3) + deltacurrentquads(:,3)*(i/10),'Hardware');
-        switch questdlg(sprintf('Continue with tracking tunes? Step %d/10',i),'Tune Tracking Question',...
+        switch questdlg(sprintf('Continue with tracking tunes? Applied %d/10',i),'Tune Tracking Question',...
                 'Continue','Backstep','Finished','Continue');
             case 'Continue'
                 i = i + 1;
@@ -82,6 +190,8 @@ if increment
             case 'Finished'
                 finished = 1;
         end
+%         t = getliberatbt('DD1',[1 4]);
+%         getfftspectrum(t.tbtx(1,:),499671948/360/64);
     end
 else
 %     switch questdlg('Apply new tunes?','Tune Tracking Question',...
@@ -102,6 +212,8 @@ else
     setsp('QDA',currentquads(:,2) + deltacurrentquads(:,2),'Hardware');
     setsp('QFB',currentquads(:,3) + deltacurrentquads(:,3),'Hardware');
 end
+fprintf('(%s): Tunes adjusted\n',datestr(now));
+
 %         otherwise
 %             disp('Not applying changes. Goodbye');
 %     end

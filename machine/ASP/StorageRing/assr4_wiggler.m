@@ -59,7 +59,8 @@ d2a	=	drift('D2A'	,len(d2)-1.030000e-001,'DriftPass'); % 8.700000e-002
 d2b	=	drift('D2B'	,        1.030000e-001,'DriftPass');
 
 % Dipoles
-% design -> rbend('BEND',1.726000e+000,2.243995e-001,1.121997e-001,1.121997e-001,-3.349992e-001,[method]);
+% design -> rbend('BEND',1.726000e+000,2.243995e-001,...
+%                     1.121997e-001,1.121997e-001,-3.349992e-001,[method]);
 % From numerical studies ->   L: 1.72579121675e+000
 %                             K: 0.33295132
 %                          Sext: 0.01092687

@@ -44,11 +44,13 @@ end
 
 if isempty(LinkFlag)
     if strncmp(computer,'PC',2)
-        LinkFlag = 'MCA_ASP';
-    elseif isunix
-        LinkFlag = 'LABCA';
+        LinkFlag = 'LabCA';
+    elseif strncmp(computer,'GLNX86',6)
+        LinkFlag = 'LabCA';
+    elseif strncmp(computer,'GLNXA64',6)
+        LinkFlag = 'LabCA';
     else
-        LinkFlag = 'LABCA';
+        LinkFlag = 'LabCA';
     end
 end
 
@@ -77,7 +79,9 @@ end
 if any(strcmpi(SubMachineName, {'Storage Ring','Ring'}))
     SubMachineName = 'StorageRing';
 end
-
+if any(strcmpi(SubMachineName, {'Booster Ring','BoosterRing'}))
+    SubMachineName = 'BoosterRing';
+end
 
 if strcmpi(SubMachineName,'StorageRing')
     [MachineName, SubMachineName, LinkFlag, MMLROOT] = setpathmml(Machine, 'StorageRing', 'StorageRing', LinkFlag);

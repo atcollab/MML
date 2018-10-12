@@ -22,7 +22,9 @@ GLOBVAL.E0 = 3e9;
 GLOBVAL.LatticeFile = mfilename;
 FAMLIST = cell(0);
 
-L0 = 2.159946602239996e+02; % calculated using findspos %215.9945540689991;% with new dipole path lengths. Designed for 216m.
+L0 = 2.159946602239996e+02; % calculated using findspos 
+L0 = 2.159945540689997e+02;% with new dipole path lengths. Designed for 216m. 28/4/2010 Eugene
+
 C0 = 299792458; 	   % speed of light [m/s]
 HarmNumber = 360;
 
@@ -37,12 +39,15 @@ fprintf('*** Loading lattice from %s.m ***\n',GLOBVAL.LatticeFile);
 % ap  =   aperture('AP',[-32 17 -16 16]*1e-3,'AperturePass');
 ap  =   aperture('AP',[-16 17 -16 16]*1e2,'AperturePass');
 
+% Quadrupole field extent on one end past the magnet iron length as
+% measured by RMIT student Neville.
+quadDL_2 = 0.0042;
 d1	=	drift('D1'	,2.698300e+000,'DriftPass'); % (2.698286 -> to get closer to the design distance of 216m)
-d2	=	drift('D2'	,1.900000e-001,'DriftPass');
-d3	=	drift('D3'	,1.650000e-001,'DriftPass');
+d2	=	drift('D2'	,1.900000e-001-quadDL_2,'DriftPass');
+d3	=	drift('D3'	,1.650000e-001-quadDL_2,'DriftPass');
 d4	=	drift('D4'	,2.750000e-001,'DriftPass');
-d5	=	drift('D5'	,1.550000e-001,'DriftPass');
-d6	=	drift('D6'	,4.500000e-001,'DriftPass');
+d5	=	drift('D5'	,1.550000e-001-quadDL_2,'DriftPass');
+d6	=	drift('D6'	,4.500000e-001-quadDL_2*2,'DriftPass');
 
 % Modified drifts around BPM sections.
 bpm	=	monitor('BPM'	,'IdentityPass');
@@ -58,15 +63,30 @@ d2a	=	drift('D2A'	,len(d2)-1.030000e-001,'DriftPass'); % 8.700000e-002
 d2b	=	drift('D2B'	,        1.030000e-001,'DriftPass');
 
 % Dipoles
-% design -> rbend('BEND',1.726000e+000,2.243995e-001,1.121997e-001,1.121997e-001,-3.349992e-001,[method]);
+% design -> rbend('BEND',1.726000e+000,2.243995e-001,...
+%                     1.121997e-001,1.121997e-001,-3.349992e-001,[method]);
 % From numerical studies ->   L: 1.72579121675e+000
 %                             K: 0.33295132
 %                          Sext: 0.01092687
 %                           Oct: 0.15166053
-scalek = 0.98855592463187;
-edge_offset = 0.03603626237179;
-dip1	=	rbend('BEND'	,1.72579121675e+000,2.243995e-001,1.121997e-001+edge_offset,1.121997e-001+edge_offset,-0.33295132*scalek,'BndMPoleSymplectic4Pass');
-dip2	=	rbend('BEND'	,1.72579121675e+000,2.243995e-001,1.121997e-001+edge_offset,1.121997e-001+edge_offset,-0.33295132*scalek,'BndMPoleSymplectic4Pass');
+% 1.006150825679126; % scaling factor for chromaticity comparison Eugene
+% 24/1/2008
+scalek = 1;
+edge_offset = 0.01;
+dip1	=	rbend('BEND'	,1.72579121675e+000,2.243995e-001,1.121997e-001+edge_offset,1.121997e-001+edge_offset,-0.33295132*scalek,'BndMPoleSymplectic4E2Pass');
+dip2	=	rbend('BEND'	,1.72579121675e+000,2.243995e-001,1.121997e-001+edge_offset,1.121997e-001+edge_offset,-0.33295132*scalek,'BndMPoleSymplectic4E2Pass');
+FAMLIST{dip1}.ElemData.PolynomA   = [0 0 0 0];
+FAMLIST{dip1}.ElemData.PolynomB   = [0 -0.33295132*scalek -.05 0];
+FAMLIST{dip1}.ElemData.FullGap    = 0.045;
+FAMLIST{dip1}.ElemData.FringeInt1 = 0.5;
+FAMLIST{dip1}.ElemData.FringeInt2 = 0.5;
+FAMLIST{dip2}.ElemData.PolynomA   = [0 0 0 0];
+FAMLIST{dip2}.ElemData.PolynomB   = [0 -0.33295132*scalek -.05 0];
+FAMLIST{dip2}.ElemData.FullGap    = 0.045;
+FAMLIST{dip2}.ElemData.FringeInt1 = 0.5;
+FAMLIST{dip2}.ElemData.FringeInt2 = 0.5;
+
+
 
 % Quadrupoles (for design dipole: [QFA,QDA,QFB]=[1.761741,-1.038377,1.533802];
 % To match new dipole values from numerical studies
@@ -76,18 +96,37 @@ dip2	=	rbend('BEND'	,1.72579121675e+000,2.243995e-001,1.121997e-001+edge_offset,
 % qfb	=	quadrupole('QFB'	,3.550000e-001, 1.5406418e+000,'QuadLinearPass');
 % To match split dipole values from numerical studies (SBENDS)
 % tune of 13.29, 5.216 and 0 dispersion in straights.
-qfa	=	quadrupole('QFA'	,3.550000e-001, 1.76272982211693,'QuadLinearPass');
-qda	=	quadrupole('QDA'	,1.800000e-001,-1.06276736743823,'QuadLinearPass');
-qfb	=	quadrupole('QFB'	,3.550000e-001, 1.53992875479511,'QuadLinearPass');
+%  qfa	=	quadrupole('QFA'	,3.550000e-001, 1.76272982211693,'QuadLinearPass');
+%  qda	=	quadrupole('QDA'	,1.800000e-001,-1.06276736743823,'QuadLinearPass');
+%  qfb	=	quadrupole('QFB'	,3.550000e-001, 1.53992875479511,'QuadLinearPass');
+% Match single bends above to tune of 13.29, 5.216 and 0 dispersion. EUgene
+% 9/2/2009
+qfa	=	quadrupole('QFA'	,3.550000e-001 + quadDL_2*2, 1.762632151326440/1.0282,'StrMPoleSymplectic4Pass');
+qda	=	quadrupole('QDA'	,1.800000e-001 + quadDL_2*2,-1.064480621954161/1.0555,'StrMPoleSymplectic4Pass');
+qfb	=	quadrupole('QFB'	,3.550000e-001 + quadDL_2*2, 1.540311343769903/1.0282,'StrMPoleSymplectic4Pass');
+
 
 
 % Sextupoles with built in correctors. Corrector settings given by kick
 % angle in radians.
-sfa	=	sextcorr('SFA'	,2.000000e-001, 1.400000e+001,[0 0],'StrCorrMPoleSymplectic4Pass');
-sda	=	sextcorr('SDA'	,2.000000e-001,-1.400000e+001,[0 0],'StrCorrMPoleSymplectic4Pass');
-sdb	=	sextcorr('SDB'	,2.000000e-001,-7.014635e+000,[0 0],'StrCorrMPoleSymplectic4Pass');
-sfb	=	sextcorr('SFB'	,2.000000e-001, 7.189346e+000,[0 0],'StrCorrMPoleSymplectic4Pass');
-
+if exist('StrCorrMPoleSymplectic4Pass') == 3
+    % Old AT 1.3
+    sfa	=	sextcorr('SFA'	,2.000000e-001, 1.400000e+001,[0 0],'StrCorrMPoleSymplectic4Pass');
+    sda	=	sextcorr('SDA'	,2.000000e-001,-1.400000e+001,[0 0],'StrCorrMPoleSymplectic4Pass');
+    sdb	=	sextcorr('SDB'	,2.000000e-001,-7.014635e+000,[0 0],'StrCorrMPoleSymplectic4Pass');
+    sfb	=	sextcorr('SFB'	,2.000000e-001, 7.189346e+000,[0 0],'StrCorrMPoleSymplectic4Pass');
+else
+    sfa	=	sextupole('SFA'	,2.000000e-001, 1.400000e+001,'StrMPoleSymplectic4Pass');
+    sda	=	sextupole('SDA'	,2.000000e-001,-1.400000e+001,'StrMPoleSymplectic4Pass');
+    sdb	=	sextupole('SDB'	,2.000000e-001,-7.098322,'StrMPoleSymplectic4Pass');
+    sfb	=	sextupole('SFB'	,2.000000e-001, 7.271212,'StrMPoleSymplectic4Pass');
+    
+    FAMLIST{sfa}.ElemData.KickAngle = [0 0];
+    FAMLIST{sda}.ElemData.KickAngle = [0 0];
+    FAMLIST{sfb}.ElemData.KickAngle = [0 0];
+    FAMLIST{sdb}.ElemData.KickAngle = [0 0];
+end
+    
 % RF cavity and the corresponding straight used to position the cavity.
 % 4.996540652069698e+008 old freq for 216m for 216.0004 its different. Also
 % we are using ThinCavities therefore the drifts have to be set
@@ -181,7 +220,8 @@ celffb10_1 = [ bpm1d1 girder1 dipole_arc1 girder2 dipole_arc2 girder3 bpm7d1ffb 
 % Definition of the types of rings
 kickring    = [ ap celkick01 unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel celkick14];
 cavity1ring = [ ap celkick01 unit_cel unit_cel unit_cel unit_cel celrf06_1 cav_single celrf07_1 unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel celkick14];;
-cavity4ring = [ ap celkick01 unit_cel unit_cel unit_cel unit_cel celrf06_4 celrf07_4 unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel celkick14];
+% cavity4ring = [ ap celkick01 unit_cel unit_cel unit_cel unit_cel celrf06_4 celrf07_4 unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel celkick14];
+cavity4ring = [ ap unit_cel unit_cel unit_cel unit_cel unit_cel celrf06_4 celrf07_4 unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel];
 
 fullring_startwithRF = [ ap cav_single celrf07_1 unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel celkick14 celkick01 unit_cel unit_cel unit_cel unit_cel celrf06_1 ];
 ring        = [ ap unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel ];

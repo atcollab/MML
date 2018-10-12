@@ -68,7 +68,7 @@ QMS.QuadFamily = QuadFamily;
 QMS.QuadDev = QuadDev;
 QMS.QuadraticFit = 0;       % 0 = linear fit, else quadratic fit
 QMS.OutlierFactor = 6;      % BPM Outlier: abs(fit - measured data) > OutlierFactor * std(BPM) 
-QMS.NumberOfPoints = 5;     % 5
+QMS.NumberOfPoints = 4;     % 5
 QMS.ModulationMethod = 'bipolar';
 QMS.CorrectOrbit = 'no';    % 'yes' or 'no';  % Only do if the orbit is reasonably close to the offset orbit 
 
@@ -92,18 +92,31 @@ if QMS.QuadPlane==1
     QMS.BPMFamily  = 'BPMx';
     QMS.CorrFamily = 'HCM';
     
-    % Quad delta
+    % Quad delta. Can actuate more than one quadrupole... so scale
+    % the strength linearly with the number of quads to actuate.
     spmax = getsp(QMS.QuadFamily, QMS.QuadDev);
     switch QMS.QuadFamily
         case 'QFA'
             %QMS.QuadDelta = .05 * spmax; % in amps
-            QMS.QuadDelta = 0.03*spmax;
+            QMS.QuadDelta = 0.02*spmax/length(spmax);
         case 'QFB'
             %QMS.QuadDelta = .02 * spmax;
-            QMS.QuadDelta = 0.03*spmax;
+            QMS.QuadDelta = 0.01*spmax/length(spmax);
         case 'QDA'
             %QMS.QuadDelta = .02 * spmax;
-            QMS.QuadDelta = 0.03*spmax;
+            QMS.QuadDelta = 0.03*spmax/length(spmax);
+        case 'SFA'
+            %QMS.QuadDelta = .05 * spmax; % in amps
+            QMS.QuadDelta = 20;
+        case 'SDA'
+            %QMS.QuadDelta = .02 * spmax;
+            QMS.QuadDelta = 20;
+        case 'SDB'
+            %QMS.QuadDelta = .02 * spmax;
+            QMS.QuadDelta = 20;
+        case 'SFB'
+            %QMS.QuadDelta = .02 * spmax;
+            QMS.QuadDelta = 20;
     end
     
     if nargin < 4
@@ -125,6 +138,7 @@ if QMS.QuadPlane==1
     % effective corrector.
     R = getbpmresp('Struct','Hardware');
     [i, iNotFound] = findrowindex(QMS.BPMDev, R(1,1).Monitor.DeviceList);
+%     [i, iNotFound] = findrowindex([3 3], R(1,1).Monitor.DeviceList);
     m = R(1,1).Data(i,:);
     [MaxValue, j] = max(abs(m));
     QMS.CorrDevList = R(1,1).Actuator.DeviceList(j,:);
@@ -143,13 +157,13 @@ if QMS.QuadPlane==1
     % observe at the BPM.
     switch QMS.BPMDev(2)
         case {1 7}
-            QMS.CorrDelta = 2; %abs((1./m(j)) * 1);
+            QMS.CorrDelta = 1; %2; %abs((1./m(j)) * 1);
         case {2 6}
-            QMS.CorrDelta = 2; %abs((1./m(j)) * 1);
+            QMS.CorrDelta = 1; %2; %abs((1./m(j)) * 1);
         case {4}
-            QMS.CorrDelta = 2; %abs((1./m(j)) * 1);
+            QMS.CorrDelta = 1; %2; %abs((1./m(j)) * 1);
         case {3 5}
-            QMS.CorrDelta = 2; %abs((1./m(j)) * 1);
+            QMS.CorrDelta = 2; %3; %abs((1./m(j)) * 1);
     end
     if strcmpi(getunits(QMS.CorrFamily),'Physics')
         % Calculated values above are in HW units. If the default units are
@@ -167,13 +181,25 @@ elseif QMS.QuadPlane==2
     switch QMS.QuadFamily
         case 'QFA'
             %QMS.QuadDelta = .05 * spmax; % in amps
-            QMS.QuadDelta = 0.03*spmax;
+            QMS.QuadDelta = 0.02*spmax/length(spmax);
         case 'QFB'
             %QMS.QuadDelta = .02 * spmax;
-            QMS.QuadDelta = 0.03*spmax;
+            QMS.QuadDelta = 0.01*spmax/length(spmax);
         case 'QDA'
             %QMS.QuadDelta = .02 * spmax;
-            QMS.QuadDelta = 0.03*spmax;
+            QMS.QuadDelta = 0.03*spmax/length(spmax);
+        case 'SFA'
+            %QMS.QuadDelta = .05 * spmax; % in amps
+            QMS.QuadDelta = 40;
+        case 'SDA'
+            %QMS.QuadDelta = .02 * spmax;
+            QMS.QuadDelta = 40;
+        case 'SDB'
+            %QMS.QuadDelta = .02 * spmax;
+            QMS.QuadDelta = 40;
+        case 'SFB'
+            %QMS.QuadDelta = .02 * spmax;
+            QMS.QuadDelta = 40;
     end
     
     if nargin < 4
@@ -194,6 +220,7 @@ elseif QMS.QuadPlane==2
     % Pick the corrector based on the response matrix
     R = getbpmresp('Struct','Hardware');
     [i, iNotFound] = findrowindex(QMS.BPMDev, R(2,2).Monitor.DeviceList);
+%     [i, iNotFound] = findrowindex([3 3], R(2,2).Monitor.DeviceList);
     m = R(2,2).Data(i,:);
     [MaxValue, j] = max(abs(m));
     QMS.CorrDevList = R(2,2).Actuator.DeviceList(j,:);
@@ -204,13 +231,13 @@ elseif QMS.QuadPlane==2
     % observe at the BPM.
     switch QMS.BPMDev(2)
         case {1 7}
-            QMS.CorrDelta = 2; %-abs((1./m(j)) * 0.5);
+            QMS.CorrDelta = 1; %-abs((1./m(j)) * 0.5);
         case {2 6}
-            QMS.CorrDelta = 2; %-abs((1./m(j)) * 0.5);
+            QMS.CorrDelta = 1; %-abs((1./m(j)) * 0.5);
         case {4}
-            QMS.CorrDelta = 2; %-abs((1./m(j)) * 0.5);
+            QMS.CorrDelta = 1; %-abs((1./m(j)) * 0.5);
         case {3 5}
-            QMS.CorrDelta = 2; %-abs((1./m(j)) * 0.5);
+            QMS.CorrDelta = 1; %-abs((1./m(j)) * 0.5);
     end
     if strcmpi(getunits(QMS.CorrFamily),'Physics')
         % Calculated values above are in HW units. If the default units are

@@ -1,12 +1,15 @@
 % A simple method to set the sextupoles in the storage ring for injecting
 % or storing beam. To inject select "i" and to store select "s". Easy.
-
+% Update: just press 'y' and 'y' to change state
+disp('THIS IS NO LONGER NECESSARY')
+return;
 
 disp(' ');
 disp('You are about to Change Sextupoles for Storing or Injecting.');
 disp('ARE YOU SURE THAT YOU WANT TO CONTINUE?? ');
 
 answer = input('[y/n]: ','s');
+answer = 'n';
 if ~strcmp(answer,'y')
     error('... , goodbye.');
     return
