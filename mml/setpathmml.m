@@ -8,12 +8,13 @@ function [MachineName, SubMachineName, LinkFlag, MMLROOT] = setpathmml(varargin)
 %  3. MachineType - 'StorageRing' {Default}, 'Booster', 'Linac', or 'Transport'
 %  4. OnlineLinkMethod - 'LabCA', 'SCA', 'MCA', 'Tango', 'SLC', 'UCODE', ... {Default: 'LabCA'}
 %  5. MMLROOT - Directory path to the MML root directory
+%  6. ATVersion - Version of AT to use. Choice of 1.3, 1.4 and 2.0.
 
 %  Written by Greg Portmann
 %  Updated by Igor Pinayev
 
 
-% Inputs:  MachineName, SubMachineName, MachineType, LinkFlag, MMLROOT
+% Inputs:  MachineName, SubMachineName, MachineType, LinkFlag, MMLROOT, ATVersion
 
 
 % First strip-out the link method
@@ -127,7 +128,7 @@ if isempty(MachineType)
     switch upper(SubMachineName)
         case {'LTB', 'LB', 'BTS', 'BS', 'LT1', 'LT2', 'INJECTOR', 'LINAC', 'GUN', 'PTB'}
             MachineType = 'Transport';
-        case {'BOOSTER', 'BOOSTER RING', 'BR'}
+        case {'BOOSTER', 'BOOSTERRING', 'BOOSTER RING', 'BR'}
             MachineType = 'Booster';
         case {'SR', 'STORAGERING', 'STORAGE RING', 'HER', 'LER', '800MEV'}
             MachineType = 'StorageRing';
@@ -197,6 +198,12 @@ if isempty(MMLROOT)
     MMLROOT = getmmlroot('IgnoreTheAD');
 end
 
+% Define AT version to use otherwise the default is 1.3
+if length(varargin) >= 5
+    ATVersion = varargin{5};
+else
+    ATVersion = 1.3;
+end
 
 % The path does not needs to be set in Standalone mode
 if ~isdeployed_local
@@ -239,7 +246,7 @@ if ~isdeployed_local
     end
     
     % AT path
-    setpathat;    
+    setpathat(ATVersion);    
 %     if MatlabVersion >= 9.3  % 2017b (not sure about 2017a)
 %         if ismac || ispc  % Not linking properly on Linux yet!!!
 %             % AT2.0
