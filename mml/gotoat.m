@@ -12,6 +12,7 @@ function [ATPATHDirectory, ATVersion] = gotoat(varargin)
 
 ATPATHDirectory = '';
 ATVersion = [];
+ATVersionDefault = 1.4;
 
 while length(varargin) > 0
     if isstruct(varargin{1}) || iscell(varargin{1})
@@ -36,10 +37,10 @@ if isempty(ATPATHDirectory)
             if ismac || ispc  % Not linking properly on Linux yet!!!
                 ATVersion = 2.0;
             else
-                ATVersion = 1.3;
+                ATVersion = ATVersionDefault;
             end
         else
-            ATVersion = 1.3;
+            ATVersion = ATVersionDefault;
         end
     end
     

@@ -1,6 +1,6 @@
-function setinjectionbump(injoffset,varargin)
+function varargout=setinjectionbump(injoffset,varargin)
 %
-% SETINJECTIONBUMP(INJOFFSET,[angle]) will set the kickers to creates a local
+% SETINJECTIONBUMP(INJOFFSET,[angle in mrad]) will set the kickers to creates a local
 % injection bump INJOFFSET mm from the beam axis. This uses the model to
 % calculate the beam kicker response matrix in order to set the bumps. The
 % angle is optional and defined in mradians.
@@ -18,17 +18,17 @@ setradiation off;
 setcavity off;
 
 
-bpm = getam('BPMx',elem2dev('BPMx',[1 8:91 98]),'Struct');
+bpm = getam('BPMx',elem2dev('BPMx',[1 8:2:91 98]),'Struct');
 bpm.Data(:) = 0;
 bpmfamily = 'BPMx';
-bpmdevlist = elem2dev('BPMx',[1 8:91 98]);
+bpmdevlist = elem2dev('BPMx',[1 8:2:91 98]);
 % BPMWeight = [1; ones(size(bpm.DeviceList,1)-2,1)*1; 1];
 % Select "correctors".
 cmfamily = 'KICK';
 cmdevlist = getfamilydata('KICK','DeviceList');
 cm = getsp('KICK','Struct','Online');
 cm.Data(:) = 0;
-Niter = 1;
+Niter = 5;
 SVDIndex = 'All';
 
 % Calculate the offsets necessary at each bpm given the offset and angle
@@ -41,8 +41,8 @@ end
 
 % Distance between the BPMs in the in the injection straight.
 L = 2.3041;
-injoffset_bpm01 = injoffset*1e-3 + L*sin(inangle*1e-3)
-injoffset_bpm98 = injoffset*1e-3 - L*sin(inangle*1e-3)
+injoffset_bpm01 = injoffset*1e-3 + L*sin(inangle*1e-3);
+injoffset_bpm98 = injoffset*1e-3 - L*sin(inangle*1e-3);
 
 % if abs(injoffset) >= 10
 %     % Take in two steps
@@ -55,5 +55,18 @@ injoffset_bpm98 = injoffset*1e-3 - L*sin(inangle*1e-3)
     cc = setorbit(goalorbit, bpm, cm, Niter, SVDIndex, 'ModelResp','ModelDisp','SetSP','Model');
 %     setsp(physics2hw(cc.CM),'Model');
 % end
+data = physics2hw(cc.CM); 
 
-% switch2online
+if nargout == 0
+    fprintf('Setting Kicker in the model to:\n');
+    fprintf('  Kicker1=%f Volts\n  Kicker2=%f Volts\n  Kicker3=%f Volts\n  Kicker4=%f Volts\n',...
+        data.Data');
+else
+    varargout{1} = data;
+end
+% setsp(data,'model');
+
+switch2hw
+switch2online
+
+

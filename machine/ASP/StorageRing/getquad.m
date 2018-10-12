@@ -1,29 +1,18 @@
 function [SP, AM] = getquad(QMS)
-%GETQUAD - Get quadrupole setpoint (used by quadcenter)
-%  [SP, AM] = getquad(QMS)
-%
-%  See also setquad, quadcenter
+% [SP, AM] = getquad(QMS)
+% Used by quadcenter
 
 
-if nargin == 0
-    error('At least 1 input is required');
+if nargin < 1
+    QuadFamily = 'QFA';
+    QuadDev = [1 1];
+else
+    QuadFamily = QMS.QuadFamily;
+    QuadDev = QMS.QuadDev;
 end
 
-QuadFamily = QMS.QuadFamily;
-QuadDev    = QMS.QuadDev;
+SP = getsp(QuadFamily, QuadDev);
 
-Mode = getfamilydata(QuadFamily,'Setpoint','Mode');
-
-if strcmpi(Mode,'Simulator')
-    % Simulator
-    SP = getsp(QuadFamily, QuadDev);
-    if nargout >= 2
-        AM = getam(QuadFamily, QuadDev);
-    end
-else
-    % Online
-    SP = getsp(QuadFamily, QuadDev);
-    if nargout >= 2
-        AM = getam(QuadFamily, QuadDev);
-    end
+if nargout >= 2
+    AM = getam(QuadFamily, QuadDev);
 end

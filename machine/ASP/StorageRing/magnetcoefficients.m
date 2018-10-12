@@ -28,6 +28,7 @@ function [C, Leff, MagnetType] = magnetcoefficients(MagnetCoreType)
 %
 % Original structure set up using polynomials by M. Yoon 4/8/03
 % Modified for ASP by E. Tan 31/05/2006
+% Rohan, Eugene: 10/02/2009: changed sign for SKQ based on measurements.
 
 % Todo
 % * What to do about Leff and how should it help in this instance?
@@ -66,8 +67,9 @@ end
 % magnetic measurements (for quads, sextupoles and correctors) and tracking
 % studies (for dipoles based on 2D field maps). See script files for more
 % details. Variable saved should be BIdata.
-filepath = fileparts([mfilename('fullpath')]);
-load([filepath filesep 'magnet_calibration_curves' filesep 'B_vs_I_data.mat'])
+% Path defined in aoinit.m
+load(fullfile(getmmlroot('IgnoreTheAD'),'machine','ASP','StorageRing','magnet_calibration_curves','B_vs_I_data.mat'));
+% load('B_vs_I_data.mat')
 
 switch upper(deblank(MagnetCoreType))
 
@@ -79,36 +81,44 @@ switch upper(deblank(MagnetCoreType))
         I = BIdata.DIP.I;
         Energy = BIdata.DIP.Energy;
         
+        % Scaling used here is based on spin depolarisation measurements
+        % that put the SR energy at 3.0134 GeV when the dipole was set to
+        % 614.968 Amps (RF freq 499 674 670 Hz). 27/07/2010 Eugene
         C = zeros(1,2*length(I));
         C(1,1:length(I)) = I;
-        C(1,length(I)+1:end) = Energy;
+        C(1,length(I)+1:end) = Energy*1.024754;
         
     case 'QDA'
 
         MagnetType = 'quad';
-        Leff=0.18;
-        CorrectionFactor = 1.01898761594704;
+        Leff=0.18+0.0084;
         
         % The below is negative because defocusing quadrupoles must return
         % negative k values.
         I = BIdata.QD.I_gen;
         B = -BIdata.QD.dBdx/Leff;
 
+        % Scaling factor for B empirically determined by comparing model
+        % predictions with measured. Eugene 21-07-2010
         C = zeros(1,2*length(I));
         C(1,1:length(I)) = I;
-        C(1,length(I)+1:end) = B;
+%         C(1,length(I)+1:end) = B*0.995540071082187/0.995537735778454;
+        C(1,length(I)+1:end) = B*0.997549129779699;
         
-    case {'QFA','QFB'}
+    case {'QFA','QFB'}        
         
         MagnetType = 'quad';
-        Leff=0.355;
+        Leff=0.355+0.0084;
         
         I = BIdata.QF.I_gen;
         B = BIdata.QF.dBdx/Leff;
         
+        % Scaling factor for B empirically determined by comparing model
+        % predictions with measured. Eugene 21-07-2010
         C = zeros(1,2*length(I));
         C(1,1:length(I)) = I;
-        C(1,length(I)+1:end) = B;
+%         C(1,length(I)+1:end) = B*1.016228140568382/0.995267695340687;
+        C(1,length(I)+1:end) = B*1.016867410211431;
 
     case {'SFA','SFB'}
         
@@ -121,9 +131,11 @@ switch upper(deblank(MagnetCoreType))
          
         B = BIdata.SVR.d2Bdx2/Leff/2;
         
+        % Scaling factor for B empirically determined by comparing model
+        % predictions with measured chromaticities. Eugene 21-07-2010
         C = zeros(1,2*length(I));
         C(1,1:length(I)) = I;
-        C(1,length(I)+1:end) = B;
+        C(1,length(I)+1:end) = B*0.998;0.995;
 
     case {'SDA','SDB'}
 
@@ -137,9 +149,11 @@ switch upper(deblank(MagnetCoreType))
         I = BIdata.SVR.I_gen;
         B = -BIdata.SVR.d2Bdx2/Leff/2;
 
+        % Scaling factor for B empirically determined by comparing model
+        % predictions with measured chromaticities. Eugene 21-07-2010
         C = zeros(1,2*length(I));
         C(1,1:length(I)) = I;
-        C(1,length(I)+1:end) = B;
+        C(1,length(I)+1:end) = B*0.998;0.995;
         
     case 'SKQ'
         % There are no magnetic measurment for this configuration on the
@@ -150,11 +164,18 @@ switch upper(deblank(MagnetCoreType))
         % turns this corresponds to ~4 Amps. Therefore we will assume a
         % linear relationship from zero.
 
+        % Rohan, Eugene 10/02/2009: Changed the sign as a positive current
+        % corresponds to a negative skew component. See operations elog
+        % entries. (eg.
+        % http://asapp01/elog/servlet/XMLlist?file=/operationselog/data/2008/30/26.07&xsl=/elogbook/xsl/elog.xsl&picture=true#2008-07-26T12:00:25)
+        %
+        
         MagnetType = 'quad';
         Leff=0.2;
         
         I = [-8:8];
-        B = 0.035/(47.6/12)*I;
+        %B = 0.035/(47.6/12)*I;
+        B = -0.02*I;
         
         C = zeros(1,2*length(I));
         C(1,1:length(I)) = I;
@@ -180,7 +201,7 @@ switch upper(deblank(MagnetCoreType))
         MagnetType = 'COR';
         
         i0 = BIdata.HCM.I;
-        BLeff = BIdata.HCM.Bharmon(1);
+        BLeff = BIdata.HCM.Bharmon(1)*1.1; % 23/11/2009 ET: 1.1 added to fix the gain issues
         
         I = [-90:10:90];
         BL = (BLeff/i0)*I;
@@ -199,7 +220,7 @@ switch upper(deblank(MagnetCoreType))
         BLeff = BIdata.VCM.Bharmon(1);
         
         I = [-120:10:120];
-        BL = (BLeff/i0)*I;
+        BL = (BLeff/i0)*I*1.06; % 23/11/2009 ET: 1.06 added to fix the gain issues
         
         C = zeros(1,2*length(I));
         C(1,1:length(I)) = I;

@@ -53,7 +53,7 @@ else
         ldf=regexprep(mex.getCompilerConfigurations('C').Details.LinkerFlags,['(' exportarg '\s?)([^\s,]+)'],['$1',fullfile(pdir,'%s')]);
         EXPORT=[' LDFLAGS=''',strrep(ldf,'$','\\$'),''' '];
     else
-        EXPORT=[' LINKEXPORT=''',exportarg,fullfile(pdir,'%s'),''' '];
+        EXPORT=[' LINKEXPORTVER=''',exportarg,fullfile(pdir,'%s'),''' '];
     end
 end
 

@@ -85,5 +85,5 @@ end
 
 % Scale solution if required
 if nargin >= 7
-    Amps = Amps .* K2AmpScaleFactor;
+    Amps = Amps ./ K2AmpScaleFactor;
 end

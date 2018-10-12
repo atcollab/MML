@@ -2,7 +2,8 @@ function setinjkicks(xpos)
 % setinjkicks(xpos)
 %
 % Sets the strengths in the four injection kickers required
-% to make a closed bump in the injection straight 
+% to make a closed bump in the injection straight for the ideal lattice.
+% Default being 0.1 dispersion latttice (?)
 %
 % xpos - amplitude of the parallel bump used for injection (meters)
 

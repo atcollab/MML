@@ -65,10 +65,17 @@ d2b	=	drift('D2B'	,        1.030000e-001,'DriftPass');
 %                             K: 0.33295132
 %                          Sext: 0.01092687
 %                           Oct: 0.15166053
-scalek = 0.98855592463187;
-edge_offset = 0.03603626237179;
-dip1	=	rbend('BEND'	,1.72579121675e+000,2.243995e-001,1.121997e-001+edge_offset,1.121997e-001+edge_offset,-0.33295132*scalek,'BndMPoleSymplectic4Pass');
-dip2	=	rbend('BEND'	,1.72579121675e+000,2.243995e-001,1.121997e-001+edge_offset,1.121997e-001+edge_offset,-0.33295132*scalek,'BndMPoleSymplectic4Pass');
+scalek = 1;
+edge_offset = 0.01;
+dip1	=	rbend('BEND'	,1.72579121675e+000,2.243995e-001,1.121997e-001+edge_offset,1.121997e-001+edge_offset,-0.33295132*scalek,'BndMPoleSymplectic4E2Pass');
+dip2	=	rbend('BEND'	,1.72579121675e+000,2.243995e-001,1.121997e-001+edge_offset,1.121997e-001+edge_offset,-0.33295132*scalek,'BndMPoleSymplectic4E2Pass');
+FAMLIST{dip1}.ElemData.FullGap    = 0.045;
+FAMLIST{dip1}.ElemData.FringeInt1 = 0.5;
+FAMLIST{dip1}.ElemData.FringeInt2 = 0.5;
+FAMLIST{dip2}.ElemData.FullGap    = 0.045;
+FAMLIST{dip2}.ElemData.FringeInt1 = 0.5;
+FAMLIST{dip2}.ElemData.FringeInt2 = 0.5;
+
 
 % Quadrupoles (for design dipole: [QFA,QDA,QFB]=[1.761741,-1.038377,1.533802];
 % To match new dipole values from numerical studies
@@ -91,28 +98,153 @@ sdb	=	sextcorr('SDB'	,2.000000e-001,-7.014635e+000,[0 0],'StrCorrMPoleSymplectic
 sfb	=	sextcorr('SFB'	,2.000000e-001, 7.189346e+000,[0 0],'StrCorrMPoleSymplectic4Pass');
 
 % Define the wiggler as a 6x6 matrix element pass
-wig = marker('wig','Matrix66Pass');
+
+id01 = marker('wig','Matrix66Pass');
 L = 0;
 Kx = 0; Ky = 0;
-FAMLIST{wig}.ElemData.M66 = [1  L  0  0  0  0;
+FAMLIST{id01}.ElemData.M66 = [1  L  0  0  0  0;
+                             Kx 1  0  0  0  0;
+                             0  0  1  L  0  0;
+                             0  0  Ky 1  0  0;
+                             0  0  0  0  1  0;
+                             0  0  0  0  0  1]; 
+                         
+id02 = marker('wig','Matrix66Pass');
+L = 0;
+Kx = 0; Ky = 0;
+FAMLIST{id02}.ElemData.M66 = [1  L  0  0  0  0;
+                             Kx 1  0  0  0  0;
+                             0  0  1  L  0  0;
+                             0  0  Ky 1  0  0;
+                             0  0  0  0  1  0;
+                             0  0  0  0  0  1]; 
+
+ivu_sector3 = marker('wig','Matrix66Pass');
+L = 0;
+Kx = 0; Ky = 0;
+FAMLIST{ivu_sector3}.ElemData.M66 = [1  L  0  0  0  0;
+                             Kx 1  0  0  0  0;
+                             0  0  1  L  0  0;
+                             0  0  Ky 1  0  0;
+                             0  0  0  0  1  0;
+                             0  0  0  0  0  1]; 
+                         
+id04 = marker('wig','Matrix66Pass');
+L = 0;
+Kx = 0; Ky = 0;
+FAMLIST{id04}.ElemData.M66 = [1  L  0  0  0  0;
+                             Kx 1  0  0  0  0;
+                             0  0  1  L  0  0;
+                             0  0  Ky 1  0  0;
+                             0  0  0  0  1  0;
+                             0  0  0  0  0  1]; 
+                         
+ivu_sector5 = marker('wig','Matrix66Pass');
+L = 0;
+Kx = 0; Ky = 0;
+FAMLIST{ivu_sector5}.ElemData.M66 = [1  L  0  0  0  0;
                              Kx 1  0  0  0  0;
                              0  0  1  L  0  0;
                              0  0  Ky 1  0  0;
                              0  0  0  0  1  0;
                              0  0  0  0  0  1];
+id06 = marker('wig','Matrix66Pass');
+L = 0;
+Kx = 0; Ky = 0;
+FAMLIST{id06}.ElemData.M66 = [1  L  0  0  0  0;
+                             Kx 1  0  0  0  0;
+                             0  0  1  L  0  0;
+                             0  0  Ky 1  0  0;
+                             0  0  0  0  1  0;
+                             0  0  0  0  0  1];                         
 
+id07 = marker('wig','Matrix66Pass');
+L = 0;
+Kx = 0; Ky = 0;
+FAMLIST{id07}.ElemData.M66 = [1  L  0  0  0  0;
+                             Kx 1  0  0  0  0;
+                             0  0  1  L  0  0;
+                             0  0  Ky 1  0  0;
+                             0  0  0  0  1  0;
+                             0  0  0  0  0  1];                         
+
+id08 = marker('wig','Matrix66Pass');
+L = 0;
+Kx = 0; Ky = 0;
+FAMLIST{id08}.ElemData.M66 = [1  L  0  0  0  0;
+                             Kx 1  0  0  0  0;
+                             0  0  1  L  0  0;
+                             0  0  Ky 1  0  0;
+                             0  0  0  0  1  0;
+                             0  0  0  0  0  1];                         
+
+id09 = marker('wig','Matrix66Pass');
+L = 0;
+Kx = 0; Ky = 0;
+FAMLIST{id09}.ElemData.M66 = [1  L  0  0  0  0;
+                             Kx 1  0  0  0  0;
+                             0  0  1  L  0  0;
+                             0  0  Ky 1  0  0;
+                             0  0  0  0  1  0;
+                             0  0  0  0  0  1];                         
+
+id10 = marker('wig','Matrix66Pass');
+L = 0;
+Kx = 0; Ky = 0;
+FAMLIST{id10}.ElemData.M66 = [1  L  0  0  0  0;
+                             Kx 1  0  0  0  0;
+                             0  0  1  L  0  0;
+                             0  0  Ky 1  0  0;
+                             0  0  0  0  1  0;
+                             0  0  0  0  0  1];                         
+
+id11 = marker('wig','Matrix66Pass');
+L = 0;
+Kx = 0; Ky = 0;
+FAMLIST{id11}.ElemData.M66 = [1  L  0  0  0  0;
+                             Kx 1  0  0  0  0;
+                             0  0  1  L  0  0;
+                             0  0  Ky 1  0  0;
+                             0  0  0  0  1  0;
+                             0  0  0  0  0  1];                         
+                       
+                         
+wig_12 = marker('wig','Matrix66Pass');
+L = 0;
+Kx = 0; Ky = 0;
+FAMLIST{wig_12}.ElemData.M66 = [1  L  0  0  0  0;
+                             Kx 1  0  0  0  0;
+                             0  0  1  L  0  0;
+                             0  0  Ky 1  0  0;
+                             0  0  0  0  1  0;
+                             0  0  0  0  0  1];
+                         
+ivu_sector13 = marker('wig','Matrix66Pass');
+L = 0;
+Kx = 0; Ky = 0;
+FAMLIST{ivu_sector13}.ElemData.M66 = [1  L  0  0  0  0;
+                             Kx 1  0  0  0  0;
+                             0  0  1  L  0  0;
+                             0  0  Ky 1  0  0;
+                             0  0  0  0  1  0;
+                             0  0  0  0  0  1];                      
                          
 % Define the APPLE2 as a 6x6 matrix element pass
-app = marker('wig','Matrix66Pass');
+EPU_14 = marker('wig','Matrix66Pass');
 L = 0;
 Kx = 0; Ky = 0;
-FAMLIST{app}.ElemData.M66 = [1  L  0  0  0  0;
+FAMLIST{EPU_14}.ElemData.M66 = [1  L  0  0  0  0;
                              Kx 1  0  0  0  0;
                              0  0  1  L  0  0;
                              0  0  Ky 1  0  0;
                              0  0  0  0  1  0;
                              0  0  0  0  0  1];
 
+
+                         
+
+
+                        
 % RF cavity and the corresponding straight used to position the cavity.
 % 4.996540652069698e+008 old freq for 216m for 216.0004 its different. Also
 % we are using ThinCavities therefore the drifts have to be set
@@ -213,7 +345,7 @@ ring        = [ ap unit_cel unit_cel unit_cel unit_cel unit_cel unit_cel unit_ce
 %fast feedback kicker included:
 ffbring     = [ ap celkick01 unit_cel unit_cel unit_cel unit_cel celrf06_1 cav_single celrf07_1 unit_cel unit_cel celffb10_1 unit_cel unit_cel unit_cel celkick14];
 % wiggler ring (based on cavity4ring). Wiggler in sector 12
-wigring = [ ap celkick01 unit_cel unit_cel unit_cel unit_cel celrf06_4 celrf07_4 unit_cel unit_cel unit_cel unit_cel wig unit_cel unit_cel app celkick14];
+wigring = [ ap id01 celkick01 id02 unit_cel ivu_sector3 unit_cel id04 unit_cel ivu_sector5 unit_cel id06 celrf06_4 id07 celrf07_4 id08 unit_cel id09 unit_cel id10 unit_cel id11 unit_cel wig_12 unit_cel ivu_sector13 unit_cel EPU_14 celkick14];
 
 % Choose which lattice to load else load "fullring" as the default.
 if nargin > 0

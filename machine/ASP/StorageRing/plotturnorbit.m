@@ -20,12 +20,12 @@ spos = getfamilydata('BPMx','Position');
 % setlibera('TT_READY_STATUS',0,deviceList(ind,:));
 % setlibera('TT_ARM_CMD',1,deviceList(ind,:));
 
-finished_num = getlibera('DD3_FINISHED_MONITOR',deviceList);
-setlibera('DD3_ON_NEXT_TRIG_CMD',1,deviceList);
+finished_num = getlibera('DD3_FINISHED_MONITOR',deviceList(ind,:));
+setlibera('DD3_ON_NEXT_TRIG_CMD',1,deviceList(ind,:));
 pause(1);
 
 ii = 0;
-while any(getlibera('DD3_FINISHED_MONITOR',deviceList) == finished_num)
+while any(getlibera('DD3_FINISHED_MONITOR',deviceList(ind,:)) == finished_num)
     pause(0.3);
     ii = ii + 1;
     if ii > 20
@@ -34,6 +34,7 @@ while any(getlibera('DD3_FINISHED_MONITOR',deviceList) == finished_num)
     end
 end
 
+% Convert the nm units that is Hardware into meters (physics) or mm (hardware).
 if strcmpi(getunits('BPMx'),'Physics')
     units_conversion = 1e-9; % in meters
     unitsstr = 'm';
@@ -44,20 +45,20 @@ end
 
 for i=1:length(ind)
     % Try to avoid memory problems
-    tbtsum(i,:) = getlibera('DD3_SUM_MONITOR',deviceList(ind(i),:));
+%     tbtsum(i,:) = getlibera('DD3_SUM_MONITOR',deviceList(ind(i),:));
     tbtx(i,:) = getlibera('DD3_X_MONITOR',deviceList(ind(i),:))*units_conversion;
     tbty(i,:) = getlibera('DD3_Y_MONITOR',deviceList(ind(i),:))*units_conversion;
 end
 
-
+% Turn offset to try to synchronise the turns
 for i=1:length(ind)
     switch deviceList(ind(i),1)
         case [5 6 7 8 9 10 11 13 14]
-            tbtsum(i,:) = circshift(tbtsum(i,:),[0 -1]);
+%             tbtsum(i,:) = circshift(tbtsum(i,:),[0 -1]);
             tbtx(i,:) = circshift(tbtx(i,:),[0 -1]);
             tbty(i,:) = circshift(tbty(i,:),[0 -1]);
         case 12
-            tbtsum(i,:) = circshift(tbtsum(i,:),[0 -2]);
+%             tbtsum(i,:) = circshift(tbtsum(i,:),[0 -2]);
             tbtx(i,:) = circshift(tbtx(i,:),[0 -2]);
             tbty(i,:) = circshift(tbty(i,:),[0 -2]);
     end 
@@ -174,6 +175,17 @@ axis tight;
 
 if nargout > 0
     varargout{1} = tbtx(:,turnsind);
+end
+if nargout > 1
+    varargout{2} = tbty(:,turnsind);
+end
+if nargout > 2
+    tmp.tbtx = tbtx;
+    tmp.tbty = tbty;
+    tmp.closedorbitx = closedorbitx;
+    tmp.closedorbity = closedorbity;
+    varargout{3} = tmp;
+    clear tmp;
 end
 
 clear tbtsum tbtx tbty;

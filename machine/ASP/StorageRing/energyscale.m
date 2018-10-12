@@ -1,3 +1,4 @@
+
 % 17/07/06 Tall fuzzy blobs (3 of them)
 % scale = 0.9817;
 % scaleQFB = 1.0059;
@@ -53,13 +54,50 @@
 % setsp('QFA',136.3032*scaleQFA,'Hardware');
 % setsp('QFB',119.8451*scaleQFB,'Hardware');
 
-scale = 1;
-dipscale = 1;
-scaleQFB = 1;
-scaleQFA = 1;
-scaleQDA = 1;
+% scale = 1;
+% dipscale = 1;
+% scaleQFB = 1;
+% scaleQFA = 1;
+% scaleQDA = 1;
 
 %setsp('BEND',613.3*scale,'Hardware');
 %setsp('QDA',80.8725*scale*scaleQDA,'Hardware');
 %setsp('QFA',135.7422*scale*scaleQFA,'Hardware');
 %setsp('QFB',118.7201*scale*scaleQFB,'Hardware');
+
+
+
+% 
+% qfasp = getsp('QFA');
+% qdasp = getsp('QDA');
+% qfbsp = getsp('QFB');
+% sfasp = getsp('SFA');
+% sdasp = getsp('SDA');
+% sfbsp = getsp('SFB');
+% sdbsp = getsp('SDB');
+% bendsp = getsp('BEND');
+
+dipscale = 1.00;
+scaleQFB = 1.00;
+scaleQFA = 1.00;
+scaleQDA = 1.00;
+scaleSFA = 1;
+scaleSDA = 1;
+scaleSFB = 1;
+scaleSDB = 1;
+
+% scale = 614.968/611.3;
+scale = 0.999;
+
+setsp('BEND',bendsp*scale*dipscale);
+setsp('QDA',qdasp*scale*scaleQDA,'Hardware');
+setsp('QFA',qfasp*scale*scaleQFA,'Hardware');
+setsp('QFB',qfbsp*scale*scaleQFB,'Hardware');
+setsp('SFA',sfasp*scale*scaleSFA,'Hardware');
+setsp('SDA',sdasp*scale*scaleSDA,'Hardware');
+setsp('SFB',sfbsp*scale*scaleSFB,'Hardware');
+setsp('SDB',sdbsp*scale*scaleSDB,'Hardware');
+
+temp= getsp('BEND','physics');
+disp(temp(1))
+
