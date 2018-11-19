@@ -80,13 +80,13 @@ end
 
 
 if strcmpi(SubMachineName,'StorageRing')
-    [MachineName, SubMachineName, LinkFlag, MMLROOT] = setpathmml(Machine, 'StorageRing', 'StorageRing', LinkFlag);
+    [MachineName, SubMachineName, LinkFlag, MMLROOT] = setpathmml(Machine, 'StorageRing', 'StorageRing', LinkFlag, '', 1.4);
 elseif strcmpi(SubMachineName,'Booster')
-    [MachineName, SubMachineName, LinkFlag, MMLROOT] = setpathmml(Machine, 'Booster',     'Booster',     LinkFlag);
+    [MachineName, SubMachineName, LinkFlag, MMLROOT] = setpathmml(Machine, 'Booster',     'Booster',     LinkFlag, '', 1.4);
 elseif strcmpi(SubMachineName,'LTB')
-    [MachineName, SubMachineName, LinkFlag, MMLROOT] = setpathmml(Machine, 'LTB',         'Transport',   LinkFlag);
+    [MachineName, SubMachineName, LinkFlag, MMLROOT] = setpathmml(Machine, 'LTB',         'Transport',   LinkFlag, '', 1.4);
 elseif strcmpi(SubMachineName,'BTS')
-    [MachineName, SubMachineName, LinkFlag, MMLROOT] = setpathmml(Machine, 'BTS',         'Transport',   LinkFlag);
+    [MachineName, SubMachineName, LinkFlag, MMLROOT] = setpathmml(Machine, 'BTS',         'Transport',   LinkFlag, '', 1.4);
 elseif strcmpi(SubMachineName,'Injector')
-    [MachineName, SubMachineName, LinkFlag, MMLROOT] = setpathmml(Machine, 'Injector',    'Booster',     LinkFlag);
+    [MachineName, SubMachineName, LinkFlag, MMLROOT] = setpathmml(Machine, 'Injector',    'Booster',     LinkFlag, '', 1.4);
 end
