@@ -12,15 +12,12 @@ function e = getbrhoinv(brho)
 
 %  Written by James Safranek, Moohyun Yoon, Greg Portmann
 %  Modified by Laurent S. Nadolski (09/02/06 exact computation using kinetic energy correction)
-
+%  2024apr30 oblanco, use total energy from AT. https://github.com/atcollab/at/discussions/671
 
 if nargin == 0
     error('Brho input needed.');
 end
 
-E0 = .51099906e-3;    % Electron rest mass in GeV
-% WARNING AT and other tracking code give kinetic energy and not total energy
-e = sqrt(E0^2 + (.299792458 * brho).^2) - E0;        % Laurants total energy
-%e = sqrt(E0^2 + (.299792458 * brho).^2);            % Old code
-
-
+emassGeV = PhysConstant.electron_mass_energy_equivalent_in_MeV.value*1e-3;
+lightspeed = PhysConstant.speed_of_light_in_vacuum.value;
+e = sqrt(emassGeV.^2 + (brho * lightspeed*1e-9).^2);
