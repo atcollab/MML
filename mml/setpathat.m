@@ -24,7 +24,7 @@ try
     cd(olddir);
 catch
     cd(olddir);
-    fprinf('  Error setting the AT path.\n');
+    fprintf('  Error setting the AT path.\n');
     rethrow(lasterror);
     return
 end
